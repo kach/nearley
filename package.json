@@ -1,0 +1,23 @@
+{
+  "name": "nearley",
+  "version": "0.0.1",
+  "description": "Simple Earley parsing for JS",
+  "main": "nearley.js",
+  "dependencies": {
+    "nomnom": "~1.6.2"
+  },
+  "bin": {
+    "nearleyc": "./compile.js"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "parser",
+    "generator",
+    "compiler"
+  ],
+  "author": "Hardmath123",
+  "license": "MIT"
+}
