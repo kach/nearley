@@ -9,7 +9,7 @@ nearley.js uses the [Earley parsing algorithm](http://en.wikipedia.org/wiki/Earl
 
 Why?
 ----
-nearley.js lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, nearley.js uses a single definition and comes with several built-in definitions to get you started. Unlike PEG.js, nearley.js handles **left recursion** gracefully and warns you if your grammar is ambiguous (ambiguous grammars are slower and take up more memory). Finally, nearley.js generates tiny files, which won't affect performance even if they are unminified.
+nearley.js lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, I use a single set of definitions. Unlike PEG.js, this parser handles **left recursion** gracefully and warns you if your grammar is ambiguous (ambiguous grammars are slower and take up more memory). Finally, nearley.js generates tiny files, which won't affect performance even if they are unminified.
 
 How?
 ----

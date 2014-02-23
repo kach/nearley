@@ -19,5 +19,9 @@
     "compiler"
   ],
   "author": "Hardmath123",
-  "license": "MIT"
+  "license": "MIT",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/Hardmath123/nearley"
+  }
 }
