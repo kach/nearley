@@ -26,7 +26,7 @@ How?
 ----
 To compile a parser, use the `nearleyc` command:
 
-    npm install -g nearleyc
+    npm install -g nearley
     nearleyc parser.ne
 
 A parser consists of several *nonterminals*, which are just various constructions. A nonterminal is made up of a series of either nonterminals or strings (enclose strings in "double quotes", and use backslash escaping like in JSON). The following grammar matches a number, a plus sign, and another number:
