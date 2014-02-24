@@ -136,6 +136,7 @@ function Compile(structure) {
 	var outputRules = [];
 	var outputNonterminals = [];
 
+	outputRules.push("rules.push(new nearley.rule(nonterminals['char'], [/./], function(d) {return d[0];}));");
 	function stringifyProductionRule(name, rule) {
 		var tokenList = [];
 
@@ -151,10 +152,10 @@ function Compile(structure) {
 
 					stringifyProductionRule(name, rules);
 				} else if (str.length === 1) {
-					tokenList.push("\"" + str + "\"");
+					tokenList.push(JSON.stringify(str));
 				}
 			} else if (typeof(token) === 'string') {
-				tokenList.push(nonterminalName(token));
+				if (token !== 'null') tokenList.push(nonterminalName(token));
 			}
 		})
 
@@ -193,6 +194,7 @@ function Compile(structure) {
 	output += ws + nearleyFile;
 	output += ws + "var nonterminals = [];";
 	output += ws + "var rules = [];";
+	output += ws + "var id = function(a){return a[0];};";
 	output += ws + outputNonterminals.join("\n    ");
 	output += ws;
 	output += ws + outputRules.join("\n    ");
