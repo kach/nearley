@@ -23,7 +23,7 @@ var opts = nomnom
 		flag: true,
 		help: "Print version and exit",
 		callback: function() {
-			return "nearley 0.0.1";
+			return "nearley 0.0.2";
 		}
 	})
 	.parse();
