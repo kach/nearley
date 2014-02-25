@@ -55,6 +55,23 @@ To use the generated parser, use:
     console.log(parse("1+1")); // 2
     console.log(parse("cow")); // throws error: "nearley parse error"
 
+The **epsilon rule** is the empty rule that matches nothing. The constant `null` is the epsilon rule, so:
+
+    a -> null
+        | a "cow"
+
+will match 0 or more `cow`s in a row.
+
+The following constants are also defined:
+
+| Constant | Meaning | Regex Equivalent |
+| -------- | ------- | ---------------- |
+| `_char` | Any character | `/./` |
+| `_az` | Any lowercase letter | `/[a-z]/` |
+| `_AZ` | Any uppercase letter | `/[A-Z]/` |
+| `_09` | Any digit | `[0-9]` |
+| `_s`  | A whitespace character | `/\s/` | 
+
 Errors
 ------
 

@@ -136,7 +136,18 @@ function Compile(structure) {
 	var outputRules = [];
 	var outputNonterminals = [];
 
-	outputRules.push("rules.push(new nearley.rule(nonterminals['char'], [/./], function(d) {return d[0];}));");
+	initNonterminal("_char");
+	initNonterminal("_az");
+	initNonterminal("_AZ");
+	initNonterminal("_09");
+	initNonterminal("_s");
+
+	outputRules.push("rules.push(new nearley.rule(nonterminals['_char'], [/./], function(d) {return d[0];}));");
+	outputRules.push("rules.push(new nearley.rule(nonterminals['_az'], [/[a-z]/], function(d) {return d[0];}));");
+	outputRules.push("rules.push(new nearley.rule(nonterminals['_AZ'], [/[A-Z]/], function(d) {return d[0];}));");
+	outputRules.push("rules.push(new nearley.rule(nonterminals['_09'], [/[0-9]/], function(d) {return d[0];}));");
+	outputRules.push("rules.push(new nearley.rule(nonterminals['_s'], [/\\s/], function(d) {return d[0];}));");
+
 	function stringifyProductionRule(name, rule) {
 		var tokenList = [];
 
