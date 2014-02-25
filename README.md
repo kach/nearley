@@ -80,3 +80,9 @@ A parse error will throw the string "nearley parse error".
 You may get a warning saying your grammar is *ambiguous*. This means that there are multiple ways to parse the given input with the given grammar.
 
 nearley.js does not support detailed error messages yet.
+
+Past changes
+------------
+* 0.0.1: Initial release
+* 0.0.2: Null rule
+* 0.0.3: Predefined charsets

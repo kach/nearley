@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var nearley = require('./nearley');
+var nearley = require('../lib/nearley.js');
 var nomnom = require('nomnom');
+
 var opts = nomnom
 	.script('nearleyc')
 	.option('file', {
@@ -23,12 +24,12 @@ var opts = nomnom
 		flag: true,
 		help: "Print version and exit",
 		callback: function() {
-			return "nearley 0.0.2";
+			return require('../package.json').version;
 		}
 	})
 	.parse();
 
-var nearleyFile = fs.readFileSync("./nearley.min.js").toString();
+var nearleyFile = fs.readFileSync(__dirname+"/../lib/nearley.min.js").toString();
 
 function Parse(inp) {
 	var NullPP = function(argument) {return null;}
@@ -88,10 +89,6 @@ function Parse(inp) {
 			new nearley.rule(Expression, [Expression, WS, Word], function(d){
 				return d[0].concat([d[2]]);
 			}),
-			// new nearley.rule(Expression, [Expression, OptionalWS, JS], function(d) {
-			// 	d[0].postprocessor = d[2];
-			// 	return d[0];
-			// }),
 
 			new nearley.rule(CompleteExpression, [Expression], function(d) {
 				return {tokens: d[0]};
@@ -113,9 +110,7 @@ function Parse(inp) {
 			new nearley.rule(Prog, [ProductionRule], function(d) {
 				return [d[0]];
 			}),
-			// new nearley.rule(Prog, [Prog, WS, ProductionRule], function(d) {
-			// 	return d[0].concat(d[2]);
-			// }),
+
 			new nearley.rule(Prog, [ProductionRule, WS, Prog], function(d) {
 				return [d[0]].concat(d[2]);
 			}),

@@ -1,18 +1,23 @@
 {
   "name": "nearley",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Simple Earley parsing for JS",
-  "main": "nearley.js",
+  "main": "lib/nearley.js",
   "dependencies": {
     "nomnom": "~1.6.2"
   },
   "bin": {
-    "nearleyc": "./compile.js"
+    "nearleyc": "bin/compile.js"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "files": [
+    "lib/nearley.js",
+    "bin/compile.js",
+    "lib/nearley.min.js"
+  ],
   "keywords": [
     "parser",
     "generator",
