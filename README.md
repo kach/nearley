@@ -29,6 +29,11 @@ To compile a parser, use the `nearleyc` command:
     npm install -g nearley
     nearleyc parser.ne
 
+Run `nearleyc --help` for more options.
+
+Making a Parser
+---------------
+
 A parser consists of several *nonterminals*, which are just various constructions. A nonterminal is made up of a series of either nonterminals or strings (enclose strings in "double quotes", and use backslash escaping like in JSON). The following grammar matches a number, a plus sign, and another number:
 
     expression -> number "+" number
@@ -75,11 +80,15 @@ The following constants are also defined:
 Errors
 ------
 
-A parse error will throw the string "nearley parse error".
+A parse error will throw the string "nearley parse error", which you can catch like this:
 
-You may get a warning saying your grammar is *ambiguous*. This means that there are multiple ways to parse the given input with the given grammar.
-
-nearley.js does not support detailed error messages yet.
+    try {
+        // try to parse something
+    } catch(err) {
+        if (err === "nearley parse error") {
+            // it was a parse error!
+        }
+    }
 
 Past changes
 ------------

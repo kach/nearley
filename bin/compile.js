@@ -59,7 +59,7 @@ function Parse(inp) {
 				return d[2];
 			}),
 			new nearley.rule(JSCode, [], function() {return "";}),
-			new nearley.rule(JSCode, [JSCode, /./], function(d) {return d[0] + d[1];}),
+			new nearley.rule(JSCode, [JSCode, /[^%]/], function(d) {return d[0] + d[1];}),
 
 			new nearley.rule(StringLiteral, ["\"", Charset,"\""], function(d) {
 				return {"type":"literal", "data":d[1].join("")};
@@ -145,7 +145,7 @@ function Compile(structure) {
 
 	function stringifyProductionRule(name, rule) {
 		var tokenList = [];
-
+		//console.log(name, rule);
 		rule.tokens.forEach(function(token) {
 			if (token.type && token.type === 'literal') {
 				var str = token.data;
@@ -154,9 +154,10 @@ function Compile(structure) {
 					var rules = str.split("").map(function(d) {
 						return {type: 'literal', 'data':d};
 					});
-					rules.postprocessor = "function(d) {return d.join('');}";
+					var postprocessor = "function(d) {return d.join('');}";
 
-					stringifyProductionRule(name, rules);
+					stringifyProductionRule(name, {tokens: rules, postprocessor: postprocessor});
+					tokenList.push(name);
 				} else if (str.length === 1) {
 					tokenList.push(JSON.stringify(str));
 				}
