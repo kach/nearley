@@ -1,6 +1,6 @@
 {
   "name": "nearley",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Simple Earley parsing for JS",
   "main": "lib/nearley.js",
   "dependencies": {
@@ -13,11 +13,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "files": [
-    "lib/nearley.js",
-    "bin/compile.js",
-    "lib/nearley.min.js"
-  ],
   "keywords": [
     "parser",
     "generator",
