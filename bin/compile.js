@@ -29,8 +29,6 @@ var opts = nomnom
 	})
 	.parse();
 
-var nearleyFile = fs.readFileSync(__dirname+"/../lib/nearley.min.js").toString();
-
 function Parse(inp) {
 	var NullPP = function(argument) {return null;}
 	var Word = ["word"],
@@ -198,7 +196,9 @@ function Compile(structure) {
 	output += "// Generated automatically by nearley.\n";
 	output += opts.export + " = function(inp) {";
 
-	output += ws + nearleyFile;
+	output += ws + "var nearley = (function () { var module = {exports: {}}; (function (module) { " +
+        fs.readFileSync(require.resolve('../lib/nearley.js')) +
+        "})(module, module.exports); return module.exports; })();";
 	output += ws + "var nonterminals = [];";
 	output += ws + "var rules = [];";
 	output += ws + "var id = function(a){return a[0];};";
