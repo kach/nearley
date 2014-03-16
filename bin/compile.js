@@ -221,24 +221,22 @@ if (opts.file) {
 	process.stdin.setEncoding('utf8');
 	process.stdin.on('data', function(testData) {
 		main(testData);
-		process.exit();
 	});
 }
 
 function main(testData) {
 	try {
 		var p = Parse(testData.toString());
+        //console.log(require('util').inspect(p, {depth:null}));
+        var c = Compile(p);
+        if (!opts.out) {
+            process.stdout.write(c);
+        } else {
+            fs.writeFileSync(opts.out, c);
+        }
 	} catch(e) {
 		if (e === "nearley parse error") {
 			console.error("Your grammar failed to parse.");
-			process.exit();
 		}
-	}
-	//console.log(require('util').inspect(p, {depth:null}));
-	var c = Compile(p);
-	if (!opts.out) {
-		process.stdout.write(c);
-	} else {
-		fs.writeFileSync(opts.out, c);
 	}
 }
