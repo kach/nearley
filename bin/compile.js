@@ -67,7 +67,7 @@ function Parse(inp) {
 			new nearley.rule(Charset, [Charset, Char], function(d) {
 				return d[0].concat([d[1]]);
 			}),
-			new nearley.rule(Char, [ new RegExp("[^\"\]")], function(d) {
+			new nearley.rule(Char, [ new RegExp("[^\"]")], function(d) {
 				return d[0];
 			}),
 			new nearley.rule(Char, [ "\\", new RegExp(".") ], function(d) {
