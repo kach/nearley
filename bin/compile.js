@@ -214,6 +214,7 @@ function Compile(structure) {
 
 if (opts.file) {
 	fs.readFile(opts.file, function(err, testData) {
+        if (err) throw err;
 		main(testData);
 	});
 } else {
