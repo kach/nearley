@@ -7,7 +7,7 @@
     "nomnom": "~1.6.2"
   },
   "bin": {
-    "nearleyc": "bin/compile.js"
+    "snearleyc": "bin/snearleyc.js"
   },
   "keywords": [
     "parser",

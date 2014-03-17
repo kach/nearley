@@ -5,31 +5,31 @@
      888   888  888ooo888  .oP"888   888      888  888ooo888   `88..8'   
      888   888  888    .o d8(  888   888      888  888    .o    `888'    
     o888o o888o `Y8bod8P' `Y888""8o d888b    o888o `Y8bod8P'     .8'     
-                                                             .o..P'      
+                                -stream streaming parser     .o..P'      
                                                              `Y8P'       
 
 
-nearley.js
-==========
+nearley-stream
+==============
 
-Simple parsing for JavaScript.
+Simple parsing for node.js.
 
 What?
 -----
-nearley.js uses the [Earley parsing algorithm](http://en.wikipedia.org/wiki/Earley_parser) to parse complex data structures easily.
+nearley-stream uses the [Earley parsing algorithm](http://en.wikipedia.org/wiki/Earley_parser) to parse complex data structures easily.
 
 Why?
 ----
-nearley.js lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, I use a single set of definitions. Unlike PEG.js, this parser handles **left recursion** gracefully and warns you if your grammar is ambiguous (ambiguous grammars are slower and take up more memory). Finally, nearley.js generates tiny files, which won't affect performance even if they are unminified.
+nearley-stream lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, I use a single set of definitions. Unlike PEG.js, this parser handles **left recursion** gracefully and warns you if your grammar is ambiguous (ambiguous grammars are slower and take up more memory).
 
 How?
 ----
-To compile a parser, use the `nearleyc` command:
+To compile a parser, use the `snearleyc` command:
 
-    npm install -g nearley
-    nearleyc parser.ne
+    npm install -g nearley-stream
+    snearleyc parser.ne
 
-Run `nearleyc --help` for more options.
+Run `snearleyc --help` for more options.
 
 Making a Parser
 ---------------
@@ -56,9 +56,21 @@ Finally, each meaning (called a *production rule*) can have a postprocessing fun
 
 To use the generated parser, use:
 
-    var parse = require("parser.js");
-    console.log(parse("1+1")); // 2
-    console.log(parse("cow")); // throws error: "nearley parse error"
+    var Parser = require("parser.js");
+    var parser = new Parser();
+    parser.on('result', function (result) {
+        // result is 2
+    });
+    parser.end('1+1');
+
+    var parser2 = new Parser();
+    parser2.on('result', function (result) {
+        // never reached
+    }).on('error', function (err) {
+        // err is an Error("nearley parse error")
+    });
+    parser2.end('cow');
+
 
 The **epsilon rule** is the empty rule that matches nothing. The constant `null` is the epsilon rule, so:
 
@@ -80,18 +92,10 @@ The following constants are also defined:
 Errors
 ------
 
-A parse error will throw the string "nearley parse error", which you can catch like this:
+A parse error will emit `Error("nearley parse error")`, which you can catch like this:
 
-    try {
-        // try to parse something
-    } catch(err) {
-        if (err === "nearley parse error") {
+    parser.on('error', function (err) {
+        if (err.message === "nearley parse error") {
             // it was a parse error!
         }
-    }
-
-Past changes
-------------
-* 0.0.1: Initial release
-* 0.0.2: Null rule
-* 0.0.3: Predefined charsets
+    });
