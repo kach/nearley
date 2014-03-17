@@ -195,9 +195,9 @@ function Compile(structure) {
 	var ws = "\n    ";
 
 	output += "// Generated automatically by nearley.\n";
-	output += opts.export + " = function(inp) {";
+	output += opts.export + " = function() {";
 
-	output += ws + "var nearley = " + inlineRequire(require, '../lib/nearley.js');
+	output += ws + "var nearley = " + inlineRequire(require, '../lib/async-nearley.js');
 	output += ws + "var nonterminals = [];";
 	output += ws + "var rules = [];";
 	output += ws + "var id = function(a){return a[0];};";
@@ -205,7 +205,7 @@ function Compile(structure) {
 	output += ws;
 	output += ws + outputRules.join("\n    ");
 	output += ws;
-	output += ws + "return nearley.parse(inp, rules, nonterminals['" + structure[0].name+ "']);";
+	output += ws + "return new nearley.Parser(rules, nonterminals['" + structure[0].name+ "']);";
 
 	output += "\n};";
 
@@ -235,8 +235,10 @@ function main(testData) {
             fs.writeFileSync(opts.out, c);
         }
 	} catch(e) {
-		if (e === "nearley parse error") {
+		if (e.message === "nearley parse error") {
 			console.error("Your grammar failed to parse.");
-		}
+		} else {
+            throw e;
+        }
 	}
 }
