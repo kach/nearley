@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var nearley = require('../lib/async-nearley.js');
+var nearley = require('../lib/nearley.js');
 var inlineRequire = require('../lib/inline-require.js');
 var nomnom = require('nomnom');
 
@@ -196,7 +196,7 @@ function Compile(structure) {
 	output += "// Generated automatically by nearley.\n";
 	output += opts.export + " = function() {";
 
-	output += ws + "var nearley = " + inlineRequire(require, '../lib/async-nearley.js');
+	output += ws + "var nearley = " + inlineRequire(require, '../lib/nearley.js');
 	output += ws + "var nonterminals = [];";
 	output += ws + "var rules = [];";
 	output += ws + "var id = function(a){return a[0];};";
