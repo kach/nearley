@@ -1,5 +1,5 @@
 {
-  "name": "nearley",
+  "name": "nearley-stream",
   "version": "0.0.5",
   "description": "Simple Earley parsing for JS",
   "main": "lib/nearley.js",
@@ -15,9 +15,12 @@
     "compiler"
   ],
   "author": "Hardmath123",
+  "contributors": [
+      "Aria Stewart <aredridel@nbtsc.org>"
+  ],
   "license": "MIT",
   "repository" : {
     "type" : "git",
-    "url" : "https://github.com/Hardmath123/nearley"
+    "url" : "https://github.com/aredridel/nearley-stream/"
   }
 }
