@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var nearley = require('../lib/nearley.js');
+var nearley = require('../lib/async-nearley.js');
 var inlineRequire = require('../lib/inline-require.js');
 var nomnom = require('nomnom');
 
@@ -30,7 +30,7 @@ var opts = nomnom
 	})
 	.parse();
 
-function Parse(inp) {
+function makeParser() {
 	var NullPP = function(argument) {return null;}
 	var Word = ["word"],
 		WS = ["whit"],
@@ -46,8 +46,7 @@ function Parse(inp) {
 		JS = ["js"],
 		JSCode = ["jscode"];
 
-	return nearley.parse(
-		inp,
+	return new nearley.Parser(
 		[
 			new nearley.rule(WS, [/\s/], NullPP),
 			new nearley.rule(WS, [WS, /\s/], NullPP),
@@ -212,34 +211,12 @@ function Compile(structure) {
 	return output;
 }
 
-if (opts.file) {
-	fs.readFile(opts.file, function(err, testData) {
-        if (err) throw err;
-		main(testData);
-	});
-} else {
-	process.stdin.resume();
-	process.stdin.setEncoding('utf8');
-	process.stdin.on('data', function(testData) {
-		main(testData);
-	});
-}
-
-function main(testData) {
-	try {
-		var p = Parse(testData.toString());
-        //console.log(require('util').inspect(p, {depth:null}));
-        var c = Compile(p);
-        if (!opts.out) {
-            process.stdout.write(c);
-        } else {
-            fs.writeFileSync(opts.out, c);
-        }
-	} catch(e) {
-		if (e.message === "nearley parse error") {
-			console.error("Your grammar failed to parse.");
-		} else {
-            throw e;
-        }
-	}
-}
+var input = opts.file ? fs.createReadStream(opts.file) : process.stdin;
+input.pipe(makeParser()).on('result', function (result) {
+    var c = Compile(result);
+    if (!opts.out) {
+        process.stdout.write(c);
+    } else {
+        fs.writeFile(opts.out, c);
+    }
+});
