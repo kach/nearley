@@ -48,71 +48,71 @@ function makeParser() {
 
 	return new nearley.Parser(
 		[
-			new nearley.rule(WS, [/\s/], NullPP),
-			new nearley.rule(WS, [WS, /\s/], NullPP),
-			new nearley.rule(OptionalWS, [], NullPP),
-			new nearley.rule(OptionalWS, [WS], NullPP),
+			nearley.rule(WS, [/\s/], NullPP),
+			nearley.rule(WS, [WS, /\s/], NullPP),
+			nearley.rule(OptionalWS, [], NullPP),
+			nearley.rule(OptionalWS, [WS], NullPP),
 
-			new nearley.rule(JS, ["{", "%", JSCode, "%", "}"], function(d) {
+			nearley.rule(JS, ["{", "%", JSCode, "%", "}"], function(d) {
 				return d[2];
 			}),
-			new nearley.rule(JSCode, [], function() {return "";}),
-			new nearley.rule(JSCode, [JSCode, /[^%]/], function(d) {return d[0] + d[1];}),
+			nearley.rule(JSCode, [], function() {return "";}),
+			nearley.rule(JSCode, [JSCode, /[^%]/], function(d) {return d[0] + d[1];}),
 
-			new nearley.rule(StringLiteral, ["\"", Charset,"\""], function(d) {
+			nearley.rule(StringLiteral, ["\"", Charset,"\""], function(d) {
 				return {"type":"literal", "data":d[1].join("")};
 			}),
-			new nearley.rule(Charset, []),
-			new nearley.rule(Charset, [Charset, Char], function(d) {
+			nearley.rule(Charset, []),
+			nearley.rule(Charset, [Charset, Char], function(d) {
 				return d[0].concat([d[1]]);
 			}),
-			new nearley.rule(Char, [ new RegExp("[^\"]")], function(d) {
+			nearley.rule(Char, [ new RegExp("[^\"]")], function(d) {
 				return d[0];
 			}),
-			new nearley.rule(Char, [ "\\", new RegExp(".") ], function(d) {
+			nearley.rule(Char, [ "\\", new RegExp(".") ], function(d) {
 				return JSON.parse("\""+"\\"+d[1]+"\"");
 			}),
 
-			new nearley.rule(Word, [/\w/], function(d){
+			nearley.rule(Word, [/\w/], function(d){
 				return d[0];
 			}),
-			new nearley.rule(Word, [Word, /\w/], function(d){
+			nearley.rule(Word, [Word, /\w/], function(d){
 				return d[0]+d[1];
 			}),
-			new nearley.rule(Word, [StringLiteral], function(d) {
+			nearley.rule(Word, [StringLiteral], function(d) {
 				return d[0];
 			}),
 
-			new nearley.rule(Expression, [Word]),
-			new nearley.rule(Expression, [Expression, WS, Word], function(d){
+			nearley.rule(Expression, [Word]),
+			nearley.rule(Expression, [Expression, WS, Word], function(d){
 				return d[0].concat([d[2]]);
 			}),
 
-			new nearley.rule(CompleteExpression, [Expression], function(d) {
+			nearley.rule(CompleteExpression, [Expression], function(d) {
 				return {tokens: d[0]};
 			}),
 
-			new nearley.rule(CompleteExpression, [Expression, OptionalWS, JS], function(d) {
+			nearley.rule(CompleteExpression, [Expression, OptionalWS, JS], function(d) {
 				return {tokens: d[0], postprocessor: d[2]};
 			}),
 
-			new nearley.rule(ExpressionList, [CompleteExpression]),
-			new nearley.rule(ExpressionList, [ExpressionList, OptionalWS, "|", OptionalWS, CompleteExpression], function(d) {
+			nearley.rule(ExpressionList, [CompleteExpression]),
+			nearley.rule(ExpressionList, [ExpressionList, OptionalWS, "|", OptionalWS, CompleteExpression], function(d) {
 				return d[0].concat([d[4]]);
 			}),
 
-			new nearley.rule(ProductionRule, [Word, OptionalWS, "-", ">", OptionalWS, ExpressionList], function(d) {
+			nearley.rule(ProductionRule, [Word, OptionalWS, "-", ">", OptionalWS, ExpressionList], function(d) {
 				return {name: d[0], rules: d[5]};
 			}),
 
-			new nearley.rule(Prog, [ProductionRule], function(d) {
+			nearley.rule(Prog, [ProductionRule], function(d) {
 				return [d[0]];
 			}),
 
-			new nearley.rule(Prog, [ProductionRule, WS, Prog], function(d) {
+			nearley.rule(Prog, [ProductionRule, WS, Prog], function(d) {
 				return [d[0]].concat(d[2]);
 			}),
-			new nearley.rule(Prog, [Prog, OptionalWS], function(d) {
+			nearley.rule(Prog, [Prog, OptionalWS], function(d) {
 				return d[0];
 			}),
 		],
@@ -135,11 +135,11 @@ function Compile(structure) {
 	initNonterminal("_09");
 	initNonterminal("_s");
 
-	outputRules.push("rules.push(new nearley.rule(nonterminals['_char'], [/./], function(d) {return d[0];}));");
-	outputRules.push("rules.push(new nearley.rule(nonterminals['_az'], [/[a-z]/], function(d) {return d[0];}));");
-	outputRules.push("rules.push(new nearley.rule(nonterminals['_AZ'], [/[A-Z]/], function(d) {return d[0];}));");
-	outputRules.push("rules.push(new nearley.rule(nonterminals['_09'], [/[0-9]/], function(d) {return d[0];}));");
-	outputRules.push("rules.push(new nearley.rule(nonterminals['_s'], [/\\s/], function(d) {return d[0];}));");
+	outputRules.push("rules.push(nearley.rule(nonterminals['_char'], [/./], function(d) {return d[0];}));");
+	outputRules.push("rules.push(nearley.rule(nonterminals['_az'], [/[a-z]/], function(d) {return d[0];}));");
+	outputRules.push("rules.push(nearley.rule(nonterminals['_AZ'], [/[A-Z]/], function(d) {return d[0];}));");
+	outputRules.push("rules.push(nearley.rule(nonterminals['_09'], [/[0-9]/], function(d) {return d[0];}));");
+	outputRules.push("rules.push(nearley.rule(nonterminals['_s'], [/\\s/], function(d) {return d[0];}));");
 
 	function stringifyProductionRule(name, rule) {
 		var tokenList = [];
@@ -165,7 +165,7 @@ function Compile(structure) {
 		})
 
 		tokenList = "[" + tokenList.join(", ") + "]";
-		var out = "rules.push(new nearley.rule(" + name + ", " + tokenList +
+		var out = "rules.push(nearley.rule(" + name + ", " + tokenList +
 			(rule.postprocessor ? ", " + rule.postprocessor : "") + "));";
 
 		outputRules.push(out);
