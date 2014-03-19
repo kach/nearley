@@ -1,6 +1,6 @@
 {
   "name": "nearley",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Simple Earley parsing for JS",
   "main": "lib/nearley.js",
   "dependencies": {
