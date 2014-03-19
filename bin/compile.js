@@ -45,15 +45,23 @@ function Parse(inp) {
 		Charset = ["charset"],
 		Char = ["char"],
 		JS = ["js"],
-		JSCode = ["jscode"];
+		JSCode = ["jscode"],
+		Comment = ["comment"],
+		CommentChars = ["commentchars"],
+		Final = ["final"];
 
 	return nearley.parse(
 		inp,
 		[
 			new nearley.rule(WS, [/\s/], NullPP),
 			new nearley.rule(WS, [WS, /\s/], NullPP),
+			new nearley.rule(WS, [OptionalWS, Comment, OptionalWS], NullPP),
 			new nearley.rule(OptionalWS, [], NullPP),
 			new nearley.rule(OptionalWS, [WS], NullPP),
+
+			new nearley.rule(Comment, ["#", CommentChars, "\n"], NullPP),
+			new nearley.rule(CommentChars, [], NullPP),
+			new nearley.rule(CommentChars, [CommentChars, /[^\n]/], NullPP),
 
 			new nearley.rule(JS, ["{", "%", JSCode, "%", "}"], function(d) {
 				return d[2];
@@ -114,11 +122,13 @@ function Parse(inp) {
 			new nearley.rule(Prog, [ProductionRule, WS, Prog], function(d) {
 				return [d[0]].concat(d[2]);
 			}),
-			new nearley.rule(Prog, [Prog, OptionalWS], function(d) {
-				return d[0];
-			}),
+
+			new nearley.rule(Final, [OptionalWS, Prog, OptionalWS], function(d) {
+				return d[1];
+			})
 		],
-		Prog
+		Final,
+		true
 	);
 }
 
@@ -228,14 +238,14 @@ if (opts.file) {
 
 function main(testData) {
 	try {
-		var p = Parse(testData.toString());
+		var stringData = testData.toString();
+		var p = Parse(stringData);
 	} catch(e) {
 		if (e === "nearley parse error") {
 			console.error("Your grammar failed to parse.");
-			process.exit();
+			process.exit(1);
 		}
 	}
-	//console.log(require('util').inspect(p, {depth:null}));
 	var c = Compile(p);
 	if (!opts.out) {
 		process.stdout.write(c);

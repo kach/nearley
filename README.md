@@ -43,6 +43,8 @@ The basic structure for a nearley parser is
 
 nearley parsers are defined as context-free grammars, which consist of several **nonterminals**. Nonterminals are just various lists of symbols. A nonterminal is made up of a concatenation of either other nonterminals or strings (enclose strings in "double quotes", and use backslash escaping like in JSON). A nonterminal can have multiple such expansions, separated by pipes (`|`).
 
+Anything beyond a `#` to the end of a line is ignored as a comment.
+
 The following grammar matches a number, a plus sign, and another number:
 
     expression -> number "+" number
@@ -87,7 +89,7 @@ Using a parser
 
 To use a generated parser, use:
 
-    var parse = require("parser.js");
+    var parse = require("./parser.js");
     console.log(parse("1+1")); // 2
     console.log(parse("cow")); // throws error: "nearley parse error"
 

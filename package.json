@@ -1,6 +1,6 @@
 {
   "name": "nearley",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Simple Earley parsing for JS",
   "main": "lib/nearley.js",
   "dependencies": {
@@ -10,14 +10,14 @@
     "nearleyc": "bin/compile.js"
   },
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "parser",
     "generator",
     "compiler"
   ],
+  "scripts": {
+    "test":"bin/compile.js examples/arithmetic.ne > /dev/null"
+  },
   "author": "Hardmath123",
   "license": "MIT",
   "repository" : {
