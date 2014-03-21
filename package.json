@@ -6,6 +6,9 @@
   "dependencies": {
     "nomnom": "~1.6.2"
   },
+  "devDependencies": {
+    "tape": "~2.10.2"
+  },
   "bin": {
     "snearleyc": "bin/snearleyc.js"
   },
