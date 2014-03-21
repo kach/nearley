@@ -20,7 +20,7 @@ nearley-stream uses the [Earley parsing algorithm](http://en.wikipedia.org/wiki/
 
 Why?
 ----
-nearley-stream lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, I use a single set of definitions. Unlike PEG.js, this parser handles **left recursion** gracefully and warns you if your grammar is ambiguous (ambiguous grammars are slower and take up more memory).
+nearley-stream lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, I use a single set of definitions. Unlike PEG.js, this parser handles **left recursion** gracefully and warns you if your parse is ambiguous.
 
 How?
 ----
