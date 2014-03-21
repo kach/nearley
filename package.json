@@ -19,11 +19,11 @@
   ],
   "author": "Hardmath123",
   "contributors": [
-      "Aria Stewart <aredridel@nbtsc.org>"
+    "Aria Stewart <aredridel@nbtsc.org>"
   ],
   "license": "MIT",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/aredridel/nearley-stream/"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aredridel/nearley-stream/"
   }
 }
