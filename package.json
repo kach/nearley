@@ -1,27 +1,29 @@
 {
   "name": "nearley",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Simple Earley parsing for JS",
   "main": "lib/nearley.js",
   "dependencies": {
     "nomnom": "~1.6.2"
   },
   "bin": {
-    "nearleyc": "bin/compile.js"
+    "nearleyc": "bin/nearleyc.js"
   },
-  "devDependencies": {},
   "keywords": [
     "parser",
     "generator",
     "compiler"
   ],
   "scripts": {
-    "test":"bin/compile.js examples/arithmetic.ne > /dev/null"
+    "test":"bin/nearleyc.js examples/arithmetic.ne > /dev/null"
   },
   "author": "Hardmath123",
+  "contributors": [
+    "Aria Stewart <aredridel@nbtsc.org>"
+  ],
   "license": "MIT",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/Hardmath123/nearley"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hardmath123/nearley.git"
   }
 }
