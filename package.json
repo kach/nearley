@@ -25,5 +25,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/aredridel/nearley-stream/"
+  },
+  "scripts": {
+    "test": "bin/snearleyc.js examples/arithmetic.ne > /dev/null"
   }
 }

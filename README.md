@@ -34,7 +34,11 @@ Run `snearleyc --help` for more options.
 Making a Parser
 ---------------
 
-A parser consists of several *nonterminals*, which are just various constructions. A nonterminal is made up of a series of either nonterminals or strings (enclose strings in "double quotes", and use backslash escaping like in JSON). The following grammar matches a number, a plus sign, and another number:
+A parser consists of several *nonterminals*, which are just various constructions. A nonterminal is made up of a series of either nonterminals or strings (enclose strings in "double quotes", and use backslash escaping like in JSON).
+
+Anything beyond a `#` to the end of a line is ignored as a comment.
+
+The following grammar matches a number, a plus sign, and another number:
 
     expression -> number "+" number
 
