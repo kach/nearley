@@ -6,6 +6,9 @@
   "dependencies": {
     "nomnom": "~1.6.2"
   },
+  "devDependencies": {
+    "tape": "~2.12.0"
+  },
   "bin": {
     "nearleyc": "bin/nearleyc.js"
   },
@@ -15,7 +18,7 @@
     "compiler"
   ],
   "scripts": {
-    "test":"bin/nearleyc.js examples/arithmetic.ne > /dev/null"
+    "test": "bin/nearleyc.js examples/arithmetic.ne > test/arithmetic.js && tape test/test-arithmetic.js"
   },
   "author": "Hardmath123",
   "contributors": [
