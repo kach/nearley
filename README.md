@@ -5,28 +5,28 @@
      888   888  888ooo888  .oP"888   888      888  888ooo888   `88..8'   
      888   888  888    .o d8(  888   888      888  888    .o    `888'    
     o888o o888o `Y8bod8P' `Y888""8o d888b    o888o `Y8bod8P'     .8'     
-                                -stream streaming parser     .o..P'      
+                                                             .o..P'      
                                                              `Y8P'       
 
 
-nearley-stream
+nearley
 ==============
 
 Simple parsing for node.js.
 
 What?
 -----
-nearley-stream uses the [Earley parsing algorithm](http://en.wikipedia.org/wiki/Earley_parser) to parse complex data structures easily.
+nearley uses the [Earley parsing algorithm](http://en.wikipedia.org/wiki/Earley_parser) to parse complex data structures easily.
 
 Why?
 ----
-nearley-stream lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, I use a single set of definitions. Unlike PEG.js, this parser handles **left recursion** gracefully and warns you if your parse is ambiguous.
+nearley lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, I use a single set of definitions. Unlike PEG.js, this parser handles **left recursion** gracefully and warns you if your parse is ambiguous.
 
 How?
 ----
 To compile a parser, use the `nearleyc` command:
 
-    npm install -g nearley-stream
+    npm install -g nearley
     nearleyc parser.ne
 
 Run `nearleyc --help` for more options.
