@@ -5,30 +5,28 @@
      888   888  888ooo888  .oP"888   888      888  888ooo888   `88..8'   
      888   888  888    .o d8(  888   888      888  888    .o    `888'    
     o888o o888o `Y8bod8P' `Y888""8o d888b    o888o `Y8bod8P'     .8'     
-                                                             .o..P'      
+                                -stream streaming parser     .o..P'      
                                                              `Y8P'       
 
 
-nearley.js
-==========
+nearley-stream
+==============
 
-Simple parsing for JavaScript.
+Simple parsing for node.js.
 
 What?
 -----
-nearley.js uses the [Earley parsing algorithm](http://en.wikipedia.org/wiki/Earley_parser) to parse complex data structures easily.
+nearley-stream uses the [Earley parsing algorithm](http://en.wikipedia.org/wiki/Earley_parser) to parse complex data structures easily.
 
 Why?
 ----
-nearley.js lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, I use a single set of definitions. Unlike PEG.js, this parser handles **left recursion** gracefully and warns you if your grammar is ambiguous (ambiguous grammars are slower and take up more memory). Finally, nearley.js generates tiny files (whose length is directly proportional to the input length), so they won't affect performance even if they are left unminified.
+nearley-stream lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, I use a single set of definitions. Unlike PEG.js, this parser handles **left recursion** gracefully and warns you if your parse is ambiguous.
 
 How?
 ----
-nearley ships with a parser compiler, that compiles a human-readable parser specification into a JavaScript file.
-
 To compile a parser, use the `nearleyc` command:
 
-    npm install -g nearley
+    npm install -g nearley-stream
     nearleyc parser.ne
 
 Run `nearleyc --help` for more options.
@@ -36,12 +34,7 @@ Run `nearleyc --help` for more options.
 Making a Parser
 ---------------
 
-The basic structure for a nearley parser is
-
-    nonterminal -> expansion {% postprocessor %} | another_expansion ...
-    another_nonterminal -> ...
-
-nearley parsers are defined as context-free grammars, which consist of several **nonterminals**. Nonterminals are just various lists of symbols. A nonterminal is made up of a concatenation of either other nonterminals or strings (enclose strings in "double quotes", and use backslash escaping like in JSON). A nonterminal can have multiple such expansions, separated by pipes (`|`).
+A parser consists of several *nonterminals*, which are just various constructions. A nonterminal is made up of a series of either nonterminals or strings (enclose strings in "double quotes", and use backslash escaping like in JSON).
 
 Anything beyond a `#` to the end of a line is ignored as a comment.
 
@@ -49,23 +42,39 @@ The following grammar matches a number, a plus sign, and another number:
 
     expression -> number "+" number
 
-Similarly, the following recursive grammar matches `(1)`, `((1))`, `(((1)))`, etc:
+The first nonterminal you define is the one that the parser tries to parse.
 
-    parens -> "1" | "(" parens ")"
+A nonterminal can have multiple meanings, separated by pipes (`|`):
 
-The first nonterminal you define is the one that the parser tries to parse (the **start symbol**).
+    expression -> number "+" number   |   number "-" number
 
 Finally, each meaning (called a *production rule*) can have a postprocessing function, that can format the data in a way that you would like:
 
     expression -> number "+" number {%
         function (data) {
-            // data is [aNumber, "+", aNumber]
-            // we return the sum of the two numbers
-            return data[0] + data[2];
+            return data[0] + data[2]; // the sum of the two numbers
         }
     %}
 
-`data` is an array whose elements match the expansion of the nonterminal in order.
+`data` is an array whose elements match the nonterminals in order.
+
+To use the generated parser, use:
+
+    var Parser = require("parser.js");
+    var parser = new Parser();
+    parser.on('result', function (result) {
+        // result is 2
+    });
+    parser.end('1+1');
+
+    var parser2 = new Parser();
+    parser2.on('result', function (result) {
+        // never reached
+    }).on('error', function (err) {
+        // err is an Error("nearley parse error")
+    });
+    parser2.end('cow');
+
 
 The **epsilon rule** is the empty rule that matches nothing. The constant `null` is the epsilon rule, so:
 
@@ -84,27 +93,13 @@ The following constants are also defined:
 | `_09` | Any digit | `[0-9]` |
 | `_s`  | A whitespace character | `/\s/` | 
 
-Using a parser
-==============
+Errors
+------
 
-To use a generated parser, use:
+A parse error will emit `Error("nearley parse error")`, which you can catch like this:
 
-    var parse = require("./parser.js");
-    console.log(parse("1+1")); // 2
-    console.log(parse("cow")); // throws error: "nearley parse error"
-
-A parse error will throw the string "nearley parse error", which you can catch like this:
-
-    try {
-        // try to parse something
-    } catch(err) {
-        if (err === "nearley parse error") {
+    parser.on('error', function (err) {
+        if (err.message === "nearley parse error") {
             // it was a parse error!
         }
-    }
-
-Past changes
-------------
-* 0.0.1: Initial release
-* 0.0.2: Null rule
-* 0.0.3: Predefined charsets
+    });
