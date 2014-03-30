@@ -16,7 +16,7 @@ Simple parsing for node.js.
 
 What?
 -----
-nearley uses the [Earley parsing algorithm](http://en.wikipedia.org/wiki/Earley_parser) to parse complex data structures easily.
+nearley uses the [Earley parsing algorithm](earley.md) to parse complex data structures easily.
 
 Why?
 ----
