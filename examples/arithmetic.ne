@@ -13,7 +13,5 @@ digit -> [0-9] {% id %}
 int -> digit {% id %}
 	| int digit {% function(d) {return d[0] + d[1]} %}
 
-
 _ -> null
-	| _s _
-	
+	| [\s] _
