@@ -45,18 +45,6 @@ function Compile(structure) {
 	var outputRules = [];
 	var outputNonterminals = [];
 
-	initNonterminal("_char");
-	initNonterminal("_az");
-	initNonterminal("_AZ");
-	initNonterminal("_09");
-	initNonterminal("_s");
-
-	outputRules.push("rules.push(nearley.rule(nonterminals['_char'], [/./], function(d) {return d[0];}));");
-	outputRules.push("rules.push(nearley.rule(nonterminals['_az'], [/[a-z]/], function(d) {return d[0];}));");
-	outputRules.push("rules.push(nearley.rule(nonterminals['_AZ'], [/[A-Z]/], function(d) {return d[0];}));");
-	outputRules.push("rules.push(nearley.rule(nonterminals['_09'], [/[0-9]/], function(d) {return d[0];}));");
-	outputRules.push("rules.push(nearley.rule(nonterminals['_s'], [/\\s/], function(d) {return d[0];}));");
-
 	function stringifyProductionRule(name, rule) {
 		var tokenList = [];
 		//console.log(name, rule);
@@ -77,7 +65,11 @@ function Compile(structure) {
 				}
 			} else if (typeof(token) === 'string') {
 				if (token !== 'null') tokenList.push(nonterminalName(token));
-			}
+            } else if (token instanceof RegExp) {
+                tokenList.push(token.toString());
+			} else {
+                throw new Error("Should never get here");
+            }
 		})
 
 		tokenList = "[" + tokenList.join(", ") + "]";
