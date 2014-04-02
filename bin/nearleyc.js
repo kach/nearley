@@ -43,28 +43,26 @@ function Compile(structure) {
 	}
 
 	var outputRules = [];
-	var outputNonterminals = [];
 
 	function stringifyProductionRule(name, rule) {
 		var tokenList = [];
-		//console.log(name, rule);
+
 		rule.tokens.forEach(function(token) {
 			if (token.type && token.type === 'literal') {
 				var str = token.data;
 				if (str.length > 1) {
-					var name = initNonterminal();
 					var rules = str.split("").map(function(d) {
 						return {type: 'literal', 'data':d};
 					});
 					var postprocessor = "function(d) {return d.join('');}";
 
 					stringifyProductionRule(name, {tokens: rules, postprocessor: postprocessor});
-					tokenList.push(name);
+					tokenList.push(JSON.stringify({ literal: name }));
 				} else if (str.length === 1) {
-					tokenList.push(JSON.stringify(str));
+					tokenList.push(JSON.stringify({ literal: str}));
 				}
 			} else if (typeof(token) === 'string') {
-				if (token !== 'null') tokenList.push(nonterminalName(token));
+				if (token !== 'null') tokenList.push(JSON.stringify(token));
             } else if (token instanceof RegExp) {
                 tokenList.push(token.toString());
 			} else {
@@ -73,27 +71,17 @@ function Compile(structure) {
 		})
 
 		tokenList = "[" + tokenList.join(", ") + "]";
-		var out = "rules.push(nearley.rule(" + name + ", " + tokenList +
+		var out = "rules.push(nearley.rule(" + JSON.stringify(name) + ", " + tokenList +
 			(rule.postprocessor ? ", " + rule.postprocessor : "") + "));";
 
 		outputRules.push(out);
 	}
-	function initNonterminal(name) {
-		var id = name || unique();
-		var ref = nonterminalName(id);
-		outputNonterminals.push(ref + " = {};");
-		return ref;
-	}
-	function nonterminalName(name) {
-		return "nonterminals['" + name + "']";
-	}
 
 	structure.forEach(function(productionRule) {
-		var name = initNonterminal(productionRule.name);
 		var rules = productionRule.rules;
 
 		rules.forEach(function(rule) {
-			stringifyProductionRule(name, rule);
+			stringifyProductionRule(productionRule.name, rule);
 		});
 	});
 
@@ -105,14 +93,12 @@ function Compile(structure) {
 	output += opts.export + " = function() {";
 
 	output += ws + "var nearley = " + inlineRequire(require, '../lib/nearley.js');
-	output += ws + "var nonterminals = [];";
 	output += ws + "var rules = [];";
 	output += ws + "var id = function(a){return a[0];};";
-	output += ws + outputNonterminals.join("\n    ");
 	output += ws;
 	output += ws + outputRules.join("\n    ");
 	output += ws;
-	output += ws + "return new nearley.Parser(rules, nonterminals['" + structure[0].name+ "']);";
+	output += ws + "return new nearley.Parser(rules, " + JSON.stringify(structure[0].name) + ");";
 
 	output += "\n};";
 
