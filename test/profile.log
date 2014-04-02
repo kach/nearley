@@ -1,0 +1,85 @@
+Wed Apr  2 11:36:00 PDT 2014
+Nearley test.
+=============
+Tests operate on the grammar p -> "(" p ")" | [a-z]
+An input of size n is 2n+1 characters long, and of the form (((...a...))).
+
+Running time tests.
+-------------------
+Each star corresponds to the time taken to parse an input of that size with a recursive grammar.
+
+SCALE
+                    0.25s
+                                        0.50s
+                                                            0.75s
+                                                                                1.00s
+0
+*
+  *
+    *
+       *
+            *
+10000
+       *
+             *
+             *
+              *
+                   *
+20000
+                    *
+                        *
+                   *
+                       *
+                              *
+30000
+                                    *
+                              *
+                              *
+                                          *
+                                              *
+40000
+                                 *
+                                    *
+                                                         *
+                                                             *
+                                       *
+Running memory tests.
+-------------------
+Each star corresponds to the memory taken to parse an input of that size with a recursive grammar.
+Occasional outliers may be caused by gc runs. Nearley profiling doesn't explicitly call the gc before each run.
+
+SCALE
+                    025MB
+                                        050MB
+                                                            075MB
+                                                                                100MB
+0
++
++
+       +
+      +
+         +
+10000
+        +
+            +
+          +
+              +
+            +
+20000
+                +
+                   +
+                     +
+                      +
+                         +
+30000
+                        +
+                           +
+                          +
+                             +
+                                 +
+40000
+                                 +
+                                        +
+                                          +
+                                      +
+                                          +
