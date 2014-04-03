@@ -56,8 +56,9 @@ function Compile(structure) {
 					});
 					var postprocessor = "function(d) {return d.join('');}";
 
-					stringifyProductionRule(name, {tokens: rules, postprocessor: postprocessor});
-					tokenList.push(JSON.stringify({ literal: name }));
+					var newname = unique();
+					stringifyProductionRule(newname, {tokens: rules, postprocessor: postprocessor});
+					tokenList.push(JSON.stringify(newname));
 				} else if (str.length === 1) {
 					tokenList.push(JSON.stringify({ literal: str}));
 				}
