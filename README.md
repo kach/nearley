@@ -83,16 +83,6 @@ The **epsilon rule** is the empty rule that matches nothing. The constant `null`
 
 will match 0 or more `cow`s in a row.
 
-The following constants are also defined:
-
-| Constant | Meaning | Regex Equivalent |
-| -------- | ------- | ---------------- |
-| `_char` | Any character | `/./` |
-| `_az` | Any lowercase letter | `/[a-z]/` |
-| `_AZ` | Any uppercase letter | `/[A-Z]/` |
-| `_09` | Any digit | `[0-9]` |
-| `_s`  | A whitespace character | `/\s/` | 
-
 Errors
 ------
 
