@@ -1,11 +1,8 @@
 // Generated automatically by nearley.
-module.exports = function() {
+
     var nearley = (function () {
     var module = {exports: {}};
     (function (module) {
-        var Writable = require('stream').Writable;
-        var util = require('util');
-        
         function Rule(name, symbols, postprocess) {
             return { name: name, symbols: symbols, postprocess: postprocess };
         }
@@ -100,7 +97,7 @@ module.exports = function() {
                     }
                 });
             }
-        }
+        };
         
         function setup(table, rules, addedRules, start) {
             var w, s;
@@ -127,7 +124,6 @@ module.exports = function() {
         }
         
         function Parser(rules, start) {
-            Writable.call(this, { decodeStrings: false });
             var table = [];
             var addedRules = [];
         
@@ -137,30 +133,9 @@ module.exports = function() {
         
             setup(table, rules, addedRules, start);
         
-            this.on('finish', finish);
-        
-            function finish() {
-                var considerations = [];
-                table[table.length-1].forEach(function (t) {
-                    if (t.rule.name === start && t.expect === t.rule.symbols.length && t.reference === 0) {
-                        considerations.push(t);
-                    }
-                });
-                if (considerations.length > 1) {
-                    //console.warn("The grammar is ambiguous.");
-                }
-        
-                if (considerations[0]) {
-                    this.emit('result', considerations[0].data);
-                } else {
-                    this.emit('error', new Error("nearley parse error"));
-                }
-            }
-        
             this.current = 0;
         
-            this._write = function (chunk, encoding, callback) {
-                chunk = chunk.toString();
+            this.feed = function (chunk) {
                 for (; this.current < chunk.length; this.current++) {
                     // We add new states to table[current+1]
                     table.push([]);
@@ -190,12 +165,15 @@ module.exports = function() {
         
                     advanceTo(this.current+1, table, rules, addedRules);
                 }
-                callback();
-                //console.log("Table:", require('util').inspect(table[table.length-1], {depth:null}));
-            }
-        }
         
-        util.inherits(Parser, Writable);
+                var results = this.results = [];
+                table[table.length-1].forEach(function (t) {
+                    if (t.rule.name === start && t.expect === t.rule.symbols.length && t.reference === 0) {
+                        results.push(t);
+                    }
+                });
+            };
+        }
         
         module.exports = {
             Parser: Parser,
@@ -206,10 +184,16 @@ module.exports = function() {
     return module.exports;
 })();
     var rules = [];
-    var id = function(a){return a[0];};
-    
+    var id = function(a){ return a[0]; };
     rules.push(nearley.rule("p", [{"literal":"("}, "p", {"literal":")"}]));
     rules.push(nearley.rule("p", [/[a-z]/]));
     
-    return new nearley.Parser(rules, "p");
-};
+    function Parser() {
+        nearley.Parser.call(this, this.rules, "p");
+    };
+    
+    Parser.prototype = {
+        rules: rules
+    };
+    
+    module.exports = Parser;

@@ -4,6 +4,7 @@ var fs = require('fs');
 var nearley = require('../lib/nearley.js');
 var inlineRequire = require('../lib/inline-require.js');
 var nomnom = require('nomnom');
+var NearleyStream = require('../lib/nearley-stream.js');
 
 var opts = nomnom
 	.script('nearleyc')
@@ -33,7 +34,7 @@ var opts = nomnom
 function makeParser() {
     var language = require('../lib/nearley-language.js');
 
-	return new nearley.Parser(language.rules, language.start);
+	return new NearleyStream(new nearley.Parser(language.rules, language.start));
 }
 
 function Compile(structure) {
@@ -69,7 +70,7 @@ function Compile(structure) {
 			} else {
                 throw new Error("Should never get here");
             }
-		})
+		});
 
 		tokenList = "[" + tokenList.join(", ") + "]";
 		var out = "rules.push(nearley.rule(" + JSON.stringify(name) + ", " + tokenList +
@@ -91,17 +92,23 @@ function Compile(structure) {
 	var ws = "\n    ";
 
 	output += "// Generated automatically by nearley.\n";
-	output += opts.export + " = function() {";
-
 	output += ws + "var nearley = " + inlineRequire(require, '../lib/nearley.js');
-	output += ws + "var rules = [];";
-	output += ws + "var id = function(a){return a[0];};";
-	output += ws;
+    output += ws + "var rules = [];";
+	output += ws + "var id = function(a){ return a[0]; };";
 	output += ws + outputRules.join("\n    ");
-	output += ws;
-	output += ws + "return new nearley.Parser(rules, " + JSON.stringify(structure[0].name) + ");";
 
-	output += "\n};";
+    output += ws;
+	output += ws + "function Parser() {";
+    output += ws + "    nearley.Parser.call(this, this.rules, " + JSON.stringify(structure[0].name) + ");";
+    output += ws + "};";
+
+    output += ws;
+	output += ws + "Parser.prototype = {";
+    output += ws + "    rules: rules";
+    output += ws + "};";
+
+    output += ws;
+    output += ws + opts.export + " = Parser;";
 
 	return output;
 }

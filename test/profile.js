@@ -1,4 +1,4 @@
-var parser = require('./parens.js');
+var parens = require('./parens.js');
 function nspace(n) {
 	var out = "";
 	for (var i=0; i<n; i++) {
@@ -18,22 +18,22 @@ function profile(n, type) {
 	}
 	var starttime = process.hrtime();
 	var startmemory = process.memoryUsage().heapUsed;
-	new parser().on('result', function (val) {
+	var parser = new parens();
+    parser.feed(test);
 
-		switch (type) {
-		case "TIME":
-			var tdiff = process.hrtime(starttime)[1];
-			console.log(
-				nspace(Math.round(tdiff/1e9  *80))+"*" // how much of one second
-			);
-			break;
-		case "MEMO":
-			var mdiff = process.memoryUsage().heapUsed - startmemory;
-			console.log(
-				nspace(Math.round(mdiff/1e8  *80)) + "+"
-			);
-		}
-	}).end(test);
+    switch (type) {
+    case "TIME":
+        var tdiff = process.hrtime(starttime)[1];
+        console.log(
+            nspace(Math.round(tdiff/1e9  *80))+"*" // how much of one second
+        );
+        break;
+    case "MEMO":
+        var mdiff = process.memoryUsage().heapUsed - startmemory;
+        console.log(
+            nspace(Math.round(mdiff/1e8  *80)) + "+"
+        );
+    }
 }
 
 console.log("Nearley test.");
