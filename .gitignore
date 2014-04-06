@@ -2,3 +2,4 @@ out.js
 node_modules/*
 .DS_Store
 test/profile.log
+test/parens.js

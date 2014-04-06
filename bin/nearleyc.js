@@ -30,12 +30,6 @@ var opts = nomnom
 	})
 	.parse();
 
-function makeParser() {
-    var language = require('../lib/nearley-language.js');
-
-	return new nearley.Parser(language.rules, language.start);
-}
-
 function Compile(structure) {
 	var un = 0;
 	function unique() {
@@ -107,11 +101,18 @@ function Compile(structure) {
 }
 
 var input = opts.file ? fs.createReadStream(opts.file) : process.stdin;
-input.pipe(makeParser()).on('result', function (result) {
-    var c = Compile(result);
-    if (!opts.out) {
-        process.stdout.write(c);
-    } else {
-        fs.writeFile(opts.out, c);
-    }
-});
+var language = require('../lib/nearley-language.js');
+var parser = new nearley.Parser(language.rules, language.start);
+
+input
+	.on('data', function(d) {
+		parser.feed(d.toString());
+	})
+	.on('end', function() {
+		var c = Compile(parser.results[0]);
+		if (!opts.out) {
+	        process.stdout.write(c);
+	    } else {
+	        fs.writeFile(opts.out, c);
+	    }
+	});
