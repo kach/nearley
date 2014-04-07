@@ -85,17 +85,31 @@ function Compile(structure) {
 	var ws = "\n    ";
 
 	output += "// Generated automatically by nearley.\n";
-	output += opts.export + " = function() {";
+	output += opts.export + " = (function() {";
 
 	output += ws + "var nearley = " + inlineRequire(require, '../lib/nearley.js');
 	output += ws + "var rules = [];";
-	output += ws + "var id = function(a){return a[0];};";
-	output += ws;
 	output += ws + outputRules.join("\n    ");
-	output += ws;
-	output += ws + "return new nearley.Parser(rules, " + JSON.stringify(structure[0].name) + ");";
+	output += ws + "var id = function(a){ return a[0]; };";
 
-	output += "\n};";
+	output += ws;
+    output += ws + "var Parser = function Parser() {";
+    output += ws + "    nearley.Parser.call(this, rules, " + JSON.stringify(structure[0].name) + ");";
+    output += ws + "};";
+
+    output += ws;
+    output += ws + "Parser.prototype = clone(nearley.Parser.prototype);";
+
+    output += ws;
+    output += ws + "return Parser;";
+
+    output += ws + "function clone(obj) { // A shim for Object.create";
+    output += ws + "    function f() {}";
+    output += ws + "    f.prototype = obj;";
+    output += ws + "    return new f();";
+    output += ws + "}";
+
+	output += "\n})();";
 
 	return output;
 }
