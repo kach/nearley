@@ -63,7 +63,7 @@ function Compile(structure) {
 			} else {
                 throw new Error("Should never get here");
             }
-		})
+		});
 
 		tokenList = "[" + tokenList.join(", ") + "]";
 		var out = "rules.push(nearley.rule(" + JSON.stringify(name) + ", " + tokenList +
