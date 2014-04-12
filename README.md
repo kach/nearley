@@ -48,7 +48,7 @@ A nonterminal can have multiple meanings, separated by pipes (`|`):
 
     expression -> number "+" number   |   number "-" number
 
-Finally, each meaning (called a *production rule*) can have a postprocessing function, that can format the data in a way that you would like:
+Each meaning (called a *production rule*) can have a postprocessing function, that can format the data in a way that you would like:
 
     expression -> number "+" number {%
         function (data) {
@@ -58,24 +58,6 @@ Finally, each meaning (called a *production rule*) can have a postprocessing fun
 
 `data` is an array whose elements match the nonterminals in order.
 
-To use the generated parser, use:
-
-    var Parser = require("parser.js");
-    var parser = new Parser();
-    parser.on('result', function (result) {
-        // result is 2
-    });
-    parser.end('1+1');
-
-    var parser2 = new Parser();
-    parser2.on('result', function (result) {
-        // never reached
-    }).on('error', function (err) {
-        // err is an Error("nearley parse error")
-    });
-    parser2.end('cow');
-
-
 The **epsilon rule** is the empty rule that matches nothing. The constant `null` is the epsilon rule, so:
 
     a -> null
@@ -83,23 +65,26 @@ The **epsilon rule** is the empty rule that matches nothing. The constant `null`
 
 will match 0 or more `cow`s in a row.
 
-The following constants are also defined:
+Finally, you can use valid RegExp charsets in a rule:
 
-| Constant | Meaning | Regex Equivalent |
-| -------- | ------- | ---------------- |
-| `_char` | Any character | `/./` |
-| `_az` | Any lowercase letter | `/[a-z]/` |
-| `_AZ` | Any uppercase letter | `/[A-Z]/` |
-| `_09` | Any digit | `[0-9]` |
-| `_s`  | A whitespace character | `/\s/` | 
+    not_a_letter -> [^a-zA-Z]
 
-Errors
-------
+Using a parser
+--------------
 
-A parse error will emit `Error("nearley parse error")`, which you can catch like this:
+A `Parser` object exposes the following simple API:
 
-    parser.on('error', function (err) {
-        if (err.message === "nearley parse error") {
-            // it was a parse error!
-        }
-    });
+    var Parser = require("parser.js");
+    var p = new Parser();
+    p.feed("1+1");
+    // p.results --> [ 2 ]
+
+The `Parser` object can be fed data in parts with `.feed(data)`. You can then find an array of parsings with the `.results` property. If `results` is empty, then there are no parsings. If `results` contains multiple values, then that combination is ambiguous.
+
+The incremental feeding design is inspired so that you can parse data from stream-like inputs, or even dynamic readline inputs. For example, to create a Python-style REPL where it continues to prompt you until you have entered a complete block.
+
+    p.feed(prompt_user(">>> "));
+    while (p.results.length < 1) {
+        p.feed(prompt_user("... "));
+    }
+    console.log(p.results);
