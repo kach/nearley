@@ -65,9 +65,15 @@ The **epsilon rule** is the empty rule that matches nothing. The constant `null`
 
 will match 0 or more `cow`s in a row.
 
-Finally, you can use valid RegExp charsets in a rule:
+You can use valid RegExp charsets in a rule:
 
     not_a_letter -> [^a-zA-Z]
+
+
+For more intricate postprocessors, or any other functionality you may need, you can include parts of literal JavaScript between production rules by surrounding it with `@{% ... %}`:
+
+    @{% var makeCowWithString = require('./cow.js') %}
+    cow -> "moo" {% function(d) {makeCowWithString(d[0]); } %}
 
 Using a parser
 --------------
