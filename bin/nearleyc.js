@@ -38,9 +38,11 @@ var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 var language = require('../lib/nearley-language.js');
 var parser = new nearley.Parser(language.rules, language.start);
 
+var generate = require('../lib/generate.js');
+
 input
     .pipe(new StreamWrapper(parser))
 	.on('finish', function() {
 		var c = Compile(parser.results[0], opts);
-        output.write(c);
+        output.write(generate(c, opts.export));
 	});
