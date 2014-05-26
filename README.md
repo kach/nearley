@@ -1,12 +1,12 @@
-                                             oooo                        
-                                             `888                        
-    ooo. .oo.    .ooooo.   .oooo.   oooo d8b  888   .ooooo.  oooo    ooo 
+                                             oooo
+                                             `888
+    ooo. .oo.    .ooooo.   .oooo.   oooo d8b  888   .ooooo.  oooo    ooo
     `888P"Y88b  d88' `88b `P  )88b  `888""8P  888  d88' `88b  `88.  .8'  
-     888   888  888ooo888  .oP"888   888      888  888ooo888   `88..8'   
-     888   888  888    .o d8(  888   888      888  888    .o    `888'    
-    o888o o888o `Y8bod8P' `Y888""8o d888b    o888o `Y8bod8P'     .8'     
-                                                             .o..P'      
-                                                             `Y8P'       
+     888   888  888ooo888  .oP"888   888      888  888ooo888   `88..8'
+     888   888  888    .o d8(  888   888      888  888    .o    `888'
+    o888o o888o `Y8bod8P' `Y888""8o d888b    o888o `Y8bod8P'     .8'
+                                                             .o..P'
+                                                             `Y8P'
 
 
 nearley
@@ -94,3 +94,16 @@ The incremental feeding design is inspired so that you can parse data from strea
         p.feed(prompt_user("... "));
     }
     console.log(p.results);
+
+Catching errors
+---------------
+
+If there are no possible parsings, nearley will throw an error whose `offset` property is the index of the offending token.
+
+    try {
+        p.feed("1 + 2 + gorgonzola");
+    } catch(parseError) {
+        console.log(
+            "Error at character " + parseError.offset
+        ); // "Error at character 8"
+    }
