@@ -36,7 +36,7 @@ Making a Parser
 
 A parser consists of several *nonterminals*, which are just various constructions. A nonterminal is made up of a series of either nonterminals or strings (enclose strings in "double quotes", and use backslash escaping like in JSON).
 
-Anything beyond a `#` to the end of a line is ignored as a comment.
+Anything from a `#` to the end of a line is ignored as a comment.
 
 The following grammar matches a number, a plus sign, and another number:
 
@@ -56,7 +56,7 @@ Each meaning (called a *production rule*) can have a postprocessing function, th
         }
     %}
 
-`data` is an array whose elements match the nonterminals in order.
+`data` is an array whose elements match the nonterminals in order. The postprocessor `id` returns the first token in the match (literally `function(data) {data[0];}`).
 
 The **epsilon rule** is the empty rule that matches nothing. The constant `null` is the epsilon rule, so:
 
