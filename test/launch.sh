@@ -5,3 +5,7 @@ date > test/profile.log
 echo "Running profiles...";
 node test/profile.js >> test/profile.log;
 echo "Done running profiles.";
+
+echo "Testing exponential whitespace bug..."
+time bin/nearleyc.js test/indentation.ne > /dev/null
+echo "Done with all tests."
