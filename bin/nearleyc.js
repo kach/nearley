@@ -35,9 +35,7 @@ var opts = nomnom
 var input = opts.file ? fs.createReadStream(opts.file) : process.stdin;
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
-var Parser = require('../lib/nearley-language-bootstrapped.js');
-var parser = new Parser();
-
+var parser = new require('../lib/nearley-language-bootstrapped.js')();
 var generate = require('../lib/generate.js');
 
 input
