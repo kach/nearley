@@ -13,7 +13,7 @@ expression+ -> completeexpression
              | expression+ whit? "|" whit? completeexpression  {% function(d) { return d[0].concat([d[4]]); } %}
 
 completeexpression -> expr  {% function(d) { return {tokens: d[0]}; } %}
-                    | expr whit? js  {% function(d) { return {tokens: d[0], postprocessor: d[2]}; } %}
+                    | expr whit? js  {% function(d) { return {tokens: d[0], postprocess: d[2]}; } %}
 
 expr -> word
       | string
