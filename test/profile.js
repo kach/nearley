@@ -12,7 +12,7 @@ function profile(n, type) {
 	for (var i=0; i<n; i++) {
 		test += "(";
 	}
-	test += "a";
+	test += "acowcowcowcowcowcowcowcowcow";
 	for (var i=0; i<n; i++) {
 		test += ")";
 	}
