@@ -30,7 +30,7 @@ string -> "\"" charset "\""  {% function(d) { return { literal: d[1].join("") };
 charset -> null
          | charset char  {% function(d) { return d[0].concat([d[1]]); } %}
 
-char -> [^ \\\\ \"]  {% function(d) { return d[0]; } %}  # not sure if i got this right new RegExp("[^ \\\\ \"]")
+char -> [^\\"]  {% function(d) { return d[0]; } %}
       | "\\" .  {% function(d) { return JSON.parse("\""+"\\"+d[1]+"\""); } %}
 
 charclass -> "."  {% function(d) { return new RegExp("."); } %}
