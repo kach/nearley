@@ -116,4 +116,4 @@ Clone, hack, PR. Tests live in `test/` and can be called with `npm test`. Make s
 
 Nearley is MIT licensed.
 
-A big thanks to Aria Stewart for helping structure nearley.
+A big thanks to Nathan Dinsmore for teaching me how to Earley, Aria Stewart for helping structure nearley into a mature module, and Robin Windels for bootstrapping the grammar.
