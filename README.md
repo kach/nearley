@@ -20,7 +20,7 @@ nearley uses the [Earley parsing algorithm](earley.md) to parse complex data str
 
 Why?
 ----
-nearley lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, I use a single set of definitions. Unlike PEG.js, this parser handles **left recursion** gracefully and warns you if your parse is ambiguous.
+nearley lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, it uses a single set of definitions. Unlike PEG.js, this parser handles **left recursion** gracefully and warns you if your parse is ambiguous.
 
 How?
 ----
@@ -107,3 +107,13 @@ If there are no possible parsings, nearley will throw an error whose `offset` pr
             "Error at character " + parseError.offset
         ); // "Error at character 8"
     }
+
+
+Contributing
+------------
+
+Clone, hack, PR. Tests live in `test/` and can be called with `npm test`. Make sure you read `test/profile.log` after tests run, and that nothing has died (parsing is tricky, and small changes can kill efficiency).
+
+Nearley is MIT licensed.
+
+A big thanks to Aria Stewart for helping structure nearley.
