@@ -23,7 +23,7 @@ var opts = nomnom
 		default: "module.exports"
 	})
 	.option('version', {
-		abbr: '-v',
+		abbr: 'v',
 		flag: true,
 		help: "Print version and exit",
 		callback: function() {
