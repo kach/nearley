@@ -21,7 +21,7 @@ nearley uses the [Earley parsing algorithm](earley.md) to parse complex data str
 Why do I care?
 --------------
 
-nearley can parse what other JS parse engines cannot, because it uses a different algorithm. The Earley algorithm is *general*, which means it can handle *any* grammar you can define in BNF.
+nearley can parse what other JS parse engines cannot, because it uses a different algorithm. The Earley algorithm is *general*, which means it can handle *any* grammar you can define in BNF. In fact, the nearley syntax is written in *itself* (this is called bootstrapping).
 
 PEGjs and Jison are recursive-descent based, and so they will choke on a lot of grammars, in particular [left recursive ones](http://en.wikipedia.org/wiki/Left_recursion).
 
