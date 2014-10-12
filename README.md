@@ -14,16 +14,21 @@ nearley
 
 Simple parsing for node.js.
 
-What?
------
-nearley uses the [Earley parsing algorithm](earley.md) to parse complex data structures easily.
+What is nearley?
+----------------
+nearley uses the [Earley parsing algorithm](earley.md) to parse complex data structures easily. nearley is über-fast and really powerful. It can parse anything you throw at it.
 
-Why?
-----
-nearley lets you define grammars in a **simple format**. Unlike Jison's tokenizer-and-parser approach, it uses a single set of definitions. Unlike PEG.js, this parser handles **left recursion** gracefully and warns you if your parse is ambiguous.
+Why do I care?
+--------------
 
-How?
-----
+nearley can parse what other JS parse engines cannot, because it uses a different algorithm. The Earley algorithm is *general*, which means it can handle *any* grammar you can define in BNF.
+
+PEGjs and Jison are recursive-descent based, and so they will choke on a lot of grammars, in particular [left recursive ones](http://en.wikipedia.org/wiki/Left_recursion).
+
+nearley also has capabilities to catch errors gracefully, and detect ambiguous grammars (grammars that can be parsed in multiple ways).
+
+Installation and Usage
+----------------------
 To compile a parser, use the `nearleyc` command:
 
     npm install -g nearley
@@ -31,32 +36,38 @@ To compile a parser, use the `nearleyc` command:
 
 Run `nearleyc --help` for more options.
 
-Making a Parser
----------------
+Parser specification
+--------------------
 
-A parser consists of several *nonterminals*, which are just various constructions. A nonterminal is made up of a series of either nonterminals or strings (enclose strings in "double quotes", and use backslash escaping like in JSON).
+A parser consists of several *nonterminals*, which are constructions in a language. A nonterminal is made up of a series of either other nonterminals or strings. In nearley, you define a nonterminal by giving its name and its expansions.
 
-Anything from a `#` to the end of a line is ignored as a comment.
+The following grammar matches a number, a plus sign, and another number (anything from a `#` to the end of a line is ignored as a comment):
 
-The following grammar matches a number, a plus sign, and another number:
+    expression -> number "+" number # pretend `number` is defined elsewhere
 
-    expression -> number "+" number
+The first nonterminal you define is the one that the parser tries to parse. Define other helpers below it.
 
-The first nonterminal you define is the one that the parser tries to parse.
+A nonterminal can have multiple expansions, separated by pipes (`|`):
 
-A nonterminal can have multiple meanings, separated by pipes (`|`):
+    expression ->
+          number "+" number
+        | number "-" number
+        | number "*" number
+        | number "/" number
 
-    expression -> number "+" number   |   number "-" number
+### Postprocessors
 
 Each meaning (called a *production rule*) can have a postprocessing function, that can format the data in a way that you would like:
 
     expression -> number "+" number {%
         function (data) {
-            return data[0] + data[2]; // the sum of the two numbers
+            return ["sum", data[0], data[2]];
         }
     %}
 
 `data` is an array whose elements match the nonterminals in order. The postprocessor `id` returns the first token in the match (literally `function(data) {data[0];}`).
+
+### Epsilon rules
 
 The **epsilon rule** is the empty rule that matches nothing. The constant `null` is the epsilon rule, so:
 
@@ -65,10 +76,13 @@ The **epsilon rule** is the empty rule that matches nothing. The constant `null`
 
 will match 0 or more `cow`s in a row.
 
+### Charsets
+
 You can use valid RegExp charsets in a rule:
 
     not_a_letter -> [^a-zA-Z]
 
+### Other
 
 For more intricate postprocessors, or any other functionality you may need, you can include parts of literal JavaScript between production rules by surrounding it with `@{% ... %}`:
 
@@ -83,7 +97,7 @@ A `Parser` object exposes the following simple API:
     var Parser = require("parser.js");
     var p = new Parser();
     p.feed("1+1");
-    // p.results --> [ 2 ]
+    // p.results --> [ ["sum", "1", "1"] ]
 
 The `Parser` object can be fed data in parts with `.feed(data)`. You can then find an array of parsings with the `.results` property. If `results` is empty, then there are no parsings. If `results` contains multiple values, then that combination is ambiguous.
 
@@ -95,17 +109,21 @@ The incremental feeding design is inspired so that you can parse data from strea
     }
     console.log(p.results);
 
+Examples
+--------
+You can read [the calculator example](examples/calculator/arithmetic.ne) to get a feel for the syntax.
+
 Catching errors
 ---------------
 
 If there are no possible parsings, nearley will throw an error whose `offset` property is the index of the offending token.
 
     try {
-        p.feed("1 + 2 + gorgonzola");
+        p.feed("1+gorgonzola");
     } catch(parseError) {
         console.log(
             "Error at character " + parseError.offset
-        ); // "Error at character 8"
+        ); // "Error at character 2"
     }
 
 
