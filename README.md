@@ -82,12 +82,16 @@ You can use valid RegExp charsets in a rule:
 
     not_a_letter -> [^a-zA-Z]
 
+The `.` character can be used to represent "any character".
+
 ### Other
 
 For more intricate postprocessors, or any other functionality you may need, you can include parts of literal JavaScript between production rules by surrounding it with `@{% ... %}`:
 
     @{% var makeCowWithString = require('./cow.js') %}
     cow -> "moo" {% function(d) {makeCowWithString(d[0]); } %}
+
+Note that it doesn't matter where you define these; they all get hoisted to the top of the generated code.
 
 Using a parser
 --------------
