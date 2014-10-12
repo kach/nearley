@@ -60,12 +60,14 @@ A nonterminal can have multiple expansions, separated by pipes (`|`):
 Each meaning (called a *production rule*) can have a postprocessing function, that can format the data in a way that you would like:
 
     expression -> number "+" number {%
-        function (data) {
+        function (data, location) {
             return ["sum", data[0], data[2]];
         }
     %}
 
 `data` is an array whose elements match the nonterminals in order. The postprocessor `id` returns the first token in the match (literally `function(data) {data[0];}`).
+
+`location` is the index at which that rule was found. Retaining this information in a syntax tree is useful if you're writing an interpreter and want to give fancy error messages for runtime errors. (This feature is **experimental**.)
 
 ### Epsilon rules
 
