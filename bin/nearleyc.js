@@ -19,7 +19,7 @@ var opts = nomnom
 	.option('export', {
 		abbr: 'e',
 		help: "Variable to set the parser to",
-		default: "module.exports"
+		default: "grammar"
 	})
 	.option('version', {
 		abbr: 'v',
