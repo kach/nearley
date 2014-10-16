@@ -1,4 +1,6 @@
+echo "Building nearley..."
 ./bin/nearleyc.js ./lib/nearley-language-bootstrapped.ne -o grammar.tmp
+echo "Deleting temp file..."
 mv grammar.tmp ./lib/nearley-language-bootstrapped.js
-
-npm test
+echo "Running tests..."
+test/launch.sh

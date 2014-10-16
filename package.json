@@ -15,7 +15,7 @@
     "compiler"
   ],
   "scripts": {
-    "test": "sh test/launch.sh"
+    "test": "npm install && sh build.sh"
   },
   "author": "Hardmath123",
   "contributors": [

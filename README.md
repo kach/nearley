@@ -36,6 +36,19 @@ To compile a parser, use the `nearleyc` command:
 
 Run `nearleyc --help` for more options.
 
+To use a generated grammar in a node runtime, install `nearley` as a module:
+
+    npm install nearley
+    ...
+    var nearley = require("nearley");
+    var grammar = require("./my-generated-grammar.js");
+
+To use a generated grammar in a browser runtime, include `nearley.js` (you can hardlink from Github if you want):
+
+    <script src="https://raw.githubusercontent.com/Hardmath123/nearley/master/lib/nearley.js"></script>
+    <script src="my-generated-grammar.js"></script>
+
+
 Parser specification
 --------------------
 
@@ -102,7 +115,11 @@ nearley exposes the following API:
 
     var grammar = require("generated-code.js");
     var nearley = require("nearley");
+
+    // Create a Parser object from our grammar.
     var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
+
+    // Parse something
     p.feed("1+1");
     // p.results --> [ ["sum", "1", "1"] ]
 
