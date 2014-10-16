@@ -1,4 +1,5 @@
-var parser = require('./parens.js');
+var nearley = require('../lib/nearley.js');
+var parserGrammar = require('./parens.js');
 function nspace(n) {
 	var out = "";
 	for (var i=0; i<n; i++) {
@@ -18,7 +19,7 @@ function profile(n, type) {
 	}
 	var starttime = process.hrtime();
 	var startmemory = process.memoryUsage().heapUsed;
-	var p = new parser().feed(test);
+	var p = new nearley.Parser(parserGrammar.ParserRules, parserGrammar.ParserStart).feed(test);
 	console.assert(p.results[0]);
 	switch (type) {
 	case "TIME":

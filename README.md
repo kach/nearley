@@ -98,10 +98,11 @@ Note that it doesn't matter where you define these; they all get hoisted to the 
 Using a parser
 --------------
 
-A `Parser` object exposes the following simple API:
+nearley exposes the following API:
 
-    var Parser = require("parser.js");
-    var p = new Parser();
+    var grammar = require("generated-code.js");
+    var nearley = require("nearley");
+    var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
     p.feed("1+1");
     // p.results --> [ ["sum", "1", "1"] ]
 
