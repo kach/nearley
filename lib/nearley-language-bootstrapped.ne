@@ -73,6 +73,14 @@ Rule.prototype.expandRule =
 var Compile = function (prog) {
     var outputRules = prog
         .filter( function (p) { return p.name; } )
+        .map(function(d) {
+                 return d.rules.map( function (r) {
+                                         return (new Rule(d.name, r.symbols, r.postprocess)).expandRule(); } )
+                            .reduce( function (rs, rest) { return rs.concat( rest ); },
+                                     []);
+             } )
+        .reduce( function (rs, rest) { return rs.concat( rest ); },
+                 [] )
         .reduce( function (rs, rest) { return rs.concat( rest ); },
                  [] );
     var body = prog.filter( function (p) { return p.body; } )
@@ -115,13 +123,7 @@ final -> whit? prog whit?  {% function(d) { return function (parserName) { retur
 prog -> prod  {% function(d) { return d[0]; } %}
       | prog whit prod  {% function(d) { return d[0].concat(d[2]); } %}
 
-prod -> word whit? "->" whit? expression+
-      {% function(d) {
-             return d[4].map( function (r) {
-                                  return (new Rule(d[0], r.symbols, r.postprocess)).expandRule(); } )
-                        .reduce( function (rs, rest) { return rs.concat( rest ); },
-                                 []);
-         } %}
+prod -> word whit? "->" whit? expression+ {% function (d) { return { name: d[0], rules: d[4] }; } %}
       | "@" whit? js  {% function(d) { return [{body: d[2]}]; } %}
 
 expression+ -> completeexpression
