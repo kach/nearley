@@ -3,7 +3,6 @@
 var fs = require('fs');
 var nearley = require('../lib/nearley.js');
 var nomnom = require('nomnom');
-var Compile = require('../lib/compile.js');
 var StreamWrapper = require('../lib/stream.js');
 
 var opts = nomnom
@@ -36,11 +35,9 @@ var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
 var parserGrammar = new require('../lib/nearley-language-bootstrapped.js');
 var parser = new nearley.Parser(parserGrammar.ParserRules, parserGrammar.ParserStart);
-var generate = require('../lib/generate.js');
 
 input
     .pipe(new StreamWrapper(parser))
 	.on('finish', function() {
-		var c = Compile(parser.results[0], opts);
-        output.write(generate(c, opts.export));
+		output.write(parser.results[0](opts.export));
 	});
