@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calculator!</title>
+        <script src="/lib/nearley.js"></script>
+        <script src="/examples/calculator/calc-grammar.js"></script>
+        <style type="text/css">
+            html, body {
+                margin: 0; padding: 0;
+                font-size: 14pt;
+                font-family: sans-serif;
+            }
+            #main {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 40em;
+            }
+            #input {
+                border: none;
+                border-bottom: 1px solid gray;
+                font-family: menlo, monaco, monospace;
+                font-size: 14pt;
+                text-align: center;
+                width: 20em;
+            }
+            input:focus {
+                outline: none;
+            }
+            a, a:visited {
+                color: #348;
+            }
+            a:hover {
+                color: #56a;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main">
+           Compute <input  id="input" autofocus type="text" placeholder="3+4*ln(e+pi^2)"></input> using nearley.
+
+           <p>Autofill:
+           <ul>
+            <li><a href="#" class="autofill">1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1</a>
+            <li><a href="#" class="autofill">1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1</a>
+           </ul>
+        </div>
+
+        <script>
+            window.addEventListener("load", function() {
+                var inp = document.getElementById("input");
+                
+                function evaluate() {
+                    inp.style.color = "inherit";
+                    var p = new nearley.Parser(arithmetic.ParserRules, arithmetic.ParserStart)
+                    try {
+                        p.feed(inp.value);
+                        if (!p.results[0]) {
+                            throw new Error();
+                        }
+                        inp.value = p.results[0];
+                    } catch(e) {
+                        inp.value = "Syntax or math or something error.";
+                        inp.style.color = "red";
+                    }
+                }
+                inp.addEventListener("change", evaluate, false);
+                inp.addEventListener("keydown", function() {
+                    inp.style.color = "inherit";
+                }, false);
+
+                function fill(str) {
+                    return function() {
+                        inp.value = str;
+                        evaluate();
+                    }
+                }
+
+                [].forEach.call(document.getElementsByClassName("autofill"), function(el) {
+                    el.addEventListener("click", fill(el.innerText), false);
+                });
+            }, false);
+        </script>
+    </body>
+</html>

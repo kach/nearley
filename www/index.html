@@ -2,7 +2,12 @@
 <html>
     <head>
         <title>nearley</title>
-        <link rel="stylesheet" type="text/css" href="main.css"/>
+        <link rel="stylesheet" type="text/css" href="/www/main.css"/>
+        <script charset="utf-8" src="/lib/nearley.js"></script>
+        <script charset="utf-8" src="/lib/compile.js"></script>
+        <script charset="utf-8" src="/lib/generate.js"></script>
+        <script charset="utf-8" src="/lib/nearley-language-bootstrapped.js"></script>
+        <script charset="utf-8" src="/www/main.js"></script>
     </head>
     <body>
         <div id="main" class="center">
@@ -21,6 +26,13 @@
             <p>Excited? <a href="https://github.com/Hardmath123/nearley">Get started on Github</a>.
 
             <h2>Try nearley</h2>
+            
+            Build a grammar here&hellip;
+            <textarea id="grammar-input">a -> a "1" | "1"</textarea>
+
+            Enter some test input here&hellip;
+            <textarea id="test-input">111</textarea>
+            <button id="compile-grammar">Make me a grammar!</button>
         </div>
     </body>
 </html>
