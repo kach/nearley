@@ -26,13 +26,13 @@ body {
 }
 
 #main a {
-    color: #259;
+    color: #559;
 }
 #main a:visited {
-    color: #259;
+    color: #559;
 }
 #main a:hover {
-    text-decoration: none;
+    color: #259;
 }
 
 #main textarea {
