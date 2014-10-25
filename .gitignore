@@ -4,3 +4,6 @@ node_modules/*
 test/profile.log
 test/parens.js
 *.swp
+*.ps1
+*.cmd
+*.bat
