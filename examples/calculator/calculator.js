@@ -1,7 +1,7 @@
 // This is an example of how to use a nearley-made grammar.
 var PROMPT = "> ";
 var nearley = require("../../lib/nearley.js");
-var grammar = require("./calc-grammar.js");
+var grammar = require("./grammar.js");
 
 // This is where the action is.
 function runmath(s) {

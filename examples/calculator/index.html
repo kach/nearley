@@ -3,17 +3,26 @@
     <head>
         <title>Calculator!</title>
         <script src="/lib/nearley.js"></script>
-        <script src="/examples/calculator/calc-grammar.js"></script>
+        <script src="/examples/calculator/grammar.js"></script>
         <style type="text/css">
             html, body {
                 margin: 0; padding: 0;
                 font-size: 14pt;
                 font-family: sans-serif;
+                height: 100%;
             }
             #main {
                 margin-left: auto;
                 margin-right: auto;
                 max-width: 40em;
+                text-align: center;
+                height: 100%;
+                display: table;
+            }
+            .vertically-centered {
+                display: table-cell;
+                height: 100%;
+                vertical-align: middle;
             }
             #input {
                 border: none;
@@ -21,7 +30,7 @@
                 font-family: menlo, monaco, monospace;
                 font-size: 14pt;
                 text-align: center;
-                width: 20em;
+                width: 30em;
             }
             input:focus {
                 outline: none;
@@ -32,17 +41,24 @@
             a:hover {
                 color: #56a;
             }
+
+            #help {
+                color: #888;
+                font-size: 0.7em;
+            }
+            #info {
+                color: #888;
+                font-size: 0.8em;
+            }
         </style>
     </head>
     <body>
         <div id="main">
-           Compute <input  id="input" autofocus type="text" placeholder="3+4*ln(e+pi^2)"></input> using nearley.
-
-           <p>Autofill:
-           <ul>
-            <li><a href="#" class="autofill">1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1</a>
-            <li><a href="#" class="autofill">1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1^1</a>
-           </ul>
+           <div class="vertically-centered">
+               <input  id="input" autofocus type="text" placeholder="3+4*ln(e+pi^2)"></input><br/>
+               <span id="help">Enter an expression and hit &lt;enter&gt;.</span><br/>
+               <span id="info">Made with <a href="http://github.com/Hardmath123/nearley">nearley</a>.</span>
+           </div>
         </div>
 
         <script>
@@ -57,28 +73,21 @@
                         if (!p.results[0]) {
                             throw new Error();
                         }
-                        inp.value = p.results[0];
+                        if (isNaN(p.results[0]) || p.results[0] === Infinity) {
+                            throw new Error();
+                        }
+                        inp.value = p.results[0].toString();
                     } catch(e) {
-                        inp.value = "Syntax or math or something error.";
+                        inp.value = "[error]";
                         inp.style.color = "red";
+                        inp.select();
                     }
                 }
                 inp.addEventListener("change", evaluate, false);
                 inp.addEventListener("keydown", function() {
                     inp.style.color = "inherit";
                 }, false);
-
-                function fill(str) {
-                    return function() {
-                        inp.value = str;
-                        evaluate();
-                    }
-                }
-
-                [].forEach.call(document.getElementsByClassName("autofill"), function(el) {
-                    el.addEventListener("click", fill(el.innerText), false);
-                });
-            }, false);
-        </script>
+            });
+    </script>
     </body>
 </html>
