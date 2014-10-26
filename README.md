@@ -9,7 +9,7 @@
                                                              `Y8P'
 
 
-nearley
+[nearley](http://hardmath123.github.io/nearley/)
 ==============
 
 Simple parsing for node.js.
@@ -135,7 +135,7 @@ The incremental feeding design is inspired so that you can parse data from strea
 
 Examples
 --------
-You can read [the calculator example](examples/calculator/arithmetic.ne) to get a feel for the syntax.
+You can read [the calculator example](examples/calculator/arithmetic.ne) to get a feel for the syntax (see it live [http://hardmath123.github.io/nearley/examples/calculator/](here)).
 
 Catching errors
 ---------------
