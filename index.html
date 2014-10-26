@@ -1,1 +1,38 @@
-www/index.html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>nearley</title>
+        <link rel="stylesheet" type="text/css" href="www/main.css"/>
+        <script charset="utf-8" src="lib/nearley.js"></script>
+        <script charset="utf-8" src="lib/compile.js"></script>
+        <script charset="utf-8" src="lib/generate.js"></script>
+        <script charset="utf-8" src="lib/nearley-language-bootstrapped.js"></script>
+        <script charset="utf-8" src="www/main.js"></script>
+    </head>
+    <body>
+        <div id="main" class="center">
+            <h1>nearley<span style="color: #559;">.js</span></h1>
+
+            <p><strong>Parsers</strong> turn strings of characters into meaningful data structures (like a JSON object!). <strong>nearley</strong> is a <strong>fast</strong>, <strong>robust</strong>, and <strong>modern</strong> parser generator for JavaScript. You'll love it because:
+            
+            <ul>
+                <li>It is the first JS parser to use the <strong>Earley</strong> algorithm (insert your own &lsquo;early bird&rsquo; pun here). It lives happily in <strong>node</strong>, but doesn't mind the <strong>browser</strong>.
+                <li>It processes <strong>left recursion</strong> without choking. In fact, nearley will parse anything you throw at it without complaining or going into a <s>sulk</s> infinite loop.
+                <li>It handles <strong>ambiguous grammars</strong> gracefully. Ambiguous grammars can be parsed in multiple ways: instead of getting confused, nearley gives you all the parsings (in a deterministic order!).
+                <li>It allows for debugging with generous <strong>error detection</strong>. When it catches a parse-time error, nearley tells you what went wrong.
+                <li>It is powerful enough to be <strong>bootstrapped</strong>. That means nearley uses nearley to compile parts of nearley. <em>nearleyception</em>.
+            </ul>
+
+            <p>Excited? <a href="https://github.com/Hardmath123/nearley">Get started on Github</a>. Or visit the <a href="examples/calculator/">calculator demo</a> for more action.
+
+            <h2>Try nearley</h2>
+            
+            Build a grammar here&hellip;
+            <textarea id="grammar-input">a -&gt; a "1" | "1"</textarea>
+
+            Enter some test input here&hellip;
+            <textarea id="test-input">111</textarea>
+            <button id="compile-grammar">Make me a grammar!</button>
+        </div>
+    </body>
+</html>
