@@ -58,7 +58,7 @@ var writeTable = function (writeStream, parser) {
                 } )
         } )
     writeStream.write("\n\nParse results: \n");
-    writeStream.write(JSON.stringify(parser.results, null, 1));
+    writeStream.write(require('util').inspect(parser.results, {colors: true, depth: null}));
     writeStream.write("\n");
 }
 
