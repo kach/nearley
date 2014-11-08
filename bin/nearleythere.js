@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-/* eg. node bin/nearleythere.js ../examples/js/left.js --input "....."
-   or, node bin/nearleythere.js ../examples/js/AycockHorspool.js --input "aa" 
+/* eg. node bin/nearleythere.js examples/js/left.js --input "....."
+   or, node bin/nearleythere.js examples/js/AycockHorspool.js --input "aa" 
  */
 
 var fs = require('fs');
@@ -40,7 +40,7 @@ var opts = nomnom
 
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
-var grammar = new require(opts.file);
+var grammar = new require(require('path').resolve(opts.file));
 var parser = new nearley.Parser(grammar.ParserRules, opts.start ? opts.start : grammar.ParserStart);
 
 var writeTable = function (writeStream, parser) {
