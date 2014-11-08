@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-/* eg. node bin\nearleythere.js ..\examples\js\left.js --input "....."
-   or, node bin\nearleythere.js ..\examples\js\AycockHorspool.js --input "aa" 
+/* eg. node bin/nearleythere.js ../examples/js/left.js --input "....."
+   or, node bin/nearleythere.js ../examples/js/AycockHorspool.js --input "aa" 
  */
 
 var fs = require('fs');
