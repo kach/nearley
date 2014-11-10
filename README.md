@@ -99,6 +99,16 @@ You can use valid RegExp charsets in a rule:
 
 The `.` character can be used to represent "any character".
 
+### EBNF
+
+nearley compiles some higher-level constructs into BNF for you. In particular, the `*`, `?`, and `+` operators from Regexes (or EBNF) are available as shown:
+
+    batman -> "na":* "batman" # nananana...nanabatman
+
+You can also use capture groups with parentheses. Its contents can be anything that a rule can have:
+
+    banana -> "ba" ("na" {% id %} | "NA" {% id %}):+
+
 ### Other
 
 For more intricate postprocessors, or any other functionality you may need, you can include parts of literal JavaScript between production rules by surrounding it with `@{% ... %}`:
