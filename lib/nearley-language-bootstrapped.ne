@@ -15,12 +15,14 @@ expression+ -> completeexpression
 completeexpression -> expr  {% function(d) { return {tokens: d[0]}; } %}
                     | expr whit? js  {% function(d) { return {tokens: d[0], postprocess: d[2]}; } %}
 
-expr -> word
-      | string
-      | charclass
-      | expr whit word  {% function(d){ return d[0].concat([d[2]]); } %}
-      | expr whit string  {% function(d){ return d[0].concat([d[2]]); } %}
-      | expr whit charclass  {% function(d) { return d[0].concat([d[2]]); } %}
+expr_member ->
+      word {% id %}
+    | string {% id %}
+    | charclass {% id %}
+    | "(" whit? expression+ whit? ")" {% function(d) {return {'subexpression': d[2]} ;} %}
+
+expr -> expr_member
+      | expr whit expr_member  {% function(d){ return d[0].concat([d[2]]); } %}
 
 word -> [\w\?\+]  {% function(d){ return d[0]; } %}
       | word [\w\?\+]  {% function(d){ return d[0]+d[1]; } %}

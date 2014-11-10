@@ -8,4 +8,4 @@ var f = 0;
 
 p -> "(" p ")" | [a-z] q {% function(d) {return 1;} %}
 q -> null
-    | q "cow"
+    | q ("c" "ow")
