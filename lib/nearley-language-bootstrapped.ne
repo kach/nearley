@@ -20,6 +20,9 @@ expr_member ->
     | string {% id %}
     | charclass {% id %}
     | "(" whit? expression+ whit? ")" {% function(d) {return {'subexpression': d[2]} ;} %}
+    | expr_member whit? ebnf_modifier {% function(d) {return {'ebnf': d[0], 'modifier': d[2]}; } %}
+
+ebnf_modifier -> ":+" {% id %} | ":*" {% id %} | ":?" {% id %}
 
 expr -> expr_member
       | expr whit expr_member  {% function(d){ return d[0].concat([d[2]]); } %}
