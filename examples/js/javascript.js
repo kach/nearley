@@ -612,6 +612,15 @@ var grammar = {
         return d.join('');
     }},
     {"name": "comment", "symbols": [" string$103", " ebnf$104"]},
+    {"name": " string$105", "symbols": [{"literal":"/"}, {"literal":"*"}], "postprocess": function joiner(d) {
+        return d.join('');
+    }},
+    {"name": " string$108", "symbols": [{"literal":"*"}, {"literal":"/"}], "postprocess": function joiner(d) {
+        return d.join('');
+    }},
+    {"name": "comment", "symbols": [" string$105", " ebnf$106", " ebnf$107", " string$108"]},
+    {"name": "commentchars", "symbols": [{"literal":"*"}, /[^/]/]},
+    {"name": "commentchars", "symbols": [/[^*]/, /./]},
     {"name": " ebnf$5", "symbols": ["PropertyNameAndValueList"], "postprocess": id},
     {"name": " ebnf$5", "symbols": [], "postprocess": function(d) {return null;}},
     {"name": " ebnf$102", "symbols": ["comment"], "postprocess": id},
@@ -619,7 +628,13 @@ var grammar = {
     {"name": " ebnf$104", "symbols": []},
     {"name": " ebnf$104", "symbols": [/[^\n]/, " ebnf$104"], "postprocess": function (d) {
                     return [d[0]].concat(d[1]);
-                }}
+                }},
+    {"name": " ebnf$106", "symbols": ["commentchars"]},
+    {"name": " ebnf$106", "symbols": ["commentchars", " ebnf$106"], "postprocess": function (d) {
+                    return [d[0]].concat(d[1]);
+                }},
+    {"name": " ebnf$107", "symbols": [/./], "postprocess": id},
+    {"name": " ebnf$107", "symbols": [], "postprocess": function(d) {return null;}}
 ]
   , ParserStart: "Program"
 }
