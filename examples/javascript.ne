@@ -1,9 +1,11 @@
-Program -> _ SourceElements _ {% function(d){function flatten(list) {return list.reduce(function (acc, val) {return acc.concat((val && val.constructor === Array) ? flatten(val) : val);}, []);}return flatten(d).join("");} %}
-       | _ {% function() {return '';} %}
+Program -> _ SourceElements _
+#{% function(d){function flatten(list) {return list.reduce(function (acc, val) {return acc.concat((val && val.constructor === Array) ? flatten(val) : val);}, []);}return flatten(d).join("");} %}
+       | _
+#{% function() {return '';} %}
 
 #need better here
-SourceElements  -> SourceElements _ SourceElement 
-                 | SourceElement 
+SourceElements  -> SourceElement
+    | SourceElements _ SourceElement
 
 PrimaryExpression   ->  "this" 
     | ObjectLiteral 
@@ -18,20 +20,20 @@ Literal -> Number | HexNumber | String | Null | Regex
 # ==========
 
 Null -> "null" 
-RegexInside -> [^/\n] 
-            | [^/\n] RegexInside 
-Regex -> Regex [gim] 
-        #In reality it might only be one of each flag, no repeats allowed
-        | "/" RegexInside "/" 
-        | "//" 
- 
-HexNumber ->    "0x" [a-f0-9A-F] 
-    | HexNumber [a-f0-9A-F] 
+RegexInside -> [^/\n]:+
+
+#Regex -> Regex [gim] 
+#        #In reality it might only be one of each flag, no repeats allowed
+#        | "/" RegexInside "/" 
+#        | "//" 
+
+Regex -> "/" RegexInside:? "/" [gim]:+
+
+HexNumber ->    "0x" [a-f0-9A-F]:+
     
 Number -> _number 
  
-_posint ->  [0-9] 
-    | _posint [0-9] 
+_posint ->  [0-9]:+
  
 _int ->     "-" _posint 
     | _posint 
@@ -298,6 +300,11 @@ JScriptVarDeclarationList   ->  JScriptVarDeclaration
 JScriptVarDeclaration   ->  Identifier  _ ":"  _ Identifier_Name  _ Initialiser 
                         | Identifier  _ ":"  _ Identifier_Name  
 #insertSemiColon    ->  java code 
+
+
+
+
+
 #Whitespace
 _ -> null   
     | __ 
@@ -305,12 +312,12 @@ __ -> [\f\r\t\v\u00A0\u2028\u2029 ]
     | newline 
     | [\f\r\t\v\u00A0\u2028\u2029 ] __ 
     | newline __ 
-#\f\r\t\v\u00A0\u2028\u2029 ] matches whitespace that is not a newline
+
 newline -> comment:? "\n" 
 comment -> "//" [^\n]:* 
-#multiline line comments don't work for now, the bits below are for them
         | "/*" commentchars:+ .:? "*/" 
 commentchars -> "*" [^/] 
-            | [^*] . 
-#Based off of http://tomcopeland.blogs.com/EcmaScript.html (heavy modifications were done, thats just the general framework)
+            | [^*] .
 
+
+#Based off of http://tomcopeland.blogs.com/EcmaScript.html (heavy modifications were done, thats just the general framework)
