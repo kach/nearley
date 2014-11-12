@@ -60,8 +60,7 @@ _stringdouble -> null
 _stringdoublechar -> [^\\"] 
     | "\\"  [^\n] 
 
-Identifier_Name -> [a-zA-Z_$] 
-                | Identifier_Name [a-zA-Z0-9_$] 
+Identifier_Name -> [a-zA-Z_$] [a-zA-Z0-9_$]:*
 # a bit jury rigged.... 
 Identifier  ->  Identifier_Name 
 ArrayLiteral    ->  "["  _ "]" 
