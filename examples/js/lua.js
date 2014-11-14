@@ -1,132 +1,133 @@
 // Generated automatically by nearley
-(function () {
+
+// http://github.com/Hardmath123/nearley(function () {
 function id(x) {return x[0]; }
 var grammar = {
     ParserRules: [
     {"name": "Chunk", "symbols": ["_", "Block", "_"]},
     {"name": "Block", "symbols": ["_Block"]},
     {"name": "Block", "symbols": ["_Block", "__", "ReturnStat"]},
-    {"name": "ReturnStat$1", "symbols": [{"literal":"r"}, {"literal":"e"}, {"literal":"t"}, {"literal":"u"}, {"literal":"r"}, {"literal":"n"}], "postprocess": function joiner(d) {
+    {"name": " string$1", "symbols": [{"literal":"r"}, {"literal":"e"}, {"literal":"t"}, {"literal":"u"}, {"literal":"r"}, {"literal":"n"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "ReturnStat", "symbols": ["ReturnStat$1", "__", "ExpList"]},
-    {"name": "ReturnStat$2", "symbols": [{"literal":"r"}, {"literal":"e"}, {"literal":"t"}, {"literal":"u"}, {"literal":"r"}, {"literal":"n"}], "postprocess": function joiner(d) {
+    {"name": "ReturnStat", "symbols": [" string$1", "__", "ExpList"]},
+    {"name": " string$2", "symbols": [{"literal":"r"}, {"literal":"e"}, {"literal":"t"}, {"literal":"u"}, {"literal":"r"}, {"literal":"n"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "ReturnStat", "symbols": ["ReturnStat$2", "__", "ExpList", "_", {"literal":";"}]},
+    {"name": "ReturnStat", "symbols": [" string$2", "__", "ExpList", "_", {"literal":";"}]},
     {"name": "_Block", "symbols": ["Statement"]},
     {"name": "_Block", "symbols": ["_Block", "_", {"literal":";"}, "_", "Statement"]},
     {"name": "_Block", "symbols": ["_Block", "__", "Statement"]},
     {"name": "Statement", "symbols": ["VarList", "_", {"literal":"="}, "_", "ExpList"]},
     {"name": "Statement", "symbols": ["FunctionCall"]},
     {"name": "Statement", "symbols": ["Label"]},
-    {"name": "Statement$3", "symbols": [{"literal":"b"}, {"literal":"r"}, {"literal":"e"}, {"literal":"a"}, {"literal":"k"}], "postprocess": function joiner(d) {
+    {"name": " string$3", "symbols": [{"literal":"b"}, {"literal":"r"}, {"literal":"e"}, {"literal":"a"}, {"literal":"k"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement", "symbols": ["Statement$3"]},
-    {"name": "Statement$4", "symbols": [{"literal":"g"}, {"literal":"o"}, {"literal":"t"}, {"literal":"o"}], "postprocess": function joiner(d) {
+    {"name": "Statement", "symbols": [" string$3"]},
+    {"name": " string$4", "symbols": [{"literal":"g"}, {"literal":"o"}, {"literal":"t"}, {"literal":"o"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement", "symbols": ["Statement$4", "__", "Name"]},
-    {"name": "Statement$5", "symbols": [{"literal":"d"}, {"literal":"o"}], "postprocess": function joiner(d) {
+    {"name": "Statement", "symbols": [" string$4", "__", "Name"]},
+    {"name": " string$5", "symbols": [{"literal":"d"}, {"literal":"o"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement$6", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
+    {"name": " string$6", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement", "symbols": ["Statement$5", "__", "Block", "__", "Statement$6"]},
-    {"name": "Statement$7", "symbols": [{"literal":"w"}, {"literal":"h"}, {"literal":"i"}, {"literal":"l"}, {"literal":"e"}], "postprocess": function joiner(d) {
+    {"name": "Statement", "symbols": [" string$5", "__", "Block", "__", " string$6"]},
+    {"name": " string$7", "symbols": [{"literal":"w"}, {"literal":"h"}, {"literal":"i"}, {"literal":"l"}, {"literal":"e"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement$8", "symbols": [{"literal":"d"}, {"literal":"o"}], "postprocess": function joiner(d) {
+    {"name": " string$8", "symbols": [{"literal":"d"}, {"literal":"o"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement$9", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
+    {"name": " string$9", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement", "symbols": ["Statement$7", "__", "Exp", "__", "Statement$8", "__", "Block", "__", "Statement$9"]},
-    {"name": "Statement$10", "symbols": [{"literal":"r"}, {"literal":"e"}, {"literal":"p"}, {"literal":"e"}, {"literal":"a"}, {"literal":"t"}], "postprocess": function joiner(d) {
+    {"name": "Statement", "symbols": [" string$7", "__", "Exp", "__", " string$8", "__", "Block", "__", " string$9"]},
+    {"name": " string$10", "symbols": [{"literal":"r"}, {"literal":"e"}, {"literal":"p"}, {"literal":"e"}, {"literal":"a"}, {"literal":"t"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement$11", "symbols": [{"literal":"u"}, {"literal":"n"}, {"literal":"t"}, {"literal":"i"}, {"literal":"l"}], "postprocess": function joiner(d) {
+    {"name": " string$11", "symbols": [{"literal":"u"}, {"literal":"n"}, {"literal":"t"}, {"literal":"i"}, {"literal":"l"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement", "symbols": ["Statement$10", "__", "Block", "__", "Statement$11", "__", "Exp"]},
-    {"name": "Statement$12", "symbols": [{"literal":"i"}, {"literal":"f"}], "postprocess": function joiner(d) {
+    {"name": "Statement", "symbols": [" string$10", "__", "Block", "__", " string$11", "__", "Exp"]},
+    {"name": " string$12", "symbols": [{"literal":"i"}, {"literal":"f"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement$13", "symbols": [{"literal":"t"}, {"literal":"h"}, {"literal":"e"}, {"literal":"n"}], "postprocess": function joiner(d) {
+    {"name": " string$13", "symbols": [{"literal":"t"}, {"literal":"h"}, {"literal":"e"}, {"literal":"n"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement", "symbols": ["Statement$12", "__", "Exp", "__", "Statement$13", "__", "Block", "__", "Else"]},
-    {"name": "Statement$14", "symbols": [{"literal":"f"}, {"literal":"o"}, {"literal":"r"}], "postprocess": function joiner(d) {
+    {"name": "Statement", "symbols": [" string$12", "__", "Exp", "__", " string$13", "__", "Block", "__", "Else"]},
+    {"name": " string$14", "symbols": [{"literal":"f"}, {"literal":"o"}, {"literal":"r"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement$15", "symbols": [{"literal":"i"}, {"literal":"n"}], "postprocess": function joiner(d) {
+    {"name": " string$15", "symbols": [{"literal":"i"}, {"literal":"n"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement$16", "symbols": [{"literal":"d"}, {"literal":"o"}], "postprocess": function joiner(d) {
+    {"name": " string$16", "symbols": [{"literal":"d"}, {"literal":"o"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement$17", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
+    {"name": " string$17", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement", "symbols": ["Statement$14", "__", "NameList", "__", "Statement$15", "__", "ExpList", "__", "Statement$16", "__", "Block", "__", "Statement$17"]},
-    {"name": "Statement$18", "symbols": [{"literal":"f"}, {"literal":"u"}, {"literal":"n"}, {"literal":"c"}, {"literal":"t"}, {"literal":"i"}, {"literal":"o"}, {"literal":"n"}], "postprocess": function joiner(d) {
+    {"name": "Statement", "symbols": [" string$14", "__", "NameList", "__", " string$15", "__", "ExpList", "__", " string$16", "__", "Block", "__", " string$17"]},
+    {"name": " string$18", "symbols": [{"literal":"f"}, {"literal":"u"}, {"literal":"n"}, {"literal":"c"}, {"literal":"t"}, {"literal":"i"}, {"literal":"o"}, {"literal":"n"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement", "symbols": ["Statement$18", "__", "FunctionName", "_", "FunctionBody"]},
-    {"name": "Statement$19", "symbols": [{"literal":"l"}, {"literal":"o"}, {"literal":"c"}, {"literal":"a"}, {"literal":"l"}], "postprocess": function joiner(d) {
+    {"name": "Statement", "symbols": [" string$18", "__", "FunctionName", "_", "FunctionBody"]},
+    {"name": " string$19", "symbols": [{"literal":"l"}, {"literal":"o"}, {"literal":"c"}, {"literal":"a"}, {"literal":"l"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement$20", "symbols": [{"literal":"f"}, {"literal":"u"}, {"literal":"n"}, {"literal":"c"}, {"literal":"t"}, {"literal":"i"}, {"literal":"o"}, {"literal":"n"}], "postprocess": function joiner(d) {
+    {"name": " string$20", "symbols": [{"literal":"f"}, {"literal":"u"}, {"literal":"n"}, {"literal":"c"}, {"literal":"t"}, {"literal":"i"}, {"literal":"o"}, {"literal":"n"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement", "symbols": ["Statement$19", "__", "Statement$20", "__", "Name", "__", "FunctionBody"]},
-    {"name": "Statement$21", "symbols": [{"literal":"l"}, {"literal":"o"}, {"literal":"c"}, {"literal":"a"}, {"literal":"l"}], "postprocess": function joiner(d) {
+    {"name": "Statement", "symbols": [" string$19", "__", " string$20", "__", "Name", "__", "FunctionBody"]},
+    {"name": " string$21", "symbols": [{"literal":"l"}, {"literal":"o"}, {"literal":"c"}, {"literal":"a"}, {"literal":"l"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement", "symbols": ["Statement$21", "__", "NameList"]},
-    {"name": "Statement$22", "symbols": [{"literal":"l"}, {"literal":"o"}, {"literal":"c"}, {"literal":"a"}, {"literal":"l"}], "postprocess": function joiner(d) {
+    {"name": "Statement", "symbols": [" string$21", "__", "NameList"]},
+    {"name": " string$22", "symbols": [{"literal":"l"}, {"literal":"o"}, {"literal":"c"}, {"literal":"a"}, {"literal":"l"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Statement", "symbols": ["Statement$22", "__", "NameList", "_", {"literal":"="}, "_", "ExpList"]},
-    {"name": "Else$23", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
+    {"name": "Statement", "symbols": [" string$22", "__", "NameList", "_", {"literal":"="}, "_", "ExpList"]},
+    {"name": " string$23", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Else", "symbols": ["Else$23"]},
-    {"name": "Else$24", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
+    {"name": "Else", "symbols": [" string$23"]},
+    {"name": " string$24", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Else", "symbols": ["_Else", "__", "Else$24"]},
-    {"name": "Else$25", "symbols": [{"literal":"e"}, {"literal":"l"}, {"literal":"s"}, {"literal":"e"}], "postprocess": function joiner(d) {
+    {"name": "Else", "symbols": ["_Else", "__", " string$24"]},
+    {"name": " string$25", "symbols": [{"literal":"e"}, {"literal":"l"}, {"literal":"s"}, {"literal":"e"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Else$26", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
+    {"name": " string$26", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Else", "symbols": ["_Else", "__", "Else$25", "__", "Block", "__", "Else$26"]},
-    {"name": "_Else$27", "symbols": [{"literal":"e"}, {"literal":"l"}, {"literal":"s"}, {"literal":"e"}, {"literal":"i"}, {"literal":"f"}], "postprocess": function joiner(d) {
+    {"name": "Else", "symbols": ["_Else", "__", " string$25", "__", "Block", "__", " string$26"]},
+    {"name": " string$27", "symbols": [{"literal":"e"}, {"literal":"l"}, {"literal":"s"}, {"literal":"e"}, {"literal":"i"}, {"literal":"f"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "_Else$28", "symbols": [{"literal":"t"}, {"literal":"h"}, {"literal":"e"}, {"literal":"n"}], "postprocess": function joiner(d) {
+    {"name": " string$28", "symbols": [{"literal":"t"}, {"literal":"h"}, {"literal":"e"}, {"literal":"n"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "_Else", "symbols": ["_Else$27", "__", "Exp", "__", "_Else$28", "__", "Block"]},
-    {"name": "_Else$29", "symbols": [{"literal":"e"}, {"literal":"l"}, {"literal":"s"}, {"literal":"e"}, {"literal":"i"}, {"literal":"f"}], "postprocess": function joiner(d) {
+    {"name": "_Else", "symbols": [" string$27", "__", "Exp", "__", " string$28", "__", "Block"]},
+    {"name": " string$29", "symbols": [{"literal":"e"}, {"literal":"l"}, {"literal":"s"}, {"literal":"e"}, {"literal":"i"}, {"literal":"f"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "_Else$30", "symbols": [{"literal":"t"}, {"literal":"h"}, {"literal":"e"}, {"literal":"n"}], "postprocess": function joiner(d) {
+    {"name": " string$30", "symbols": [{"literal":"t"}, {"literal":"h"}, {"literal":"e"}, {"literal":"n"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "_Else", "symbols": ["_Else", "__", "_Else$29", "__", "Exp", "__", "_Else$30", "__", "Block"]},
-    {"name": "Label$31", "symbols": [{"literal":":"}, {"literal":":"}], "postprocess": function joiner(d) {
+    {"name": "_Else", "symbols": ["_Else", "__", " string$29", "__", "Exp", "__", " string$30", "__", "Block"]},
+    {"name": " string$31", "symbols": [{"literal":":"}, {"literal":":"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Label$32", "symbols": [{"literal":":"}, {"literal":":"}], "postprocess": function joiner(d) {
+    {"name": " string$32", "symbols": [{"literal":":"}, {"literal":":"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Label", "symbols": ["Label$31", "_", "Name", "_", "Label$32"]},
+    {"name": "Label", "symbols": [" string$31", "_", "Name", "_", " string$32"]},
     {"name": "Name", "symbols": ["_name"], "postprocess":  function(d) {return {'name': d[0]}; } },
     {"name": "_name", "symbols": [/[a-zA-Z_]/], "postprocess":  id },
     {"name": "_name", "symbols": ["_name", /[\w_]/], "postprocess":  function(d) {return d[0] + d[1]; } },
@@ -151,27 +152,27 @@ var grammar = {
     {"name": "FunctionName", "symbols": ["_functionname", {"literal":":"}, "Name"]},
     {"name": "_functionname", "symbols": ["Name"]},
     {"name": "_functionname", "symbols": ["FunctionName", "_", {"literal":"."}, "_", "FunctionName"]},
-    {"name": "FunctionDef$33", "symbols": [{"literal":"f"}, {"literal":"u"}, {"literal":"n"}, {"literal":"c"}, {"literal":"t"}, {"literal":"i"}, {"literal":"o"}, {"literal":"n"}], "postprocess": function joiner(d) {
+    {"name": " string$33", "symbols": [{"literal":"f"}, {"literal":"u"}, {"literal":"n"}, {"literal":"c"}, {"literal":"t"}, {"literal":"i"}, {"literal":"o"}, {"literal":"n"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "FunctionDef", "symbols": ["FunctionDef$33", "__", "FunctionBody"]},
-    {"name": "FunctionBody$34", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
+    {"name": "FunctionDef", "symbols": [" string$33", "__", "FunctionBody"]},
+    {"name": " string$34", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "FunctionBody", "symbols": [{"literal":"("}, "_", "ParamList", "_", {"literal":")"}, "__", "Block", "__", "FunctionBody$34"]},
-    {"name": "FunctionBody$35", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
+    {"name": "FunctionBody", "symbols": [{"literal":"("}, "_", "ParamList", "_", {"literal":")"}, "__", "Block", "__", " string$34"]},
+    {"name": " string$35", "symbols": [{"literal":"e"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "FunctionBody", "symbols": [{"literal":"("}, "_", {"literal":")"}, "__", "Block", "__", "FunctionBody$35"]},
+    {"name": "FunctionBody", "symbols": [{"literal":"("}, "_", {"literal":")"}, "__", "Block", "__", " string$35"]},
     {"name": "ParamList", "symbols": ["NameList"]},
-    {"name": "ParamList$36", "symbols": [{"literal":"."}, {"literal":"."}, {"literal":"."}], "postprocess": function joiner(d) {
+    {"name": " string$36", "symbols": [{"literal":"."}, {"literal":"."}, {"literal":"."}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "ParamList", "symbols": ["NameList", "_", {"literal":","}, "_", "ParamList$36"]},
-    {"name": "ParamList$37", "symbols": [{"literal":"."}, {"literal":"."}, {"literal":"."}], "postprocess": function joiner(d) {
+    {"name": "ParamList", "symbols": ["NameList", "_", {"literal":","}, "_", " string$36"]},
+    {"name": " string$37", "symbols": [{"literal":"."}, {"literal":"."}, {"literal":"."}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "ParamList", "symbols": ["ParamList$37"]},
+    {"name": "ParamList", "symbols": [" string$37"]},
     {"name": "TableConstructor", "symbols": [{"literal":"{"}, "_", "FieldList", "_", {"literal":"}"}]},
     {"name": "TableConstructor", "symbols": [{"literal":"{"}, "_", {"literal":"}"}]},
     {"name": "FieldList", "symbols": ["_FieldList"]},
@@ -186,39 +187,39 @@ var grammar = {
     {"name": "Exp", "symbols": ["Binop"], "postprocess":  id },
     {"name": "Binop", "symbols": ["ExpOr"], "postprocess":  id },
     {"name": "Parenthesized", "symbols": [{"literal":"("}, "Exp", {"literal":")"}]},
-    {"name": "ExpOr$38", "symbols": [{"literal":"o"}, {"literal":"r"}], "postprocess": function joiner(d) {
+    {"name": " string$38", "symbols": [{"literal":"o"}, {"literal":"r"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "ExpOr", "symbols": ["ExpOr", "__", "ExpOr$38", "__", "ExpAnd"]},
+    {"name": "ExpOr", "symbols": ["ExpOr", "__", " string$38", "__", "ExpAnd"]},
     {"name": "ExpOr", "symbols": ["ExpAnd"], "postprocess":  id },
-    {"name": "ExpAnd$39", "symbols": [{"literal":"a"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
+    {"name": " string$39", "symbols": [{"literal":"a"}, {"literal":"n"}, {"literal":"d"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "ExpAnd", "symbols": ["ExpAnd", "__", "ExpAnd$39", "__", "ExpComparison"]},
+    {"name": "ExpAnd", "symbols": ["ExpAnd", "__", " string$39", "__", "ExpComparison"]},
     {"name": "ExpAnd", "symbols": ["ExpComparison"], "postprocess":  id },
     {"name": "ExpComparison", "symbols": ["ExpComparison", "_", {"literal":"<"}, "_", "ExpConcatenation"]},
     {"name": "ExpComparison", "symbols": ["ExpComparison", "_", {"literal":">"}, "_", "ExpConcatenation"]},
-    {"name": "ExpComparison$40", "symbols": [{"literal":"<"}, {"literal":"="}], "postprocess": function joiner(d) {
+    {"name": " string$40", "symbols": [{"literal":"<"}, {"literal":"="}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "ExpComparison", "symbols": ["ExpComparison", "_", "ExpComparison$40", "_", "ExpConcatenation"]},
-    {"name": "ExpComparison$41", "symbols": [{"literal":">"}, {"literal":"="}], "postprocess": function joiner(d) {
+    {"name": "ExpComparison", "symbols": ["ExpComparison", "_", " string$40", "_", "ExpConcatenation"]},
+    {"name": " string$41", "symbols": [{"literal":">"}, {"literal":"="}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "ExpComparison", "symbols": ["ExpComparison", "_", "ExpComparison$41", "_", "ExpConcatenation"]},
-    {"name": "ExpComparison$42", "symbols": [{"literal":"~"}, {"literal":"="}], "postprocess": function joiner(d) {
+    {"name": "ExpComparison", "symbols": ["ExpComparison", "_", " string$41", "_", "ExpConcatenation"]},
+    {"name": " string$42", "symbols": [{"literal":"~"}, {"literal":"="}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "ExpComparison", "symbols": ["ExpComparison", "_", "ExpComparison$42", "_", "ExpConcatenation"]},
-    {"name": "ExpComparison$43", "symbols": [{"literal":"="}, {"literal":"="}], "postprocess": function joiner(d) {
+    {"name": "ExpComparison", "symbols": ["ExpComparison", "_", " string$42", "_", "ExpConcatenation"]},
+    {"name": " string$43", "symbols": [{"literal":"="}, {"literal":"="}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "ExpComparison", "symbols": ["ExpComparison", "_", "ExpComparison$43", "_", "ExpConcatenation"]},
+    {"name": "ExpComparison", "symbols": ["ExpComparison", "_", " string$43", "_", "ExpConcatenation"]},
     {"name": "ExpComparison", "symbols": ["ExpConcatenation"]},
-    {"name": "ExpConcatenation$44", "symbols": [{"literal":"."}, {"literal":"."}], "postprocess": function joiner(d) {
+    {"name": " string$44", "symbols": [{"literal":"."}, {"literal":"."}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "ExpConcatenation", "symbols": ["ExpSum", "_", "ExpConcatenation$44", "_", "ExpConcatenation"]},
+    {"name": "ExpConcatenation", "symbols": ["ExpSum", "_", " string$44", "_", "ExpConcatenation"]},
     {"name": "ExpConcatenation", "symbols": ["ExpSum"]},
     {"name": "ExpSum", "symbols": ["ExpSum", "_", {"literal":"+"}, "_", "ExpProduct"]},
     {"name": "ExpSum", "symbols": ["ExpSum", "_", {"literal":"-"}, "_", "ExpProduct"]},
@@ -227,10 +228,10 @@ var grammar = {
     {"name": "ExpProduct", "symbols": ["ExpProduct", "_", {"literal":"/"}, "_", "ExpUnary"]},
     {"name": "ExpProduct", "symbols": ["ExpProduct", "_", {"literal":"%"}, "_", "ExpUnary"]},
     {"name": "ExpProduct", "symbols": ["ExpUnary"]},
-    {"name": "ExpUnary$45", "symbols": [{"literal":"n"}, {"literal":"o"}, {"literal":"t"}], "postprocess": function joiner(d) {
+    {"name": " string$45", "symbols": [{"literal":"n"}, {"literal":"o"}, {"literal":"t"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "ExpUnary", "symbols": ["ExpUnary$45", "__", "ExpPow"]},
+    {"name": "ExpUnary", "symbols": [" string$45", "__", "ExpPow"]},
     {"name": "ExpUnary", "symbols": [{"literal":"#"}, "_", "ExpPow"]},
     {"name": "ExpUnary", "symbols": [{"literal":"-"}, "_", "ExpPow"]},
     {"name": "ExpUnary", "symbols": ["ExpPow"]},
@@ -239,18 +240,18 @@ var grammar = {
     {"name": "Atom", "symbols": ["Number"]},
     {"name": "Atom", "symbols": ["String"]},
     {"name": "Atom", "symbols": ["PrefixExp"]},
-    {"name": "Atom$46", "symbols": [{"literal":"n"}, {"literal":"i"}, {"literal":"l"}], "postprocess": function joiner(d) {
+    {"name": " string$46", "symbols": [{"literal":"n"}, {"literal":"i"}, {"literal":"l"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Atom", "symbols": ["Atom$46"]},
-    {"name": "Atom$47", "symbols": [{"literal":"f"}, {"literal":"a"}, {"literal":"l"}, {"literal":"s"}, {"literal":"e"}], "postprocess": function joiner(d) {
+    {"name": "Atom", "symbols": [" string$46"]},
+    {"name": " string$47", "symbols": [{"literal":"f"}, {"literal":"a"}, {"literal":"l"}, {"literal":"s"}, {"literal":"e"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Atom", "symbols": ["Atom$47"]},
-    {"name": "Atom$48", "symbols": [{"literal":"t"}, {"literal":"r"}, {"literal":"u"}, {"literal":"e"}], "postprocess": function joiner(d) {
+    {"name": "Atom", "symbols": [" string$47"]},
+    {"name": " string$48", "symbols": [{"literal":"t"}, {"literal":"r"}, {"literal":"u"}, {"literal":"e"}], "postprocess": function joiner(d) {
         return d.join('');
     }},
-    {"name": "Atom", "symbols": ["Atom$48"]},
+    {"name": "Atom", "symbols": [" string$48"]},
     {"name": "Atom", "symbols": ["Parenthesized"]},
     {"name": "Atom", "symbols": ["FunctionDef"]},
     {"name": "Atom", "symbols": ["TableConstructor"]},
@@ -275,7 +276,7 @@ var grammar = {
 ]
   , ParserStart: "Chunk"
 }
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
    module.exports = grammar;
 } else {
    window.grammar = grammar;

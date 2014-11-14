@@ -1,5 +1,6 @@
 // Generated automatically by nearley
-(function () {
+
+// http://github.com/Hardmath123/nearley(function () {
 function id(x) {return x[0]; }
 var grammar = {
     ParserRules: [

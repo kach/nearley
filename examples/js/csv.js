@@ -1,5 +1,6 @@
 // Generated automatically by nearley
-(function () {
+
+// http://github.com/Hardmath123/nearley(function () {
 function id(x) {return x[0]; }
 
 var appendItem = function (a, b) { return function (d) { return d[a].concat([d[b]]); } };
@@ -29,7 +30,7 @@ var grammar = {
 ]
   , ParserStart: "file"
 }
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
    module.exports = grammar;
 } else {
    window.grammar = grammar;
