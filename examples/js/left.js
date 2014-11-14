@@ -1,4 +1,5 @@
 // Generated automatically by nearley
+// http://github.com/Hardmath123/nearley
 (function () {
 function id(x) {return x[0]; }
 var grammar = {
@@ -8,7 +9,7 @@ var grammar = {
 ]
   , ParserStart: "c"
 }
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
    module.exports = grammar;
 } else {
    window.grammar = grammar;
