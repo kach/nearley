@@ -20,14 +20,15 @@ Literal -> Number | HexNumber | String | Null | Regex
 # ==========
 
 Null -> "null" 
-RegexInside -> [^/\n]:+
+RegexInside -> ([^/\n]|"[" [^\]]:* "/" [^\]]:* "]"):*
+                
 
 #Regex -> Regex [gim] 
 #        #In reality it might only be one of each flag, no repeats allowed
 #        | "/" RegexInside "/" 
 #        | "//" 
 
-Regex -> "/" RegexInside:? "/" [gim]:+
+Regex -> "/" RegexInside "/" [gim]:*
 
 HexNumber ->    "0x" [a-f0-9A-F]:+
     
@@ -59,14 +60,14 @@ _stringdouble -> null
 _stringdoublechar -> [^\\"] 
     | "\\"  [^\n] 
 
-Identifier_Name -> [a-zA-Z_$] 
-                | Identifier_Name [a-zA-Z0-9_] 
+Identifier_Name -> [a-zA-Z_$] [a-zA-Z0-9_$]:*
+# a bit jury rigged.... 
 Identifier  ->  Identifier_Name 
 ArrayLiteral    ->  "["  _ "]" 
-                | "["   _ Elision  _ "]"  
-                | "["  _ ElementList  _ Elision  _ "]"  
-                | "["  _ ElementList  _ "]" 
-ElementList     ->  Elision:?  _ AssignmentExpression  
+                | "["   _ Elision  _ "]" 
+                | "["  _ ElementList  _ Elision  _ "]" 
+                | "["  _ ElementList  _ "]"
+ElementList     ->  (Elision  _):? AssignmentExpression 
                 | ElementList  _ Elision  _ AssignmentExpression  
 Elision     ->  "," 
             | Elision  _ "," 
@@ -99,7 +100,7 @@ CallExpression  ->  MemberExpression  _ Arguments
 CallExpressionForIn     ->  MemberExpressionForIn  _ Arguments 
                     | CallExpressionForIn  _ CallExpressionPart 
 CallExpressionPart  ->  Arguments 
-    |   "["  _ Expression  _ "]" 
+    |   "["  _ Expression  _ "]"  
     |   "."  _ Identifier  
 #hmmm spaces may matter here
 Arguments   -> "("  _ ")"    
@@ -198,11 +199,13 @@ Statement   ->  Block
     |   ThrowStatement 
     |   TryStatement 
 
-Block   ->  "{"  _ "}" 
-        | "{"   _ BlockList   _ "}" 
-BlockList  -> Expression 
-            | StatementList 
-            | StatementList Expression 
+Block   ->  "{"   _ (BlockList   _):? "}" 
+        #is this a proper statement?
+BlockList  -> ReturnEnd
+            | StatementList (_ ReturnEnd):?
+            #no ending with a expression, does this even matter?
+            
+            #should space be mandatory?
 StatementList   ->  Statement  
                 | StatementList  _ Statement 
 VariableStatement   ->  "var"  _ VariableDeclarationList  _ ";"  
@@ -249,10 +252,8 @@ BreakStatement  ->  "break"  _ Identifier   _ ";"
                     |   "break"  _ Identifier _ newline 
                     |   "break"   _ ";" 
                     #identifier or Expression
-ReturnStatement     ->  "return"  _ Expression   _ ";"  
-                    |   "return"  _ Expression _ newline 
-                    |   "return"   _ ";" 
-                    |   "return"   _ newline 
+ReturnStatement     ->  "return"  _ Expression   _ (";"|newline)
+ReturnEnd -> "return"  (_ Expression):? 
 WithStatement   ->  "with"  _ "("  _ Expression  _ ")"  _ Statement 
 SwitchStatement     ->  "switch"  _ "("  _ Expression  _ ")"  _ CaseBlock 
 
@@ -275,13 +276,10 @@ TryStatement    ->  "try"  _ Block  _ Finally
 Catch   ->  "catch"  _ "("  _ Identifier  _ ")"  _ Block 
 Finally     ->  "finally"  _ Block 
 #there used to be a seperate thing for function decleration
-FunctionExpression  ->  "function"  __ Identifier  _ "("  _ FormalParameterList?  _ ")"   _ FunctionBody 
-                    | "function"   _ "("  _ FormalParameterList?  _ ")"   _ FunctionBody 
-FormalParameterList? -> FormalParameterList | null 
+FunctionExpression  ->  "function"  __ Identifier  _ "("  _ (FormalParameterList  _):? ")"   _ Block
+                    | "function"   _ "("  _ (FormalParameterList  _):? ")"   _ Block
 FormalParameterList     ->  Identifier  
                         | FormalParameterList  _ ","  _ Identifier 
-FunctionBody    ->  "{"  _ SourceElements   _ "}" 
-                | "{"  _ "}" 
 #Program    ->  ( SourceElements )? <EOF> 
 #Program    ->  Program SourceElement 
 #             |SourceElement 
@@ -316,6 +314,7 @@ __ -> [\f\r\t\v\u00A0\u2028\u2029 ]
 newline -> comment:? "\n" 
 comment -> "//" [^\n]:* 
         | "/*" commentchars:+ .:? "*/" 
+        
 commentchars -> "*" [^/] 
             | [^*] .
 
