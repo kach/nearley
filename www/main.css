@@ -1,9 +1,18 @@
 body {
-    font-family: sans-serif;
-    font-size: 13pt;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 15pt;
     margin: 0px;
     padding: 0px;
-    border-top: 5px #559 solid;
+    border-top: 0.1em #559 solid;
+}
+
+h1, h2 {
+    font-weight: 100;
+    letter-spacing: 0.5em;
+    text-align: center;
+    margin-top: 3em;
+    margin-bottom: 3em;
 }
 
 .center {
@@ -20,24 +29,26 @@ body {
     text-indent: 2em;
 }
 
-#main p, li {
-    line-height: 1.5em;
+#main p, ul, ol {
+    line-height: 2em;
     margin-bottom: 1em;
 }
 
 #main a {
+    text-decoration: none;
     color: #559;
 }
 #main a:visited {
     color: #559;
 }
 #main a:hover {
+    text-decoration: underline;
     color: #259;
 }
 
 #main textarea {
     width: 100%;
-    height: 10em;
+    height: 20em;
     resize: none;
     margin-top: 5px;
     margin-bottom: 5px;
