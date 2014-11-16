@@ -73,7 +73,7 @@ A nonterminal can have multiple expansions, separated by pipes (`|`):
 Each meaning (called a *production rule*) can have a postprocessing function, that can format the data in a way that you would like:
 
     expression -> number "+" number {%
-        function (data, location) {
+        function (data, location, reject) {
             return ["sum", data[0], data[2]];
         }
     %}
@@ -81,6 +81,20 @@ Each meaning (called a *production rule*) can have a postprocessing function, th
 `data` is an array whose elements match the nonterminals in order. The postprocessor `id` returns the first token in the match (literally `function(data) {data[0];}`).
 
 `location` is the index at which that rule was found. Retaining this information in a syntax tree is useful if you're writing an interpreter and want to give fancy error messages for runtime errors. (This feature is **experimental**.)
+
+If, after examining the data, you want to force the rule to fail anyway, return `reject`. An example of this is allowing a variable name to be a word that is not a string:
+
+```
+variable -> word {%
+    function(data, location, reject) {
+        if (KEYWORDS.indexOf(data[0]) === -1) {
+            return data[0]; // It's a valid name 
+        } else {
+            return reject;  // It's a keyword, so reject it
+        }
+    }
+%}
+```
 
 ### Epsilon rules
 
