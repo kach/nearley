@@ -63,3 +63,8 @@ h1, h2 {
 #main textarea:focus {
     outline: none;
 }
+
+
+#cy-viz {
+    width: 100%;
+}

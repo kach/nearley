@@ -2,13 +2,15 @@
 <html>
     <head>
         <title>nearley</title>
-        <link href='http://fonts.googleapis.com/css?family=Roboto,300,100,700'
+        <link href='http://fonts.googleapis.com/css?family=Roboto:300,700'
               rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="www/main.css"/>
         <script charset="utf-8" src="lib/nearley.js"></script>
         <script charset="utf-8" src="lib/compile.js"></script>
         <script charset="utf-8" src="lib/generate.js"></script>
         <script charset="utf-8" src="lib/nearley-language-bootstrapped.js"></script>
+
+        <script charset="utf-8" src="www/cytoscape.min.js"></script>
         <script charset="utf-8" src="www/main.js"></script>
     </head>
     <body>
@@ -61,6 +63,8 @@
             <textarea id="grammar-input">a -&gt; a "1" | "1"</textarea>
 
             <button id="compile-grammar">Make me a grammar!</button>
+
+            <div id="cy-viz"></div>
         </div>
     </body>
 </html>
