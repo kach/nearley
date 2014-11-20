@@ -56,9 +56,7 @@ A parser consists of several *nonterminals*, which are constructions in a langua
 
 The following grammar matches a number, a plus sign, and another number (anything from a `#` to the end of a line is ignored as a comment):
 
-    expression -> number "+" number # pretend `number` is defined elsewhere
-
-The first nonterminal you define is the one that the parser tries to parse. Define other helpers below it.
+    expression -> number "+" number
 
 A nonterminal can have multiple expansions, separated by pipes (`|`):
 
@@ -67,6 +65,8 @@ A nonterminal can have multiple expansions, separated by pipes (`|`):
         | number "-" number
         | number "*" number
         | number "/" number
+
+The parser tries to parse the first nonterminal that you define in a file. However, you can (and should!) introduce more nonterminals as "helpers". In this example, we would have to define the expansion of `number`.
 
 ### Postprocessors
 
@@ -157,9 +157,9 @@ The incremental feeding design is inspired so that you can parse data from strea
     }
     console.log(p.results);
 
-Examples
---------
-You can read [the calculator example](examples/calculator/arithmetic.ne) to get a feel for the syntax (see it live [here](http://hardmath123.github.io/nearley/examples/calculator/)).
+Still confused?
+---------------
+You can read [the calculator example](examples/calculator/arithmetic.ne) to get a feel for the syntax (see it live [here](http://hardmath123.github.io/nearley/examples/calculator/)). There are more sample grammars in the `/examples` directory. For larger examples,  we also have experimental parsers for **CSV**, **Lua**, and **JavaScript**.
 
 Catching errors
 ---------------
