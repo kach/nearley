@@ -5,6 +5,7 @@
         <link href='http://fonts.googleapis.com/css?family=Roboto:300,700'
               rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="www/main.css"/>
+        <!--
         <script charset="utf-8" src="lib/nearley.js"></script>
         <script charset="utf-8" src="lib/compile.js"></script>
         <script charset="utf-8" src="lib/generate.js"></script>
@@ -12,6 +13,7 @@
 
         <script charset="utf-8" src="www/cytoscape.min.js"></script>
         <script charset="utf-8" src="www/main.js"></script>
+        -->
     </head>
     <body>
         <a href="https://github.com/Hardmath123/nearley"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
@@ -25,42 +27,59 @@
             generator for JavaScript. You'll love it because:
             
             <ul>
-                <li>It is the first JS parser to use the
+                
+                <li>nearley is the first JS parser to use the
                 <strong>Earley</strong> algorithm (insert your own &lsquo;early
                 bird&rsquo; pun here). It lives happily in
                 <strong>node</strong>, but doesn't mind the
                 <strong>browser</strong>.
 
-                <li>It outputs <strong>small</strong> files, proportional to
-                the size of the grammar. And it comes with plenty of
+                <li>nearley outputs <strong>small</strong> files, proportional
+                to the size of the grammar. And it comes with plenty of
                 <strong>syntactic sugar</strong> to keep your source files
                 short. And sweet.
 
-                <li>It processes <strong>left recursion</strong> without
+                <li>nearley is built on an idiomatic <strong>streaming
+                API</strong>. You even have access to partial parses as you
+                feed it data.
+
+                <li>nearley processes <strong>left recursion</strong> without
                 choking. In fact, nearley will parse anything you throw at it
                 without complaining or going into a <s>sulk</s> infinite loop.
+            
+            </ul>
+            
+                <img src="http://imgs.xkcd.com/comics/future_self.png"/>
+                <div class="caption">Never again. &lt;3</div>
+            
+            <ul>
 
-                <li>It handles <strong>ambiguous grammars</strong> gracefully.
-                Ambiguous grammars can be parsed in multiple ways: instead of
-                getting confused, nearley gives you all the parsings (in a
-                deterministic order!).
+                <li>nearley handles <strong>ambiguous grammars</strong>
+                gracefully.  Ambiguous grammars can be parsed in multiple ways:
+                instead of getting confused, nearley gives you all the parsings
+                (in a deterministic order!).
 
-                <li>It allows for debugging with generous <strong>error
+                <li>nearley allows for debugging with generous <strong>error
                 detection</strong>. When it catches a parse-time error, nearley
-                tells you what went wrong.
+                tells you what went wrong and where.
 
-                <li>It is powerful enough to be <strong>bootstrapped</strong>.
-                That means nearley uses nearley to compile parts of nearley.
-                <em>nearleyception</em>.
+                <li>nearley is powerful enough to be
+                <strong>bootstrapped</strong>. That means nearley uses nearley
+                to compile parts of nearley. <em>nearleyception!</em>
+            
             </ul>
 
-            <p>Excited? <a href="https://github.com/Hardmath123/nearley">Get
-            started on Github</a>. Or visit the
-            <a href="examples/calculator/">calculator demo</a> for more action.
 
+            <p>Excited? Get started on
+            <a href="https://github.com/Hardmath123/nearley">Github</a>, visit
+            us on <a href="http://npmjs.org/package/nearley">npm</a>, or play
+            with the <a href="examples/calculator/">calculator demo</a> for
+            more action.
+            
+            <!--
             <h2>Try nearley</h2>
             
-            <p>Enter a nearley grammar here and press the button. Nearley will
+            <p>Enter a nearley grammar here and press the button. nearley will
             parse it into an AST and compile the AST into a JavaScript file.
             
             <br/><textarea id="grammar-input">a -&gt; a "1" | "1"</textarea>
@@ -68,6 +87,12 @@
             <button id="compile-grammar">Make me a grammar!</button>
 
             <div id="cy-viz"></div>
+            -->
+            <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a
+            href="http://hardmath123.github.io">Hardmath123</a> (<a
+            href="http://github.com/Hardmath123">Github</a>). You're welcome to
+            leave questions, comments, advice, or ideas as Github issues. And
+            feel free to fork nearley with your own experiments!</div>
         </div>
     </body>
 </html>

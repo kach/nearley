@@ -5,9 +5,11 @@ body {
     margin: 0px;
     padding: 0px;
     border-top: 0.1em #559 solid;
+    border-bottom: 0.1em #559 solid;
 }
 
 h1, h2 {
+    font-size: 1.6em;
     font-weight: 100;
     letter-spacing: 0.5em;
     text-align: center;
@@ -16,13 +18,13 @@ h1, h2 {
 }
 
 .center {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 2em;
+    padding-right: 2em;
     margin-left: auto;
     margin-right: auto;
 }
 #main {
-    max-width: 30em;
+    max-width: 40em;
 }
 
 #main p {
@@ -30,8 +32,24 @@ h1, h2 {
 }
 
 #main p, ul, ol {
-    line-height: 2em;
+    line-height: 2.5em;
     margin-bottom: 1em;
+}
+
+#main li {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+li {
+    list-style: none;
+    min-width: 10em;
+}
+li:before {
+    display: inline-block;
+    content: "\2014";
+    margin-left: -1.5em;
+    width: 1.5em;
 }
 
 #main a {
@@ -64,7 +82,26 @@ h1, h2 {
     outline: none;
 }
 
+#main img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
+img + .caption {
+    text-align: center;
+    font-size: 0.7em;
+    color: #aaa;
+}
 
+/*
 #cy-viz {
     width: 100%;
+}*/
+
+#footer {
+    margin-top: 10em;
+    color: #aaa;
+    font-size: 0.7em;
+    padding: 5em;
 }
