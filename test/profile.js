@@ -19,8 +19,6 @@ function profile(n, type) {
 	}
 	var starttime = process.hrtime();
 	var startmemory = process.memoryUsage().heapUsed;
-	console.log('okau');
-	console.log(parserGrammar);
 	var p = new nearley.Parser(parserGrammar.ParserRules, parserGrammar.ParserStart).feed(test);
 	console.assert(p.results[0]);
 	switch (type) {
