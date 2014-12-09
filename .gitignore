@@ -7,4 +7,3 @@ test/parens.js
 *.ps1
 *.cmd
 *.bat
-test/fuzzy-tester.js
