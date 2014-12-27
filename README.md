@@ -245,5 +245,8 @@ JavaScript parser with nearley and contributed ideas for EBNF support.
 Further reading
 ---------------
 
-- Read my [blog post](http://hardmath123.github.io/earley.html) to learn more about the algorithm.
-- Read about [Marpa](http://savage.net.au/Marpa.html) to learn more than you ever thought you wanted to know about parsing.
+- Read my [blog post](http://hardmath123.github.io/earley.html) to learn more
+  about the algorithm. 
+
+- Read about [Marpa](http://savage.net.au/Marpa.html) to
+  learn more than you ever thought you wanted to know about parsing.
