@@ -235,6 +235,16 @@ Clone, hack, PR. Tests live in `test/` and can be called with `npm test`. Make
 sure you read `test/profile.log` after tests run, and that nothing has died
 (parsing is tricky, and small changes can kill efficiency).
 
+If you're looking for something to do, here's a short list of things that would
+make me happy:
+
+- Optimize. There are still plenty of optimizations that an enterprising
+  JS-savant could implement. In particular, I haven't focused much on
+  optimizing the memory usage.
+- Implement Joop Leo's right-recursion algorithm.
+- Ports to other languages! `pearley` for Python and `cearley` for C would be
+  awesome.
+
 Nearley is MIT licensed.
 
 A big thanks to Nathan Dinsmore for teaching me how to Earley, Aria Stewart for
@@ -247,6 +257,5 @@ Further reading
 
 - Read my [blog post](http://hardmath123.github.io/earley.html) to learn more
   about the algorithm. 
-
 - Read about [Marpa](http://savage.net.au/Marpa.html) to
   learn more than you ever thought you wanted to know about parsing.
