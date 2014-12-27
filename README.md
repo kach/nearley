@@ -157,6 +157,14 @@ The incremental feeding design is inspired so that you can parse data from strea
     }
     console.log(p.results);
 
+Exploring a parser interactively
+--------------------------------
+
+The global install will provide `nearley-test`, a simple command-line tool you can use to inspect what a parser is doing. You input a generated `grammar.js` file, and then give it some input to test the parser against. `nearley-test` prints out the output if successful, and also gives you
+the complete parse table used by the algorithm. This is very helpful when you're testing a new parser.
+
+This was previously called `bin/nearleythere.js` and written by Robin.
+
 Still confused?
 ---------------
 You can read [the calculator example](examples/calculator/arithmetic.ne) to get a feel for the syntax (see it live [here](http://hardmath123.github.io/nearley/examples/calculator/)). There are more sample grammars in the `/examples` directory. For larger examples,  we also have experimental parsers for **CSV**, **Lua**, and **JavaScript**.
