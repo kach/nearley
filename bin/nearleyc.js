@@ -37,10 +37,12 @@ var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 var parserGrammar = new require('../lib/nearley-language-bootstrapped.js');
 var parser = new nearley.Parser(parserGrammar.ParserRules, parserGrammar.ParserStart);
 var generate = require('../lib/generate.js');
+var lint = require('../lib/lint.js');
 
 input
     .pipe(new StreamWrapper(parser))
 	.on('finish', function() {
 		var c = Compile(parser.results[0], opts);
+        lint(c, {'out': process.stderr});
         output.write(generate(c, opts.export));
 	});

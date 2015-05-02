@@ -4,6 +4,7 @@
   "description": "Simple Earley parsing for JS",
   "main": "lib/nearley.js",
   "dependencies": {
+    "cli-color": "^1.0.0",
     "nomnom": "~1.6.2"
   },
   "bin": {
