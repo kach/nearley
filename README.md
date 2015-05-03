@@ -63,8 +63,7 @@ Parser specification
 --------------------
 
 This is a basic overview of nearley syntax and usage. For an advanced
-styleguide, see [this blog
-post](http://hardmath123.github.io/nearley-tips.html).
+styleguide, see [this file](how-to-grammar-good.md).
 
 A parser consists of several *nonterminals*, which are constructions in a
 language. A nonterminal is made up of a series of either other nonterminals or
