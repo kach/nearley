@@ -1,7 +1,18 @@
-Program -> _ SourceElements _
-#{% function(d){function flatten(list) {return list.reduce(function (acc, val) {return acc.concat((val && val.constructor === Array) ? flatten(val) : val);}, []);}return flatten(d).join("");} %}
-       | _
-#{% function() {return '';} %}
+{% function flatten(x) {
+	if(! Array.isArray(x)){
+	    return x.toString();
+	} 
+	else {
+		return x.reduce(flatten_and_add, "")
+	}
+}
+
+function flatten_and_add(a,b){
+	return a+flatten(b)
+} %}
+
+Program -> _ SourceElements _ {% flatten %}      
+         | _ {% flatten %}
 
 #need better here
 SourceElements  -> SourceElement
