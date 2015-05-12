@@ -21,6 +21,11 @@ var opts = nomnom
         help: "Variable to set the parser to",
         default: "grammar"
     })
+    .option('nojs', {
+        flag: true,
+        default: false,
+        help: "Don't compile postprocessors (for testing)."
+    })
     .option('version', {
         abbr: 'v',
         flag: true,
