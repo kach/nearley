@@ -26,7 +26,8 @@ Intelligence](https://github.com/AI-course-TIN172-DIT410/shrdlite-course-project
 and [computational
 linguistics](https://wiki.eecs.yorku.ca/course_archive/2014-15/W/6339/useful_handouts)
 classes at universities, as well as [file format
-parsers](https://github.com/raymond-h/node-dmi) and [complete programming
+parsers](https://github.com/raymond-h/node-dmi), [Markup
+languages](https://github.com/bobbybee/uPresent) and [complete programming
 languages](https://github.com/bobbybee/carbon). It's an npm [staff
 pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 
