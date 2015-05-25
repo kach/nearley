@@ -13,6 +13,8 @@
 [nearley](http://nearley.js.org)
 ==============
 
+[![JS.ORG](https://img.shields.io/badge/js.org-nearley-ffb400.svg?style=flat-square)](http://js.org)
+
 Simple parsing for node.js.
 
 What is nearley?
