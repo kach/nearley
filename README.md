@@ -10,7 +10,7 @@
                                                   \/__/ 
 ```
 
-[nearley](http://hardmath123.github.io/nearley/)
+[nearley](http://nearley.js.org)
 ==============
 
 Simple parsing for node.js.
