@@ -23,8 +23,8 @@ nearley uses the Earley parsing algorithm to parse complex data structures
 easily. nearley is über-fast and really powerful. It can parse anything you
 throw at it.
 
-nearley is used by [Artificial
-Intelligence](https://github.com/AI-course-TIN172-DIT410/shrdlite-course-project)
+nearley is used by [artificial
+intelligence](https://github.com/AI-course-TIN172-DIT410/shrdlite-course-project)
 and [computational
 linguistics](https://wiki.eecs.yorku.ca/course_archive/2014-15/W/6339/useful_handouts)
 classes at universities, as well as [file format
