@@ -17,7 +17,8 @@
     "compiler"
   ],
   "scripts": {
-    "test": "npm install && sh build.sh"
+    "pretest": "npm install && sh build.sh",
+    "test": "sh test/unittests/build.sh && mocha test/unittests/**.js"
   },
   "author": "Hardmath123",
   "contributors": [
@@ -30,5 +31,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/hardmath123/nearley.git"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5"
   }
 }
