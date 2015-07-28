@@ -51,6 +51,7 @@ js -> "{" "%" jscode "%" "}"  {% function(d) { return d[2]; } %}
 
 jscode -> null  {% function() {return "";} %}
         | jscode [^%]  {% function(d) {return d[0] + d[1];} %}
+        | jscode "%" [^}] {% function(d) {return d[0] + d[1] + d[2]; } %}
 
 # Whitespace with a comment
 whit -> whitraw

@@ -10,4 +10,8 @@ cat test/profile.log
 
 echo "Testing exponential whitespace bug..."
 time bin/nearleyc.js test/indentation.ne > /dev/null
+
+echo "Testing percent bug..."
+bin/nearleyc.js test/percent.ne > /dev/null
+
 echo "Done with all tests."
