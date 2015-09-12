@@ -5,6 +5,7 @@
   "main": "lib/nearley.js",
   "dependencies": {
     "cli-color": "^1.0.0",
+    "ejs": "^2.3.4",
     "nomnom": "~1.6.2"
   },
   "bin": {
@@ -30,5 +31,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/hardmath123/nearley.git"
-  }
+  },
+  "devDependencies": {}
 }
