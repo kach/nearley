@@ -17,7 +17,8 @@
     "compiler"
   ],
   "scripts": {
-    "test": "npm install && sh build.sh"
+    "test": "npm install && sh build.sh",
+    "build": "browserify -s nearley lib/nearley.js > nearly.js"
   },
   "author": "Hardmath123",
   "contributors": [
@@ -30,5 +31,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/hardmath123/nearley.git"
+  },
+  "devDependencies": {
+    "browserify": "^11.1.0"
   }
 }
