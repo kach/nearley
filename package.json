@@ -17,6 +17,7 @@
     "compiler"
   ],
   "scripts": {
+    "bootstrap": "node bin/nearleyc.js lib/nearley-language-bootstrapped.ne >lib/nearley-language-bootstrapped.js.new && mv lib/nearley-language-bootstrapped.js{.new,}",
     "test": "npm install && sh build.sh"
   },
   "author": "Hardmath123",
