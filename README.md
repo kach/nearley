@@ -265,7 +265,8 @@ Nearley is MIT licensed.
 A big thanks to Nathan Dinsmore for teaching me how to Earley, Aria Stewart for
 helping structure nearley into a mature module, and Robin Windels for
 bootstrapping the grammar. Additionally, Jacob Edelman wrote an experimental
-JavaScript parser with nearley and contributed ideas for EBNF support.
+JavaScript parser with nearley and contributed ideas for EBNF support. Joshua
+T. Corbin refactored the compiler to be much, much prettier.
 
 Atom users can write nearley grammars with [this
 plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
