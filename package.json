@@ -1,6 +1,6 @@
 {
   "name": "nearley",
-  "version": "1.6.2",
+  "version": "1.7.0",
   "description": "Simple Earley parsing for JS",
   "main": "lib/nearley.js",
   "dependencies": {
@@ -25,7 +25,8 @@
     "Nathan Dinsmore",
     "Aria Stewart <aredridel@nbtsc.org>",
     "Robin Windels",
-    "Jacob Edelman"
+    "Jacob Edelman",
+    "Joshua T. Corbin"
   ],
   "license": "MIT",
   "repository": {
