@@ -8,6 +8,7 @@ prog -> prod  {% function(d) { return [d[0]]; } %}
 
 prod -> word whit? ("-"|"="):+ ">" whit? expression+  {% function(d) { return {name: d[0], rules: d[5]}; } %}
       | "@" whit? js  {% function(d) { return {body: d[2]}; } %}
+      | "@" word whit word  {% function(d) { return {config: d[1], value: d[3]}; } %}
 
 expression+ -> completeexpression
              | expression+ whit? "|" whit? completeexpression  {% function(d) { return d[0].concat([d[4]]); } %}
