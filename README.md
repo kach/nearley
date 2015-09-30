@@ -135,6 +135,10 @@ variable -> word {%
 %}
 ```
 
+You can write your postprocessors in CoffeeScript by adding `@preprocessor
+coffee` to the top of your file.  If you would like to support a different
+postprocessor language, feel free to file a PR!
+
 ### Epsilon rules
 
 The **epsilon rule** is the empty rule that matches nothing. The constant
@@ -266,7 +270,8 @@ A big thanks to Nathan Dinsmore for teaching me how to Earley, Aria Stewart for
 helping structure nearley into a mature module, and Robin Windels for
 bootstrapping the grammar. Additionally, Jacob Edelman wrote an experimental
 JavaScript parser with nearley and contributed ideas for EBNF support. Joshua
-T. Corbin refactored the compiler to be much, much prettier.
+T. Corbin refactored the compiler to be much, much prettier. Bojidar Marinov
+implemented postprocessors-in-other-languages.
 
 Atom users can write nearley grammars with [this
 plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
