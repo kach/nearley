@@ -169,7 +169,7 @@ that a rule can have:
 
     banana -> "ba" ("na" {% id %} | "NA" {% id %}):+
 
-### Other
+### Additional JS
 
 For more intricate postprocessors, or any other functionality you may need, you
 can include parts of literal JavaScript between production rules by surrounding
@@ -180,6 +180,24 @@ it with `@{% ... %}`:
 
 Note that it doesn't matter where you define these; they all get hoisted to the
 top of the generated code.
+
+### Importing
+
+You can include the content of other parser files:
+
+    @include "../misc/primitives.ne" # path relative to file being compiled
+    sum -> number "+" number
+
+There are also some built-in parsers whose contents you can include:
+
+    @builtin "cow.ne"
+    main -> cow:+
+
+See the `builtins/` directory for an index of this library. Contributions are
+welcome here!
+
+Including a parser imports *all* of the nonterminals defined in the parser, as
+well as any JS and config options defined there.
 
 Using a parser
 --------------
@@ -258,11 +276,11 @@ If you're looking for something to do, here's a short list of things that would
 make me happy:
 
 - Optimize. There are still plenty of optimizations that an enterprising
-  JS-savant could implement. In particular, I haven't focused much on
-  optimizing the memory usage.
+  JS-savant could implement.
 - Implement Joop Leo's right-recursion algorithm.
 - Ports to other languages! `pearley` for Python and `cearley` for C would be
   awesome.
+- Help build the builtins library by PRing in your favorite primitives.
 
 Nearley is MIT licensed.
 
