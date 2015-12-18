@@ -193,7 +193,7 @@ There are also some built-in parsers whose contents you can include:
     @builtin "cow.ne"
     main -> cow:+
 
-See the `builtins/` directory for an index of this library. Contributions are
+See the `builtin/` directory for an index of this library. Contributions are
 welcome here!
 
 Including a parser imports *all* of the nonterminals defined in the parser, as
