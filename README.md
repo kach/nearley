@@ -169,6 +169,26 @@ that a rule can have:
 
     banana -> "ba" ("na" {% id %} | "NA" {% id %}):+
 
+### Macros
+
+You can create "polymorphic" rules through macros:
+
+    match3[X] -> $X $X $X
+    quote[X]  -> "'" $X "'"
+
+    main -> match3[quote["Hello?"]]
+    # matches "'Hello?''Hello?''Hello?'"
+
+Macros are dynamically scoped:
+
+    foo[X, Y] -> bar["moo" | "oink" | "baa"] $Y
+    bar[Z]    -> $X " " $Z # 'remembers' $X from its caller
+    main -> foo["Cows", "."]
+    # matches "Cows oink." and "Cows moo."
+
+Macros *cannot* be recursive (`nearleyc` will go into an infinite loop trying
+to expand the macro-loop).
+
 ### Additional JS
 
 For more intricate postprocessors, or any other functionality you may need, you
@@ -197,7 +217,7 @@ See the `builtin/` directory for an index of this library. Contributions are
 welcome here!
 
 Including a parser imports *all* of the nonterminals defined in the parser, as
-well as any JS and config options defined there.
+well as any JS, macros, and config options defined there.
 
 Using a parser
 --------------
