@@ -7,6 +7,7 @@ prog -> prod  {% function(d) { return [d[0]]; } %}
       | prod whit prog  {% function(d) { return [d[0]].concat(d[2]); } %}
 
 prod -> word whit? ("-"|"="):+ ">" whit? expression+  {% function(d) { return {name: d[0], rules: d[5]}; } %}
+      | word "[" wordlist "]" whit? ("-"|"="):+ ">" whit? expression+ {% function(d) {return {macro: d[0], args: d[2], exprs: d[8]}} %}
       | "@" whit? js  {% function(d) { return {body: d[2]}; } %}
       | "@" word whit word  {% function(d) { return {config: d[1], value: d[3]}; } %}
       | "@include"  whit? string {% function(d) {return {include: d[2].literal, builtin: false}} %}
@@ -15,11 +16,19 @@ prod -> word whit? ("-"|"="):+ ">" whit? expression+  {% function(d) { return {n
 expression+ -> completeexpression
              | expression+ whit? "|" whit? completeexpression  {% function(d) { return d[0].concat([d[4]]); } %}
 
+expressionlist -> completeexpression
+             | expressionlist whit? "," whit? completeexpression {% function(d) { return d[0].concat([d[4]]); } %}
+
+wordlist -> word
+            | wordlist whit? "," whit? word {% function(d) { return d[0].concat([d[4]]); } %}
+
 completeexpression -> expr  {% function(d) { return {tokens: d[0]}; } %}
                     | expr whit? js  {% function(d) { return {tokens: d[0], postprocess: d[2]}; } %}
 
 expr_member ->
       word {% id %}
+    | "$" word {% function(d) {return {mixin: d[1]}} %}
+    | word "[" expressionlist "]" {% function(d) {return {macrocall: d[0], args: d[2]}} %} 
     | string {% id %}
     | charclass {% id %}
     | "(" whit? expression+ whit? ")" {% function(d) {return {'subexpression': d[2]} ;} %}
