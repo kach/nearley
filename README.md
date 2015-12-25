@@ -116,8 +116,7 @@ postprocessor `id` returns the first token in the match (literally
 
 `location` is the index at which that rule was found. Retaining this
 information in a syntax tree is useful if you're writing an interpreter and
-want to give fancy error messages for runtime errors. (This feature is
-**experimental**.)
+want to give fancy error messages for runtime errors.
 
 If, after examining the data, you want to force the rule to fail anyway, return
 `reject`. An example of this is allowing a variable name to be a word that is
