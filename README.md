@@ -250,6 +250,21 @@ complete block.
     }
     console.log(p.results);
 
+Catching errors
+---------------
+
+If there are no possible parsings, nearley will throw an error whose `offset`
+property is the index of the offending token.
+
+    try {
+        p.feed("1+gorgonzola");
+    } catch(parseError) {
+        console.log(
+            "Error at character " + parseError.offset
+        ); // "Error at character 2"
+    }
+
+
 Exploring a parser interactively
 --------------------------------
 
@@ -269,21 +284,6 @@ a feel for the syntax (see it live
 [here](http://hardmath123.github.io/nearley/examples/calculator/)). There are
 more sample grammars in the `/examples` directory. For larger examples,  we
 also have experimental parsers for **CSV**, **Lua**, and **JavaScript**.
-
-Catching errors
----------------
-
-If there are no possible parsings, nearley will throw an error whose `offset`
-property is the index of the offending token.
-
-    try {
-        p.feed("1+gorgonzola");
-    } catch(parseError) {
-        console.log(
-            "Error at character " + parseError.offset
-        ); // "Error at character 2"
-    }
-
 
 Contributing
 ------------
