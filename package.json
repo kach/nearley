@@ -5,7 +5,8 @@
   "main": "lib/nearley.js",
   "dependencies": {
     "cli-color": "^1.0.0",
-    "nomnom": "~1.6.2"
+    "nomnom": "~1.6.2",
+    "randexp": "^0.4.2"
   },
   "bin": {
     "nearleyc": "bin/nearleyc.js",
