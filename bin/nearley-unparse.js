@@ -6,7 +6,7 @@ var nomnom = require('nomnom');
 var randexp = require('randexp');
 
 var opts = nomnom
-	.script('nearley-rand')
+	.script('nearley-unparse')
 	.option('file', {
 		position: 0,
 		help: "A grammar .js file",

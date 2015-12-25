@@ -277,6 +277,33 @@ parser.
 
 This was previously called `bin/nearleythere.js` and written by Robin.
 
+The Unparser
+------------
+
+The Unparser takes a (compiled) parser and outputs a random string that would
+be accepted by the parser.
+
+    $ nearley-unparse -s number <(nearleyc builtin/prims.ne)
+    -6.22E94
+
+You can use the Unparser to...
+
+- ...test your parser specification by generating lots of random expressions
+and making sure all of them are "correct".
+- ...generate random strings from a schema (for example, random email addresses
+or telephone numbers).
+- ...create fuzzers and combinatorial stress-testers.
+- ...play "Mad-Libs" automatically! (Practical application: automatic
+grammatically valid loremtext.)
+
+The Unparser outputs as a stream by continuously writing characters to its
+output pipe. So, if it "goes off the deep end" and generates a huge string, you
+will still see output scrolling by in real-time.
+
+As far as I know, nearley is the only parser generator with this feature. It
+is inspired by Roly Fentanes' [randexp](https://fent.github.io/randexp.js/),
+which does the same thing with regular expressions.
+
 Still confused?
 ---------------
 You can read [the calculator example](examples/calculator/arithmetic.ne) to get
