@@ -10,7 +10,8 @@
   },
   "bin": {
     "nearleyc": "bin/nearleyc.js",
-    "nearley-test": "bin/nearley-test.js"
+    "nearley-test": "bin/nearley-test.js",
+    "nearley-unparse": "bin/nearley-unparse.js"
   },
   "keywords": [
     "parser",
