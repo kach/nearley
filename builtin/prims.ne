@@ -17,7 +17,7 @@ function obj(o) {
         var ret = {};
         Object.keys(o).forEach(function(k) {
             ret[k] = d[o[k]];
-        };
+        });
         return ret;
     };
 }
