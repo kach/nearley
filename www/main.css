@@ -24,15 +24,11 @@ h1, h2 {
     margin-right: auto;
 }
 #main {
-    max-width: 40em;
-}
-
-#main p {
-    text-indent: 2em;
+    max-width: 35em;
 }
 
 #main p, ul, ol {
-    line-height: 2.5em;
+    line-height: 1.5em;
     margin-bottom: 1em;
 }
 
@@ -53,14 +49,12 @@ li:before {
 }
 
 #main a {
-    text-decoration: none;
-    color: #559;
+    color: #55a;
 }
 #main a:visited {
-    color: #559;
+    color: #55a;
 }
 #main a:hover {
-    text-decoration: underline;
     color: #259;
 }
 
@@ -104,4 +98,13 @@ img + .caption {
     color: #aaa;
     font-size: 0.7em;
     padding: 5em;
+}
+
+pre {
+    overflow: scroll;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    background-color: #559;
+    color: white;
+    text-shadow: 0em 0em 0.2em black;
 }
