@@ -1,4 +1,4 @@
-# Simple primitives used almost everywhere
+# Simple postprocessors
 
 # Postprocessor generator that lets you select the nth element of the list.
 # `id` is equivalent to nth(0).
@@ -12,7 +12,7 @@ function nth(n) {
 
 # Postprocessor generator that lets you generate an object dynamically.
 @{%
-function obj(o) {
+function $(o) {
     return function(d) {
         var ret = {};
         Object.keys(o).forEach(function(k) {
@@ -30,5 +30,3 @@ delimited[el, delim] -> $el ($delim $el {% nth(1) %}):* {%
         return [d[0]].concat(d[1]);
     }
 %}
-
-
