@@ -31,19 +31,4 @@ delimited[el, delim] -> $el ($delim $el {% nth(1) %}):* {%
     }
 %}
 
-# A JSON-compatible number (floating-point)
-number -> "-":? [0-9]:+ ("." [0-9]:+):? ([eE] [+-]:? [0-9]:+):? {%
-    function(d) {
-        console.log(d);
-        return parseFloat(
-            (d[0] || "") +
-            d[1].join("") +
-            (d[2] ? d[2].join("") : "") +
-            (d[3] ? "e" + (d[3][1] || "+") + d[3][2].join("") : "")
-        );
-    }
-%}
 
-# Whitespace: `_` is optional, `__` is mandatory.
-_  -> [\s]:* {% function(d) {return null;} %}
-__ -> [\s]:+ {% function(d) {return null;} %}
