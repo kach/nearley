@@ -18,7 +18,7 @@ var opts = nomnom
 	})
     .option('count', {
         abbr: 'n',
-        help: 'The number of samples to generate (separated by \n).',
+        help: 'The number of samples to generate (separated by \\n).',
         default: 1
     })
 	.option('out', {
