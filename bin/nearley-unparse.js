@@ -16,6 +16,11 @@ var opts = nomnom
 		abbr: 's',
 		help: "An optional start symbol (if not provided then use the parser start symbol)",
 	})
+    .option('count', {
+        abbr: 'n',
+        help: 'The number of samples to generate (separated by \n).',
+        default: 1
+    })
 	.option('out', {
 		abbr: 'o',
 		help: "File to output to (defaults to stdout)",
@@ -66,5 +71,7 @@ function gen(grammar, name) {
     }
 }
 
-gen(grammar, opts.start ? opts.start : grammar.ParserStart);
-output.write("\n");
+for (var i=0; i<parseInt(opts.count); i++) {
+    gen(grammar, opts.start ? opts.start : grammar.ParserStart);
+    output.write("\n");
+}
