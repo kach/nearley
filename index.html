@@ -26,7 +26,7 @@
             <p><strong>Parsers</strong> turn strings of characters into
             meaningful data structures (like a JSON object!).
             <strong>nearley</strong> is a <strong>fast</strong>,
-            <strong>robust</strong>, and <strong>modern</strong> parser
+            <strong>feature-rich</strong>, and <strong>modern</strong> parser
             toolkit for JavaScript. nearley is an <a
             href="https://github.com/npm/npm-collection-staff-picks">npm Staff
             Pick</a>.
@@ -39,8 +39,8 @@
 <pre><code># Match a CSS color
 # http://www.w3.org/TR/css3-color/#colorunits
 
-@builtin "whitespace.ne"
-@builtin "number.ne"
+@builtin "whitespace.ne" # `_` means arbitrary amount of whitespace
+@builtin "number.ne"     # `int`, `decimal`, and `percentage` number primitives
 
 csscolor -> "#" hexdigit hexdigit hexdigit hexdigit hexdigit hexdigit
           | "#" hexdigit hexdigit hexdigit
@@ -50,7 +50,7 @@ csscolor -> "#" hexdigit hexdigit hexdigit hexdigit hexdigit hexdigit
           | "hsla" _ "(" _ colnum _ "," _ colnum _ "," _ colnum _ "," _ decimal _ ")"
 
 hexdigit -> [a-fA-F0-9]
-colnum -> int | percentage
+colnum   -> int | percentage
 </code></pre>
 </li>
                 <li>Compile your grammar:
