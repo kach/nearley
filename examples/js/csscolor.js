@@ -2,6 +2,23 @@
 // http://github.com/Hardmath123/nearley
 (function () {
 function id(x) {return x[0]; }
+
+function nth(n) {
+    return function(d) {
+        return d[n];
+    };
+}
+
+
+function $(o) {
+    return function(d) {
+        var ret = {};
+        Object.keys(o).forEach(function(k) {
+            ret[k] = d[o[k]];
+        });
+        return ret;
+    };
+}
 var grammar = {
     ParserRules: [
     {"name": "_$ebnf$1", "symbols": []},
@@ -82,19 +99,37 @@ var grammar = {
             );
         }
         },
-    {"name": "csscolor", "symbols": [{"literal":"#"}, "hexdigit", "hexdigit", "hexdigit", "hexdigit", "hexdigit", "hexdigit"]},
-    {"name": "csscolor", "symbols": [{"literal":"#"}, "hexdigit", "hexdigit", "hexdigit"]},
+    {"name": "csscolor", "symbols": [{"literal":"#"}, "hexdigit", "hexdigit", "hexdigit", "hexdigit", "hexdigit", "hexdigit"], "postprocess": 
+        function(d) {
+            return {
+                "r": parseInt(d[1]+d[2], 16),
+                "g": parseInt(d[3]+d[4], 16),
+                "b": parseInt(d[5]+d[6], 16),
+            }
+        }
+        },
+    {"name": "csscolor", "symbols": [{"literal":"#"}, "hexdigit", "hexdigit", "hexdigit"], "postprocess": 
+        function(d) {
+            return {
+                "r": parseInt(d[1]+d[1], 16),
+                "g": parseInt(d[2]+d[2], 16),
+                "b": parseInt(d[3]+d[3], 16),
+            }
+        }
+        },
     {"name": "csscolor$string$1", "symbols": [{"literal":"r"}, {"literal":"g"}, {"literal":"b"}], "postprocess": function joiner(d) {return d.join('');}},
-    {"name": "csscolor", "symbols": ["csscolor$string$1", "_", {"literal":"("}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":")"}]},
+    {"name": "csscolor", "symbols": ["csscolor$string$1", "_", {"literal":"("}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":")"}], "postprocess": $({"r": 4, "g": 8, "b": 12})},
     {"name": "csscolor$string$2", "symbols": [{"literal":"h"}, {"literal":"s"}, {"literal":"l"}], "postprocess": function joiner(d) {return d.join('');}},
-    {"name": "csscolor", "symbols": ["csscolor$string$2", "_", {"literal":"("}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":")"}]},
+    {"name": "csscolor", "symbols": ["csscolor$string$2", "_", {"literal":"("}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":")"}], "postprocess": $({"h": 4, "s": 8, "l": 12})},
     {"name": "csscolor$string$3", "symbols": [{"literal":"r"}, {"literal":"g"}, {"literal":"b"}, {"literal":"a"}], "postprocess": function joiner(d) {return d.join('');}},
-    {"name": "csscolor", "symbols": ["csscolor$string$3", "_", {"literal":"("}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "decimal", "_", {"literal":")"}]},
+    {"name": "csscolor", "symbols": ["csscolor$string$3", "_", {"literal":"("}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "decimal", "_", {"literal":")"}], "postprocess": $({"r": 4, "g": 8, "b": 12, "a": 16})},
     {"name": "csscolor$string$4", "symbols": [{"literal":"h"}, {"literal":"s"}, {"literal":"l"}, {"literal":"a"}], "postprocess": function joiner(d) {return d.join('');}},
-    {"name": "csscolor", "symbols": ["csscolor$string$4", "_", {"literal":"("}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "decimal", "_", {"literal":")"}]},
+    {"name": "csscolor", "symbols": ["csscolor$string$4", "_", {"literal":"("}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "decimal", "_", {"literal":")"}], "postprocess": $({"h": 4, "s": 8, "l": 12, "a": 16})},
     {"name": "hexdigit", "symbols": [/[a-fA-F0-9]/]},
-    {"name": "colnum", "symbols": ["posint"]},
-    {"name": "colnum", "symbols": ["percentage"]}
+    {"name": "colnum", "symbols": ["posint"], "postprocess": id},
+    {"name": "colnum", "symbols": ["percentage"], "postprocess": 
+        function(d) {return Math.floor(d[0]*255); }
+        }
 ]
   , ParserStart: "csscolor"
 }
