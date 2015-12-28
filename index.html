@@ -27,7 +27,9 @@
             meaningful data structures (like a JSON object!).
             <strong>nearley</strong> is a <strong>fast</strong>,
             <strong>robust</strong>, and <strong>modern</strong> parser
-            generator for JavaScript.
+            toolkit for JavaScript. nearley is an <a
+            href="https://github.com/npm/npm-collection-staff-picks">npm Staff
+            Pick</a>.
 
             <h2>nearley 101</h2>
 
@@ -68,7 +70,8 @@ rgb  ( -29.889%,7,8172)
 
                 <li>You try it! Type a CSS color here:
 <input type="text" id="parse-input" placeholder="rgba(0, 255, 0, 0.5)"></input>
-<pre><code id="parse-output"></code></pre>
+<pre><code id="parse-output">&hellip;and the parsed output will appear here!
+</code></pre>
 
 <script type="text/javascript">
 window.addEventListener('load', function() {
@@ -110,9 +113,10 @@ window.addEventListener('load', function() {
                 <strong>node</strong>, but doesn't mind the
                 <strong>browser</strong>.
 
-                <li>nearley outputs <strong>small</strong> files. And it comes
-                with plenty of <strong>syntactic sugar</strong> to keep your
-                source files short. And sweet.
+                <li>nearley outputs <strong>small</strong> files. And its
+                <strong>expressive</strong> DSL comes with plenty of
+                <strong>syntactic sugar</strong> to keep your source files
+                short. And sweet.
 
                 <li>nearley's grammar language is powerful and expressive: you
                 can use <strong>macros</strong>, import from a large
@@ -127,12 +131,6 @@ window.addEventListener('load', function() {
                 choking. In fact, nearley will parse anything you throw at it
                 without complaining or going into a <s>sulk</s> infinite loop.
             
-            </ul>
-            
-                <img src="http://imgs.xkcd.com/comics/future_self.png"/>
-                <div class="caption">Never again. &lt;3</div>
-            
-            <ul>
                 <li>nearley handles <strong>ambiguous grammars</strong>
                 gracefully.  Ambiguous grammars can be parsed in multiple ways:
                 instead of getting confused, nearley gives you all the parsings
@@ -155,13 +153,46 @@ window.addEventListener('load', function() {
             
             </ul>
 
+            <h2>Happy nearley users</h2>
+
+            <ul>
+                <li><a
+                href="https://github.com/AI-course-TIN172-DIT410/shrdlite-course-project">Shrdlite</a>
+                is a programming project in Artificial Intelligence, a course
+                given at the University of Gothenburg and Chalmers University
+                of Technology. It uses nearley for reading instructions in
+                natural language (i.e. English).</a>
+
+                <li><a
+                href="https://github.com/raymond-h/node-dmi">node-dmi</a> is a
+                module that reads iconstate metadata from BYOND DMI files.
+
+                <li><a href="https://github.com/bobbybee/uPresent">uPresent</a>
+                is a markdown-based presentation authoring system.
+
+                <li><a href="https://github.com/bobbybee/carbon">Carbon</a> is
+                a C subset that compiles to JavaScript, optimized for game
+                development.
+
+                <li><a href="https://github.com/imsky/packdown">Packdown</a> is
+                a tool to generate human-readable archives of multiple files.
+
+                <li><a href="https://github.com/jcorbin/hexant">Hexant</a> is a
+                cellular automata simulator with a DSL for custom automata.
+
+                <li><a href="http://nearley.js.org">nearley</a> is a parser
+                toolkit for JavaScript. It has a nearley-based DSL to specify
+                parsers.
+
+            </ul>
+
 
             <p>Excited? Get started on
             <a href="https://github.com/Hardmath123/nearley">Github</a>, visit
             us on <a href="http://npmjs.org/package/nearley">npm</a>, or play
             with the <a href="examples/calculator/">calculator demo</a> for
             more action.
-            
+
             <!--
             <h2>Try nearley</h2>
             
