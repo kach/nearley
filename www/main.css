@@ -22,11 +22,11 @@ h1 {
     border-radius: 50%;
     font-weight: bold;
     color: white;
-    width: 3em;
-    height: 3em;
+    width: 3.5em;
+    height: 3.5em;
     display: inline-block;
     text-align: center;
-    line-height: 3em;
+    line-height: 3.5em;
     letter-spacing: 0em;
 }
 
