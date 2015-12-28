@@ -5,8 +5,10 @@
         <link href='http://fonts.googleapis.com/css?family=Roboto:300,700'
               rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="www/main.css"/>
-        <!--
         <script charset="utf-8" src="lib/nearley.js"></script>
+        <script charset="utf-8" src="examples/js/csscolor.js"></script>
+
+        <!--
         <script charset="utf-8" src="lib/compile.js"></script>
         <script charset="utf-8" src="lib/generate.js"></script>
         <script charset="utf-8" src="lib/nearley-language-bootstrapped.js"></script>
@@ -16,15 +18,92 @@
         -->
     </head>
     <body>
-        <a href="https://github.com/Hardmath123/nearley"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-        <div id="main" class="center"> <h1>nearley<span style="color:
-        #559;">.js</span></h1>
+        <!--<a href="https://github.com/Hardmath123/nearley"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>-->
+        <a href="https://github.com/Hardmath123/nearley" class="github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+        <div id="main" class="center">
+            <h1>nearley<span style="color: #559;">.js</span><span id="version">2.0.0</span></h1>
 
             <p><strong>Parsers</strong> turn strings of characters into
             meaningful data structures (like a JSON object!).
             <strong>nearley</strong> is a <strong>fast</strong>,
-            <strong>robust</strong>, and <strong>modern</strong> parser
-            generator for JavaScript. You'll love it because:
+            <strong>feature-rich</strong>, and <strong>modern</strong> parser
+            toolkit for JavaScript. nearley is an <a
+            href="https://github.com/npm/npm-collection-staff-picks">npm Staff
+            Pick</a>.
+
+            <h2>nearley 101</h2>
+
+            <ol class="tutorial">
+                <li>Install: <code>$ npm install -g nearley</code></li>
+                <li>Write your grammar:
+<pre><code># Match a CSS color
+# http://www.w3.org/TR/css3-color/#colorunits
+
+@builtin "whitespace.ne" # `_` means arbitrary amount of whitespace
+@builtin "number.ne"     # `int`, `decimal`, and `percentage` number primitives
+
+csscolor -> "#" hexdigit hexdigit hexdigit hexdigit hexdigit hexdigit
+          | "#" hexdigit hexdigit hexdigit
+          | "rgb"  _ "(" _ colnum _ "," _ colnum _ "," _ colnum _ ")"
+          | "hsl"  _ "(" _ colnum _ "," _ colnum _ "," _ colnum _ ")"
+          | "rgba" _ "(" _ colnum _ "," _ colnum _ "," _ colnum _ "," _ decimal _ ")"
+          | "hsla" _ "(" _ colnum _ "," _ colnum _ "," _ colnum _ "," _ decimal _ ")"
+
+hexdigit -> [a-fA-F0-9]
+colnum   -> int | percentage
+</code></pre>
+</li>
+                <li>Compile your grammar:
+<pre><code>$ nearleyc csscolor.ne -o csscolor.js</code></pre>
+</li>
+                <li>Test your grammar:
+<pre><code>$ nearley-test -i "#00ff00" csscolor.js
+Parse results: 
+[ [ '#', [ '0' ], [ '0' ], [ 'f' ], [ 'f' ], [ '0' ], [ '0' ] ] ]
+</code></pre></li>
+                <li>Turn your grammar into a generator:
+<pre><code>$ nearley-unparse -n 3 csscolor.js
+#Ab21F2
+rgb  ( -29.889%,7,8172)
+#a40
+</code></pre></li>
+
+                <li>You try it! Type a CSS color here:
+<input type="text" id="parse-input" placeholder="rgba(0, 255, 0, 0.5)"></input>
+<pre><code id="parse-output">&hellip;and the parsed output will appear here!
+</code></pre>
+
+<script type="text/javascript">
+window.addEventListener('load', function() {
+    document.getElementById('parse-input').addEventListener('keyup', function() {
+        // $ ./bin/nearleyc.js examples/csscolor.ne -o examples/js/csscolor.js -e csscolor
+        var str = this.value;
+        var parser = new nearley.Parser(csscolor.ParserRules, csscolor.ParserStart);
+        try {
+            parser.feed(str);
+            document.getElementById('parse-output').innerHTML = JSON.stringify(parser.results, null, 2);
+            this.style.color = "#559";
+        } catch(e) {
+            document.getElementById('parse-output').innerHTML = "";
+            this.style.color = "red";
+        }
+    }, false);
+
+    var X = new XMLHttpRequest();
+    X.open('GET', 'package.json');
+    X.onreadystatechange = function() {
+        if (X.readyState === 4 && X.status === 200 && X.responseText) {
+            var J = JSON.parse(X.responseText);
+            document.getElementById("version").innerHTML = J.version || "2.0.0";
+        }
+    };
+    X.send();
+}, false);
+</script>
+</li>
+            </ol>
+
+            <h2>Features</h2>
             
             <ul>
                 
@@ -34,26 +113,24 @@
                 <strong>node</strong>, but doesn't mind the
                 <strong>browser</strong>.
 
-                <li>nearley outputs <strong>small</strong> files, proportional
-                to the size of the grammar. And it comes with plenty of
+                <li>nearley outputs <strong>small</strong> files. And its
+                <strong>expressive</strong> DSL comes with plenty of
                 <strong>syntactic sugar</strong> to keep your source files
                 short. And sweet.
 
+                <li>nearley's grammar language is powerful and expressive: you
+                can use <strong>macros</strong>, import from a large
+                <strong>builtin library</strong> of pre-defined parser-pieces,
+                and more.
+
                 <li>nearley is built on an idiomatic <strong>streaming
-                API</strong>. You even have access to partial parses as you
-                feed it data.
+                API</strong>. You even have access to partial parses to build
+                <strong>predictive</strong> user interfaces.
 
                 <li>nearley processes <strong>left recursion</strong> without
                 choking. In fact, nearley will parse anything you throw at it
                 without complaining or going into a <s>sulk</s> infinite loop.
             
-            </ul>
-            
-                <img src="http://imgs.xkcd.com/comics/future_self.png"/>
-                <div class="caption">Never again. &lt;3</div>
-            
-            <ul>
-
                 <li>nearley handles <strong>ambiguous grammars</strong>
                 gracefully.  Ambiguous grammars can be parsed in multiple ways:
                 instead of getting confused, nearley gives you all the parsings
@@ -66,7 +143,46 @@
                 <li>nearley is powerful enough to be
                 <strong>bootstrapped</strong>. That means nearley uses nearley
                 to compile parts of nearley. <em>nearleyception!</em>
+
+                <li>nearley parsers can be inverted to form
+                <strong>generators</strong> which output random strings that
+                match a grammar. Useful for writing <strong>test
+                cases</strong>, <strong>fuzzers</strong>, and
+                <strong>Mad-Libs</strong>.<br/>
             
+            </ul>
+
+            <h2>Projects using nearley</h2>
+
+            <ul>
+                <li><a
+                href="https://github.com/AI-course-TIN172-DIT410/shrdlite-course-project">Shrdlite</a>
+                is a programming project in Artificial Intelligence, a course
+                given at the University of Gothenburg and Chalmers University
+                of Technology. It uses nearley for reading instructions in
+                natural language (i.e. English).</a>
+
+                <li><a
+                href="https://github.com/raymond-h/node-dmi">node-dmi</a> is a
+                module that reads iconstate metadata from BYOND DMI files.
+
+                <li><a href="https://github.com/bobbybee/uPresent">uPresent</a>
+                is a markdown-based presentation authoring system.
+
+                <li><a href="https://github.com/bobbybee/carbon">Carbon</a> is
+                a C subset that compiles to JavaScript, optimized for game
+                development.
+
+                <li><a href="https://github.com/imsky/packdown">Packdown</a> is
+                a tool to generate human-readable archives of multiple files.
+
+                <li><a href="https://github.com/jcorbin/hexant">Hexant</a> is a
+                cellular automata simulator with a DSL for custom automata.
+
+                <li><a href="http://nearley.js.org">nearley</a> is a parser
+                toolkit for JavaScript. It has a nearley-based DSL to specify
+                parsers.
+
             </ul>
 
 
@@ -75,7 +191,7 @@
             us on <a href="http://npmjs.org/package/nearley">npm</a>, or play
             with the <a href="examples/calculator/">calculator demo</a> for
             more action.
-            
+
             <!--
             <h2>Try nearley</h2>
             

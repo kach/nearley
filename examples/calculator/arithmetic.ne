@@ -61,4 +61,4 @@ int -> [0-9]        {% id %}
 # Whitespace. The important thing here is that the postprocessor
 # is a null-returning function. This is a memory efficiency trick.
 _ -> null       {% function(d) {return null; } %}
-	| [\s] _    {% function(d) {return null; } %}
+	| _ [\s]    {% function(d) {return null; } %}

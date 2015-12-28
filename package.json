@@ -1,13 +1,17 @@
 {
   "name": "nearley",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Simple Earley parsing for JS",
   "main": "lib/nearley.js",
   "dependencies": {
-    "nomnom": "~1.6.2"
+    "cli-color": "^1.0.0",
+    "nomnom": "~1.6.2",
+    "randexp": "^0.4.2"
   },
   "bin": {
-    "nearleyc": "bin/nearleyc.js"
+    "nearleyc": "bin/nearleyc.js",
+    "nearley-test": "bin/nearley-test.js",
+    "nearley-unparse": "bin/nearley-unparse.js"
   },
   "keywords": [
     "parser",
@@ -15,6 +19,7 @@
     "compiler"
   ],
   "scripts": {
+    "bootstrap": "node bin/nearleyc.js lib/nearley-language-bootstrapped.ne >lib/nearley-language-bootstrapped.js.new && mv lib/nearley-language-bootstrapped.js{.new,}",
     "test": "npm install && sh build.sh"
   },
   "author": "Hardmath123",
@@ -22,7 +27,9 @@
     "Nathan Dinsmore",
     "Aria Stewart <aredridel@nbtsc.org>",
     "Robin Windels",
-    "Jacob Edelman"
+    "Jacob Edelman",
+    "Joshua T. Corbin",
+    "Bojidar Marinov"
   ],
   "license": "MIT",
   "repository": {

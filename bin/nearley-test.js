@@ -10,7 +10,7 @@ var nomnom = require('nomnom');
 var StreamWrapper = require('../lib/stream.js');
 
 var opts = nomnom
-	.script('nearleyc')
+	.script('nearley-test')
 	.option('file', {
 		position: 0,
 		help: "A grammar .js file",

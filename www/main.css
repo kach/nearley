@@ -8,13 +8,30 @@ body {
     border-bottom: 0.1em #559 solid;
 }
 
-h1, h2 {
+h1 {
     font-size: 1.6em;
     font-weight: 100;
     letter-spacing: 0.5em;
     text-align: center;
     margin-top: 3em;
     margin-bottom: 3em;
+}
+
+#version {
+    background: orange;
+    border-radius: 50%;
+    font-weight: bold;
+    color: white;
+    width: 3.5em;
+    height: 3.5em;
+    display: inline-block;
+    text-align: center;
+    line-height: 3.5em;
+    letter-spacing: 0em;
+}
+
+h2 {
+    margin-top: 4em;
 }
 
 .center {
@@ -24,15 +41,11 @@ h1, h2 {
     margin-right: auto;
 }
 #main {
-    max-width: 40em;
-}
-
-#main p {
-    text-indent: 2em;
+    max-width: 35em;
 }
 
 #main p, ul, ol {
-    line-height: 2.5em;
+    line-height: 1.5em;
     margin-bottom: 1em;
 }
 
@@ -41,11 +54,11 @@ h1, h2 {
     margin-bottom: 1.5em;
 }
 
-li {
+ul li {
     list-style: none;
     min-width: 10em;
 }
-li:before {
+ul li:before {
     display: inline-block;
     content: "\2014";
     margin-left: -1.5em;
@@ -53,14 +66,12 @@ li:before {
 }
 
 #main a {
-    text-decoration: none;
-    color: #559;
+    color: #55a;
 }
 #main a:visited {
-    color: #559;
+    color: #55a;
 }
 #main a:hover {
-    text-decoration: underline;
     color: #259;
 }
 
@@ -104,4 +115,57 @@ img + .caption {
     color: #aaa;
     font-size: 0.7em;
     padding: 5em;
+}
+
+code {
+    overflow: scroll;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    background-color: #559;
+    color: white;
+    text-shadow: 0em 0em 0.2em black;
+}
+
+pre code {
+    display: block;
+}
+
+
+ol.tutorial {
+    counter-reset: tutorial-counter;
+}
+
+ol.tutorial li {
+    list-style: none;
+}
+
+ol.tutorial li:before {
+    content: counter(tutorial-counter);
+    counter-increment: tutorial-counter;
+
+    font-weight: bold;
+    border-radius: 50%;
+    background-color: #559;
+    width: 2em;
+    height: 2em;
+    display: inline-block;
+    text-align: center;
+    line-height: 2em;
+    color: white;
+
+    margin-left: -2em;
+
+    position: relative;
+    right: 1em;
+}
+
+input[type="text"] {
+    border: none;
+    font-family: monospace;
+    font-size: 1em;
+    color: #559;
+}
+
+input[type="text"]:focus {
+    outline: none;
 }
