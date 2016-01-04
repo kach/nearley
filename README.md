@@ -82,6 +82,9 @@ language. A nonterminal is made up of a series of either other nonterminals or
 strings. In nearley, you define a nonterminal by giving its name and its
 expansions.
 
+Strings are the *terminals*, which match those string literals (specified as
+JSON-compatible strings).
+
 The following grammar matches a number, a plus sign, and another number
 (anything from a `#` to the end of a line is ignored as a comment):
 
