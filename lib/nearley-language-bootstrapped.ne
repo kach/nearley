@@ -1,5 +1,5 @@
 # nearley grammar
-
+@builtin "string.ne"
 
 final -> whit? prog whit?  {% function(d) { return d[1]; } %}
 
@@ -42,13 +42,14 @@ expr -> expr_member
 word -> [\w\?\+]  {% function(d){ return d[0]; } %}
       | word [\w\?\+]  {% function(d){ return d[0]+d[1]; } %}
 
-string -> "\"" charset "\""  {% function(d) { return { literal: d[1].join("") }; } %}
-
-charset -> null
-         | charset char  {% function(d) { return d[0].concat([d[1]]); } %}
-
-char -> [^\\"]  {% function(d) { return d[0]; } %}
-      | "\\" .  {% function(d) { return JSON.parse("\""+"\\"+d[1]+"\""); } %}
+string -> dqstring {% function(d) {return { literal: d[0] }; } %}
+#string -> "\"" charset "\""  {% function(d) { return { literal: d[1].join("") }; } %}
+#
+#charset -> null
+#         | charset char  {% function(d) { return d[0].concat([d[1]]); } %}
+#
+#char -> [^\\"]  {% function(d) { return d[0]; } %}
+#      | "\\" .  {% function(d) { return JSON.parse("\""+"\\"+d[1]+"\""); } %}
 
 charclass -> "."  {% function(d) { return new RegExp("."); } %}
            | "[" charclassmembers "]"  {% function(d) { return new RegExp("[" + d[1].join('') + "]"); } %}

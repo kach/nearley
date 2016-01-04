@@ -2,11 +2,18 @@
 @builtin "postprocessors.ne"
 
 # Double-quoted string
-dqstring -> "\"" strchar:* "\"" {% function(d) {return d[1].join(""); } %}
-sqstring -> "'"  strchar:* "'"  {% function(d) {return d[1].join(""); } %}
+dqstring -> "\"" dstrchar:* "\"" {% function(d) {return d[1].join(""); } %}
+sqstring -> "'"  sstrchar:* "'"  {% function(d) {return d[1].join(""); } %}
 btstring -> "`"  [^`]:*    "`"  {% function(d) {return d[1].join(""); } %}
 
-strchar -> [^\\"'\n] {% id %}
+dstrchar -> [^\\"\n] {% id %}
+    | "\\" strescape {%
+    function(d) {
+        return JSON.parse("\""+d.join("")+"\"");
+    }
+%}
+
+sstrchar -> [^\\'\n] {% id %}
     | "\\" strescape {%
     function(d) {
         return JSON.parse("\""+d.join("")+"\"");
