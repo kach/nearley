@@ -2,8 +2,8 @@
 @builtin "postprocessors.ne"
 
 # Double-quoted string
-dqstring -> "\"" strchar:* "\"" {% nth(1) %}
-sqstring -> "'"  strchar:* "'"  {% nth(1) %}
+dqstring -> "\"" strchar:* "\"" {% function(d) {return d[1].join(""); } %}
+sqstring -> "'"  strchar:* "'"  {% function(d) {return d[1].join(""); } %}
 btstring -> "`"  [^`]:*    "`"  {% function(d) {return d[1].join(""); } %}
 
 strchar -> [^\\"'\n] {% id %}
