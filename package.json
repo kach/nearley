@@ -6,6 +6,7 @@
   "dependencies": {
     "cli-color": "^1.0.0",
     "nomnom": "~1.6.2",
+    "railroad-diagrams": "git://github.com/tabatkins/railroad-diagrams.git#c36d1a7d0cf5ee2fdd33fcdc849d91f99ee459b9",
     "randexp": "^0.4.2"
   },
   "bin": {
