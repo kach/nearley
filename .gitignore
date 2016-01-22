@@ -3,6 +3,7 @@ node_modules/*
 .DS_Store
 test/profile.log
 test/parens.js
+test/whitespace.js
 *.swp
 *.ps1
 *.cmd
