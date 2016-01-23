@@ -35,5 +35,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/hardmath123/nearley.git"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
   }
 }
