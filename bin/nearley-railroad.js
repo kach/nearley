@@ -11,17 +11,17 @@ var opts = nomnom
         help: "A grammar .ne file (default stdin)"
     })
     .option('out', {
-		abbr: 'o',
-		help: "File to output to (default stdout)."
+        abbr: 'o',
+        help: "File to output to (default stdout)."
     })
-	.option('version', {
-		abbr: 'v',
-		flag: true,
-		help: "Print version and exit",
-		callback: function() {
-			return require('../package.json').version;
-		}
-	}).parse();
+    .option('version', {
+        abbr: 'v',
+        flag: true,
+        help: "Print version and exit",
+        callback: function() {
+            return require('../package.json').version;
+        }
+    }).parse();
 
 var input = opts.file ? fs.createReadStream(opts.file) : process.stdin;
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;

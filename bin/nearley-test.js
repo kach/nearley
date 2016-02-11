@@ -10,33 +10,33 @@ var nomnom = require('nomnom');
 var StreamWrapper = require('../lib/stream.js');
 
 var opts = nomnom
-	.script('nearley-test')
-	.option('file', {
-		position: 0,
-		help: "A grammar .js file",
+    .script('nearley-test')
+    .option('file', {
+        position: 0,
+        help: "A grammar .js file",
         required: true,
-	})
-	.option('input', {
-		abbr: 'i',
-		help: "An input string to parse (if not provided then read from stdin)",
-	})
-	.option('start', {
-		abbr: 's',
-		help: "An optional start symbol (if not provided then use the parser start symbol)",
-	})
-	.option('out', {
-		abbr: 'o',
-		help: "File to output to (defaults to stdout)",
-	})
-	.option('version', {
-		abbr: 'v',
-		flag: true,
-		help: "Print version and exit",
-		callback: function() {
-			return require('../package.json').version;
-		}
-	})
-	.parse();
+    })
+    .option('input', {
+        abbr: 'i',
+        help: "An input string to parse (if not provided then read from stdin)",
+    })
+    .option('start', {
+        abbr: 's',
+        help: "An optional start symbol (if not provided then use the parser start symbol)",
+    })
+    .option('out', {
+        abbr: 'o',
+        help: "File to output to (defaults to stdout)",
+    })
+    .option('version', {
+        abbr: 'v',
+        flag: true,
+        help: "Print version and exit",
+        callback: function() {
+            return require('../package.json').version;
+        }
+    })
+    .parse();
 
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
@@ -65,9 +65,9 @@ var writeTable = function (writeStream, parser) {
 if (typeof(opts.input) === "undefined") {
     process.stdin
         .pipe(new StreamWrapper(parser))
-    	.on('finish', function() {
+        .on('finish', function() {
             writeTable(output, parser);
-    	});
+        });
 } else {
     parser.feed(opts.input);
     writeTable(output, parser);
