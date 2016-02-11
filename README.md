@@ -306,6 +306,18 @@ As far as I know, nearley is the only parser generator with this feature. It
 is inspired by Roly Fentanes' [randexp](https://fent.github.io/randexp.js/),
 which does the same thing with regular expressions.
 
+Automagical Railroad Diagrams
+-----------------------------
+
+nearley lets you convert your grammars to pretty SVG railroad diagrams that you
+can include in webpages, documentation, and even papers.
+
+```
+$ nearley-railroad regex.ne -o grammar.html
+```
+
+![Railroad demo](www/railroad-demo.png)
+
 Still confused?
 ---------------
 You can read [the calculator example](examples/calculator/arithmetic.ne) to get
