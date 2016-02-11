@@ -318,6 +318,10 @@ $ nearley-railroad regex.ne -o grammar.html
 
 ![Railroad demo](www/railroad-demo.png)
 
+(This feature is powered by
+[`railroad-diagrams`](https://github.com/tabatkins/railroad-diagrams) by
+tabatkins.)
+
 Still confused?
 ---------------
 You can read [the calculator example](examples/calculator/arithmetic.ne) to get
