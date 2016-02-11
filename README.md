@@ -318,6 +318,8 @@ $ nearley-railroad regex.ne -o grammar.html
 
 ![Railroad demo](www/railroad-demo.png)
 
+See a bigger example [here](http://nearley.js.org/www/railroad-demo.html).
+
 (This feature is powered by
 [`railroad-diagrams`](https://github.com/tabatkins/railroad-diagrams) by
 tabatkins.)
