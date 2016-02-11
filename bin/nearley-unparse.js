@@ -6,34 +6,34 @@ var nomnom = require('nomnom');
 var randexp = require('randexp');
 
 var opts = nomnom
-	.script('nearley-unparse')
-	.option('file', {
-		position: 0,
-		help: "A grammar .js file",
+    .script('nearley-unparse')
+    .option('file', {
+        position: 0,
+        help: "A grammar .js file",
         required: true,
-	})
-	.option('start', {
-		abbr: 's',
-		help: "An optional start symbol (if not provided then use the parser start symbol)",
-	})
+    })
+    .option('start', {
+        abbr: 's',
+        help: "An optional start symbol (if not provided then use the parser start symbol)",
+    })
     .option('count', {
         abbr: 'n',
         help: 'The number of samples to generate (separated by \\n).',
         default: 1
     })
-	.option('out', {
-		abbr: 'o',
-		help: "File to output to (defaults to stdout)",
-	})
-	.option('version', {
-		abbr: 'v',
-		flag: true,
-		help: "Print version and exit",
-		callback: function() {
-			return require('../package.json').version;
-		}
-	})
-	.parse();
+    .option('out', {
+        abbr: 'o',
+        help: "File to output to (defaults to stdout)",
+    })
+    .option('version', {
+        abbr: 'v',
+        flag: true,
+        help: "Print version and exit",
+        callback: function() {
+            return require('../package.json').version;
+        }
+    })
+    .parse();
 
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 

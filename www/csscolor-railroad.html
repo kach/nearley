@@ -1,0 +1,66 @@
+<style type="text/css">
+svg.railroad-diagram {
+    background-color: hsl(30,20%,95%);
+}
+svg.railroad-diagram path {
+    stroke-width: 3;
+    stroke: black;
+    fill: rgba(0,0,0,0);
+}
+svg.railroad-diagram text {
+    font: bold 14px monospace;
+    text-anchor: middle;
+}
+svg.railroad-diagram text.diagram-text {
+    font-size: 12px;
+}
+svg.railroad-diagram text.diagram-arrow {
+    font-size: 16px;
+}
+svg.railroad-diagram text.label {
+    text-anchor: start;
+}
+svg.railroad-diagram text.comment {
+    font: italic 12px monospace;
+}
+svg.railroad-diagram g.non-terminal text {
+    /*font-style: italic;*/
+}
+svg.railroad-diagram rect {
+    stroke-width: 3;
+    stroke: black;
+    fill: hsl(120,100%,90%);
+}
+svg.railroad-diagram path.diagram-text {
+    stroke-width: 3;
+    stroke: black;
+    fill: white;
+    cursor: help;
+}
+svg.railroad-diagram g.diagram-text:hover path.diagram-text {
+    fill: #eee;
+}
+
+</style>
+<br/><h1><code>hexdigit</code></h1><br/><svg class="railroad-diagram" width="244" height="62" viewBox="0 0 244 62">
+<g transform="translate(.5 .5)">
+<path d="M 20 21 v 20 m 10 -20 v 20 m -10 -10 h 20.5"></path>
+<g>
+<path d="M40 31h0"></path>
+<path d="M204 31h0"></path>
+<path d="M40 31h20"></path>
+<g>
+<path d="M60 31h0"></path>
+<path d="M184 31h0"></path>
+<g class="terminal">
+<path d="M60 31h0"></path>
+<path d="M184 31h0"></path>
+<rect x="60" y="20" width="124" height="22" rx="10" ry="10"></rect>
+<text x="122" y="35">/&#91;a-fA-F0-9&#93;/</text>
+</g>
+</g>
+<path d="M184 31h20"></path>
+</g>
+<path d="M 204 31 h 20 m -10 -10 v 20 m 10 -20 v 20"></path>
+</g>
+</svg>
