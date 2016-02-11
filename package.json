@@ -1,6 +1,6 @@
 {
   "name": "nearley",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Simple Earley parsing for JS",
   "main": "lib/nearley.js",
   "dependencies": {
@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "bootstrap": "node bin/nearleyc.js lib/nearley-language-bootstrapped.ne >lib/nearley-language-bootstrapped.js.new && mv lib/nearley-language-bootstrapped.js{.new,}",
-    "test": "npm install && sh build.sh"
+    "test": "npm install && mocha test/launch.js"
   },
   "author": "Hardmath123",
   "contributors": [
@@ -36,5 +36,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/hardmath123/nearley.git"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
   }
 }
