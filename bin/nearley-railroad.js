@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var rr = require('railroad-diagrams');
 var fs = require('fs');
 var path = require('path');
