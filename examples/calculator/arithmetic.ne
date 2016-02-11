@@ -55,10 +55,8 @@ float ->
       int "." int   {% function(d) {return parseFloat(d[0] + d[1] + d[2])} %}
 	| int           {% function(d) {return parseInt(d[0])} %}
 
-int -> [0-9]        {% id %}
-	| int [0-9]     {% function(d) {return d[0] + d[1]} %}
+int -> [0-9]:+        {% function(d) {return d[0].join(""); } %}
 
 # Whitespace. The important thing here is that the postprocessor
 # is a null-returning function. This is a memory efficiency trick.
-_ -> null       {% function(d) {return null; } %}
-	| _ [\s]    {% function(d) {return null; } %}
+_ -> [\s]:*     {% function(d) {return null; } %}
