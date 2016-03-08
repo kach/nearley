@@ -362,6 +362,9 @@ bug with nullables.
 Atom users can write nearley grammars with [this
 plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
 
+Sublime Text users can write nearley grammars with [this
+syntax](https://github.com/liam4/nearley-syntax-sublime) by liam4.
+
 Further reading
 ---------------
 
