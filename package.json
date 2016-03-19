@@ -21,7 +21,7 @@
     "compiler"
   ],
   "scripts": {
-    "bootstrap": "node bin/nearleyc.js lib/nearley-language-bootstrapped.ne >lib/nearley-language-bootstrapped.js.new && mv lib/nearley-language-bootstrapped.js{.new,}",
+    "bootstrap": "node bin/nearleyc.js lib/nearley-language-bootstrapped.ne >lib/nearley-language-bootstrapped.js.new && mv lib/nearley-language-bootstrapped.js.new lib/nearley-language-bootstrapped.js",
     "test": "npm install && mocha test/launch.js"
   },
   "author": "Hardmath123",
