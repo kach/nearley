@@ -1,4 +1,4 @@
-posint -> [0-9]:+ {%
+unsigned_int -> [0-9]:+ {%
     function(d) {
         return parseInt(d[0].join(""));
     }
@@ -14,7 +14,7 @@ int -> ("-"|"+"):? [0-9]:+ {%
     }
 %}
 
-posdecimal -> [0-9]:+ ("." [0-9]:+):? {%
+unsigned_decimal -> [0-9]:+ ("." [0-9]:+):? {%
     function(d) {
         return parseFloat(
             d[0].join("") +
