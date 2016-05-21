@@ -13,7 +13,7 @@ function sh(cmd) {
 }
 
 function nearleyc(args) {
-    return sh("bin/nearleyc.js " + args);
+    return sh("node bin/nearleyc.js " + args);
 }
 
 function load(compiledGrammar) {
@@ -65,7 +65,7 @@ describe("nearleyc", function() {
     });
 
     it('exponential whitespace bug', function() {
-        sh("bin/nearleyc.js test/indentation.ne");
+        sh("node bin/nearleyc.js test/indentation.ne");
     });
 
     it('nullable whitespace bug', function() {
@@ -76,7 +76,7 @@ describe("nearleyc", function() {
     });
 
     it('percent bug', function() {
-        sh("bin/nearleyc.js test/percent.ne");
+        sh("node bin/nearleyc.js test/percent.ne");
     });
 
 });
