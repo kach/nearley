@@ -79,5 +79,10 @@ describe("nearleyc", function() {
         sh("node bin/nearleyc.js test/percent.ne");
     });
 
+    it('tokens', function() {
+        var tokc = load(nearleyc("examples/token.ne"));
+        parse(tokc, [123, 456, " ", 789]).should.deep.equal([ [123, [ [ 456, " ", 789 ] ]] ]);
+    });
+
 });
 
