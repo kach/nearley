@@ -30,6 +30,7 @@ expr_member ->
     | "$" word {% function(d) {return {mixin: d[1]}} %}
     | word "[" expressionlist "]" {% function(d) {return {macrocall: d[0], args: d[2]}} %} 
     | string {% id %}
+    | "%" word {% function(d) {return {token: d[1]}} %}
     | charclass {% id %}
     | "(" whit? expression+ whit? ")" {% function(d) {return {'subexpression': d[2]} ;} %}
     | expr_member whit? ebnf_modifier {% function(d) {return {'ebnf': d[0], 'modifier': d[2]}; } %}

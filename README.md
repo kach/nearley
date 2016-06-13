@@ -221,6 +221,38 @@ welcome here!
 Including a parser imports *all* of the nonterminals defined in the parser, as
 well as any JS, macros, and config options defined there.
 
+### Custom tokens
+
+Nearley assumes by default that your fundamental unit of parsing, called a
+*token*, is a character. That is, you're parsing a list of characters. However,
+sometimes you want to preprocess your string to turn it into a list of *lexical
+tokens*. This means, instead of seeing "1", "2", "3", the nearley might just
+see a single list item "123". This is called *tokenizing*, and it can bring you
+decent performance gains. It also allows you to write cleaner, more
+maintainable grammars and to prevent ambiguous grammars.
+
+Tokens can be defined in two ways: literal tokens and testable tokens. A
+literal token matches exactly, while a testable token runs a function to test
+whether it is a match or not.
+
+```
+@{%
+var print_tok  = {literal: "print"};
+var number_tok = {test: function(x) {return x.constructor === Number; }}
+%}
+
+main -> %print_tok %number_tok
+```
+
+Now, instead of parsing the string `"print 12"`, you would parse the array
+`["print", 12]`.
+
+You can write your own tokenizer using regular expressions, or choose from
+several existing tokenizing libraries for node.
+
+(If someone writes a tokenizer plugin for nearley, I would wholeheartedly
+accept it!)
+
 Using a parser
 --------------
 
