@@ -28,9 +28,9 @@ var grammar = {
     {"name": "__$ebnf$1", "symbols": ["wschar", "__$ebnf$1"], "postprocess": function arrconcat(d) {return [d[0]].concat(d[1]);}},
     {"name": "__", "symbols": ["__$ebnf$1"], "postprocess": function(d) {return null;}},
     {"name": "wschar", "symbols": [/[ \t\n\v\f]/], "postprocess": id},
-    {"name": "posint$ebnf$1", "symbols": [/[0-9]/]},
-    {"name": "posint$ebnf$1", "symbols": [/[0-9]/, "posint$ebnf$1"], "postprocess": function arrconcat(d) {return [d[0]].concat(d[1]);}},
-    {"name": "posint", "symbols": ["posint$ebnf$1"], "postprocess": 
+    {"name": "unsigned_int$ebnf$1", "symbols": [/[0-9]/]},
+    {"name": "unsigned_int$ebnf$1", "symbols": [/[0-9]/, "unsigned_int$ebnf$1"], "postprocess": function arrconcat(d) {return [d[0]].concat(d[1]);}},
+    {"name": "unsigned_int", "symbols": ["unsigned_int$ebnf$1"], "postprocess": 
         function(d) {
             return parseInt(d[0].join(""));
         }
@@ -48,6 +48,21 @@ var grammar = {
             } else {
                 return parseInt(d[1].join(""));
             }
+        }
+        },
+    {"name": "unsigned_decimal$ebnf$1", "symbols": [/[0-9]/]},
+    {"name": "unsigned_decimal$ebnf$1", "symbols": [/[0-9]/, "unsigned_decimal$ebnf$1"], "postprocess": function arrconcat(d) {return [d[0]].concat(d[1]);}},
+    {"name": "unsigned_decimal$ebnf$2$subexpression$1$ebnf$1", "symbols": [/[0-9]/]},
+    {"name": "unsigned_decimal$ebnf$2$subexpression$1$ebnf$1", "symbols": [/[0-9]/, "unsigned_decimal$ebnf$2$subexpression$1$ebnf$1"], "postprocess": function arrconcat(d) {return [d[0]].concat(d[1]);}},
+    {"name": "unsigned_decimal$ebnf$2$subexpression$1", "symbols": [{"literal":"."}, "unsigned_decimal$ebnf$2$subexpression$1$ebnf$1"]},
+    {"name": "unsigned_decimal$ebnf$2", "symbols": ["unsigned_decimal$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "unsigned_decimal$ebnf$2", "symbols": [], "postprocess": function(d) {return null;}},
+    {"name": "unsigned_decimal", "symbols": ["unsigned_decimal$ebnf$1", "unsigned_decimal$ebnf$2"], "postprocess": 
+        function(d) {
+            return parseFloat(
+                d[0].join("") +
+                (d[1] ? "."+d[1][1].join("") : "")
+            );
         }
         },
     {"name": "decimal$ebnf$1", "symbols": [{"literal":"-"}], "postprocess": id},
@@ -126,7 +141,7 @@ var grammar = {
     {"name": "csscolor$string$4", "symbols": [{"literal":"h"}, {"literal":"s"}, {"literal":"l"}, {"literal":"a"}], "postprocess": function joiner(d) {return d.join('');}},
     {"name": "csscolor", "symbols": ["csscolor$string$4", "_", {"literal":"("}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "colnum", "_", {"literal":","}, "_", "decimal", "_", {"literal":")"}], "postprocess": $({"h": 4, "s": 8, "l": 12, "a": 16})},
     {"name": "hexdigit", "symbols": [/[a-fA-F0-9]/]},
-    {"name": "colnum", "symbols": ["posint"], "postprocess": id},
+    {"name": "colnum", "symbols": ["unsigned_int"], "postprocess": id},
     {"name": "colnum", "symbols": ["percentage"], "postprocess": 
         function(d) {return Math.floor(d[0]*255); }
         }
@@ -136,6 +151,6 @@ var grammar = {
 if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
    module.exports = grammar;
 } else {
-   window.csscolor = grammar;
+   window.grammar = grammar;
 }
 })();

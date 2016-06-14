@@ -28,6 +28,6 @@ csscolor -> "#" hexdigit hexdigit hexdigit hexdigit hexdigit hexdigit {%
           | "hsla" _ "(" _ colnum _ "," _ colnum _ "," _ colnum _ "," _ decimal _ ")" {% $({"h": 4, "s": 8, "l": 12, "a": 16}) %}
 
 hexdigit -> [a-fA-F0-9]
-colnum -> posint {% id %} | percentage {%
+colnum -> unsigned_int {% id %} | percentage {%
     function(d) {return Math.floor(d[0]*255); }
 %}
