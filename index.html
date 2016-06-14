@@ -205,7 +205,8 @@ svg.railroad-diagram g.diagram-text:hover path.diagram-text {
                 <li>nearley's grammar language is powerful and expressive: you
                 can use <strong>macros</strong>, import from a large
                 <strong>builtin library</strong> of pre-defined parser-pieces,
-                and more.
+                use a <strong>tokenizer</strong> for extra performance, and
+                more!
 
                 <li>nearley is built on an idiomatic <strong>streaming
                 API</strong>. You even have access to partial parses to build
@@ -216,13 +217,13 @@ svg.railroad-diagram g.diagram-text:hover path.diagram-text {
                 without complaining or going into a <s>sulk</s> infinite loop.
             
                 <li>nearley handles <strong>ambiguous grammars</strong>
-                gracefully.  Ambiguous grammars can be parsed in multiple ways:
+                gracefully. Ambiguous grammars can be parsed in multiple ways:
                 instead of getting confused, nearley gives you all the parsings
                 (in a deterministic order!).
 
                 <li>nearley allows for debugging with generous <strong>error
                 detection</strong>. When it catches a parse-time error, nearley
-                tells you what went wrong and where.
+                tells you exactly what went wrong and where.
 
                 <li>nearley is powerful enough to be
                 <strong>bootstrapped</strong>. That means nearley uses nearley
@@ -233,6 +234,10 @@ svg.railroad-diagram g.diagram-text:hover path.diagram-text {
                 match a grammar. Useful for writing <strong>test
                 cases</strong>, <strong>fuzzers</strong>, and
                 <strong>Mad-Libs</strong>.<br/>
+
+                <li>You can export nearley parsers as <strong>railroad
+                diagrams</strong>, which provide easy-to-understand
+                documentation of your grammar.
             
             </ul>
 
