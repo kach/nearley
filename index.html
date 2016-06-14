@@ -76,9 +76,9 @@ rgb  ( -29.889%,7,8172)
 <script type="text/javascript">
 window.addEventListener('load', function() {
     document.getElementById('parse-input').addEventListener('keyup', function() {
-        // $ ./bin/nearleyc.js examples/csscolor.ne -o examples/js/csscolor.js -e csscolor
+        // $ ./bin/nearleyc.js examples/csscolor.ne -o examples/js/csscolor.js
         var str = this.value;
-        var parser = new nearley.Parser(csscolor.ParserRules, csscolor.ParserStart);
+        var parser = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
         try {
             parser.feed(str);
             document.getElementById('parse-output').innerHTML = JSON.stringify(parser.results, null, 2);
