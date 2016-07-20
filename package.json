@@ -1,7 +1,7 @@
 {
   "name": "nearley",
   "version": "2.6.0",
-  "description": "Simple Earley parsing for JS",
+  "description": "Simple, fast, powerful parser toolkit for JavaScript.",
   "main": "lib/nearley.js",
   "dependencies": {
     "cli-color": "^1.0.0",
@@ -17,8 +17,11 @@
   },
   "keywords": [
     "parser",
+    "parse",
+    "toolkit",
     "generator",
-    "compiler"
+    "compiler",
+    "compile"
   ],
   "scripts": {
     "bootstrap": "node bin/nearleyc.js lib/nearley-language-bootstrapped.ne >lib/nearley-language-bootstrapped.js.new && mv lib/nearley-language-bootstrapped.js.new lib/nearley-language-bootstrapped.js",
