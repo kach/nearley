@@ -57,6 +57,8 @@ To compile a parser, use the `nearleyc` command:
 
 Run `nearleyc --help` for more options.
 
+There is also a version of `nearleyc` for node runtimes, [nearley-make](https://github.com/nanalan/nearley-make).
+
 To use a generated grammar in a node runtime, install `nearley` as a module:
 
     npm install nearley
