@@ -193,9 +193,12 @@ svg.railroad-diagram g.diagram-text:hover path.diagram-text {
                 
                 <li>nearley is the first JS parser to use the
                 <strong>Earley</strong> algorithm (insert your own &lsquo;early
-                bird&rsquo; pun here). It lives happily in
-                <strong>node</strong>, but doesn't mind the
-                <strong>browser</strong>.
+                bird&rsquo; pun here). It also implements Joop Leo's
+                optimizations for right-recursion, making it effectively
+                <strong>linear-time</strong> for LL(k) grammars.
+                
+                <li>nearley lives happily in <strong>node</strong>, but doesn't
+                mind the <strong>browser</strong>.
 
                 <li>nearley outputs <strong>small</strong> files. And its
                 <strong>expressive</strong> DSL comes with plenty of
