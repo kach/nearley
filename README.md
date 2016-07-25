@@ -19,9 +19,9 @@ Simple parsing for node.js.
 
 What is nearley?
 ----------------
-nearley uses the Earley parsing algorithm to parse complex data structures
-easily. nearley is über-fast and really powerful. It can parse anything you
-throw at it.
+nearley uses the Earley parsing algorithm augmented with Joop Leo's
+optimizations to parse complex data structures easily. nearley is über-fast and
+really powerful. It can parse literally anything you throw at it.
 
 nearley is used by [artificial
 intelligence](https://github.com/AI-course-TIN172-DIT410/shrdlite-course-project)
