@@ -1,10 +1,15 @@
 #!/usr/bin/env node
 
-var rr = require('railroad-diagrams');
+try {
+  var rr = require('railroad-diagrams');
+} catch(e) {
+  // optional dependency not fullfilled
+  throw 'railroad-diagrams is not installed'
+}
+
 var fs = require('fs');
 var path = require('path');
 var nomnom = require('nomnom');
-
 
 var opts = nomnom
     .script('nearley-railroad')
@@ -38,7 +43,7 @@ function railroad(grm) {
             rules[instr.name] = rules[instr.name].concat(instr.rules);
         }
     });
-    
+
     ret = '<style type="text/css">\n';
     ret += fs.readFileSync(
         path.join(
