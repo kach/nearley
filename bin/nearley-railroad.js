@@ -1,10 +1,16 @@
 #!/usr/bin/env node
 
-var rr = require('railroad-diagrams');
+try {
+  var rr = require('railroad-diagrams');
+} catch(e) {
+  // optional dependency not fullfilled
+  console.log('Error: When you installed nearley, the dependency "railroad-diagrams" failed to install. Try running "npm install -g nearley" to re-install nearley. If that doesn\'t fix the problem, please file an issue on the nearley GitHub repository.')
+  process.exit(1)
+}
+
 var fs = require('fs');
 var path = require('path');
 var nomnom = require('nomnom');
-
 
 var opts = nomnom
     .script('nearley-railroad')
@@ -38,7 +44,7 @@ function railroad(grm) {
             rules[instr.name] = rules[instr.name].concat(instr.rules);
         }
     });
-    
+
     ret = '<style type="text/css">\n';
     ret += fs.readFileSync(
         path.join(
