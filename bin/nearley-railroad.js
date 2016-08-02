@@ -4,7 +4,7 @@ try {
   var rr = require('railroad-diagrams');
 } catch(e) {
   // optional dependency not fullfilled
-  console.log('\u001b[31mOh no!\u001b[39m When you installed nearley, \u001b[31mrailroad-diagrams\u001b[39m failed to install.\n\nTry \u001b[1mnpm install -g nearley\u001b[22m, \u001b[2mand if that doesn\'t work, make an issue on the nearley GitHub repository.\u001b[22m')
+  console.log('Error: When you installed nearley, the dependency "railroad-diagrams" failed to install. Try running "npm install -g nearley" to re-install nearley. If that doesn\'t fix the problem, please file an issue on the nearley GitHub repository.')
   process.exit(1)
 }
 
