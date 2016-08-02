@@ -9,7 +9,7 @@
     "randexp": "^0.4.2"
   },
   "optionalDependencies": {
-    "railroad-diagrams": "git://github.com/tabatkins/railroad-diagrams.git#c36d1a7d0cf5ee2fdd33fcdc849d91f99ee459b9"
+    "railroad-diagrams": "git://github.com/tabatkins/railroad-diagrams.git#c36d1a7d0cf5ee2fdd33fcdc849d91f99ee459b9x"
   },
   "bin": {
     "nearleyc": "bin/nearleyc.js",

@@ -4,7 +4,8 @@ try {
   var rr = require('railroad-diagrams');
 } catch(e) {
   // optional dependency not fullfilled
-  throw 'railroad-diagrams is not installed'
+  console.log('\u001b[31mOh no!\u001b[39m When you installed nearley, \u001b[31mrailroad-diagrams\u001b[39m failed to install.\n\nTry \u001b[1mnpm install\u001b[22m again to make it work. \u001b[2mIf that still doesn\'t work, make an issue on the nearley GitHub repository.\u001b[22m')
+  process.exit(1)
 }
 
 var fs = require('fs');
