@@ -92,9 +92,9 @@ The following grammar matches a number, a plus sign, and another number:
 Anything from a `#` to the end of a line is ignored as a comment:
 
     expression -> number "+" number # sum of two numbers
-    
-    
-A nonterminal can have multiple expansions, separated by pipes (`|`):
+   
+
+A nonterminal can have multiple expansions, separated by vertical bars (`|`):
 
     expression ->
           number "+" number
