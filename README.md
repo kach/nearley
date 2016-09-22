@@ -85,11 +85,15 @@ expansions.
 Strings are the *terminals*, which match those string literals (specified as
 JSON-compatible strings).
 
-The following grammar matches a number, a plus sign, and another number
-(anything from a `#` to the end of a line is ignored as a comment):
+The following grammar matches a number, a plus sign, and another number:
 
     expression -> number "+" number
+    
+Anything from a `#` to the end of a line is ignored as a comment:
 
+    expression -> number "+" number # sum of two numbers
+    
+    
 A nonterminal can have multiple expansions, separated by pipes (`|`):
 
     expression ->
