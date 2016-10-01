@@ -28,6 +28,11 @@ var opts = nomnom
         abbr: 'o',
         help: "File to output to (defaults to stdout)",
     })
+    .option('quiet', {
+        abbr: 'q',
+        flag: true,
+        help: "Output parse table only omitting parsing steps",
+    })
     .option('version', {
         abbr: 'v',
         flag: true,
@@ -57,7 +62,11 @@ var writeTable = function (writeStream, parser) {
                     writeStream.write(stateNumber++ + ": " + state.toString() + "\n");
                 } )
         } )
-    writeStream.write("\n\nParse results: \n");
+    writeStream.write("\n");
+}
+
+var writeResults = function (writeStream, parser) {
+    writeStream.write("\nParse results: \n");
     writeStream.write(require('util').inspect(parser.results, {colors: true, depth: null}));
     writeStream.write("\n");
 }
@@ -66,9 +75,11 @@ if (typeof(opts.input) === "undefined") {
     process.stdin
         .pipe(new StreamWrapper(parser))
         .on('finish', function() {
-            writeTable(output, parser);
+            if (!opts.quiet) writeTable(output, parser);
+            writeResults(output, parser);
         });
 } else {
     parser.feed(opts.input);
-    writeTable(output, parser);
+    if (!opts.quiet) writeTable(output, parser);
+    writeResults(output, parser);
 }
