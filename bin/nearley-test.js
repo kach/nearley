@@ -66,7 +66,7 @@ var writeTable = function (writeStream, parser) {
 }
 
 var writeResults = function (writeStream, parser) {
-    writeStream.write(require('util').inspect(parser.results, {colors: true, depth: null}));
+    writeStream.write(require('util').inspect(parser.results, {colors: !opts.quiet, depth: null}));
     writeStream.write("\n");
 }
 
