@@ -31,7 +31,7 @@ var opts = nomnom
     .option('quiet', {
         abbr: 'q',
         flag: true,
-        help: "Output parse table only omitting parsing steps",
+        help: "Output parse results only (hide Earley table)",
     })
     .option('version', {
         abbr: 'v',
@@ -83,3 +83,4 @@ if (typeof(opts.input) === "undefined") {
     if (!opts.quiet) writeTable(output, parser);
     writeResults(output, parser);
 }
+
