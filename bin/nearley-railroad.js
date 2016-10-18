@@ -102,6 +102,7 @@ function railroad(grm) {
     }
 
     return [
+      '<!DOCTYPE html>',
       '<html>',
         '<head>',
           '<meta charset="UTF-8">',
