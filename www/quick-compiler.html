@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>nearley</title>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:300,700'
+              rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="/www/main.css"/>
+        <script charset="utf-8" src="/lib/nearley.js"></script>
+        <script charset="utf-8" src="/examples/js/csscolor.js"></script>
+
+        <script charset="utf-8" src="/lib/compile.js"></script>
+        <script charset="utf-8" src="/lib/generate.js"></script>
+        <script charset="utf-8" src="/lib/nearley-language-bootstrapped.js"></script>
+
+        <script charset="utf-8" src="/www/main.js"></script>
+    </head>
+    <body>
+        <div id="main" class="center">
+            <h1>nearley<span style="color: #559;">.js</span><span id="version">2.0.0</span></h1>
+
+            <h2>Quick compiler</h2>
+
+            <p>Enter a nearley grammar here and press the button. nearley will
+            parse it into an AST and compile the AST into a JavaScript file.
+            (Note: some features, such as loading built-ins, won&rsquo;t work
+            on the browser).
+            
+            <br/><textarea id="grammar-input">a -&gt; a "1" | "1"</textarea>
+
+            <button id="compile-grammar">Make me a grammar!</button>
+
+            <p><a href="http://js.org" target="_blank" title="JS.ORG | JavaScript Community">
+            <img src="http://logo.js.org/dark_tiny.png" width="102" alt="JS.ORG Logo"/></a></div>
+
+            <script>
+            window.addEventListener('load', function() {
+                var X = new XMLHttpRequest();
+                X.open('GET', '/package.json');
+                X.onreadystatechange = function() {
+                    if (X.readyState === 4 && X.status === 200 && X.responseText) {
+                        var J = JSON.parse(X.responseText);
+                        document.getElementById("version").innerHTML = J.version || "2.0.0";
+                    }
+                };
+                X.send();
+            }, false);
+            </script>
+        </div>
+    </body>
+</html>
