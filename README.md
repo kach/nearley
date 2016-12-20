@@ -380,10 +380,8 @@ make me happy:
 
 - Optimize. There are still plenty of optimizations that an enterprising
   JS-savant could implement.
-- Implement Joop Leo's right-recursion algorithm.
-- Ports to other languages! `pearley` for Python and `cearley` for C would be
-  awesome.
 - Help build the builtins library by PRing in your favorite primitives.
+- Solutions to issues labeled "up for grabs" on the issue tracker.
 
 Nearley is MIT licensed.
 
