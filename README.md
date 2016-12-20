@@ -401,6 +401,9 @@ plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
 Sublime Text users can write nearley grammars with [this
 syntax](https://github.com/liam4/nearley-syntax-sublime) by liam4.
 
+Vim users can use [this plugin](https://github.com/andres-arana/vim-nearley) by
+Andrés Arana.
+
 Further reading
 ---------------
 
