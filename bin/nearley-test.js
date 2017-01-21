@@ -19,6 +19,7 @@ var opts = nomnom
     .option('input', {
         abbr: 'i',
         help: "An input string to parse (if not provided then read from stdin)",
+        type: 'string',
     })
     .option('start', {
         abbr: 's',
