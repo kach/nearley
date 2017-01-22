@@ -409,3 +409,6 @@ Further reading
   about the algorithm. 
 - Read about [Marpa](http://savage.net.au/Marpa.html) to
   learn more than you ever thought you wanted to know about parsing.
+- A [nearley
+  tutorial](https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e)
+  written by @gajus.
