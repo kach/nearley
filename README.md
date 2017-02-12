@@ -52,8 +52,10 @@ Installation and Usage
 ----------------------
 
 > **Note:** For beginners, Guillermo Webster's
-[nearley-playground](https://omrelli.ug/nearley-playground/) is a wonderful way
-to explore nearley interactively in your browser.
+> [nearley-playground](https://omrelli.ug/nearley-playground/) is a wonderful
+> way to explore nearley interactively in your browser:
+>
+> ![A screenshot of the playground](www/playground.png) 
 
 To compile a parser, use the `nearleyc` command:
 
