@@ -50,6 +50,11 @@ grammars (grammars that can be parsed in multiple ways).
 
 Installation and Usage
 ----------------------
+
+> **Note:** For beginners, Guillermo Webster's
+[nearley-playground](https://omrelli.ug/nearley-playground/) is a wonderful way
+to explore nearley interactively in your browser.
+
 To compile a parser, use the `nearleyc` command:
 
     npm install -g nearley
