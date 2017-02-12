@@ -84,5 +84,12 @@ describe("nearleyc", function() {
         parse(tokc, [123, 456, " ", 789]).should.deep.equal([ [123, [ [ 456, " ", 789 ] ]] ]);
     });
 
-});
+    it('leo bug', function() {
+        var leo = nearleyc("test/leobug.ne");
+        parse(leo, "baab")
+            .should.deep.equal(
+            [ [ 'b', [], 'a', [], 'a', [ 'b' ] ],
+            [ 'b', [], 'a', [], 'a', [ 'b', [] ] ] ]);
+    });
 
+});
