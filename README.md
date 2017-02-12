@@ -55,24 +55,45 @@ Installation and Usage
 > [nearley-playground](https://omrelli.ug/nearley-playground/) is a wonderful
 > way to explore nearley interactively in your browser:
 >
-> ![A screenshot of the playground](www/playground.png) 
+> ![A screenshot of the playground](www/playground.png)
+> 
+> Enjoy!
 
-To compile a parser, use the `nearleyc` command:
+To use nearley, you need both a *global* and a *local* installation. The two
+types of installations are described separately below.
 
-    npm install -g nearley
-    nearleyc parser.ne
+---
 
-Run `nearleyc --help` for more options.
+To *compile* a nearley parser (a `.ne` file), you need to install the
+`nearleyc` command from npm:
 
-To use a generated grammar in a node runtime, install `nearley` as a module:
+    $ npm install -g nearley
+    $ nearleyc parser.ne
 
-    npm install nearley
-    ...
-    var nearley = require("nearley");
-    var grammar = require("./my-generated-grammar.js");
+nearley ships with three additional tools:
+- `nearley-test` lets you quickly test a grammar against some input and see the
+  results. It also lets you explore the internal state of nearley's Earley
+  table, in case you find that interesting.
+- `nearley-unparse` inverts a parser into a generator, allowing you to create
+  random strings that match your grammar.
+- `nearley-railroad` generates pretty railroad diagrams from your parser. This
+  is mainly helpful for creating documentation, as (for example) on json.org.
 
-To use a generated grammar in a browser runtime, include `nearley.js` (you can
-hardlink from Github if you want):
+You can uninstall the nearley compiler using `npm uninstall -g nearley`.
+
+---
+
+To *use* a generated grammar, you need to install `nearley` as a per-project
+dependency via npm (note that there is no `-g` in the first command):
+
+    $ npm install nearley
+    $ node
+    > var nearley = require("nearley");
+    > var grammar = require("./my-generated-grammar.js");
+
+Alternatively, to use a generated grammar in a browser runtime, include the
+`nearley.js` file as a `<script>`. You can hardlink this script from Github if
+you want; this will guarantee automatic updates.
 
     <script src="https://raw.githubusercontent.com/Hardmath123/nearley/master/lib/nearley.js"></script>
     <script src="my-generated-grammar.js"></script>
