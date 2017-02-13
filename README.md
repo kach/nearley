@@ -215,7 +215,7 @@ You can create "polymorphic" rules through macros:
 
 Macros are dynamically scoped:
 
-    foo[X, Y] -> bar["moo" | "oink" | "baa"] $Y
+    foo[X, Y] -> bar[("moo" | "oink" | "baa")] $Y
     bar[Z]    -> $X " " $Z # 'remembers' $X from its caller
     main -> foo["Cows", "."]
     # matches "Cows oink." and "Cows moo."
