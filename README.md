@@ -388,6 +388,28 @@ See a bigger example [here](http://nearley.js.org/www/railroad-demo.html).
 [`railroad-diagrams`](https://github.com/tabatkins/railroad-diagrams) by
 tabatkins.)
 
+Other Tools
+-----------
+
+*This section lists some tools created by others. These are not distributed
+with nearley.*
+
+Atom users can write nearley grammars with [this
+plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
+
+Sublime Text users can write nearley grammars with [this
+syntax](https://github.com/liam4/nearley-syntax-sublime) by liam4.
+
+Vim users can use [this plugin](https://github.com/andres-arana/vim-nearley) by
+Andrés Arana.
+
+Python users can convert nearley grammers to Python using
+[lark](https://github.com/erezsh/lark) by Erez (currently experimental).
+
+Browser users can use
+[nearley-playground](https://omrelli.ug/nearley-playground/) by Guillermo
+Webster to explore nearley interactively in the browser.
+
 Still confused?
 ---------------
 You can read [the calculator example](examples/calculator/arithmetic.ne) to get
@@ -420,15 +442,6 @@ JavaScript parser with nearley and contributed ideas for EBNF support. Joshua
 T. Corbin refactored the compiler to be much, much prettier. Bojidar Marinov
 implemented postprocessors-in-other-languages. Shachar Itzhaky fixed a subtle
 bug with nullables.
-
-Atom users can write nearley grammars with [this
-plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
-
-Sublime Text users can write nearley grammars with [this
-syntax](https://github.com/liam4/nearley-syntax-sublime) by liam4.
-
-Vim users can use [this plugin](https://github.com/andres-arana/vim-nearley) by
-Andrés Arana.
 
 Further reading
 ---------------
