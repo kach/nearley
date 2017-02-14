@@ -392,7 +392,8 @@ Other Tools
 -----------
 
 *This section lists some tools created by others. These are not distributed
-with nearley.*
+with nearley, so if you have problems, please contact the respective author for
+support.*
 
 Atom users can write nearley grammars with [this
 plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
@@ -409,6 +410,10 @@ Python users can convert nearley grammers to Python using
 Browser users can use
 [nearley-playground](https://omrelli.ug/nearley-playground/) by Guillermo
 Webster to explore nearley interactively in the browser.
+
+Webpack users can use
+[nearley-loader](https://github.com/kozily/nearley-loader) by Andrés Arana to
+load grammars directly.
 
 Still confused?
 ---------------
