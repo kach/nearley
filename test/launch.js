@@ -25,12 +25,7 @@ function parse(grammar, input) {
     }
     grammar.should.have.keys(['ParserRules', 'ParserStart']);
     var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
-    try {
-      p.feed(input);
-    } catch (e) {
-      p.table.forEach(column => console.log(column.states.map(x => x.toString()).join('\n  ')))
-      throw 'n'
-    }
+    p.feed(input);
     return p.results;
 }
 
