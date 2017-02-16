@@ -404,7 +404,7 @@ syntax](https://github.com/liam4/nearley-syntax-sublime) by liam4.
 Vim users can use [this plugin](https://github.com/andres-arana/vim-nearley) by
 Andrés Arana.
 
-Python users can convert nearley grammers to Python using
+Python users can convert nearley grammar to Python using
 [lark](https://github.com/erezsh/lark) by Erez (currently experimental).
 
 Browser users can use
