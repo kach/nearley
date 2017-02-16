@@ -150,42 +150,7 @@ m_key -> "space" {% id %}
        | "right" __ "arrow" {% d => "right arrow" %}
        | "left" __ "arrow" {% d => "left arrow" %}
        | "any" {% id %}
-       | "a" {% id %}
-       | "b" {% id %}
-       | "c" {% id %}
-       | "d" {% id %}
-       | "e" {% id %}
-       | "f" {% id %}
-       | "g" {% id %}
-       | "h" {% id %}
-       | "i" {% id %}
-       | "j" {% id %}
-       | "k" {% id %}
-       | "l" {% id %}
-       | "m" {% id %}
-       | "n" {% id %}
-       | "o" {% id %}
-       | "p" {% id %}
-       | "q" {% id %}
-       | "r" {% id %}
-       | "s" {% id %}
-       | "t" {% id %}
-       | "u" {% id %}
-       | "v" {% id %}
-       | "w" {% id %}
-       | "x" {% id %}
-       | "y" {% id %}
-       | "z" {% id %}
-       | "0" {% id %}
-       | "1" {% id %}
-       | "2" {% id %}
-       | "3" {% id %}
-       | "4" {% id %}
-       | "5" {% id %}
-       | "6" {% id %}
-       | "7" {% id %}
-       | "8" {% id %}
-       | "9" {% id %}
+       | [a-z0-9] {% id %}
        | "_" {% d => "" %}
 
 m_list -> ListName
