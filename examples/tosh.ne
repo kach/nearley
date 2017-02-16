@@ -85,8 +85,8 @@ n1 -> simple_reporter {% id %}
 s2 -> s0 {% id %}
     | n1 {% id %}
 
-n0 -> "-" _ number {% d => -d[0] %}
-    | number {% d => +d[0] %}
+n0 -> "-" _ number {% d => -d[2] %}
+    | number {% d => d[0] %}
     | "_" {% d => 0 %}
 
 s0 -> string {% id %}
@@ -153,7 +153,7 @@ m_key -> "space" {% id %}
        | [a-z0-9] {% id %}
        | "_" {% d => "" %}
 
-m_list -> ListName
+m_list -> ListName {% id %}
         | "_" {% d => "" %}
 
 m_location -> jpart {% id %}
@@ -228,10 +228,10 @@ m_triggerSensor -> "loudness" {% id %}
                  | "video" __ "motion" {% d => "video motion" %}
                  | "_" {% d => "" %}
 
-m_var -> VariableName
+m_var -> VariableName {% id %}
        | "_" {% d => "" %}
 
-m_varName -> VariableName
+m_varName -> VariableName {% id %}
            | "_" {% d => "" %}
 
 m_videoMotionType -> "motion" {% id %}
@@ -387,12 +387,14 @@ _ -> [ ]:* {% d => null %}
 __ -> [ ]:+ {% d => null %}
 
 string -> "'hello'"
-number -> [0-9]:+ {% d => d.join('') %}
-number -> [0-9]:+ [.] [0-9]:+ {% d => d.join('') %}
+number -> digits                {% d => parseInt(d[0]) %}
+number -> digits [.] digits     {% d => parseFloat(d.join('')) %}
+
+digits -> [0-9]:+   {% d => d[0].join('') %}
 
 color -> [#] [0-9a-z] [0-9a-z] [0-9a-z] [0-9a-z] [0-9a-z] [0-9a-z]
        | [#] [0-9a-z] [0-9a-z] [0-9a-z]
 
-VariableName -> "foo"
-ListName -> "list"
+VariableName -> "foo" {% id %}
+ListName -> "list" {% id %}
 
