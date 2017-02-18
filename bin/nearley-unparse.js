@@ -44,6 +44,40 @@ var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
 var grammar = new require(require('path').resolve(opts.file));
 
+function gen(grammar, name) {
+    // The first-generation generator. It just spews out stuff randomly, and is
+    // not at all guaranteed to terminate. However, it is extremely performant.
+
+    var stack = [name];
+    var rules = grammar.ParserRules;
+
+    while (stack.length > 0) {
+        var currentname = stack.pop();
+        if (typeof(currentname) === 'string') {
+            var goodrules = grammar.ParserRules.filter(function(x) {
+                return x.name === currentname;
+            });
+            if (goodrules.length > 0) {
+                var chosen = goodrules[
+                    Math.floor(Math.random()*goodrules.length)
+                ];
+                for (var i=chosen.symbols.length-1; i>=0; i--) {
+                    stack.push(chosen.symbols[i]);
+                }
+            } else {
+                throw new Error("Nothing matches rule: "+currentname+"!");
+            }
+        } else if (currentname.test) {
+            var c = new randexp(currentname).gen();
+            output.write(c);
+            continue;
+        } else if (currentname.literal) {
+            var c = currentname.literal;
+            output.write(c);
+            continue;
+        }
+    }
+}
 
 function gen2(grammar, name, depth) {
     // I guess you could call this the second-generation generator.
@@ -114,38 +148,9 @@ function gen2(grammar, name, depth) {
     return ret;
 }
 
-function gen(grammar, name) {
-    var stack = [name];
-    var rules = grammar.ParserRules;
 
-    while (stack.length > 0) {
-        var currentname = stack.pop();
-        if (typeof(currentname) === 'string') {
-            var goodrules = grammar.ParserRules.filter(function(x) {
-                return x.name === currentname;
-            });
-            if (goodrules.length > 0) {
-                var chosen = goodrules[
-                    Math.floor(Math.random()*goodrules.length)
-                ];
-                for (var i=chosen.symbols.length-1; i>=0; i--) {
-                    stack.push(chosen.symbols[i]);
-                }
-            } else {
-                throw new Error("Nothing matches rule: "+currentname+"!");
-            }
-        } else if (currentname.test) {
-            var c = new randexp(currentname).gen();
-            output.write(c);
-            continue;
-        } else if (currentname.literal) {
-            var c = currentname.literal;
-            output.write(c);
-            continue;
-        }
-    }
-}
 
+// the main loop
 for (var i=0; i<parseInt(opts.count); i++) {
     if (opts.depth === -1) {
         gen(grammar, opts.start ? opts.start : grammar.ParserStart);
