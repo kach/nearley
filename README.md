@@ -366,6 +366,10 @@ The Unparser outputs as a stream by continuously writing characters to its
 output pipe. So, if it "goes off the deep end" and generates a huge string, you
 will still see output scrolling by in real-time.
 
+To limit the size of the output, you can specify a bound on the depth with the
+`-d` flag. This switches the Unparser to a different algorithm. A larger depth
+bound corresponds to larger generated strings.
+
 As far as I know, nearley is the only parser generator with this feature. It
 is inspired by Roly Fentanes' [randexp](https://fent.github.io/randexp.js/),
 which does the same thing with regular expressions.
