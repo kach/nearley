@@ -63,6 +63,9 @@ function gen2(grammar, name, depth) {
                 good_rules.push(i);
             }
         }
+        if (good_rules.length === 0)
+            throw ("No strings in your grammar have depth "+depth+" (and " +
+                   "none are shallower). Try increasing -d.");
 
         var r = good_rules[Math.floor(Math.random()*good_rules.length)];
         return synth_rule(r, depth);
