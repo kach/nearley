@@ -422,8 +422,7 @@ a feel for the syntax (see it live
 [here](http://hardmath123.github.io/nearley/examples/calculator/)). You can
 read a grammar for [tosh](https://tosh.tjvr.org) over [here](examples/tosh.ne).
 There are more sample grammars in the `/examples` directory. For larger
-examples, we also have experimental parsers for **CSV**, **Lua**, and
-**JavaScript**.
+examples, we also have experimental parsers for **CSV** and **Lua**.
 
 Contributing
 ------------
