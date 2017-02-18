@@ -91,15 +91,22 @@ function gen2(grammar, name, depth) {
 
     function synth_nt(name, depth) {
         var good_rules = [];
+        var min_min_depth = Infinity;
         for (var i=0; i<rules.length; i++) {
             min_depths_rule = [];
-            if (rules[i].name === name && min_depth_rule(i, []) < depth) {
-                good_rules.push(i);
+            var size = min_depth_rule(i, []);
+            if (rules[i].name === name) {
+                min_min_depth = Math.min(min_min_depth, size);
+                if (size < depth) {
+                    good_rules.push(i);
+                }
             }
         }
-        if (good_rules.length === 0)
+        if (good_rules.length === 0) {
             throw ("No strings in your grammar have depth "+depth+" (and " +
-                   "none are shallower). Try increasing -d.");
+                   "none are shallower). Try increasing -d to at least "+
+                   (min_min_depth+1) + ".");
+        }
 
         var r = good_rules[Math.floor(Math.random()*good_rules.length)];
         return synth_rule(r, depth);
