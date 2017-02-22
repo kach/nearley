@@ -366,6 +366,10 @@ The Unparser outputs as a stream by continuously writing characters to its
 output pipe. So, if it "goes off the deep end" and generates a huge string, you
 will still see output scrolling by in real-time.
 
+To limit the size of the output, you can specify a bound on the depth with the
+`-d` flag. This switches the Unparser to a different algorithm. A larger depth
+bound corresponds to larger generated strings.
+
 As far as I know, nearley is the only parser generator with this feature. It
 is inspired by Roly Fentanes' [randexp](https://fent.github.io/randexp.js/),
 which does the same thing with regular expressions.
@@ -388,13 +392,41 @@ See a bigger example [here](http://nearley.js.org/www/railroad-demo.html).
 [`railroad-diagrams`](https://github.com/tabatkins/railroad-diagrams) by
 tabatkins.)
 
+Other Tools
+-----------
+
+*This section lists some tools created by others. These are not distributed
+with nearley, so if you have problems, please contact the respective author for
+support.*
+
+Atom users can write nearley grammars with [this
+plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
+
+Sublime Text users can write nearley grammars with [this
+syntax](https://github.com/liam4/nearley-syntax-sublime) by liam4.
+
+Vim users can use [this plugin](https://github.com/andres-arana/vim-nearley) by
+Andrés Arana.
+
+Python users can convert nearley grammars to Python using
+[lark](https://github.com/erezsh/lark) by Erez (currently experimental).
+
+Browser users can use
+[nearley-playground](https://omrelli.ug/nearley-playground/) by Guillermo
+Webster to explore nearley interactively in the browser.
+
+Webpack users can use
+[nearley-loader](https://github.com/kozily/nearley-loader) by Andrés Arana to
+load grammars directly.
+
 Still confused?
 ---------------
 You can read [the calculator example](examples/calculator/arithmetic.ne) to get
 a feel for the syntax (see it live
-[here](http://hardmath123.github.io/nearley/examples/calculator/)). There are
-more sample grammars in the `/examples` directory. For larger examples,  we
-also have experimental parsers for **CSV**, **Lua**, and **JavaScript**.
+[here](http://hardmath123.github.io/nearley/examples/calculator/)). You can
+read a grammar for [tosh](https://tosh.tjvr.org) over [here](examples/tosh.ne).
+There are more sample grammars in the `/examples` directory. For larger
+examples, we also have experimental parsers for **CSV** and **Lua**.
 
 Contributing
 ------------
@@ -420,15 +452,6 @@ JavaScript parser with nearley and contributed ideas for EBNF support. Joshua
 T. Corbin refactored the compiler to be much, much prettier. Bojidar Marinov
 implemented postprocessors-in-other-languages. Shachar Itzhaky fixed a subtle
 bug with nullables.
-
-Atom users can write nearley grammars with [this
-plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
-
-Sublime Text users can write nearley grammars with [this
-syntax](https://github.com/liam4/nearley-syntax-sublime) by liam4.
-
-Vim users can use [this plugin](https://github.com/andres-arana/vim-nearley) by
-Andrés Arana.
 
 Further reading
 ---------------

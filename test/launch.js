@@ -92,4 +92,10 @@ describe("nearleyc", function() {
             [ 'b', [], 'a', [], 'a', [ 'b', [] ] ] ]);
     });
 
+    it('tosh example', function() {
+        var tosh = nearleyc("examples/tosh.ne");
+        parse(tosh, "set foo to 2 * e^ of ( foo * -0.05 + 0.5) * (1 - e ^ of (foo * -0.05 + 0.5))")
+            .should.deep.equal([["setVar:to:","foo",["*",["*",2,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]],["-",1,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]]]]]);
+    });
+
 });
