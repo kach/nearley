@@ -34,14 +34,14 @@ expPart -> [eE] [+-]:? [0-9]:* {% function(d) { return d[0] + (d[1] || '') + d[2
 
 validChar ->
       [^"\\] {% function(d) { return d[0]; } %}
-    | "\\\"" {% function(d) { return d[0]; } %}
-    | "\\\\" {% function(d) { return d[0]; } %}
+    | "\\\"" {% function(d) { return "\""; } %}
+    | "\\\\" {% function(d) { return "\\"; } %}
     | "\\/" {% function(d) { return "/"; } %}
-    | "\\n" {% function(d) { return d[0]; } %}
-    | "\\b" {% function(d) { return d[0]; } %}
-    | "\\f" {% function(d) { return d[0]; } %}
-    | "\\r" {% function(d) { return d[0]; } %}
-    | "\\t" {% function(d) { return d[0]; } %}
+    | "\\n" {% function(d) { return "\n"; } %}
+    | "\\b" {% function(d) { return "\b"; } %}
+    | "\\f" {% function(d) { return "\f"; } %}
+    | "\\r" {% function(d) { return "\r"; } %}
+    | "\\t" {% function(d) { return "\t"; } %}
     | "\\u" hex hex hex hex {% unicodehex %}
 
 hex -> [0-9a-fA-F] {% function(d) { return d[0]; } %}
@@ -79,14 +79,9 @@ function extractArray(d) {
 function unicodehex(d) {
     let codePoint = parseInt(d[1]+d[2]+d[3]+d[4], 16);
 
-    // Non-printable characters
-    if (codePoint < 32) {
-        return d.join("").toLowerCase();
-    }
-
     // Handle '\\'
     if (codePoint == 92) {
-        return "\\\\";
+        return "\\";
     }
 
     return String.fromCodePoint(codePoint);
