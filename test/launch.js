@@ -92,6 +92,19 @@ describe("nearleyc", function() {
             [ 'b', [], 'a', [], 'a', [ 'b', [] ] ] ]);
     });
 
+    var json;
+    it('json example compiles', function() {
+        json = nearleyc("examples/json.ne");
+    });
+    it('json test1', function() {
+        var test1 = fs.readFileSync('test/test1.json', 'utf-8');
+        parse(json, test1).should.deep.equal([JSON.parse(test1)]);
+    });
+    it('json test2', function() {
+        var test2 = fs.readFileSync('test/test2.json', 'utf-8');
+        parse(json, test2).should.deep.equal([JSON.parse(test2)]);
+    });
+
     it('tosh example', function() {
         var tosh = nearleyc("examples/tosh.ne");
         parse(tosh, "set foo to 2 * e^ of ( foo * -0.05 + 0.5) * (1 - e ^ of (foo * -0.05 + 0.5))")
