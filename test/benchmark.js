@@ -19,10 +19,17 @@ var compile = shared.compile
 
 function addTest(parserName, parser, exampleInputs) {
   exampleInputs.forEach(function(inputPath) {
-    var input = read(inputPath);
-
-    suite.add(parserName + ': parse ' + path.basename(inputPath), function() {
-      parser(input);
+    var input;
+    var exampleName;
+    if (/^test\//.test(inputPath)) {
+        input = read(inputPath);
+        exampleName = path.basename(inputPath);
+    } else {
+        input = inputPath;
+        exampleName = '"' + input + '"'
+    }
+    suite.add(parserName + ': parse ' + exampleName, function() {
+        parser(input);
     });
   })
 }
@@ -50,15 +57,23 @@ function makeParser(neFile) {
 
 // TODO benchmark compile
 
+
+addTest('calculator example', makeParser('examples/calculator/arithmetic.ne'), [
+    '2 + 3 * 42 - sin(0.14)',
+    'ln (3 + 2*(8/e - sin(pi/5)))',
+]);
+
 addTest('json example', makeParser('examples/json.ne'), [
   'test/test1.json',
   'test/test2.json',
-])
+]);
 
+/*
 addTest('native JSON.parse', JSON.parse, [
-  'test/test1.json',
-  'test/test2.json',
+  read('test/test1.json'),
+  read('test/test2.json'),
 ])
+*/
 
 
 // Run & report results
