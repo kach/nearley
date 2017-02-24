@@ -9,44 +9,10 @@ var colors = require('colors/safe');
 var formatNumber = Benchmark.formatNumber;
 var suite = new Benchmark.Suite();
 
-var nearley = require('../lib/nearley.js');
-
-
-
-function read(path) {
-  return fs.readFileSync(path, 'utf-8')
-}
-
-
-/* from launch.js --TODO share code? */
-function sh(cmd) {
-    return child_process.execSync(cmd, {encoding: 'utf-8', stdio: 'pipe'});
-}
-
-function nearleyc(args) {
-    return sh("node bin/nearleyc.js " + args);
-}
-
-function load(compiledGrammar) {
-    var f = new Function('module', compiledGrammar);
-    var m = {exports: {}};
-    f(m);
-    return m.exports;
-}
-
-function loadFile(compiledFilename) {
-    return load(read(compiledFilename));
-}
-
-function parse(grammar, input) {
-    if (typeof grammar == 'string') {
-        if (grammar.match(/\.js$/)) grammar = loadFile(grammar);
-        else grammar = load(grammar);
-    }
-    grammar.should.have.keys(['ParserRules', 'ParserStart']);
-    var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
-    return p.feed(input).results;
-}
+var Parser = require('../lib/nearley.js').Parser;
+var shared = require('./_shared.js');
+var nearleyc = shared.nearleyc
+  , read = shared.read;
 
 
 // Define benchmarks
@@ -64,8 +30,7 @@ function addTest(parserName, parser, exampleInputs) {
 function makeParser(neFile) {
   var grammar;
   try {
-    var out = nearleyc(neFile);
-    grammar = load(out);
+    grammar = nearleyc(read(neFile));
   } catch (e) {
     grammar = null; // oh dear
   }
@@ -74,8 +39,9 @@ function makeParser(neFile) {
     if (grammar === null) {
       throw 'grammar error';
     }
-    var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
-    return p.feed(input).results;
+    var p = new Parser(grammar.ParserRules, grammar.ParserStart);
+    p.feed(input)
+    return p.results;
   }
 
   return parse;
