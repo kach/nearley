@@ -18,40 +18,40 @@ var compile = shared.compile
 // Define benchmarks
 
 function addTest(parserName, parser, exampleInputs) {
-  exampleInputs.forEach(function(inputPath) {
-    var input;
-    var exampleName;
-    if (/^test\//.test(inputPath)) {
-        input = read(inputPath);
-        exampleName = path.basename(inputPath);
-    } else {
-        input = inputPath;
-        exampleName = '"' + input + '"'
-    }
-    suite.add(parserName + ': parse ' + exampleName, function() {
-        parser(input);
-    });
-  })
+    exampleInputs.forEach(function(inputPath) {
+        var input;
+        var exampleName;
+        if (/^test\//.test(inputPath)) {
+            input = read(inputPath);
+            exampleName = path.basename(inputPath);
+        } else {
+            input = inputPath;
+            exampleName = '"' + input + '"':
+        }
+        suite.add(parserName + ': parse ' + exampleName, function() {
+            parser(input);
+        });
+    })
 }
 
 function makeParser(neFile) {
-  var grammar;
-  try {
-    grammar = compile(read(neFile));
-  } catch (e) {
-    grammar = null; // oh dear
-  }
-
-  function parse(input) {
-    if (grammar === null) {
-      throw 'grammar error';
+    var grammar;
+    try {
+        grammar = compile(read(neFile));
+    } catch (e) {
+        grammar = null; // oh dear
     }
-    var p = new Parser(grammar.ParserRules, grammar.ParserStart);
-    p.feed(input)
-    return p.results;
-  }
 
-  return parse;
+    function parse(input) {
+        if (grammar === null) {
+            throw 'grammar error';
+        }
+        var p = new Parser(grammar.ParserRules, grammar.ParserStart);
+        p.feed(input);
+        return p.results;
+    }
+
+    return parse;
 }
 
 
@@ -64,14 +64,14 @@ addTest('calculator example', makeParser('examples/calculator/arithmetic.ne'), [
 ]);
 
 addTest('json example', makeParser('examples/json.ne'), [
-  'test/test1.json',
-  'test/test2.json',
+    'test/test1.json',
+    'test/test2.json',
 ]);
 
 /*
 addTest('native JSON.parse', JSON.parse, [
-  read('test/test1.json'),
-  read('test/test2.json'),
+   'test/test1.json',
+   'test/test2.json',
 ])
 */
 
@@ -79,32 +79,32 @@ addTest('native JSON.parse', JSON.parse, [
 // Run & report results
 
 var longestName = Math.max.apply(null, suite.map(function(bench) {
-  return bench.name.length;
+    return bench.name.length;
 }));
 function padName(x) {
-  while (x.length < longestName) {
-    x += ' ';
-  }
-  return x;
+    while (x.length < longestName) {
+        x += ' ';
+    }
+    return x;
 }
 
 suite.on('cycle', function(event) {
-  var bench = event.target;
-  var stats = bench.stats;
-  var hz = bench.hz; // Hz -- ops per sec
-  var pm = '\xb1';
+    var bench = event.target;
+    var stats = bench.stats;
+    var hz = bench.hz; // Hz -- ops per sec
+    var pm = '\xb1';
 
-  if (bench.error) {
-    console.log(colors.red("✘"), bench.name);
-    console.log(colors.red(bench.error.stack));
-    console.log('');
-  } else {
-    var opsPerSec = formatNumber(hz.toFixed(hz < 100 ? 2 : 0)) + ' ops/sec ' + pm + stats.rme.toFixed(2) + '%';
-    console.log(colors.green("✔"), padName(bench.name), colors.blue(opsPerSec));
-  }
+    if (bench.error) {
+        console.log(colors.red("✘"), bench.name);
+        console.log(colors.red(bench.error.stack));
+        console.log('');
+    } else {
+        var opsPerSec = formatNumber(hz.toFixed(hz < 100 ? 2 : 0)) + ' ops/sec ' + pm + stats.rme.toFixed(2) + '%';
+        console.log(colors.green("✔"), padName(bench.name), colors.blue(opsPerSec));
+    }
 })
 .on('complete', function() {
-  // TODO: report geometric mean.
+    // TODO: report geometric mean.
 })
 .run();
 
