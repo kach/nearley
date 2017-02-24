@@ -11,7 +11,7 @@ var suite = new Benchmark.Suite();
 
 var Parser = require('../lib/nearley.js').Parser;
 var shared = require('./_shared.js');
-var nearleyc = shared.nearleyc
+var compile = shared.compile
   , read = shared.read;
 
 
@@ -30,7 +30,7 @@ function addTest(parserName, parser, exampleInputs) {
 function makeParser(neFile) {
   var grammar;
   try {
-    grammar = nearleyc(read(neFile));
+    grammar = compile(read(neFile));
   } catch (e) {
     grammar = null; // oh dear
   }
@@ -48,7 +48,7 @@ function makeParser(neFile) {
 }
 
 
-// TODO benchmark nearleyc [without using sh!]
+// TODO benchmark compile
 
 addTest('json example', makeParser('examples/json.ne'), [
   'test/test1.json',

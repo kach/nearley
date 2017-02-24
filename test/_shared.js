@@ -15,7 +15,7 @@ function parse(grammar, input) {
     return p.results;
 }
 
-function nearleyc(source) {
+function compile(source) {
     // parse
     var results = parse(parserGrammar, source);
 
@@ -42,7 +42,7 @@ function read(filename) {
 
 module.exports = {
     read: read,
-    nearleyc: nearleyc,
+    compile: compile,
     parse: parse,
     evalGrammar: evalGrammar,
 };
