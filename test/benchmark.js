@@ -26,7 +26,7 @@ function addTest(parserName, parser, exampleInputs) {
             exampleName = path.basename(inputPath);
         } else {
             input = inputPath;
-            exampleName = '"' + input + '"':
+            exampleName = '"' + input + '"';
         }
         suite.add(parserName + ': parse ' + exampleName, function() {
             parser(input);
