@@ -115,6 +115,8 @@ suite.on('cycle', function(event) {
 
   if (bench.error) {
     console.log(colors.red("✘"), bench.name);
+    console.log(colors.red(bench.error.stack));
+    console.log('');
   } else {
     var opsPerSec = formatNumber(hz.toFixed(hz < 100 ? 2 : 0)) + ' ops/sec ' + pm + stats.rme.toFixed(2) + '%';
     console.log(colors.green("✔"), padName(bench.name), colors.blue(opsPerSec));
