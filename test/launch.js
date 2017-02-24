@@ -49,7 +49,7 @@ describe("nearleyc", function() {
     });
 
     it('exponential whitespace bug', function() {
-        sh("node bin/nearleyc.js test/indentation.ne");
+        compile(read('test/indentation.ne'));
     });
 
     it('nullable whitespace bug', function() {
@@ -60,7 +60,7 @@ describe("nearleyc", function() {
     });
 
     it('percent bug', function() {
-        sh("node bin/nearleyc.js test/percent.ne");
+        compile(read('test/percent.ne'));
     });
 
     it('tokens', function() {
