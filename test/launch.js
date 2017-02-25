@@ -111,4 +111,13 @@ describe("nearleyc", function() {
             .should.deep.equal([["setVar:to:","foo",["*",["*",2,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]],["-",1,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]]]]]);
     });
 
+    var classicCrontab;
+    it('classic crontab compiles', function() {
+        classicCrontab = nearleyc("examples/classic_crontab.ne");
+    });
+    it('classic crontab example', function() {
+        var crontabTest = fs.readFileSync('test/classic_crontab.test');
+        var crontabResults = fs.readFileSync('test/classic_crontab.results');
+        parse(classicCrontab, crontabTest).should.deep.equal([JSON.parse(crontabResults)]);
+    });
 });
