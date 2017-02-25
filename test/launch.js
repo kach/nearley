@@ -111,11 +111,10 @@ describe("nearleyc", function() {
             .should.deep.equal([["setVar:to:","foo",["*",["*",2,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]],["-",1,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]]]]]);
     });
 
-    var classicCrontab;
-    it('classic crontab compiles', function() {
-        classicCrontab = nearleyc("examples/classic_crontab.ne");
-    });
-    it('classic crontab example', function() {
+    it('classic crontab', function() {
+        // Try compiling the grammar
+        var classicCrontab = nearleyc("examples/classic_crontab.ne");
+        // Try parsing crontab file using the newly generated parser
         var crontabTest = fs.readFileSync('test/classic_crontab.test', 'utf-8');
         var crontabResults = fs.readFileSync('test/classic_crontab.results', 'utf-8');
         parse(classicCrontab, crontabTest).should.deep.equal([JSON.parse(crontabResults)]);
