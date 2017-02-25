@@ -1,10 +1,12 @@
-var fs = require('fs')
-  , child_process = require('child_process')
+var child_process = require('child_process')
   , chai = require('chai')
   , mocha = require('mocha');
 
-var nearley = require('../lib/nearley.js');
-
+var shared = require('./_shared.js');
+var compile = shared.compile
+  , evalGrammar = shared.evalGrammar
+  , parse = shared.parse
+  , read = shared.read;
 
 chai.should();
 
@@ -12,51 +14,33 @@ function sh(cmd) {
     return child_process.execSync(cmd, {encoding: 'utf-8', stdio: 'pipe'});
 }
 
-function nearleyc(args) {
+function externalNearleyc(args) {
     return sh("node bin/nearleyc.js " + args);
 }
 
-function load(compiledGrammar) {
-    var f = new Function('module', compiledGrammar);
-    var m = {exports: {}};
-    f(m);
-    return m.exports;
-}
 
-function loadFile(compiledFilename) {
-    return load(fs.readFileSync(compiledFilename, 'utf-8'));
-}
-
-function parse(grammar, input) {
-    if (typeof grammar == 'string') {
-        if (grammar.match(/\.js$/)) grammar = loadFile(grammar);
-        else grammar = load(grammar);
-    }
-    grammar.should.have.keys(['ParserRules', 'ParserStart']);
-    var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
-    return p.feed(input).results;
-}
 
 describe("nearleyc", function() {
     it('should build test parser (check integrity)', function() {
-        nearleyc("test/parens.ne -o test/parens.js").should.equal("");
+        externalNearleyc("test/parens.ne -o test/parens.js").should.equal("");
     });
 
     it('should build for CoffeeScript', function() {
-        nearleyc("test/coffeescript-test.ne -o test/tmp.coffeescript-test.coffee").should.equal("");
+        externalNearleyc("test/coffeescript-test.ne -o test/tmp.coffeescript-test.coffee").should.equal("");
         sh("coffee -c test/tmp.coffeescript-test.coffee");
-        parse("test/tmp.coffeescript-test.js", "ABCDEFZ12309")
+        var grammar = evalGrammar(read("test/tmp.coffeescript-test.js"));
+        parse(grammar, "ABCDEFZ12309")
             .should.deep.equal([ [ 'ABCDEFZ', '12309' ] ]);
     });
 
     it('calculator example', function() {
-        var arith = nearleyc("examples/calculator/arithmetic.ne");
+        var arith = compile(read("examples/calculator/arithmetic.ne"));
         parse(arith, "ln (3 + 2*(8/e - sin(pi/5)))")
             .should.deep.equal([ Math.log(3 + 2*(8/Math.exp(1) - Math.sin(Math.PI/5))) ]);
     });
 
     it('csscolor example', function() {
-        var cssc = load(nearleyc("examples/csscolor.ne"));
+        var cssc = compile(read("examples/csscolor.ne"));
         parse(cssc, "#FF00FF").should.deep.equal([{r: 0xff, g: 0x00, b: 0xff}]);
         parse(cssc, "#8A7").should.deep.equal([{r: 0x88, g: 0xaa, b: 0x77}]);
         parse(cssc, "rgb(99,66,33)").should.deep.equal([{r: 99, g: 66, b: 33}]);
@@ -65,27 +49,27 @@ describe("nearleyc", function() {
     });
 
     it('exponential whitespace bug', function() {
-        sh("node bin/nearleyc.js test/indentation.ne");
+        compile(read('test/indentation.ne'));
     });
 
     it('nullable whitespace bug', function() {
-        var wsb = nearleyc("test/whitespace.ne");
+        var wsb = compile(read("test/whitespace.ne"));
         parse(wsb, "(x)")
             .should.deep.equal(
             [ [ [ [ '(', null, [ [ [ [ 'x' ] ] ] ], null, ')' ] ] ] ]);
     });
 
     it('percent bug', function() {
-        sh("node bin/nearleyc.js test/percent.ne");
+        compile(read('test/percent.ne'));
     });
 
     it('tokens', function() {
-        var tokc = load(nearleyc("examples/token.ne"));
+        var tokc = compile(read("examples/token.ne"));
         parse(tokc, [123, 456, " ", 789]).should.deep.equal([ [123, [ [ 456, " ", 789 ] ]] ]);
     });
 
     it('leo bug', function() {
-        var leo = nearleyc("test/leobug.ne");
+        var leo = compile(read("test/leobug.ne"));
         parse(leo, "baab")
             .should.deep.equal(
             [ [ 'b', [], 'a', [], 'a', [ 'b' ] ],
@@ -94,19 +78,19 @@ describe("nearleyc", function() {
 
     var json;
     it('json example compiles', function() {
-        json = nearleyc("examples/json.ne");
+        json = compile(read("examples/json.ne"));
     });
     it('json test1', function() {
-        var test1 = fs.readFileSync('test/test1.json', 'utf-8');
+        var test1 = read('test/test1.json');
         parse(json, test1).should.deep.equal([JSON.parse(test1)]);
     });
     it('json test2', function() {
-        var test2 = fs.readFileSync('test/test2.json', 'utf-8');
+        var test2 = read('test/test2.json');
         parse(json, test2).should.deep.equal([JSON.parse(test2)]);
     });
 
     it('tosh example', function() {
-        var tosh = nearleyc("examples/tosh.ne");
+        var tosh = compile(read("examples/tosh.ne"));
         parse(tosh, "set foo to 2 * e^ of ( foo * -0.05 + 0.5) * (1 - e ^ of (foo * -0.05 + 0.5))")
             .should.deep.equal([["setVar:to:","foo",["*",["*",2,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]],["-",1,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]]]]]);
     });
