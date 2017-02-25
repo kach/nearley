@@ -1,0 +1,19 @@
+#######
+    6-29 19,17,12 */5 dec,nov,oct,jan 5,3,1,4,1,2,4 python -mpdb /a/b/c.py
+# 6-29 19,17,12 */5 dec,nov,oct,jan 5,3,1,4,1,2,4
+
+# Environment variables
+a=
+b=def
+
+#
+c=\a\b\c\\\'\"
+6-29 19,17,12 */5 dec,nov,oct,jan fri a
+
+d="\a\b\c\\\'\""
+# This is a valid cron statement and a valid shell command as well
+	6-29 19,17,12 */5 dec,nov,oct,jan fri echo "\%" burger! "\%" % stdin
+
+e='\a\b\c\\\'\"'
+# This is a valid cron statement but invalid shell command
+6-29 19,17,12 */5 dec,nov,oct,jan fri echo "\%" burger! "%" stdin
