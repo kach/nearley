@@ -147,7 +147,7 @@ that can format the data in a way that you would like:
 
 `data` is an array whose elements match the nonterminals in order. The
 postprocessor `id` returns the first token in the match (literally
-`function(data) {data[0];}`).
+`function(data) {return data[0];}`).
 
 `location` is the index at which that rule was found. Retaining this
 information in a syntax tree is useful if you're writing an interpreter and
