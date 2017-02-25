@@ -97,10 +97,10 @@ describe("nearleyc", function() {
 
     it('classic crontab', function() {
         // Try compiling the grammar
-        var classicCrontab = nearleyc("examples/classic_crontab.ne");
+        var classicCrontab = compile(read("examples/classic_crontab.ne"));
         // Try parsing crontab file using the newly generated parser
-        var crontabTest = fs.readFileSync('test/classic_crontab.test', 'utf-8');
-        var crontabResults = fs.readFileSync('test/classic_crontab.results', 'utf-8');
+        var crontabTest = read('test/classic_crontab.test');
+        var crontabResults = read('test/classic_crontab.results');
         parse(classicCrontab, crontabTest).should.deep.equal([JSON.parse(crontabResults)]);
     });
 });
