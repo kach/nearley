@@ -387,8 +387,6 @@ function classicCrontab(d) {
         }
     }
 
-    console.debug(JSON.stringify(output));
-
     return output;
 }
 

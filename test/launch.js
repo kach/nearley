@@ -116,8 +116,8 @@ describe("nearleyc", function() {
         classicCrontab = nearleyc("examples/classic_crontab.ne");
     });
     it('classic crontab example', function() {
-        var crontabTest = fs.readFileSync('test/classic_crontab.test');
-        var crontabResults = fs.readFileSync('test/classic_crontab.results');
+        var crontabTest = fs.readFileSync('test/classic_crontab.test', 'utf-8');
+        var crontabResults = fs.readFileSync('test/classic_crontab.results', 'utf-8');
         parse(classicCrontab, crontabTest).should.deep.equal([JSON.parse(crontabResults)]);
     });
 });
