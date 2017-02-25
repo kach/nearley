@@ -10,3 +10,4 @@ test/whitespace.js
 *.bat
 npm-debug.log
 tmp.*
+sandbox/
