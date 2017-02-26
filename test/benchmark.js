@@ -54,14 +54,20 @@ Example.read = function(filename) {
 var suite = new Benchmark.Suite();
 
 addTest('calculator', makeParser('examples/calculator/arithmetic.ne'), [
-    new Example('arithmetic1', '2 + 3 * 42 - sin(0.14)'),
+    // new Example('arithmetic1', '2 + 3 * 42 - sin(0.14)'),
     new Example('arithmetic2', 'ln (3 + 2*(8/e - sin(pi/5)))'),
 ]);
 
 addTest('json', makeParser('examples/json.ne'), [
-    Example.read('test/test1.json'),
+    // Example.read('test/test1.json'),
     Example.read('test/test2.json'),
 ]);
+
+addTest('tosh', makeParser('examples/tosh.ne'), [
+    new Example('ex1', 'set foo to 2 * e^ of ( foo * -0.05 + 0.5) * (1 - e ^ of (foo * -0.05 + 0.5))'),
+]);
+
+
 
 /*
 addTest('native JSON.parse', JSON.parse, [
