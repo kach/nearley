@@ -59,8 +59,7 @@ addTest('calculator', makeParser('examples/calculator/arithmetic.ne'), [
 ]);
 
 addTest('json', makeParser('examples/json.ne'), [
-    // Example.read('test/test1.json'),
-    Example.read('test/test2.json'),
+    Example.read('test/sample1k.json'),
 ]);
 
 addTest('tosh', makeParser('examples/tosh.ne'), [
