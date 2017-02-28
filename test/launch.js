@@ -120,14 +120,15 @@ describe("nearleyc", function() {
             ' ',
             '[}',
             '[(){}><]',
-            '(((())))(()))',
-            // This one breaks the test case: AssertionError: expected [Function] to throw Error
-            // Looks like a bug with the nearley.js
-            //'((((())))(())()'
+            '(((())))(()))'
         ];
 
         for (let i in failCases) {
             (function() { parse(parentheses, failCases[i]); }).should.throw(Error);
         }
+
+        // These are invalid inputs but the parser will not complain
+        parse(parentheses, '').should.deep.equal([]);
+        parse(parentheses, '((((())))(())()').should.deep.equal([]);
     });
 });
