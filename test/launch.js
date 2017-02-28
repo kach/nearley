@@ -116,17 +116,15 @@ describe("nearleyc", function() {
             parse(parentheses, passCases[i]).should.deep.equal([true]);
         }
 
-        /*
         var failCases = [
             ' ',
             '[}',
             '[(){}><]',
-            '((((())))(())()'
+            '(((())))(()))'
         ];
 
         for (let i in failCases) {
             (function() { parse(parentheses, failCases[i]); }).should.throw(Error);
         }
-        */
     });
 });
