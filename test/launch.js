@@ -105,9 +105,28 @@ describe("nearleyc", function() {
     it('parentheses', function() {
         // Try compiling the grammar
         var parentheses = compile(read("examples/parentheses.ne"));
-        var parenthesesTest1 = '[(((<>)()({})())(()())(())[])]';
-        var parenthesesTest2 = '<<[([])]>([(<>[]{}{}<>())[{}[][]{}{}[]<>[]{}<>{}<>[]<>{}()][[][][]()()()]({})<[]>{(){}()<>}(<>[])]())({})>';
-        parse(parentheses, parenthesesTest1).should.deep.equal([true]);
-        parse(parentheses, parenthesesTest2).should.deep.equal([true]);
+        var passCases = [
+            '()',
+            '[(){}<>]',
+            '[(((<>)()({})())(()())(())[])]',
+            '<<[([])]>([(<>[]{}{}<>())[{}[][]{}{}[]<>[]{}<>{}<>[]<>{}()][[][][]()()()]({})<[]>{(){}()<>}(<>[])]())({})>'
+        ];
+
+        for (let i in passCases) {
+            parse(parentheses, passCases[i]).should.deep.equal([true]);
+        }
+
+        /*
+        var failCases = [
+            ' ',
+            '[}',
+            '[(){}><]',
+            '((((())))(())()'
+        ];
+
+        for (let i in failCases) {
+            (function() { parse(parentheses, failCases[i]); }).should.throw(Error);
+        }
+        */
     });
 });
