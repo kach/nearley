@@ -18,8 +18,6 @@ function externalNearleyc(args) {
     return sh("node bin/nearleyc.js " + args);
 }
 
-
-
 describe("nearleyc", function() {
     it('should build test parser (check integrity)', function() {
         externalNearleyc("test/parens.ne -o test/parens.js").should.equal("");
@@ -102,5 +100,14 @@ describe("nearleyc", function() {
         var crontabTest = read('test/classic_crontab.test');
         var crontabResults = read('test/classic_crontab.results');
         parse(classicCrontab, crontabTest).should.deep.equal([JSON.parse(crontabResults)]);
+    });
+
+    it('parentheses', function() {
+        // Try compiling the grammar
+        var parentheses = compile(read("examples/parentheses.ne"));
+        var parenthesesTest1 = '[(((<>)()({})())(()())(())[])]';
+        var parenthesesTest2 = '<<[([])]>([(<>[]{}{}<>())[{}[][]{}{}[]<>[]{}<>{}<>[]<>{}()][[][][]()()()]({})<[]>{(){}()<>}(<>[])]())({})>';
+        parse(parentheses, parenthesesTest1).should.deep.equal([true]);
+        parse(parentheses, parenthesesTest2).should.deep.equal([true]);
     });
 });
