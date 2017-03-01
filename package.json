@@ -17,10 +17,11 @@
   "keywords": [
     "parser",
     "parse",
-    "toolkit",
     "generator",
     "compiler",
-    "compile"
+    "compile",
+    "grammar",
+    "language"
   ],
   "scripts": {
     "bootstrap": "node bin/nearleyc.js lib/nearley-language-bootstrapped.ne >lib/nearley-language-bootstrapped.js.new && mv lib/nearley-language-bootstrapped.js.new lib/nearley-language-bootstrapped.js",
