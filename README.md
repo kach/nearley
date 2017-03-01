@@ -290,13 +290,11 @@ Using a parser
 
 nearley exposes the following API:
 
-    var generated = require("generated-code.js");
+    var grammar = require("generated-code.js");
     var nearley = require("nearley");
 
-    var grammar = nearley.Grammar.fromCompiled(generated)
-
     // Create a Parser object from our grammar.
-    var p = new nearley.Parser(grammar);
+    var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
 
     // Parse something
     p.feed("1+1");
@@ -318,16 +316,15 @@ complete block.
     }
     console.log(p.results);
 
-The parse table
----------------
+The `nearley.Parser` constructor takes an optional third parameter, `options`,
+which is an object with the following possible keys:
 
-Advanced people might like to poke inside the parser to look at the Earley parse table, in order to do advanced things. By default nearley doesn't keep the table around, to save memory. To access it you first need to turn on the `keepHistory` option:
-
-    var p = new nearley.Parser(grammar, {
-        keepHistory: true,
-    });
-
-Then you can get at the parse table using `p.table` after parsing.
+- `keepHistory` (boolean, default `false`): if set to `true`, nearley will
+  preserve the internal state of the parser in the parser's `.table` property.
+  Preserving the state has some performance cost (because it can potentially be
+  very large), so we recommend leaving this as `false` unless you are familiar
+  with the Earley parsing algorithm and are planning to do something exciting
+  with the parse table.
 
 Catching errors
 ---------------
