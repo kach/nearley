@@ -53,13 +53,12 @@ var writeTable = function (writeStream, parser) {
     writeStream.write("Table length: " + parser.table.length + "\n");
     writeStream.write("Number of parses: " + parser.results.length + "\n");
     writeStream.write("Parse Charts");
-    var chartNumber = 0;
     parser.table.forEach(
-        function (chart) {
+        function (column, chartNumber) {
+            console.log(column);
             writeStream.write("\nChart: " + chartNumber++ + "\n");
-            var stateNumber = 0;
-            chart.forEach(
-                function (state) {
+            column.states.forEach(
+                function (state, stateNumber) {
                     writeStream.write(stateNumber++ + ": " + state.toString() + "\n");
                 } )
         } )
