@@ -32,7 +32,7 @@ function makeParser(neFile) {
         if (grammar === null) {
             throw 'grammar error';
         }
-        var p = new Parser(grammar.ParserRules, grammar.ParserStart);
+        var p = new Parser(grammar);
         p.feed(input);
         return p.results;
     }
