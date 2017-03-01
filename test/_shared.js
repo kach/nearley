@@ -7,9 +7,6 @@ var parserGrammar = require('../lib/nearley-language-bootstrapped.js');
 var generate = require('../lib/generate.js');
 
 function parse(grammar, input) {
-    if (grammar.should) {
-        grammar.should.have.keys(['ParserRules', 'ParserStart']);
-    }
     var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
     p.feed(input);
     return p.results;
