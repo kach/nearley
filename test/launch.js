@@ -18,6 +18,17 @@ function externalNearleyc(args) {
     return sh("node bin/nearleyc.js " + args);
 }
 
+function parse(grammar, input) {
+    if (typeof grammar == 'string') {
+        if (grammar.match(/\.js$/)) grammar = loadFile(grammar);
+        else grammar = load(grammar);
+    }
+    grammar.should.have.keys(['ParserRules', 'ParserStart']);
+    var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
+    p.feed(input);
+    return p.results;
+}
+
 describe("nearleyc", function() {
     it('should build test parser (check integrity)', function() {
         externalNearleyc("test/parens.ne -o test/parens.js").should.equal("");
