@@ -112,4 +112,34 @@ describe("nearleyc", function() {
         var crontabResults = read('test/classic_crontab.results');
         parse(classicCrontab, crontabTest).should.deep.equal([JSON.parse(crontabResults)]);
     });
+
+    it('parentheses', function() {
+        // Try compiling the grammar
+        var parentheses = compile(read("examples/parentheses.ne"));
+        var passCases = [
+            '()',
+            '[(){}<>]',
+            '[(((<>)()({})())(()())(())[])]',
+            '<<[([])]>([(<>[]{}{}<>())[{}[][]{}{}[]<>[]{}<>{}<>[]<>{}()][[][][]()()()]({})<[]>{(){}()<>}(<>[])]())({})>'
+        ];
+
+        for (let i in passCases) {
+            parse(parentheses, passCases[i]).should.deep.equal([true]);
+        }
+
+        var failCases = [
+            ' ',
+            '[}',
+            '[(){}><]',
+            '(((())))(()))'
+        ];
+
+        for (let i in failCases) {
+            (function() { parse(parentheses, failCases[i]); }).should.throw(Error);
+        }
+
+        // These are invalid inputs but the parser will not complain
+        parse(parentheses, '').should.deep.equal([]);
+        parse(parentheses, '((((())))(())()').should.deep.equal([]);
+    });
 });
