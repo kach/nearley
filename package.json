@@ -28,14 +28,7 @@
     "benchmark": "node test/benchmark.js"
   },
   "author": "Hardmath123",
-  "contributors": [
-    "Nathan Dinsmore",
-    "Aria Stewart <aredridel@nbtsc.org>",
-    "Robin Windels",
-    "Jacob Edelman",
-    "Joshua T. Corbin",
-    "Bojidar Marinov"
-  ],
+  "contributors": "https://github.com/Hardmath123/nearley/graphs/contributors",
   "license": "MIT",
   "repository": {
     "type": "git",
