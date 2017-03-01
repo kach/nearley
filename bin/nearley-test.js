@@ -47,21 +47,21 @@ var opts = nomnom
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
 var grammar = new require(require('path').resolve(opts.file));
-var parser = new nearley.Parser(grammar.ParserRules, opts.start ? opts.start : grammar.ParserStart);
+var parser = new nearley.Parser(grammar.ParserRules, opts.start ? opts.start : grammar.ParserStart, {
+    keepHistory: true,
+});
 
 var writeTable = function (writeStream, parser) {
     writeStream.write("Table length: " + parser.table.length + "\n");
     writeStream.write("Number of parses: " + parser.results.length + "\n");
     writeStream.write("Parse Charts");
-    parser.table.forEach(
-        function (column, chartNumber) {
-            console.log(column);
-            writeStream.write("\nChart: " + chartNumber++ + "\n");
-            column.states.forEach(
-                function (state, stateNumber) {
-                    writeStream.write(stateNumber++ + ": " + state.toString() + "\n");
-                } )
-        } )
+    parser.table.forEach(function (column, index) {
+        writeStream.write("\nChart: " + index++ + "\n");
+        var stateNumber = 0;
+        column.states.forEach(function (state, stateIndex) {
+            writeStream.write(stateIndex + ": " + state.toString() + "\n");
+        })
+    })
     writeStream.write("\n\nParse results: \n");
 }
 

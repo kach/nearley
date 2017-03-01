@@ -316,6 +316,16 @@ complete block.
     }
     console.log(p.results);
 
+The `nearley.Parser` constructor takes an optional third parameter, `options`,
+which is an object with the following possible keys:
+
+- `keepHistory` (boolean, default `false`): if set to `true`, nearley will
+  preserve the internal state of the parser in the parser's `.table` property.
+  Preserving the state has some performance cost (because it can potentially be
+  very large), so we recommend leaving this as `false` unless you are familiar
+  with the Earley parsing algorithm and are planning to do something exciting
+  with the parse table.
+
 Catching errors
 ---------------
 

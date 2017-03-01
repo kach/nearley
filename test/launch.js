@@ -4,6 +4,7 @@ var child_process = require('child_process')
 
 var shared = require('./_shared.js');
 var compile = shared.compile
+  , nearley = shared.nearley
   , evalGrammar = shared.evalGrammar
   , parse = shared.parse
   , read = shared.read;
