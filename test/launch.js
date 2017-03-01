@@ -143,4 +143,39 @@ describe("nearleyc", function() {
         parse(parentheses, '').should.deep.equal([]);
         parse(parentheses, '((((())))(())()').should.deep.equal([]);
     });
+
+    it('COOL recursive comments', function() {
+        // Try compiling the grammar
+        var coolComments = compile(read("examples/cool_comments.ne"));
+        var passCases = [
+            '(**)',
+            '(*(*a*)(*b*)*)',
+            '(*((* )*)))*)',
+            '(*(**)))(**)*)',
+            '(*(*(#)*)_((((*(>)*)))))*)',
+            '(*(*(**))()(((((((*((**)*)*)*)',
+            '(*(((**))(((*((**)(((*;)*))*)(*(*E)*)(**))))((*((**)(**)*)*))))((((X*)'
+        ];
+
+        for (let i in passCases) {
+            parse(coolComments, passCases[i]).should.deep.equal(
+                // Remove the outmost (**)
+                [passCases[i].substr(2, passCases[i].length - 4)]
+            );
+        }
+
+        var failCases = [
+            ' ',
+            '(*)*)',
+            '(*(*)*)'
+        ];
+
+        for (let i in failCases) {
+            (function() { parse(coolComments, failCases[i]); }).should.throw(Error);
+        }
+
+        // These are invalid inputs but the parser will not complain
+        parse(coolComments, '').should.deep.equal([]);
+        parse(coolComments, '(*(**)').should.deep.equal([]);
+    });
 });
