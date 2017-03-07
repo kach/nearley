@@ -143,4 +143,33 @@ describe("nearleyc", function() {
         parse(parentheses, '').should.deep.equal([]);
         parse(parentheses, '((((())))(())()').should.deep.equal([]);
     });
+
+});
+
+describe('Parser', function() {
+
+    var tosh = compile(read("examples/tosh.ne"));
+
+    it('can rewind', function() {
+        let first = "say 'hello'";
+        let second = " for 2 secs";
+        let p = new nearley.Parser(tosh, { keepHistory: true });
+        p.feed(first);
+        p.current.should.equal(11)
+        p.table.length.should.equal(12)
+
+        p.feed(second);
+
+        p.rewind(first.length);
+        p.current.should.equal(11)
+        p.table.length.should.equal(12)
+
+        p.results.should.deep.equal([['say:', 'hello']]);
+    });
+
+    it("won't rewind without `keepHistory` option", function() {
+        let p = new nearley.Parser(tosh, {});
+        p.rewind.should.throw();
+    })
+
 });

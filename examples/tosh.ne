@@ -386,7 +386,7 @@ block -> "else" {% d => ["else"] %}
 _ -> [ ]:* {% d => null %}
 __ -> [ ]:+ {% d => null %}
 
-string -> "'hello'"
+string -> "'hello'"             {% d => 'hello' %}
 number -> digits                {% d => parseInt(d[0]) %}
 number -> digits [.] digits     {% d => parseFloat(d.join('')) %}
 
