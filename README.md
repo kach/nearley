@@ -17,9 +17,6 @@
 
 Simple parsing for node.js.
 
-Contents
-========
-
 <!-- $ npm install -g doctoc -->
 <!-- $ doctoc --notitle README.md -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
