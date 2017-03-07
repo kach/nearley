@@ -17,6 +17,39 @@
 
 Simple parsing for node.js.
 
+Contents
+========
+
+<!-- $ npm install -g doctoc -->
+<!-- $ doctoc --notitle README.md -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [What is nearley?](#what-is-nearley)
+- [Why do I care?](#why-do-i-care)
+- [Installation and Usage](#installation-and-usage)
+- [Parser specification](#parser-specification)
+  - [Postprocessors](#postprocessors)
+  - [Epsilon rules](#epsilon-rules)
+  - [Charsets](#charsets)
+  - [EBNF](#ebnf)
+  - [Macros](#macros)
+  - [Additional JS](#additional-js)
+  - [Importing](#importing)
+  - [Custom tokens](#custom-tokens)
+- [Using a parser](#using-a-parser)
+- [Catching errors](#catching-errors)
+- [Exploring a parser interactively](#exploring-a-parser-interactively)
+- [The Unparser](#the-unparser)
+- [Automagical Railroad Diagrams](#automagical-railroad-diagrams)
+- [Other Tools](#other-tools)
+- [Still confused?](#still-confused)
+- [Contributing](#contributing)
+- [Further reading](#further-reading)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 What is nearley?
 ----------------
 nearley uses the Earley parsing algorithm augmented with Joop Leo's
