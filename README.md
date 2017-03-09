@@ -200,8 +200,9 @@ variable -> word {%
 ```
 
 You can write your postprocessors in CoffeeScript by adding `@preprocessor
-coffee` to the top of your file.  If you would like to support a different
-postprocessor language, feel free to file a PR!
+coffee` to the top of your file. Similarly, you can write them in TypeScript by
+adding `@preprocessor typescript` to the top of your file. If you would like to
+support a different postprocessor language, feel free to file a PR!
 
 ### Epsilon rules
 
