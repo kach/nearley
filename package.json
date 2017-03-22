@@ -14,6 +14,11 @@
     "nearley-unparse": "bin/nearley-unparse.js",
     "nearley-railroad": "bin/nearley-railroad.js"
   },
+  "files": [
+    "bin",
+    "builtin",
+    "lib"
+  ],
   "keywords": [
     "parser",
     "parse",
