@@ -1,5 +1,4 @@
 # Matches various kinds of string literals
-@builtin "postprocessors.ne"
 
 # Double-quoted string
 dqstring -> "\"" dstrchar:* "\"" {% function(d) {return d[1].join(""); } %}
