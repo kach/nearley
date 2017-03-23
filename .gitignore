@@ -11,4 +11,3 @@ test/whitespace.js
 npm-debug.log
 tmp.*
 sandbox/
-yarn.lock
