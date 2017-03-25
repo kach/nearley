@@ -355,7 +355,11 @@ which is an object with the following possible keys:
   Preserving the state has some performance cost (because it can potentially be
   very large), so we recommend leaving this as `false` unless you are familiar
   with the Earley parsing algorithm and are planning to do something exciting
-  with the parse table.
+  with the parse table. `keepHistory` allows you to *rewind* a parser if you
+  change your mind about the input. You can do this by calling `p.rewind(n)`:
+  this restores the parser to its state after having seen the `n`th token you
+  fed it. `rewind` is much more efficient than making a fresh parser and
+  re-`feed()`ing it those `n` tokens.
 
 Catching errors
 ---------------
