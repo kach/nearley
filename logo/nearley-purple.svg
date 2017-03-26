@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256px" height="256px" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>nearley-purple</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="nearley-purple" stroke="#555599" stroke-width="8">
+            <path d="M224,112 L224,144" id="right-end" stroke-linecap="round"></path>
+            <path d="M240,112 L240,144" id="right-end" stroke-linecap="round"></path>
+            <path d="M176,128 L240,128" id="right-line" stroke-linecap="square"></path>
+            <path d="M18,128 L78,128" id="left-line" stroke-linecap="square"></path>
+            <path d="M16,112 L16,144" id="left-end" stroke-linecap="round"></path>
+            <path d="M32,112 L32,144" id="left-end" stroke-linecap="round"></path>
+            <g id="arrow" transform="translate(104.000000, 104.000000)" stroke-linecap="round">
+                <polyline id="Path-3" stroke-linejoin="round" points="24 0 48 0 48 24"></polyline>
+                <path d="M48,0 L-2.13162821e-14,48" id="Path-4"></path>
+            </g>
+            <path d="M80.0078271,127.124216 C70.2066255,135.560073 64,148.055432 64,162 C64,187.405021 84.5982607,208 110.007503,208 L145.992497,208 C171.399055,208 192,187.405098 192,162 C192,148.051823 185.7937,135.556334 175.992123,127.121359 C175.997367,127.413608 176,127.706496 176,128 C176,154.509668 154.515497,176 128,176 C101.490332,176 80,154.515497 80,128 C80,127.707453 80.0026164,127.415518 80.0078271,127.124216 Z" id="repeat"></path>
+            <rect id="circle" x="80" y="80" width="96" height="96" rx="48"></rect>
+            <path d="M36,128 C73.2641424,128 61.6404398,46 105.958333,46 C105.958333,46 150.041667,46 151,46 C194.125,46 183.583333,127.012048 220,127.012048" id="Line" stroke-linecap="square" transform="translate(128.000000, 87.000000) scale(-1, 1) translate(-128.000000, -87.000000) "></path>
+        </g>
+    </g>
+</svg>
