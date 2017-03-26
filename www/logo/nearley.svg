@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256px" height="256px" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>nearley</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="nearley" stroke="#000000" stroke-width="8">
+            <path d="M188,128 L240,128" id="right-line" stroke-linecap="square"></path>
+            <path d="M16,128 L64.5265653,128" id="left-line" stroke-linecap="square"></path>
+            <path d="M32,100 L32,156" id="left-end" stroke-linecap="round"></path>
+            <path d="M16,100 L16,156" id="left-end-copy" stroke-linecap="round"></path>
+            <path d="M240,100 L240,156" id="left-end-copy-3" stroke-linecap="round"></path>
+            <path d="M224,100 L224,156" id="left-end-copy-2" stroke-linecap="round"></path>
+            <g id="arrow" transform="translate(102.000000, 102.000000)" stroke-linecap="round">
+                <polyline id="Path-3" stroke-linejoin="round" points="22 0 52 0 52 30"></polyline>
+                <path d="M52,0 L-2.84217094e-14,52" id="Path-4"></path>
+            </g>
+            <rect id="circle" x="68" y="68" width="120" height="120" rx="60"></rect>
+        </g>
+    </g>
+</svg>
