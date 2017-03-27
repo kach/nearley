@@ -14,7 +14,7 @@ h1 {
     letter-spacing: 0.5em;
     text-align: center;
     margin-top: 3em;
-    margin-bottom: 3em;
+    margin-bottom: 1.5em;
 }
 
 #version {
@@ -28,6 +28,10 @@ h1 {
     text-align: center;
     line-height: 3.5em;
     letter-spacing: 0em;
+}
+
+#logo {
+    margin: -64px auto -32px;
 }
 
 h2 {
