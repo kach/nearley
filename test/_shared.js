@@ -1,5 +1,6 @@
 
 var fs = require('fs');
+var path = require('path');
 
 var nearley = require('../lib/nearley.js');
 var Compile = require('../lib/compile.js');
@@ -26,11 +27,18 @@ function compile(source) {
     return evalGrammar(compiledGrammar);
 }
 
+function requireFromString(source) {
+    var filename = '.'
+    var Module = module.constructor;
+    var m = new Module();
+    m.paths = Module._nodeModulePaths(path.dirname(filename))
+    m._compile(source, filename);
+    return m.exports;
+}
+
 function evalGrammar(compiledGrammar) {
-    var f = new Function('module', compiledGrammar);
-    var m = {exports: {}};
-    f(m);
-    return new nearley.Grammar.fromCompiled(m.exports);
+    var exports = requireFromString(compiledGrammar);
+    return new nearley.Grammar.fromCompiled(exports);
 }
 
 function read(filename) {
