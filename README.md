@@ -440,9 +440,9 @@ tabatkins.)
 Other Tools
 -----------
 
-*This section lists some tools created by others. These are not distributed
-with nearley, so if you have problems, please contact the respective author for
-support.*
+*This section lists nearley tooling created by other developers. These tools
+are not distributed with nearley, so if you have problems, please contact the
+respective author for support instead of opening an issue with nearley.*
 
 Atom users can write nearley grammars with [this
 plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
@@ -453,12 +453,16 @@ syntax](https://github.com/liam4/nearley-syntax-sublime) by liam4.
 Vim users can use [this plugin](https://github.com/andres-arana/vim-nearley) by
 Andrés Arana.
 
+Visual Studio Code users can use [this
+extension](https://github.com/karyfoundation/nearley-vscode) by Pouya Kary.
+
 Python users can convert nearley grammars to Python using
 [lark](https://github.com/erezsh/lark) by Erez (currently experimental).
 
 Browser users can use
 [nearley-playground](https://omrelli.ug/nearley-playground/) by Guillermo
-Webster to explore nearley interactively in the browser.
+Webster to explore nearley interactively in the browser. There is also a [Mac
+app](https://github.com/pmkary/nearley-playground-mac) by Pouya Kary.
 
 Webpack users can use
 [nearley-loader](https://github.com/kozily/nearley-loader) by Andrés Arana to
