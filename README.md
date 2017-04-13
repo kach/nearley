@@ -122,10 +122,9 @@ dependency via npm (note that there is no `-g` in the first command):
     > var grammar = require("./my-generated-grammar.js");
 
 Alternatively, to use a generated grammar in a browser runtime, include the
-`nearley.js` file as a `<script>`. You can hardlink this script from Github if
-you want; this will guarantee automatic updates.
+`nearley.js` file in a `<script>` tag.
 
-    <script src="https://raw.githubusercontent.com/Hardmath123/nearley/master/lib/nearley.js"></script>
+    <script src="nearley.js"></script>
     <script src="my-generated-grammar.js"></script>
 
 
