@@ -452,7 +452,8 @@ Visual Studio Code users can use [this
 extension](https://github.com/karyfoundation/nearley-vscode) by Pouya Kary.
 
 Python users can convert nearley grammars to Python using
-[lark](https://github.com/erezsh/lark) by Erez (currently experimental).
+[lark](https://github.com/erezsh/lark#how-to-use-nearley-grammars-in-lark) by
+Erez.
 
 Browser users can use
 [nearley-playground](https://omrelli.ug/nearley-playground/) by Guillermo
