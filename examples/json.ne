@@ -5,18 +5,18 @@
 const moo = require('moo')
 
 let lexer = moo.compile({
-    SPACE: {match: /\s+/, lineBreaks: true},
-    NUMBER: /-?(?:[0-9]|[1-9][0-9]+)(?:\.[0-9]+)?(?:[eE][-+]?[0-9]+)?\b/,
-    STRING: /"(?:\\["bfnrt\/\\]|\\u[a-fA-F0-9]{4}|[^"\\])*"/,
+    space: {match: /\s+/, lineBreaks: true},
+    number: /-?(?:[0-9]|[1-9][0-9]+)(?:\.[0-9]+)?(?:[eE][-+]?[0-9]+)?\b/,
+    string: /"(?:\\["bfnrt\/\\]|\\u[a-fA-F0-9]{4}|[^"\\])*"/,
     '{': '{',
     '}': '}',
     '[': '[',
     ']': ']',
     ',': ',',
     ':': ':',
-    TRUE: /true\b/,
-    FALSE: /false\b/,
-    NULL: /null\b/,
+    true: 'true',
+    false: 'false',
+    null: 'null',
 })
 
 // TODO add has() to moo
@@ -43,19 +43,19 @@ value ->
     | array {% id %}
     | number {% id %}
     | string {% id %}
-    | %TRUE {% function(d) { return true; } %}
-    | %FALSE {% function(d) { return false; } %}
-    | %NULL {% function(d) { return null; } %}
+    | "true" {% function(d) { return true; } %}
+    | "false" {% function(d) { return false; } %}
+    | "null" {% function(d) { return null; } %}
 
-number -> %NUMBER {% function(d) { return parseFloat(d[0].value) } %}
+number -> %number {% function(d) { return parseFloat(d[0].value) } %}
 
-string -> %STRING {% function(d) { return JSON.parse(d[0].value) } %}
+string -> %string {% function(d) { return JSON.parse(d[0].value) } %}
 
 pair -> key _ ":" _ value {% function(d) { return [d[0], d[4]]; } %}
 
 key -> string {% id %}
 
-_ -> null | %SPACE {% function(d) { return null; } %}
+_ -> null | %space {% function(d) { return null; } %}
 
 @{%
 
