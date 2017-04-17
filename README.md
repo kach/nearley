@@ -290,6 +290,7 @@ You can pass a `lexer` instance to Parser, which must have the following interfa
 * `reset(chunk, Info)`: set the internal buffer to `chunk`, and restore line/col/state info taken from `save()`.
 * `next() -> Token` return e.g. `{type, value, line, col, …}`. Only the `value` attribute is required.
 * `save() -> Info` -> return an object describing the current line/col etc. This allows us to preserve this information between `feed()` calls, and also to support `Parser#rewind()`. The exact structure is lexer-specific; nearley doesn't care what's in it.
+* `formatError(token)` -> return a string with an error message describing the line/col of the offending token. You might like to include a preview of the line in question.
 * `has(tokenType)` -> return true if the lexer can emit tokens with that name. Used to resolve `%`-specifiers in compiled nearley grammars.
 
 If Parser isn't given a lexer option, it will look for a `.lexer` attribute on its Grammar. The `@lexer` directive allows exporting a lexer object from your `.ne` grammar file. (See `json.ne` for an example.)
