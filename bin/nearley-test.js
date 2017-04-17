@@ -46,8 +46,9 @@ var opts = nomnom
 
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
-var grammar = new require(require('path').resolve(opts.file));
-var parser = new nearley.Parser(grammar.ParserRules, opts.start ? opts.start : grammar.ParserStart, {
+var filename = require('path').resolve(opts.file);
+var grammar = nearley.Grammar.fromCompiled(require(filename));
+var parser = new nearley.Parser(grammar, opts.start ? opts.start : grammar.ParserStart, {
     keepHistory: true,
 });
 
