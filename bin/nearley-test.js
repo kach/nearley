@@ -48,7 +48,8 @@ var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
 var filename = require('path').resolve(opts.file);
 var grammar = nearley.Grammar.fromCompiled(require(filename));
-var parser = new nearley.Parser(grammar, opts.start ? opts.start : grammar.ParserStart, {
+if (opts.start) grammar.start = opts.start
+var parser = new nearley.Parser(grammar, {
     keepHistory: true,
 });
 
