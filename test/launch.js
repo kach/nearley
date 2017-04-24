@@ -148,10 +148,40 @@ describe("nearleyc", function() {
 
 describe('Parser', function() {
 
+    let testGrammar = compile(`
+    y -> x:+
+    x -> [a-z0-9] | "\\n"
+    `)
+
+    it('shows line number in errors', function() {
+      (() => parse(testGrammar, 'abc\n12!')).should.throw(
+        'invalid syntax at line 2 col 3:\n' +
+        '\n' +
+        '  12!\n' +
+        '    ^'
+      )
+    })
+
+    it('shows token index in errors', function() {
+      (() => parse(testGrammar, ['1', '2', '!'])).should.throw(
+        'invalid syntax at index 2'
+      )
+    })
+
     var tosh = compile(read("examples/tosh.ne"));
 
-    // TODO: save/restore
-    /*
+    it('can save state', function() {
+        let first = "say 'hello'";
+        let second = " for 2 secs";
+        let p = new nearley.Parser(tosh, { keepHistory: true });
+        p.feed(first);
+        p.current.should.equal(11)
+        p.table.length.should.equal(12)
+        var col = p.save();
+        col.index.should.equal(11)
+        col.lexerState.col.should.equal(first.length)
+    });
+
     it('can rewind', function() {
         let first = "say 'hello'";
         let second = " for 2 secs";
@@ -163,6 +193,7 @@ describe('Parser', function() {
         p.feed(second);
 
         p.rewind(first.length);
+
         p.current.should.equal(11)
         p.table.length.should.equal(12)
 
@@ -173,6 +204,36 @@ describe('Parser', function() {
         let p = new nearley.Parser(tosh, {});
         p.rewind.should.throw();
     })
-    */
+
+    it('restores line numbers', function() {
+      let p = new nearley.Parser(testGrammar);
+      p.feed('abc\n')
+      p.save().lexerState.line.should.equal(2)
+      p.feed('123\n')
+      var col = p.save();
+      col.lexerState.line.should.equal(3)
+      p.feed('q')
+      p.restore(col);
+      p.lexer.line.should.equal(3)
+      p.feed('z')
+    });
+
+    it('restores column number', function() {
+      let p = new nearley.Parser(testGrammar);
+      p.feed('foo\nbar')
+      var col = p.save();
+      col.lexerState.line.should.equal(2)
+      col.lexerState.col.should.equal(3)
+      p.feed('123');
+      p.lexerState.col.should.equal(6)
+
+      p.restore(col);
+      p.lexerState.line.should.equal(2)
+      p.lexerState.col.should.equal(3)
+      p.feed('456')
+      p.lexerState.col.should.equal(6)
+    });
+
+    // TODO: moo save/restore
 
 });

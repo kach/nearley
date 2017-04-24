@@ -1,7 +1,36 @@
 # http://www.json.org/
 # http://www.asciitable.com/
+@{%
 
-json -> [\s]:* (object | array) [\s]:* {% function(d) { return d[1][0]; } %}
+const moo = require('moo')
+
+let lexer = moo.compile({
+    space: {match: /\s+/, lineBreaks: true},
+    number: /-?(?:[0-9]|[1-9][0-9]+)(?:\.[0-9]+)?(?:[eE][-+]?[0-9]+)?\b/,
+    string: /"(?:\\["bfnrt\/\\]|\\u[a-fA-F0-9]{4}|[^"\\])*"/,
+    '{': '{',
+    '}': '}',
+    '[': '[',
+    ']': ']',
+    ',': ',',
+    ':': ':',
+    true: 'true',
+    false: 'false',
+    null: 'null',
+})
+
+// TODO add has() to moo
+lexer.has = function(name) {
+  return lexer.groups.find(function(group) {
+    return group.tokenType === name;
+  });
+}
+
+%}
+
+@lexer lexer
+
+json -> _ (object | array) _ {% function(d) { return d[1][0]; } %}
 
 object -> "{" _ "}" {% function(d) { return {}; } %}
     | "{" _ pair (_ "," _ pair):* _ "}" {% extractObject %}
@@ -18,35 +47,15 @@ value ->
     | "false" {% function(d) { return false; } %}
     | "null" {% function(d) { return null; } %}
 
-number -> "-":? ("0" | intPart) fracPart:? expPart:? {% extractNumber %}
+number -> %number {% function(d) { return parseFloat(d[0].value) } %}
 
-string -> "\"" validChar:* "\"" {% function(d) { return d[1].join("") } %}
+string -> %string {% function(d) { return JSON.parse(d[0].value) } %}
 
 pair -> key _ ":" _ value {% function(d) { return [d[0], d[4]]; } %}
 
 key -> string {% id %}
 
-intPart -> [1-9] [0-9]:* {% function(d) { return d[0] + d[1].join(""); } %}
-
-fracPart -> "." [0-9]:* {% function(d) { return d[0] + d[1].join(""); } %}
-
-expPart -> [eE] [+-]:? [0-9]:* {% function(d) { return d[0] + (d[1] || '') + d[2].join(""); } %}
-
-validChar ->
-      [^"\\] {% function(d) { return d[0]; } %}
-    | "\\\"" {% function(d) { return "\""; } %}
-    | "\\\\" {% function(d) { return "\\"; } %}
-    | "\\/" {% function(d) { return "/"; } %}
-    | "\\n" {% function(d) { return "\n"; } %}
-    | "\\b" {% function(d) { return "\b"; } %}
-    | "\\f" {% function(d) { return "\f"; } %}
-    | "\\r" {% function(d) { return "\r"; } %}
-    | "\\t" {% function(d) { return "\t"; } %}
-    | "\\u" hex hex hex hex {% unicodehex %}
-
-hex -> [0-9a-fA-F] {% function(d) { return d[0]; } %}
-
-_ -> null | [\s]:+ {% function(d) { return null; } %}
+_ -> null | %space {% function(d) { return null; } %}
 
 @{%
 
@@ -74,22 +83,6 @@ function extractArray(d) {
     }
 
     return output;
-}
-
-function unicodehex(d) {
-    let codePoint = parseInt(d[1]+d[2]+d[3]+d[4], 16);
-
-    // Handle '\\'
-    if (codePoint == 92) {
-        return "\\";
-    }
-
-    return String.fromCodePoint(codePoint);
-}
-
-function extractNumber(d) {
-    let value = (d[0] || '') + d[1] + (d[2] || '') + (d[3] || '');
-    return parseFloat(value);
 }
 
 %}
