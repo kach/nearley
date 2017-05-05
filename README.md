@@ -1,19 +1,7 @@
-```
-                              ___                       
-                             /\_ \                      
-  ___      __     __     _ __\//\ \      __   __  __    
-/' _ `\  /'__`\ /'__`\  /\`'__\\ \ \   /'__`\/\ \/\ \   
-/\ \/\ \/\  __//\ \L\.\_\ \ \/  \_\ \_/\  __/\ \ \_\ \  
-\ \_\ \_\ \____\ \__/.\_\\ \_\  /\____\ \____\\/`____ \ 
- \/_/\/_/\/____/\/__/\/_/ \/_/  \/____/\/____/ `/___/> \
-                                                  /\___/
-                                                  \/__/ 
-```
+![](www/logo/nearley-purple.png)
 
-[nearley](http://nearley.js.org)
+[nearley](http://nearley.js.org) [![JS.ORG](https://img.shields.io/badge/js.org-nearley-ffb400.svg?style=flat-square)](http://js.org)
 ==============
-
-[![JS.ORG](https://img.shields.io/badge/js.org-nearley-ffb400.svg?style=flat-square)](http://js.org)
 
 Simple parsing for node.js.
 
