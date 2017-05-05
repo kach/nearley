@@ -104,16 +104,20 @@ You can uninstall the nearley compiler using `npm uninstall -g nearley`.
 To *use* a generated grammar, you need to install `nearley` as a per-project
 dependency via npm (note that there is no `-g` in the first command):
 
-    $ npm install nearley
-    $ node
-    > var nearley = require("nearley");
-    > var grammar = require("./my-generated-grammar.js");
+```
+$ npm install nearley
+$ node
+> var nearley = require("nearley");
+> var grammar = require("./my-generated-grammar.js");
+```
 
 Alternatively, to use a generated grammar in a browser runtime, include the
 `nearley.js` file in a `<script>` tag.
 
-    <script src="nearley.js"></script>
-    <script src="my-generated-grammar.js"></script>
+```html
+<script src="nearley.js"></script>
+<script src="my-generated-grammar.js"></script>
+```
 
 
 Parser specification
@@ -137,7 +141,6 @@ The following grammar matches a number, a plus sign, and another number:
 Anything from a `#` to the end of a line is ignored as a comment:
 
     expression -> number "+" number # sum of two numbers
-   
 
 A nonterminal can have multiple expansions, separated by vertical bars (`|`):
 
@@ -151,16 +154,19 @@ The parser tries to parse the first nonterminal that you define in a file.
 However, you can (and should!) introduce more nonterminals as "helpers". In
 this example, we would have to define the expansion of `number`.
 
+
 ### Postprocessors
 
 Each meaning (called a *production rule*) can have a postprocessing function,
 that can format the data in a way that you would like:
 
-    expression -> number "+" number {%
-        function (data, location, reject) {
-            return ["sum", data[0], data[2]];
-        }
-    %}
+```js
+expression -> number "+" number {%
+    function (data, location, reject) {
+        return ["sum", data[0], data[2]];
+    }
+%}
+```
 
 `data` is an array whose elements match the nonterminals in order. The
 postprocessor `id` returns the first token in the match (literally
@@ -174,11 +180,11 @@ If, after examining the data, you want to force the rule to fail anyway, return
 `reject`. An example of this is allowing a variable name to be a word that is
 not a string:
 
-```
+```js
 variable -> word {%
     function(data, location, reject) {
         if (KEYWORDS.indexOf(data[0]) === -1) {
-            return data[0]; // It's a valid name 
+            return data[0]; // It's a valid name
         } else {
             return reject;  // It's a keyword, so reject it
         }
@@ -247,8 +253,10 @@ For more intricate postprocessors, or any other functionality you may need, you
 can include parts of literal JavaScript between production rules by surrounding
 it with `@{% ... %}`:
 
-    @{% var makeCowWithString = require('./cow.js') %}
-    cow -> "moo" {% function(d) {makeCowWithString(d[0]); } %}
+```js
+@{% var makeCowWithString = require('./cow.js') %}
+cow -> "moo" {% function(d) {makeCowWithString(d[0]); } %}
+```
 
 Note that it doesn't matter where you define these; they all get hoisted to the
 top of the generated code.
@@ -270,6 +278,7 @@ welcome here!
 
 Including a parser imports *all* of the nonterminals defined in the parser, as
 well as any JS, macros, and config options defined there.
+
 
 ### Custom lexers
 
@@ -313,23 +322,23 @@ Now, instead of parsing the string `"print 12"`, you would parse the array
 You can write your own tokenizer using regular expressions, or choose from
 several existing tokenizing libraries for node.
 
-(If someone writes a tokenizer plugin for nearley, I would wholeheartedly
-accept it!)
 
 Using a parser
 --------------
 
 nearley exposes the following API:
 
-    var grammar = require("generated-code.js");
-    var nearley = require("nearley");
+```js
+var grammar = require("generated-code.js");
+var nearley = require("nearley");
 
-    // Create a Parser object from our grammar.
-    var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
+// Create a Parser object from our grammar.
+var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
 
-    // Parse something
-    p.feed("1+1");
-    // p.results --> [ ["sum", "1", "1"] ]
+// Parse something
+p.feed("1+1");
+// p.results --> [ ["sum", "1", "1"] ]
+```
 
 The `Parser` object can be fed data in parts with `.feed(data)`. You can then
 find an array of parsings with the `.results` property. If `results` is empty,
@@ -341,11 +350,13 @@ stream-like inputs, or even dynamic readline inputs. For example, to create a
 Python-style REPL where it continues to prompt you until you have entered a
 complete block.
 
-    p.feed(prompt_user(">>> "));
-    while (p.results.length < 1) {
-        p.feed(prompt_user("... "));
-    }
-    console.log(p.results);
+```js
+p.feed(prompt_user(">>> "));
+while (p.results.length < 1) {
+    p.feed(prompt_user("... "));
+}
+console.log(p.results);
+```
 
 The `nearley.Parser` constructor takes an optional third parameter, `options`,
 which is an object with the following possible keys:
@@ -363,13 +374,15 @@ Catching errors
 If there are no possible parsings, nearley will throw an error whose `offset`
 property is the index of the offending token.
 
-    try {
-        p.feed("1+gorgonzola");
-    } catch(parseError) {
-        console.log(
-            "Error at character " + parseError.offset
-        ); // "Error at character 2"
-    }
+```js
+try {
+    p.feed("1+gorgonzola");
+} catch(parseError) {
+    console.log(
+        "Error at character " + parseError.offset
+    ); // "Error at character 2"
+}
+```
 
 
 Exploring a parser interactively
@@ -384,14 +397,17 @@ parser.
 
 This was previously called `bin/nearleythere.js` and written by Robin.
 
+
 The Unparser
 ------------
 
 The Unparser takes a (compiled) parser and outputs a random string that would
 be accepted by the parser.
 
-    $ nearley-unparse -s number <(nearleyc builtin/prims.ne)
-    -6.22E94
+```
+$ nearley-unparse -s number <(nearleyc builtin/prims.ne)
+-6.22E94
+```
 
 You can use the Unparser to...
 
@@ -415,6 +431,7 @@ As far as I know, nearley is the only parser generator with this feature. It
 is inspired by Roly Fentanes' [randexp](https://fent.github.io/randexp.js/),
 which does the same thing with regular expressions.
 
+
 Automagical Railroad Diagrams
 -----------------------------
 
@@ -432,6 +449,7 @@ See a bigger example [here](http://nearley.js.org/www/railroad-demo.html).
 (This feature is powered by
 [`railroad-diagrams`](https://github.com/tabatkins/railroad-diagrams) by
 tabatkins.)
+
 
 Other Tools
 -----------
@@ -465,6 +483,7 @@ Webpack users can use
 [nearley-loader](https://github.com/kozily/nearley-loader) by Andrés Arana to
 load grammars directly.
 
+
 Still confused?
 ---------------
 You can read [the calculator example](examples/calculator/arithmetic.ne) to get
@@ -473,6 +492,7 @@ a feel for the syntax (see it live
 read a grammar for [tosh](https://tosh.tjvr.org) over [here](examples/tosh.ne).
 There are more sample grammars in the `/examples` directory. For larger
 examples, we also have experimental parsers for **CSV** and **Lua**.
+
 
 Contributing
 ------------
@@ -499,6 +519,7 @@ T. Corbin refactored the compiler to be much, much prettier. Bojidar Marinov
 implemented postprocessors-in-other-languages. Shachar Itzhaky fixed a subtle
 bug with nullables.
 
+
 Further reading
 ---------------
 
@@ -509,3 +530,4 @@ Further reading
 - A [nearley
   tutorial](https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e)
   written by @gajus.
+
