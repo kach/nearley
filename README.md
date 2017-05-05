@@ -293,30 +293,66 @@ Including a parser imports *all* of the nonterminals defined in the parser, as
 well as any JS, macros, and config options defined there.
 
 
-### Custom lexers
-
-You can pass a `lexer` instance to Parser, which must have the following interface:
-
-* `reset(chunk, Info)`: set the internal buffer to `chunk`, and restore line/col/state info taken from `save()`.
-* `next() -> Token` return e.g. `{type, value, line, col, …}`. Only the `value` attribute is required.
-* `save() -> Info` -> return an object describing the current line/col etc. This allows us to preserve this information between `feed()` calls, and also to support `Parser#rewind()`. The exact structure is lexer-specific; nearley doesn't care what's in it.
-* `formatError(token)` -> return a string with an error message describing the line/col of the offending token. You might like to include a preview of the line in question.
-* `has(tokenType)` -> return true if the lexer can emit tokens with that name. Used to resolve `%`-specifiers in compiled nearley grammars.
-
-If Parser isn't given a lexer option, it will look for a `.lexer` attribute on its Grammar. The `@lexer` directive allows exporting a lexer object from your `.ne` grammar file. (See `json.ne` for an example.)
-
-
-### Custom tokens
+Tokenizers
+----------
 
 Nearley assumes by default that your fundamental unit of parsing, called a
 *token*, is a character. That is, you're parsing a list of characters. However,
 sometimes you want to preprocess your string to turn it into a list of *lexical
 tokens*. This means, instead of seeing "1", "2", "3", the nearley might just
 see a single list item "123". This is called *tokenizing*, and it can bring you
-decent performance gains. It also allows you to write cleaner, more
-maintainable grammars and to prevent ambiguous grammars.
+large performance gains. It also allows you to write cleaner, more
+maintainable grammars and helps to prevent ambiguous grammars.
 
-Tokens can be defined in two ways: literal tokens and testable tokens. A
+Nearley is a really clever parser, but tokenizing -- joining characters into words -- is a really simple task. So using something much more dumb (a "lexer") for this task is a lot better, and can make things faster by more than an order-of-magnitude.
+
+Nearley has built-in support for [Moo](https://github.com/tjvr/moo), a super-fast tokenizer. Have a look at [the Moo documentation](https://github.com/tjvr/moo#usage) to learn how to use it.
+
+Enable the `@lexer` option to use it:
+
+```js
+@{%
+
+const moo = require('moo')
+
+let lexer = moo.compile({
+  WS:      /[ \t]+/,
+  comment: /\/\/.*?$/,
+  number:  ['0', /[1-9][0-9]*/],
+  string:  /"((?:\\["\\]|[^\n"\\])*)"/,
+  lparen:  '(',
+  rparen:  ')',
+  keyword: ['while', 'if', 'then', 'else', 'moo', 'cows', 'times'],
+  NL:      {match: '\n', lineBreaks: true},
+})
+
+%}
+
+@lexer lexer
+```
+
+You can now write rules which match a token like so:
+
+```
+fraction -> %number _ times _ %number  {% d => ['*', d[0], d[4] %}
+```
+
+Or match against the value of a token:
+
+```
+E -> "if" E "then" E
+```
+
+You use the parser exactly as normal; you can `feed()` in chunks of strings, and Nearley will give you the parsed results in return.
+
+Nearley will include line numbers etc. in error messages.
+
+
+### Custom matchers
+
+Sometimes you might want a more flexible way of matching tokens, whether you're using `@lexer` or not.
+
+Custom matchers can be defined in two ways: literal tokens and testable tokens. A
 literal token matches exactly, while a testable token runs a function to test
 whether it is a match or not.
 
@@ -331,9 +367,6 @@ main -> %print_tok %number_tok
 
 Now, instead of parsing the string `"print 12"`, you would parse the array
 `["print", 12]`.
-
-You can write your own tokenizer using regular expressions, or choose from
-several existing tokenizing libraries for node.
 
 
 Using a parser
@@ -381,8 +414,9 @@ which is an object with the following possible keys:
   with the Earley parsing algorithm and are planning to do something exciting
   with the parse table.
 
-Catching errors
----------------
+- `lexer`: a [custom Lexer](#custom-lexers).
+
+### Catching errors
 
 If there are no possible parsings, nearley will throw an error whose `offset`
 property is the index of the offending token.
@@ -396,6 +430,18 @@ try {
     ); // "Error at character 2"
 }
 ```
+
+### Custom lexers
+
+If you don't want to use [Moo](https://github.com/tjvr/moo), our recommended lexer/tokenizer, you can define your own. You can pass a `lexer` instance to Parser, which must have the following interface:
+
+* `reset(chunk, Info)`: set the internal buffer to `chunk`, and restore line/col/state info taken from `save()`.
+* `next() -> Token` return e.g. `{type, value, line, col, …}`. Only the `value` attribute is required.
+* `save() -> Info` -> return an object describing the current line/col etc. This allows us to preserve this information between `feed()` calls, and also to support `Parser#rewind()`. The exact structure is lexer-specific; nearley doesn't care what's in it.
+* `formatError(token)` -> return a string with an error message describing the line/col of the offending token. You might like to include a preview of the line in question.
+* `has(tokenType)` -> return true if the lexer can emit tokens with that name. Used to resolve `%`-specifiers in compiled nearley grammars.
+
+If Parser isn't given a lexer option, it will look for a `.lexer` attribute on its Grammar. The `@lexer` directive allows exporting a lexer object from your `.ne` grammar file. (See `json.ne` for an example.)
 
 
 Exploring a parser interactively
