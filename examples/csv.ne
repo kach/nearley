@@ -31,7 +31,7 @@ quoted_field_char -> [^"]                            {% id %}
 unquoted_field    -> null                            {% emptyStr %}
                    | unquoted_field char             {% appendItemChar(0,1) %}
 
-char              -> [^\n\r",]                       {% empty %}
+char              -> [^\n\r",]                       {% id %}
 
 newline           -> "\r" "\n"                       {% empty %}
                    | "\r" | "\n"                     {% empty %}
