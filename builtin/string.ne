@@ -12,7 +12,7 @@ dstrchar -> [^\\"\n] {% id %}
     }
 %}
 
-sstrchar -> [^\\\n] {% id %}
+sstrchar -> [^\\'\n] {% id %}
     | "\\" strescape
         {% function(d) { return JSON.parse("\""+d.join("")+"\""); } %}
     | "\\'"
