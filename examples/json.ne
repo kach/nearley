@@ -19,13 +19,6 @@ let lexer = moo.compile({
     null: 'null',
 })
 
-// TODO add has() to moo
-lexer.has = function(name) {
-  return lexer.groups.find(function(group) {
-    return group.tokenType === name;
-  });
-}
-
 %}
 
 @lexer lexer
