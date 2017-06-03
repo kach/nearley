@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "strict": true
+  },
+  "include": [
+    "./tmp.typescript-test.ts"
+  ]
+}

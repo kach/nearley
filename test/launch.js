@@ -43,6 +43,14 @@ describe("nearleyc", function() {
             .should.deep.equal([ [ 'ABCDEFZ', '12309' ] ]);
     });
 
+    it('should build for TypeScript', function() {
+        externalNearleyc("test/typescript-test.ne -o test/tmp.typescript-test.ts").should.equal("");
+        sh("node ./node_modules/typescript/bin/tsc --project test");
+        var grammar = evalGrammar(read("test/tmp.typescript-test.js"));
+        parse(grammar, "<123>")
+            .should.deep.equal([ [ '<', '123', '>' ] ]);
+    });
+
     it('calculator example', function() {
         var arith = compile(read("examples/calculator/arithmetic.ne"));
         parse(arith, "ln (3 + 2*(8/e - sin(pi/5)))")
