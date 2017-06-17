@@ -83,7 +83,7 @@ issue.
 
 ### Don't shy away from left recursion
 
-You were a good little student and you payed attention to your professors when
+You were a good little student and you paid attention to your professors when
 they told you never to write grammars like:
 
     a -> a "something"
