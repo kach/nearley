@@ -1,6 +1,24 @@
 # nearley grammar
 @builtin "string.ne"
 
+@{%
+
+function insensitive(sl) {
+    var s = sl.literal;
+    result = [];
+    for (var i=0; i<s.length; i++) {
+        var c = s.charAt(i);
+        if (c.toUpperCase() !== c || c.toLowerCase() !== c) {
+            result.push(new RegExp("[" + c.toLowerCase() + c.toUpperCase() + "]"));
+        } else {
+            result.push({literal: c});
+        }
+    }
+    return {subexpression: [{tokens: result, postprocess: function(d) {return d.join(""); }}]};
+}
+
+%}
+
 final -> whit? prog whit?  {% function(d) { return d[1]; } %}
 
 prog -> prod  {% function(d) { return [d[0]]; } %}
@@ -29,7 +47,7 @@ expr_member ->
       word {% id %}
     | "$" word {% function(d) {return {mixin: d[1]}} %}
     | word "[" expressionlist "]" {% function(d) {return {macrocall: d[0], args: d[2]}} %} 
-    | string {% id %}
+    | string "i":? {% function(d) { if (d[1]) {return insensitive(d[0]); } else {return d[0]; } } %}
     | "%" word {% function(d) {return {token: d[1]}} %}
     | charclass {% id %}
     | "(" whit? expression+ whit? ")" {% function(d) {return {'subexpression': d[2]} ;} %}

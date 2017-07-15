@@ -152,6 +152,21 @@ describe("nearleyc", function() {
         parse(parentheses, '((((())))(())()').should.deep.equal([]);
     });
 
+    it('case-insensitive strings', function() {
+        var caseinsensitive = compile(read("test/caseinsensitive.ne"));
+        var passCases = [
+            "Les rêves des amoureux sont comme le bon vin!",
+            "LES RÊVES DES AMOUREUX SONT COMME LE BON VIN!",
+            "leS RêVeS DeS AmOuReUx sOnT CoMmE Le bOn vIn!",
+            "LEs rÊvEs dEs aMoUrEuX SoNt cOmMe lE BoN ViN!"
+        ];
+        passCases.forEach(function(c) {
+            var p = parse(caseinsensitive, c);
+            p.length.should.equal(1);
+            p[0].toUpperCase().should.equal(passCases[1]);
+        });
+    });
+
 });
 
 describe('Parser', function() {
