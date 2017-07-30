@@ -1,7 +1,6 @@
 ![](www/logo/nearley-purple.png)
 
-[nearley](http://nearley.js.org) [![JS.ORG](https://img.shields.io/badge/js.org-nearley-ffb400.svg?style=flat-square)](http://js.org)
-==============
+# [nearley](http://nearley.js.org) [![JS.ORG](https://img.shields.io/badge/js.org-nearley-ffb400.svg?style=flat-square)](http://js.org)
 
 > Simple parsing in JavaScript
 
@@ -38,8 +37,8 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-What is nearley?
-----------------
+## What is nearley?
+
 nearley uses the Earley parsing algorithm augmented with Joop Leo's
 optimizations to parse complex data structures easily. nearley is über-fast and
 really powerful. It can parse literally anything you throw at it.
@@ -54,8 +53,7 @@ languages](https://github.com/bobbybee/uPresent) and [complete programming
 languages](https://github.com/bobbybee/carbon). It's an npm [staff
 pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 
-Why do I care?
---------------
+## Why do I care?
 
 nearley can parse what other JS parse engines cannot, because it uses a
 different algorithm. The Earley algorithm is *general*, which means it can
@@ -69,8 +67,7 @@ ones](http://en.wikipedia.org/wiki/Left_recursion).
 nearley also has capabilities to catch errors gracefully, and detect ambiguous
 grammars (grammars that can be parsed in multiple ways).
 
-Installation and Usage
-----------------------
+## Installation and Usage
 
 > **Note:** For beginners, Guillermo Webster's
 > [nearley-playground](https://omrelli.ug/nearley-playground/) is a wonderful
@@ -92,6 +89,7 @@ To *compile* a nearley parser (a `.ne` file), you need to install the
     $ nearleyc parser.ne
 
 nearley ships with three additional tools:
+
 - `nearley-test` lets you quickly test a grammar against some input and see the
   results. It also lets you explore the internal state of nearley's Earley
   table, in case you find that interesting.
@@ -122,9 +120,7 @@ Alternatively, to use a generated grammar in a browser runtime, include the
 <script src="my-generated-grammar.js"></script>
 ```
 
-
-Parser specification
---------------------
+## Parser specification
 
 This is a basic overview of nearley syntax and usage. For an advanced
 styleguide, see [this file](how-to-grammar-good.md).
@@ -156,7 +152,6 @@ A nonterminal can have multiple expansions, separated by vertical bars (`|`):
 The parser tries to parse the first nonterminal that you define in a file.
 However, you can (and should!) introduce more nonterminals as "helpers". In
 this example, we would have to define the expansion of `number`.
-
 
 ### Postprocessors
 
@@ -293,9 +288,7 @@ welcome here!
 Including a parser imports *all* of the nonterminals defined in the parser, as
 well as any JS, macros, and config options defined there.
 
-
-Tokenizers
-----------
+## Tokenizers
 
 Nearley assumes by default that your fundamental unit of parsing, called a
 *token*, is a character. That is, you're parsing a list of characters. However,
@@ -348,7 +341,6 @@ You use the parser exactly as normal; you can `feed()` in chunks of strings, and
 
 Nearley will include line numbers etc. in error messages.
 
-
 ### Custom matchers
 
 Sometimes you might want a more flexible way of matching tokens, whether you're using `@lexer` or not.
@@ -369,9 +361,7 @@ main -> %print_tok %number_tok
 Now, instead of parsing the string `"print 12"`, you would parse the array
 `["print", 12]`.
 
-
-Using a parser
---------------
+## Using a parser
 
 nearley exposes the following API:
 
@@ -436,17 +426,15 @@ try {
 
 If you don't want to use [Moo](https://github.com/tjvr/moo), our recommended lexer/tokenizer, you can define your own. You can pass a `lexer` instance to Parser, which must have the following interface:
 
-* `reset(chunk, Info)`: set the internal buffer to `chunk`, and restore line/col/state info taken from `save()`.
-* `next() -> Token` return e.g. `{type, value, line, col, …}`. Only the `value` attribute is required.
-* `save() -> Info` -> return an object describing the current line/col etc. This allows us to preserve this information between `feed()` calls, and also to support `Parser#rewind()`. The exact structure is lexer-specific; nearley doesn't care what's in it.
-* `formatError(token)` -> return a string with an error message describing the line/col of the offending token. You might like to include a preview of the line in question.
-* `has(tokenType)` -> return true if the lexer can emit tokens with that name. Used to resolve `%`-specifiers in compiled nearley grammars.
+- `reset(chunk, Info)`: set the internal buffer to `chunk`, and restore line/col/state info taken from `save()`.
+- `next() -> Token` return e.g. `{type, value, line, col, …}`. Only the `value` attribute is required.
+- `save() -> Info` -> return an object describing the current line/col etc. This allows us to preserve this information between `feed()` calls, and also to support `Parser#rewind()`. The exact structure is lexer-specific; nearley doesn't care what's in it.
+- `formatError(token)` -> return a string with an error message describing the line/col of the offending token. You might like to include a preview of the line in question.
+- `has(tokenType)` -> return true if the lexer can emit tokens with that name. Used to resolve `%`-specifiers in compiled nearley grammars.
 
 If Parser isn't given a lexer option, it will look for a `.lexer` attribute on its Grammar. The `@lexer` directive allows exporting a lexer object from your `.ne` grammar file. (See `json.ne` for an example.)
 
-
-Exploring a parser interactively
---------------------------------
+## Exploring a parser interactively
 
 The global install will provide `nearley-test`, a simple command-line tool you
 can use to inspect what a parser is doing. You input a generated `grammar.js`
@@ -457,27 +445,22 @@ parser.
 
 This was previously called `bin/nearleythere.js` and written by Robin.
 
-
-The Unparser
-------------
+## The Unparser
 
 The Unparser takes a (compiled) parser and outputs a random string that would
 be accepted by the parser.
 
-```
+```bash
 $ nearley-unparse -s number <(nearleyc builtin/prims.ne)
 -6.22E94
 ```
 
 You can use the Unparser to...
 
-- ...test your parser specification by generating lots of random expressions
-and making sure all of them are "correct".
-- ...generate random strings from a schema (for example, random email addresses
-or telephone numbers).
+- ...test your parser specification by generating lots of random expressions and making sure all of them are "correct".
+- ...generate random strings from a schema (for example, random email addresses or telephone numbers).
 - ...create fuzzers and combinatorial stress-testers.
-- ...play "Mad-Libs" automatically! (Practical application: automatic
-grammatically valid loremtext.)
+- ...play "Mad-Libs" automatically! (Practical application: automatic grammatically valid loremtext.)
 
 The Unparser outputs as a stream by continuously writing characters to its
 output pipe. So, if it "goes off the deep end" and generates a huge string, you
@@ -491,14 +474,12 @@ As far as I know, nearley is the only parser generator with this feature. It
 is inspired by Roly Fentanes' [randexp](https://fent.github.io/randexp.js/),
 which does the same thing with regular expressions.
 
-
-Automagical Railroad Diagrams
------------------------------
+## Automagical Railroad Diagrams
 
 nearley lets you convert your grammars to pretty SVG railroad diagrams that you
 can include in webpages, documentation, and even papers.
 
-```
+```bash
 $ nearley-railroad regex.ne -o grammar.html
 ```
 
@@ -510,9 +491,7 @@ See a bigger example [here](http://nearley.js.org/www/railroad-demo.html).
 [`railroad-diagrams`](https://github.com/tabatkins/railroad-diagrams) by
 tabatkins.)
 
-
-Other Tools
------------
+## Other Tools
 
 *This section lists nearley tooling created by other developers. These tools
 are not distributed with nearley, so if you have problems, please contact the
@@ -543,9 +522,8 @@ Webpack users can use
 [nearley-loader](https://github.com/kozily/nearley-loader) by Andrés Arana to
 load grammars directly.
 
+## Still confused?
 
-Still confused?
----------------
 You can read [the calculator example](examples/calculator/arithmetic.ne) to get
 a feel for the syntax (see it live
 [here](http://hardmath123.github.io/nearley/examples/calculator/)). You can
@@ -553,9 +531,7 @@ read a grammar for [tosh](https://tosh.tjvr.org) over [here](examples/tosh.ne).
 There are more sample grammars in the `/examples` directory. For larger
 examples, we also have experimental parsers for **CSV** and **Lua**.
 
-
-Contributing
-------------
+## Contributing
 
 Clone, hack, PR. Tests live in `test/` and can be called with `npm test`. Make
 sure you read `test/profile.log` after tests run, and that nothing has died
@@ -579,9 +555,7 @@ T. Corbin refactored the compiler to be much, much prettier. Bojidar Marinov
 implemented postprocessors-in-other-languages. Shachar Itzhaky fixed a subtle
 bug with nullables.
 
-
-Further reading
----------------
+## Further reading
 
 - Read my [blog post](http://hardmath123.github.io/earley.html) to learn more
   about the algorithm.
@@ -590,4 +564,3 @@ Further reading
 - A [nearley
   tutorial](https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e)
   written by @gajus.
-
