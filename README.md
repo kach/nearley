@@ -4,15 +4,18 @@
 
 > Simple parsing in JavaScript
 
+nearley is a fast and extremely powerful parser based on the [Earley algorithm](https://en.wikipedia.org/wiki/Earley_parser). It can parse literally anything you throw at it.
+
 <!-- $ npm install -g doctoc -->
 <!-- $ doctoc --notitle README.md -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [What is nearley?](#what-is-nearley)
-- [Why do I care?](#why-do-i-care)
-- [Installation and Usage](#installation-and-usage)
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+- [CLI](#cli)
 - [Parser specification](#parser-specification)
   - [Postprocessors](#postprocessors)
   - [Epsilon rules](#epsilon-rules)
@@ -37,59 +40,85 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## What is nearley?
+## Introduction
 
-nearley uses the Earley parsing algorithm augmented with Joop Leo's
-optimizations to parse complex data structures easily. nearley is über-fast and
-really powerful. It can parse literally anything you throw at it.
+nearley compiles grammar definitions from a simple syntax resembling [BNF](https://en.wikipedia.org/wiki/Backus–Naur_form) to a JS representation.
+You pass that representation to the nearley's tiny runtime, feed it data, and get the results.
 
-nearley is used by [artificial
-intelligence](https://github.com/ChalmersGU-AI-course/shrdlite-course-project)
-and [computational
-linguistics](https://wiki.eecs.yorku.ca/course_archive/2014-15/W/6339/useful_handouts)
-classes at universities, as well as [file format
-parsers](https://github.com/raymond-h/node-dmi), [markup
-languages](https://github.com/bobbybee/uPresent) and [complete programming
-languages](https://github.com/bobbybee/carbon). It's an npm [staff
-pick](https://www.npmjs.com/package/npm-collection-staff-picks).
-
-## Why do I care?
-
-nearley can parse what other JS parse engines cannot, because it uses a
-different algorithm. The Earley algorithm is *general*, which means it can
-handle *any* grammar you can define in BNF. In fact, the nearley syntax is
-written in *itself* (this is called bootstrapping).
+nearley uses the Earley parsing algorithm with Joop Leo's optimizations to parse complex data structures easily.
+Thanks to this algorithm, nearley can parse what other JavaScript parsers cannot.
+It can handle *any* grammar you can define in BNF.
+In fact, the nearley syntax is written in *itself* (this is called bootstrapping).
 
 PEGjs and Jison are recursive-descent based, and so they will choke on a lot of
-grammars, in particular [left recursive
-ones](http://en.wikipedia.org/wiki/Left_recursion).
+grammars, in particular [left recursive ones](http://en.wikipedia.org/wiki/Left_recursion).
 
 nearley also has capabilities to catch errors gracefully, and detect ambiguous
 grammars (grammars that can be parsed in multiple ways).
 
-## Installation and Usage
+nearley is used by [artificial intelligence](https://github.com/ChalmersGU-AI-course/shrdlite-course-project)
+and [computational linguistics](https://wiki.eecs.yorku.ca/course_archive/2014-15/W/6339/useful_handouts)
+classes at universities, as well as [file format parsers](https://github.com/raymond-h/node-dmi),
+[markup languages](https://github.com/bobbybee/uPresent) and
+[complete programming languages](https://github.com/bobbybee/carbon).
+It's an npm [staff pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 
-> **Note:** For beginners, Guillermo Webster's
-> [nearley-playground](https://omrelli.ug/nearley-playground/) is a wonderful
-> way to explore nearley interactively in your browser:
->
-> ![A screenshot of the playground](www/playground.png)
->
-> Enjoy!
+## Installation
 
-To use nearley, you need both a *global* and a *local* installation. The two
-types of installations are described separately below.
+nearley is published as an [NPM](https://docs.npmjs.com/getting-started/what-is-npm) package compatible with [Node.js](https://nodejs.org/en/) and browsers.
 
----
+```bash
+npm install nearley
+```
 
-To *compile* a nearley parser (a `.ne` file), you need to install the
-`nearleyc` command from npm:
+Also install the package globally if you'd like to use it directly via CLI:
 
-    $ npm install -g nearley
-    $ nearleyc parser.ne
+```bash
+npm install -g nearley
+```
 
-nearley ships with three additional tools:
+Use a tool like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/) to include nearley in your browser code.
 
+You can uninstall the nearley compiler using `npm uninstall -g nearley`.
+
+## Usage
+
+- Describe your grammar in the nearley syntax. `grammar.ne`:
+
+```
+main -> (statement "\n"):+
+statement -> "foo" | "bar"
+```
+
+Check out the wonderful [nearley playground](https://omrelli.ug/nearley-playground/) to explore nearley interactively in your browser.
+
+- Compile the grammar to JS:
+
+```bash
+nearleyc grammar.ne -o grammar.js
+```
+
+Add a script to `scripts` in `package.json` that runs the command above if you only have a locally installed copy of nearley.
+
+- Create a parser and feed it data:
+
+```JS
+import { Parser, Grammar } from "nearley";
+import * as grammar from "./grammar";
+
+var parser = new Parser(Grammar.fromCompiled(grammar));
+
+parser.feed("foo\n");
+console.log(p.results[0]); // [[[ "foo" ],"\n" ]]
+```
+
+See below for detailed API and grammar syntax specification.
+
+## CLI
+
+Use `--help` with any of these commands to see available options.
+
+- `nearleyc` compiles grammar files to JavaScript.
 - `nearley-test` lets you quickly test a grammar against some input and see the
   results. It also lets you explore the internal state of nearley's Earley
   table, in case you find that interesting.
@@ -97,28 +126,6 @@ nearley ships with three additional tools:
   random strings that match your grammar.
 - `nearley-railroad` generates pretty railroad diagrams from your parser. This
   is mainly helpful for creating documentation, as (for example) on json.org.
-
-You can uninstall the nearley compiler using `npm uninstall -g nearley`.
-
----
-
-To *use* a generated grammar, you need to install `nearley` as a per-project
-dependency via npm (note that there is no `-g` in the first command):
-
-```
-$ npm install nearley
-$ node
-> var nearley = require("nearley");
-> var grammar = require("./my-generated-grammar.js");
-```
-
-Alternatively, to use a generated grammar in a browser runtime, include the
-`nearley.js` file in a `<script>` tag.
-
-```html
-<script src="nearley.js"></script>
-<script src="my-generated-grammar.js"></script>
-```
 
 ## Parser specification
 
