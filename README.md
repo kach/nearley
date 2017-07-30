@@ -76,7 +76,7 @@ Installation and Usage
 > way to explore nearley interactively in your browser:
 >
 > ![A screenshot of the playground](www/playground.png)
-> 
+>
 > Enjoy!
 
 To use nearley, you need both a *global* and a *local* installation. The two
@@ -139,7 +139,7 @@ JSON-compatible strings).
 The following grammar matches a number, a plus sign, and another number:
 
     expression -> number "+" number
-    
+
 Anything from a `#` to the end of a line is ignored as a comment:
 
     expression -> number "+" number # sum of two numbers
@@ -583,7 +583,7 @@ Further reading
 ---------------
 
 - Read my [blog post](http://hardmath123.github.io/earley.html) to learn more
-  about the algorithm. 
+  about the algorithm.
 - Read about [Marpa](http://savage.net.au/Marpa.html) to
   learn more than you ever thought you wanted to know about parsing.
 - A [nearley
