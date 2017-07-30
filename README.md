@@ -17,8 +17,10 @@ nearley is a fast and extremely powerful parser based on the [Earley algorithm](
 - [Usage](#usage)
 - [CLI](#cli)
 - [Parser specification](#parser-specification)
+  - [Terminals, nonterminals, rules](#terminals-nonterminals-rules)
+  - [Comments](#comments)
   - [Postprocessors](#postprocessors)
-  - [Epsilon rules](#epsilon-rules)
+  - [Target languages](#target-languages)
   - [Charsets](#charsets)
   - [Case-insensitive String Literals](#case-insensitive-string-literals)
   - [EBNF](#ebnf)
@@ -85,7 +87,7 @@ You can uninstall the nearley compiler using `npm uninstall -g nearley`.
 
 - Describe your grammar in the nearley syntax. `grammar.ne`:
 
-```
+```js
 main -> (statement "\n"):+
 statement -> "foo" | "bar"
 ```
@@ -102,7 +104,7 @@ Add a script to `scripts` in `package.json` that runs the command above if you o
 
 - Create a parser and feed it data:
 
-```JS
+```js
 import { Parser, Grammar } from "nearley";
 import * as grammar from "./grammar";
 
@@ -129,88 +131,95 @@ Use `--help` with any of these commands to see available options.
 
 ## Parser specification
 
-This is a basic overview of nearley syntax and usage. For an advanced
-styleguide, see [this file](how-to-grammar-good.md).
+Let's explore the building blocks of a nearley parser.
 
-A parser consists of several *nonterminals*, which are constructions in a
-language. A nonterminal is made up of a series of either other nonterminals or
-strings. In nearley, you define a nonterminal by giving its name and its
-expansions.
+### Terminals, nonterminals, rules
 
-Strings are the *terminals*, which match those string literals (specified as
-JSON-compatible strings).
+- A *terminal* is a string or a token. E.g. keyword `"if"` is a terminal.
+- A *nonterminal* is a combination of terminals and other nonterminals. E.g. an if statement defined as `"if" condition statement` is a nonteminal.
+- A *rule* (or production rule) is a definition of a nonterminal. E.g. `"if" condition statement` is the rule according to which the if statement nonterminal is parsed.
 
-The following grammar matches a number, a plus sign, and another number:
+The first nonterminal of the grammar is the one the whole input must match. With the following grammar, nearley will try to parse text as `expression`.
 
-    expression -> number "+" number
+```js
+expression -> number "+" number
+number -> [0-9]:+
+```
 
-Anything from a `#` to the end of a line is ignored as a comment:
+A nonterminal can have multiple alternative rules, separated by vertical bars (`|`):
 
-    expression -> number "+" number # sum of two numbers
+```js
+expression ->
+      number "+" number
+    | number "-" number
+    | number "*" number
+    | number "/" number
+```
 
-A nonterminal can have multiple expansions, separated by vertical bars (`|`):
+A special kind of rule is an **epsilon rule**. It matches nothing and is written as `null`. The following nonterminal matches zero or more `cow`s in a row:
 
-    expression ->
-          number "+" number
-        | number "-" number
-        | number "*" number
-        | number "/" number
+```js
+a -> null
+    | a "cow"
+```
 
-The parser tries to parse the first nonterminal that you define in a file.
-However, you can (and should!) introduce more nonterminals as "helpers". In
-this example, we would have to define the expansion of `number`.
+Keep in mind that nearley syntax is not sensitive to formatting. You may keep rules on the same line: `foo -> bar | qux`.
+
+### Comments
+
+Everything starting from `#` to the end of a line is ignored as a comment:
+
+```ini
+expression -> number "+" number # sum of two numbers
+```
 
 ### Postprocessors
 
-Each meaning (called a *production rule*) can have a postprocessing function,
-that can format the data in a way that you would like:
+By default, nearley wraps everything matched by a rule into an array. `rule -> "foo" "bar"` gives `["foo", "bar"]`.
+Most of the time, you need to process that data in some way: filter out unnecessary tokens, transform into an object, etc.
+
+Each rule can have a *postprocessor* - a JavaScript function that transforms the array and returns whatever you want to get instead. Postprocessors are wrapped in `{% %}`:
 
 ```js
 expression -> number "+" number {%
-    function (data, location, reject) {
-        return ["sum", data[0], data[2]];
-    }
+    (data, location, reject) => ({
+        type: "sum",
+        args: [data[0], data[2]]
+    })
 %}
 ```
 
-`data` is an array whose elements match the nonterminals in order. The
-postprocessor `id` returns the first token in the match (literally
-`function(data) {return data[0];}`).
+The rule above will parse `5+10` into `{ type: "sum", args: [5, 10] }`.
 
-`location` is the index at which that rule was found. Retaining this
-information in a syntax tree is useful if you're writing an interpreter and
-want to give fancy error messages for runtime errors.
+The postprocessor can be any function. It will be passed three arguments:
 
-If, after examining the data, you want to force the rule to fail anyway, return
-`reject`. An example of this is allowing a variable name to be a word that is
-not a string:
+- `data: Array` - array with the parsed parts of the rule. It will always be an array, even if there's only one part. If a rule contains nonterminals with their own postprocessors, the respective parts will already be transformed.
+- `location: number` - the index (zero-based) at which the rule match starts. It's useful to retain this information in the syntax tree if you're writing an interpreter.
+- `reject: Object` - return this object to signal that this rule doesn't actually match. This allows you to restrict or conditionally support language features.
+
+Remember that a postprocessor is scoped to a single rule, not the whole nonterminal. If a nonterminal has multiple alternative rules, each of them can have its own postprocessor:
 
 ```js
-variable -> word {%
-    function(data, location, reject) {
-        if (KEYWORDS.indexOf(data[0]) === -1) {
-            return data[0]; // It's a valid name
-        } else {
-            return reject;  // It's a keyword, so reject it
-        }
-    }
-%}
+expression ->
+      number "+" number {% ([first, _, second]) => first + second %}
+    | number "-" number {% ([first, _, second]) => first - second %}
+    | number "*" number {% ([first, _, second]) => first * second %}
+    | number "/" number {% ([first, _, second]) => first / second %}
 ```
 
-You can write your postprocessors in CoffeeScript by adding `@preprocessor
-coffee` to the top of your file. Similarly, you can write them in TypeScript by
-adding `@preprocessor typescript` to the top of your file. If you would like to
-support a different postprocessor language, feel free to file a PR!
+There're several built-in postprocessors for the most common scenarios:
 
-### Epsilon rules
+- `id` - returns the first element of the `data` array. Useful for single-element arrays: `foo -> bar {% id %}`
+- `arrpush` - joins an array and the last element. Useful for recursive definitions of sequences: `foo -> bar | foo bar {% arrpush %}`
+- `nuller` - returns null. Useful for unimportant rules: `space -> " " {% nuller %}`
 
-The **epsilon rule** is the empty rule that matches nothing. The constant
-`null` is the epsilon rule, so:
+### Target languages
 
-    a -> null
-        | a "cow"
+By default, `nearleyc` compiles grammar to JavaScript. You can also choose CoffeeScript or TypeScript by adding `@preprocessor coffee` or `@preprocessor typescript` at the top of your grammar file.
 
-will match 0 or more `cow`s in a row.
+Remember to write postprocessors in the same language. They are preserved as-is.
+
+If you would like to support a different language, feel free to file a PR!
 
 ### Charsets
 
@@ -218,7 +227,7 @@ You can use valid RegExp charsets in a rule:
 
     not_a_letter -> [^a-zA-Z]
 
-The `.` character can be used to represent "any character".
+The `.` character can be used to represent any character.
 
 ### Case-insensitive String Literals
 
@@ -233,66 +242,79 @@ regexes instead. That is, if you are using a lexer, you should *not* use the
 
 ### EBNF
 
-nearley compiles some higher-level constructs into BNF for you. In particular,
-the `*`, `?`, and `+` operators from Regexes (or EBNF) are available as shown:
+nearley supports the `*`, `?`, and `+` operators from [EBNF](https://en.wikipedia.org/wiki/Extended_Backus–Naur_form) (or RegExps) as shown:
 
-    batman -> "na":* "batman" # nananana...nanabatman
+```ini
+batman -> "na":* "batman" # nananana...nanabatman
+```
 
 You can also use capture groups with parentheses. Its contents can be anything
 that a rule can have:
 
-    banana -> "ba" ("na" {% id %} | "NA" {% id %}):+
+```js
+banana -> "ba" ("na" {% id %} | "NA" {% id %}):+
+```
 
 ### Macros
 
 You can create "polymorphic" rules through macros:
 
-    match3[X] -> $X $X $X
-    quote[X]  -> "'" $X "'"
+```ini
+match3[X] -> $X $X $X
+quote[X]  -> "'" $X "'"
 
-    main -> match3[quote["Hello?"]]
-    # matches "'Hello?''Hello?''Hello?'"
+main -> match3[quote["Hello?"]]
+# matches "'Hello?''Hello?''Hello?'"
+```
 
 Macros are dynamically scoped:
 
-    foo[X, Y] -> bar[("moo" | "oink" | "baa")] $Y
-    bar[Z]    -> $X " " $Z # 'remembers' $X from its caller
-    main -> foo["Cows", "."]
-    # matches "Cows oink." and "Cows moo."
+```ini
+foo[X, Y] -> bar[("moo" | "oink" | "baa")] $Y
+bar[Z]    -> $X " " $Z # uses $X from its caller
+main -> foo["Cows", "."]
+# matches "Cows oink." and "Cows moo."
+```
 
-Macros *cannot* be recursive (`nearleyc` will go into an infinite loop trying
+Macros are expanded at compile time and inserted in places they are used. They are not "real" rules.
+
+Therefore, macros *cannot* be recursive (`nearleyc` will go into an infinite loop trying
 to expand the macro-loop).
 
 ### Additional JS
 
 For more intricate postprocessors, or any other functionality you may need, you
-can include parts of literal JavaScript between production rules by surrounding
+can include chunks of JavaScript code between production rules by surrounding
 it with `@{% ... %}`:
 
 ```js
-@{% var makeCowWithString = require('./cow.js') %}
-cow -> "moo" {% function(d) {makeCowWithString(d[0]); } %}
+@{% import { cowSays } from "./cow.js"; %}
+cow -> "moo" {% ([moo]) => cowSays(moo) %}
 ```
 
-Note that it doesn't matter where you define these; they all get hoisted to the
+Note that it doesn't matter where you add these; they all get hoisted to the
 top of the generated code.
 
 ### Importing
 
-You can include the content of other parser files:
+You can include the content of other grammar files:
 
-    @include "../misc/primitives.ne" # path relative to file being compiled
-    sum -> number "+" number
+```
+@include "../misc/primitives.ne" # path relative to file being compiled
+sum -> number "+" number
+```
 
-There are also some built-in parsers whose contents you can include:
+There are several builtin helper files that you can include:
 
-    @builtin "cow.ne"
-    main -> cow:+
+```
+@builtin "cow.ne"
+main -> cow:+
+```
 
-See the `builtin/` directory for an index of this library. Contributions are
+See the [`builtin/`](builtin) directory for more details. Contributions are
 welcome here!
 
-Including a parser imports *all* of the nonterminals defined in the parser, as
+Including a file imports *all* of the nonterminals defined in it, as
 well as any JS, macros, and config options defined there.
 
 ## Tokenizers
