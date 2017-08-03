@@ -377,6 +377,11 @@ You use the parser exactly as normal; you can `feed()` in chunks of strings, and
 
 Nearley will include line numbers etc. in error messages.
 
+## Advanced topics
+
+- [Making a REPL for your grammar](docs/making-a-repl.md)
+- [Accessing the parse table](docs/accessing-parse-table.md)
+
 ### Custom matchers
 
 Sometimes you might want a more flexible way of matching tokens, whether you're using `@lexer` or not.
@@ -396,54 +401,6 @@ const number = { test: x => Number.isInteger(x) };
 # Matches ["print", 12] when this array is the input.
 main -> %print %number
 ```
-
-## Using a parser
-
-nearley exposes the following API:
-
-```js
-import { Parser, Grammar } from "nearley";
-import * as grammar from "./grammar";
-
-// Create a Parser object from our grammar.
-const parser = new Parser(Grammar.fromCompiled(grammar));
-
-// Parse something
-parser.feed("1+1");
-
-console.log(parser.results); // [ ["sum", "1", "1"] ]
-```
-
-The `Parser` object can be fed data in parts with `.feed(data)`. You can then
-find an array of parsings with the `.results` property. If `results` is empty,
-then there are no parsings. If `results` contains multiple values, then that
-combination is ambiguous.
-
-The incremental feeding design is inspired so that you can parse data from
-stream-like inputs, or even dynamic readline inputs. For example, to create a
-Python-style REPL where it continues to prompt you until you have entered a
-complete block.
-
-```js
-parser.feed(prompt(">>> "));
-while (parser.results.length < 1) {
-    parser.feed(prompt("... "));
-}
-
-console.log(parser.results);
-```
-
-The `nearley.Parser` constructor takes an optional third parameter, `options`,
-which is an object with the following possible keys:
-
-- `keepHistory` (boolean, default `false`): if set to `true`, nearley will
-  preserve the internal state of the parser in the parser's `.table` property.
-  Preserving the state has some performance cost (because it can potentially be
-  very large), so we recommend leaving this as `false` unless you are familiar
-  with the Earley parsing algorithm and are planning to do something exciting
-  with the parse table.
-
-- `lexer`: a [custom Lexer](#custom-lexers).
 
 ### Catching errors
 
