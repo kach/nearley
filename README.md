@@ -371,6 +371,7 @@ nearley will include line numbers etc. in error messages.
 
 ## Advanced topics
 
+- [Best practices for writing grammars](docs/how-to-grammar-good.md)
 - [Custom tokens and lexers, parsing arbitrary arrays instead of strings](docs/custom-tokens-and-lexers.md)
 - [Making a REPL for your grammar](docs/making-a-repl.md)
 - [Accessing the parse table](docs/accessing-parse-table.md)

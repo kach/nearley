@@ -1,3 +1,5 @@
+# How to grammar good
+
 A lot of people have pointed out to me that writing grammars for
 [nearley](http://hardmath123.github.io/nearley/) is *hard*. The thing is,
 writing grammars is, in general, very hard. It doesn't help that certain
