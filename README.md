@@ -108,10 +108,16 @@ Add a script to `scripts` in `package.json` that runs the command above if you o
 import { Parser, Grammar } from "nearley";
 import * as grammar from "./grammar";
 
-var parser = new Parser(Grammar.fromCompiled(grammar));
+// Create a Parser object from our grammar.
+const parser = new Parser(Grammar.fromCompiled(grammar));
 
+// Parse something.
 parser.feed("foo\n");
-console.log(p.results[0]); // [[[ "foo" ],"\n" ]]
+
+// parser.results is an array of possible parsings.
+// It's empty if we're unable to parse the input.
+// If the input can be interpreted in multiple ways, parser.results will contain all of them.
+console.log(parser.results); // [[[[ "foo" ],"\n" ]]]
 ```
 
 See below for detailed API and grammar syntax specification.
@@ -257,23 +263,26 @@ banana -> "ba" ("na" {% id %} | "NA" {% id %}):+
 
 ### Macros
 
-You can create "polymorphic" rules through macros:
+Macros allow to create "polymorphic" rules:
 
 ```ini
-match3[X] -> $X $X $X
-quote[X]  -> "'" $X "'"
+# Matches "'Hello?' 'Hello?' 'Hello?'"
+main -> matchThree[inQuotes["Hello?"]]
 
-main -> match3[quote["Hello?"]]
-# matches "'Hello?''Hello?''Hello?'"
+matchThree[X] -> $X " " $X " " $X
+
+inQuotes[X] -> "'" $X "'"
 ```
 
-Macros are dynamically scoped:
+Macros are dynamically scoped, which means they see arguments passed to parent macros:
 
 ```ini
-foo[X, Y] -> bar[("moo" | "oink" | "baa")] $Y
-bar[Z]    -> $X " " $Z # uses $X from its caller
-main -> foo["Cows", "."]
-# matches "Cows oink." and "Cows moo."
+# Matches "Cows oink." and "Cows moo!"
+main -> sentence["Cows", ("." | "!")]
+
+sentence[ANIMAL, PUNCTUATION] -> animalGoes[("moo" | "oink" | "baa")] $PUNCTUATION
+
+animalGoes[SOUND] -> $ANIMAL " " $SOUND # uses $ANIMAL from its caller
 ```
 
 Macros are expanded at compile time and inserted in places they are used. They are not "real" rules.
@@ -288,7 +297,10 @@ can include chunks of JavaScript code between production rules by surrounding
 it with `@{% ... %}`:
 
 ```js
-@{% import { cowSays } from "./cow.js"; %}
+@{%
+import { cowSays } from "./cow.js";
+%}
+
 cow -> "moo" {% ([moo]) => cowSays(moo) %}
 ```
 
@@ -299,14 +311,14 @@ top of the generated code.
 
 You can include the content of other grammar files:
 
-```
+```ini
 @include "../misc/primitives.ne" # path relative to file being compiled
-sum -> number "+" number
+sum -> number "+" number # uses "number" from the included file
 ```
 
 There are several builtin helper files that you can include:
 
-```
+```ini
 @builtin "cow.ne"
 main -> cow:+
 ```
@@ -331,23 +343,18 @@ Nearley is a really clever parser, but tokenizing -- joining characters into wor
 
 Nearley has built-in support for [Moo](https://github.com/tjvr/moo), a super-fast tokenizer. Have a look at [the Moo documentation](https://github.com/tjvr/moo#usage) to learn how to use it.
 
-Enable the `@lexer` option to use it:
+Pass your lexer via the `@lexer` option:
 
 ```js
 @{%
 
-const moo = require('moo')
+const moo = require("moo");
 
-let lexer = moo.compile({
-  WS:      /[ \t]+/,
-  comment: /\/\/.*?$/,
-  number:  ['0', /[1-9][0-9]*/],
-  string:  /"((?:\\["\\]|[^\n"\\])*)"/,
-  lparen:  '(',
-  rparen:  ')',
-  keyword: ['while', 'if', 'then', 'else', 'moo', 'cows', 'times'],
-  NL:      {match: '\n', lineBreaks: true},
-})
+const lexer = moo.compile({
+  ws:     /[ \t]+/,
+  number: /[0-9]+/,
+  times:  /\*|x/
+});
 
 %}
 
@@ -356,14 +363,14 @@ let lexer = moo.compile({
 
 You can now write rules which match a token like so:
 
-```
-fraction -> %number _ times _ %number  {% d => ['*', d[0], d[4] %}
+```js
+multiplication -> %number %ws %times %ws %number {% ([first, , , , second]) => first * second %}
 ```
 
-Or match against the value of a token:
+You can still match raw strings, but they will only match full values of tokens:
 
-```
-E -> "if" E "then" E
+```ini
+ifStatement -> "if" condition "then" block
 ```
 
 You use the parser exactly as normal; you can `feed()` in chunks of strings, and Nearley will give you the parsed results in return.
@@ -380,30 +387,31 @@ whether it is a match or not.
 
 ```
 @{%
-var print_tok  = {literal: "print"};
-var number_tok = {test: function(x) {return x.constructor === Number; }}
+
+const print = { literal: "print" };
+const number = { test: x => Number.isInteger(x) };
+
 %}
 
-main -> %print_tok %number_tok
+# Matches ["print", 12] when this array is the input.
+main -> %print %number
 ```
-
-Now, instead of parsing the string `"print 12"`, you would parse the array
-`["print", 12]`.
 
 ## Using a parser
 
 nearley exposes the following API:
 
 ```js
-var grammar = require("generated-code.js");
-var nearley = require("nearley");
+import { Parser, Grammar } from "nearley";
+import * as grammar from "./grammar";
 
 // Create a Parser object from our grammar.
-var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
+const parser = new Parser(Grammar.fromCompiled(grammar));
 
 // Parse something
-p.feed("1+1");
-// p.results --> [ ["sum", "1", "1"] ]
+parser.feed("1+1");
+
+console.log(parser.results); // [ ["sum", "1", "1"] ]
 ```
 
 The `Parser` object can be fed data in parts with `.feed(data)`. You can then
@@ -417,11 +425,12 @@ Python-style REPL where it continues to prompt you until you have entered a
 complete block.
 
 ```js
-p.feed(prompt_user(">>> "));
-while (p.results.length < 1) {
-    p.feed(prompt_user("... "));
+parser.feed(prompt(">>> "));
+while (parser.results.length < 1) {
+    parser.feed(prompt("... "));
 }
-console.log(p.results);
+
+console.log(parser.results);
 ```
 
 The `nearley.Parser` constructor takes an optional third parameter, `options`,
@@ -443,11 +452,9 @@ property is the index of the offending token.
 
 ```js
 try {
-    p.feed("1+gorgonzola");
+    p.feed("Cow goes% moo.");
 } catch(parseError) {
-    console.log(
-        "Error at character " + parseError.offset
-    ); // "Error at character 2"
+    console.log("Error at character " + parseError.offset); // "Error at character 9"
 }
 ```
 
