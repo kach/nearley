@@ -77,7 +77,7 @@ Also install the package globally if you'd like to use it directly via CLI:
 npm install -g nearley
 ```
 
-Use a tool like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/) to include nearley in your browser code.
+See [Using in frontend](docs/using-in-frontend.md) for instructions on how to use nearley in your browser code.
 
 You can uninstall the nearley compiler using `npm uninstall -g nearley`.
 
@@ -375,6 +375,7 @@ nearley will include line numbers etc. in error messages.
 - [Custom tokens and lexers, parsing arbitrary arrays instead of strings](docs/custom-tokens-and-lexers.md)
 - [Making a REPL for your grammar](docs/making-a-repl.md)
 - [Accessing the parse table](docs/accessing-parse-table.md)
+- [Using in browsers](docs/using-in-frontend.md)
 
 ### Catching errors
 
