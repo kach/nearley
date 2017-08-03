@@ -27,11 +27,9 @@ nearley is a fast and extremely powerful parser based on the [Earley algorithm](
   - [Macros](#macros)
   - [Additional JS](#additional-js)
   - [Importing](#importing)
-- [Tokenizers](#tokenizers)
-  - [Custom matchers](#custom-matchers)
-- [Using a parser](#using-a-parser)
+- [Using a specialized lexer](#using-a-specialized-lexer)
+- [Advanced topics](#advanced-topics)
   - [Catching errors](#catching-errors)
-  - [Custom lexers](#custom-lexers)
 - [Exploring a parser interactively](#exploring-a-parser-interactively)
 - [The Unparser](#the-unparser)
 - [Automagical Railroad Diagrams](#automagical-railroad-diagrams)
@@ -329,78 +327,53 @@ welcome here!
 Including a file imports *all* of the nonterminals defined in it, as
 well as any JS, macros, and config options defined there.
 
-## Tokenizers
+## Using a specialized lexer
 
-Nearley assumes by default that your fundamental unit of parsing, called a
-*token*, is a character. That is, you're parsing a list of characters. However,
-sometimes you want to preprocess your string to turn it into a list of *lexical
-tokens*. This means, instead of seeing "1", "2", "3", the nearley might just
-see a single list item "123". This is called *tokenizing*, and it can bring you
-large performance gains. It also allows you to write cleaner, more
-maintainable grammars and helps to prevent ambiguous grammars.
+A lexer breaks down the input into a list of tokens, e.g. it lexes `512 + 10` into `["512", " ", "+", " ", "10"]`.
 
-Nearley is a really clever parser, but tokenizing -- joining characters into words -- is a really simple task. So using something much more dumb (a "lexer") for this task is a lot better, and can make things faster by more than an order-of-magnitude.
+nearley does this for you with a built-in lexer. However, using a specialized lexer can bring large performance gains and other benefits:
 
-Nearley has built-in support for [Moo](https://github.com/tjvr/moo), a super-fast tokenizer. Have a look at [the Moo documentation](https://github.com/tjvr/moo#usage) to learn how to use it.
+- In many cases, it makes things faster by more than an order of magnitude.
+- Allows you to write cleaner, more maintainable grammars. The idea is to explcitly list all possible token types.
+- Helps to avoid ambiguity in the grammar. A lexer can confidently tell that `className` is not keyword `class` and `Name` after it.
 
-Pass your lexer via the `@lexer` option:
+nearley supports and recommends [Moo](https://github.com/tjvr/moo), a super-fast tokenizer. Here's a basic example:
 
-```js
+```coffeescript
 @{%
+import { compile } from "moo";
 
-const moo = require("moo");
-
-const lexer = moo.compile({
+const lexer = compile({
   ws:     /[ \t]+/,
   number: /[0-9]+/,
   times:  /\*|x/
 });
-
 %}
 
+# Pass your lexer object using the @lexer option:
 @lexer lexer
-```
 
-You can now write rules which match a token like so:
-
-```js
+# Use %token to match any token of that type instead of "token":
 multiplication -> %number %ws %times %ws %number {% ([first, , , , second]) => first * second %}
 ```
 
-You can still match raw strings, but they will only match full values of tokens:
+Have a look at [the Moo documentation](https://github.com/tjvr/moo#usage) to learn how to use it.
+
+You can still use raw strings, but they will only match full tokens parsed by Moo:
 
 ```ini
 ifStatement -> "if" condition "then" block
 ```
 
-You use the parser exactly as normal; you can `feed()` in chunks of strings, and Nearley will give you the parsed results in return.
+You use the parser exactly as normal: call `parser.feed(data)`, and nearley will give you the parsed results in return.
 
-Nearley will include line numbers etc. in error messages.
+nearley will include line numbers etc. in error messages.
 
 ## Advanced topics
 
+- [Custom tokens and lexers, parsing arbitrary arrays instead of strings](docs/custom-tokens-and-lexers.md)
 - [Making a REPL for your grammar](docs/making-a-repl.md)
 - [Accessing the parse table](docs/accessing-parse-table.md)
-
-### Custom matchers
-
-Sometimes you might want a more flexible way of matching tokens, whether you're using `@lexer` or not.
-
-Custom matchers can be defined in two ways: literal tokens and testable tokens. A
-literal token matches exactly, while a testable token runs a function to test
-whether it is a match or not.
-
-```
-@{%
-
-const print = { literal: "print" };
-const number = { test: x => Number.isInteger(x) };
-
-%}
-
-# Matches ["print", 12] when this array is the input.
-main -> %print %number
-```
 
 ### Catching errors
 
@@ -414,18 +387,6 @@ try {
     console.log("Error at character " + parseError.offset); // "Error at character 9"
 }
 ```
-
-### Custom lexers
-
-If you don't want to use [Moo](https://github.com/tjvr/moo), our recommended lexer/tokenizer, you can define your own. You can pass a `lexer` instance to Parser, which must have the following interface:
-
-- `reset(chunk, Info)`: set the internal buffer to `chunk`, and restore line/col/state info taken from `save()`.
-- `next() -> Token` return e.g. `{type, value, line, col, …}`. Only the `value` attribute is required.
-- `save() -> Info` -> return an object describing the current line/col etc. This allows us to preserve this information between `feed()` calls, and also to support `Parser#rewind()`. The exact structure is lexer-specific; nearley doesn't care what's in it.
-- `formatError(token)` -> return a string with an error message describing the line/col of the offending token. You might like to include a preview of the line in question.
-- `has(tokenType)` -> return true if the lexer can emit tokens with that name. Used to resolve `%`-specifiers in compiled nearley grammars.
-
-If Parser isn't given a lexer option, it will look for a `.lexer` attribute on its Grammar. The `@lexer` directive allows exporting a lexer object from your `.ne` grammar file. (See `json.ne` for an example.)
 
 ## Exploring a parser interactively
 
