@@ -23,11 +23,11 @@ main -> %tokenPrint %tokenNumber
 If you don't want to use [Moo](https://github.com/tjvr/moo), our recommended lexer/tokenizer, you can define your own. Either pass it using `@lexer myLexer` in the grammar, or in options to `Parser`:
 
 ```js
-import { Parser, Grammar } from "nearley";
-import * as grammar from "./grammar";
-import { myLexer } from "./lexer";
+const nearley = require("nearley");
+const grammar = require("./grammar");
+const myLexer = require("./lexer");
 
-const parser = new Parser(Grammar.fromCompiled(grammar), { lexer: myLexer });
+const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar), { lexer: myLexer });
 ```
 
 You lexer must have the following interface:

@@ -7,20 +7,20 @@ The runtime part works fine in browsers, but there's no concise way to compile a
 If you absolutely have to compile a grammar in a browser, e.g. the user enters it into a textarea, then here's an example for you:
 
 ```js
-import { Parser, Grammar } from "nearley";
-import * as compile from "nearley/lib/compile";
-import * as generate from "nearley/lib/generate";
-import * as nearleyGrammar from "nearley/lib/nearley-language-bootstrapped";
+const nearley = require("nearley");
+const compile = require("nearley/lib/compile");
+const generate = require("nearley/lib/generate");
+const nearleyGrammar = require("nearley/lib/nearley-language-bootstrapped");
 
 const grammar = compileGrammar("main -> foo | bar");
 
-const parser = new Parser(Grammar.fromCompiled(grammar));
+const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 
 function compileGrammar(sourceCode) {
     // Oh boy, here we go. We're gonna do what `nearleyc` does.
 
     // Parse the custom grammar into AST as a nearley grammar.
-    const grammarParser = new Parser(nearleyGrammar.ParserRules, nearleyGrammar.ParserStart);
+    const grammarParser = new nearley.Parser(nearleyGrammar.ParserRules, nearleyGrammar.ParserStart);
     grammarParser.feed(sourceCode);
     const grammarAst = grammarParser.results[0];
 

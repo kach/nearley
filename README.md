@@ -103,11 +103,11 @@ Add a script to `scripts` in `package.json` that runs the command above if you o
 - Create a parser and feed it data:
 
 ```js
-import { Parser, Grammar } from "nearley";
-import * as grammar from "./grammar";
+const nearley = require("nearley");
+const grammar = require("./grammar");
 
 // Create a Parser object from our grammar.
-const parser = new Parser(Grammar.fromCompiled(grammar));
+const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 
 // Parse something.
 parser.feed("foo\n");
@@ -296,7 +296,7 @@ it with `@{% ... %}`:
 
 ```js
 @{%
-import { cowSays } from "./cow.js";
+const cowSays = require("./cow.js");
 %}
 
 cow -> "moo" {% ([moo]) => cowSays(moo) %}
@@ -341,9 +341,9 @@ nearley supports and recommends [Moo](https://github.com/tjvr/moo), a super-fast
 
 ```coffeescript
 @{%
-import { compile } from "moo";
+const moo = require("moo");
 
-const lexer = compile({
+const lexer = moo.compile({
   ws:     /[ \t]+/,
   number: /[0-9]+/,
   times:  /\*|x/
@@ -384,7 +384,7 @@ property is the index of the offending token.
 
 ```js
 try {
-    p.feed("Cow goes% moo.");
+    parser.feed("Cow goes% moo.");
 } catch(parseError) {
     console.log("Error at character " + parseError.offset); // "Error at character 9"
 }

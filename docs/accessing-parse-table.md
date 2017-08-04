@@ -9,10 +9,10 @@ which is an object with the following possible keys:
 If you are familiar with the Earley parsing algorithm and are planning to do something exciting with the parse table, set `keepHistory`:
 
 ```js
-import { Parser, Grammar } from "nearley";
-import * as grammar from "./grammar";
+const nearley = require("nearley");
+const grammar = require("./grammar");
 
-const parser = new Parser(Grammar.fromCompiled(grammar), { keepHistory: true });
+const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar), { keepHistory: true });
 
 // ...
 
