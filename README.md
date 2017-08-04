@@ -373,6 +373,7 @@ nearley will include line numbers etc. in error messages.
 
 - [Best practices for writing grammars](docs/how-to-grammar-good.md)
 - [Custom tokens and lexers, parsing arbitrary arrays instead of strings](docs/custom-tokens-and-lexers.md)
+- [Generating and transforming a parse tree (CST and AST)](docs/generating-cst-ast.md)
 - [Writing an indentation-aware (Python-like) lexer](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa)
 - [Making a REPL for your grammar](docs/making-a-repl.md)
 - [Accessing the parse table](docs/accessing-parse-table.md)
