@@ -78,8 +78,6 @@ Also install the package globally if you'd like to use it directly via CLI:
 npm install -g nearley
 ```
 
-See [Using in frontend](docs/using-in-frontend.md) for instructions on how to use nearley in your browser code.
-
 You can uninstall the nearley compiler using `npm uninstall -g nearley`.
 
 ## Usage
@@ -375,7 +373,7 @@ nearley will include line numbers etc. in error messages.
 - [Best practices for writing grammars](docs/how-to-grammar-good.md)
 - [Custom tokens and lexers, parsing arbitrary arrays instead of strings](docs/custom-tokens-and-lexers.md)
 - [Accessing the parse table](docs/accessing-parse-table.md)
-- [Using in browsers](docs/using-in-frontend.md)
+- [Using `nearleyc` in browsers](docs/using-in-frontend.md)
 
 ## Recipies
 
