@@ -29,7 +29,7 @@ nearley is a fast and extremely powerful parser based on the [Earley algorithm](
   - [Importing](#importing)
 - [Using a specialized lexer](#using-a-specialized-lexer)
 - [Advanced topics](#advanced-topics)
-- [Recipies](#recipies)
+- [Recipes](#recipes)
   - [Catching errors](#catching-errors)
 - [Exploring a parser interactively](#exploring-a-parser-interactively)
 - [The Unparser](#the-unparser)
@@ -57,16 +57,20 @@ grammars, in particular [left recursive ones](http://en.wikipedia.org/wiki/Left_
 nearley also has capabilities to catch errors gracefully, and detect ambiguous
 grammars (grammars that can be parsed in multiple ways).
 
-nearley is used by [artificial intelligence](https://github.com/ChalmersGU-AI-course/shrdlite-course-project)
-and [computational linguistics](https://wiki.eecs.yorku.ca/course_archive/2014-15/W/6339/useful_handouts)
-classes at universities, as well as [file format parsers](https://github.com/raymond-h/node-dmi),
-[markup languages](https://github.com/bobbybee/uPresent) and
-[complete programming languages](https://github.com/bobbybee/carbon).
+nearley is used by:
+
+- [artificial intelligence](https://github.com/ChalmersGU-AI-course/shrdlite-course-project) and
+- [computational linguistics](https://wiki.eecs.yorku.ca/course_archive/2014-15/W/6339/useful_handouts)
+classes at universities;
+- [file format parsers](https://github.com/raymond-h/node-dmi);
+- [markup languages](https://github.com/idyll-lang/idyll-compiler); and
+- [complete programming languages](https://github.com/sizigi/lp5562).
+
 It's an npm [staff pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 
 ## Installation
 
-nearley is published as an [NPM](https://docs.npmjs.com/getting-started/what-is-npm) package compatible with [Node.js](https://nodejs.org/en/) and browsers.
+nearley is published as an [NPM](https://docs.npmjs.com/getting-started/what-is-npm) package compatible with [Node.js](https://nodejs.org/en/) and ES5-compatible browsers.
 
 ```bash
 npm install nearley
@@ -78,7 +82,7 @@ Also install the package globally if you'd like to use it directly via CLI:
 npm install -g nearley
 ```
 
-You can uninstall the nearley compiler using `npm uninstall -g nearley`.
+> NOTE: You can follow along by using the wonderful [nearley playground](https://omrelli.ug/nearley-playground/), an online interface for exploring nearley grammars interactively in your browser.
 
 ## Usage
 
@@ -88,8 +92,6 @@ You can uninstall the nearley compiler using `npm uninstall -g nearley`.
 main -> (statement "\n"):+
 statement -> "foo" | "bar"
 ```
-
-Check out the wonderful [nearley playground](https://omrelli.ug/nearley-playground/) to explore nearley interactively in your browser.
 
 - Compile the grammar to JS:
 
@@ -149,7 +151,7 @@ expression -> number "+" number
 number -> [0-9]:+
 ```
 
-A nonterminal can have multiple alternative rules, separated by vertical bars (`|`):
+Use the pipe character `|` to separate alternative rules for a nonterminal.
 
 ```js
 expression ->
@@ -159,18 +161,18 @@ expression ->
     | number "/" number
 ```
 
-A special kind of rule is an **epsilon rule**. It matches nothing and is written as `null`. The following nonterminal matches zero or more `cow`s in a row:
+The keyword `null` stands for the **epsilon rule**, which matches nothing. The following nonterminal matches zero or more `cow`s in a row, e.g. `cowcowcow`:
 
 ```js
 a -> null
     | a "cow"
 ```
 
-Keep in mind that nearley syntax is not sensitive to formatting. You may keep rules on the same line: `foo -> bar | qux`.
+Keep in mind that nearley syntax is not sensitive to formatting. You're welcome to keep rules on the same line: `foo -> bar | qux`.
 
 ### Comments
 
-Everything starting from `#` to the end of a line is ignored as a comment:
+Comments are marked with '#'. Everything from `#` to the end of a line is ignored:
 
 ```ini
 expression -> number "+" number # sum of two numbers
@@ -196,9 +198,15 @@ The rule above will parse `5+10` into `{ type: "sum", args: [5, 10] }`.
 
 The postprocessor can be any function. It will be passed three arguments:
 
-- `data: Array` - array with the parsed parts of the rule. It will always be an array, even if there's only one part. If a rule contains nonterminals with their own postprocessors, the respective parts will already be transformed.
-- `location: number` - the index (zero-based) at which the rule match starts. It's useful to retain this information in the syntax tree if you're writing an interpreter.
-- `reject: Object` - return this object to signal that this rule doesn't actually match. This allows you to restrict or conditionally support language features.
+- `data: Array` - is an that contains the results of parsing each part of the rule.
+
+    Note that it is still an array, even if the rule only has one part! You can use the built-in `{% id %}` postprocessor to convert a one-item array into the item itself.
+
+- `location: number` - the index (zero-based) at which the rule match starts.
+
+- `reject: Object` - return this object to signal that this rule doesn't actually match. This can be used for edge-conditions like "I want `[a-z]+` to match variables, EXCEPT for the keyword `if`…" -- but your grammar will no longer be context-free, so use it wisely!
+
+    You can usually avoid the need for `reject` by using a [tokenizer](#tokenizers).
 
 Remember that a postprocessor is scoped to a single rule, not the whole nonterminal. If a nonterminal has multiple alternative rules, each of them can have its own postprocessor:
 
@@ -210,23 +218,20 @@ expression ->
     | number "/" number {% ([first, _, second]) => first / second %}
 ```
 
-There're several built-in postprocessors for the most common scenarios:
+There are several built-in postprocessors for the most common scenarios:
 
 - `id` - returns the first element of the `data` array. Useful for single-element arrays: `foo -> bar {% id %}`
-- `arrpush` - joins an array and the last element. Useful for recursive definitions of sequences: `foo -> bar | foo bar {% arrpush %}`
 - `nuller` - returns null. Useful for unimportant rules: `space -> " " {% nuller %}`
 
 ### Target languages
 
-By default, `nearleyc` compiles grammar to JavaScript. You can also choose CoffeeScript or TypeScript by adding `@preprocessor coffee` or `@preprocessor typescript` at the top of your grammar file.
+By default, `nearleyc` compiles your grammar to JavaScript. You can also choose CoffeeScript or TypeScript by adding `@preprocessor coffee` or `@preprocessor typescript` at the top of your grammar file.
 
 Remember to write postprocessors in the same language. They are preserved as-is.
 
-If you would like to support a different language, feel free to file a PR!
-
 ### Charsets
 
-You can use valid RegExp charsets in a rule:
+You can use valid RegExp charsets in a rule (unless you're using a [tokenizer](#tokenizers)):
 
     not_a_letter -> [^a-zA-Z]
 
@@ -260,7 +265,7 @@ banana -> "ba" ("na" {% id %} | "NA" {% id %}):+
 
 ### Macros
 
-Macros allow to create "polymorphic" rules:
+Macros allow you to create polymorphic rules:
 
 ```ini
 # Matches "'Hello?' 'Hello?' 'Hello?'"
@@ -326,13 +331,15 @@ welcome here!
 Including a file imports *all* of the nonterminals defined in it, as
 well as any JS, macros, and config options defined there.
 
-## Using a specialized lexer
+## Tokenizers
 
-A lexer breaks down the input into a list of tokens, e.g. it lexes `512 + 10` into `["512", " ", "+", " ", "10"]`.
+By default, nearley splits the input into characters. This is called scannerless parsing.
 
-nearley does this for you with a built-in lexer. However, using a specialized lexer can bring large performance gains and other benefits:
+A tokenizer splits the input into larger units called tokens, as a separate stage before parsing. For example, it lexes `512 + 10` into `["512", " ", "+", " ", "10"]`.
 
-- In many cases, it makes things faster by more than an order of magnitude.
+Using a tokenizer has many benefits--it:
+
+- Often makes things faster by more than an order of magnitude.
 - Allows you to write cleaner, more maintainable grammars. The idea is to explcitly list all possible token types.
 - Helps to avoid ambiguity in the grammar. A lexer can confidently tell that `className` is not keyword `class` and `Name` after it.
 
@@ -358,7 +365,7 @@ multiplication -> %number %ws %times %ws %number {% ([first, , , , second]) => f
 
 Have a look at [the Moo documentation](https://github.com/tjvr/moo#usage) to learn how to use it.
 
-You can still use raw strings, but they will only match full tokens parsed by Moo:
+You can still use raw strings, but they will only match full tokens parsed by Moo. This is convenient for matching keywords.
 
 ```ini
 ifStatement -> "if" condition "then" block
@@ -375,7 +382,7 @@ nearley will include line numbers etc. in error messages.
 - [Accessing the parse table](docs/accessing-parse-table.md)
 - [Using `nearleyc` in browsers](docs/using-in-frontend.md)
 
-## Recipies
+## Recipes
 
 - [Generating and transforming a parse tree (CST and AST)](docs/generating-cst-ast.md)
 - [Writing an indentation-aware (Python-like) lexer](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa)
@@ -402,8 +409,6 @@ file, and then give it some input to test the parser against. `nearley-test`
 prints out the output if successful, and also gives you the complete parse
 table used by the algorithm. This is very helpful when you're testing a new
 parser.
-
-This was previously called `bin/nearleythere.js` and written by Robin.
 
 ## The Unparser
 
