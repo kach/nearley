@@ -88,59 +88,12 @@ $ npm install nearley
 ```
 
 To use the nearley *compiler*, you need to additionally install nearley
-globally. This adds several new commands to your `$PATH`, all of which are
-prefixed with `nearley`.
+globally.
 
 ```bash
 $ npm install -g nearley
 ```
-
-> NOTE: If you're not ready to install nearley yet, you can follow along in
-> your browser using the [nearley
-> playground](https://omrelli.ug/nearley-playground/), an online interface for
-> exploring nearley grammars interactively.
-
-## Usage
-
-- Describe your grammar in the nearley syntax. `grammar.ne`:
-
-```js
-main -> (statement "\n"):+
-statement -> "foo" | "bar"
-```
-
-- Compile the grammar to JS:
-
-```bash
-nearleyc grammar.ne -o grammar.js
-```
-
-Add a script to `scripts` in `package.json` that runs the command above if you
-only have a locally installed copy of nearley.
-
-- Create a parser and feed it data:
-
-```js
-const nearley = require("nearley");
-const grammar = require("./grammar");
-
-// Create a Parser object from our grammar.
-const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
-
-// Parse something.
-parser.feed("foo\n");
-
-// parser.results is an array of possible parsings.
-// It's empty if we're unable to parse the input.
-// If the input can be interpreted in multiple ways, parser.results will contain all of them.
-console.log(parser.results); // [[[[ "foo" ],"\n" ]]]
-```
-
-See below for detailed API and grammar syntax specification.
-
-## CLI
-
-Use `--help` with any of these commands to see available options.
+This actually adds several new commands to your `$PATH`:
 
 - `nearleyc` compiles grammar files to JavaScript.
 - `nearley-test` lets you quickly test a grammar against some input and see the
@@ -151,7 +104,50 @@ Use `--help` with any of these commands to see available options.
 - `nearley-railroad` generates pretty railroad diagrams from your parser. This
   is mainly helpful for creating documentation, as (for example) on json.org.
 
-## Parser specification
+These are documented below.
+
+> NOTE: If you're not ready to install nearley yet, you can follow along in
+> your browser using the [nearley
+> playground](https://omrelli.ug/nearley-playground/), an online interface for
+> exploring nearley grammars interactively.
+
+## Getting started: nearley in 3 steps
+
+nearley was written with users in mind: getting started with nearley is as
+simple as:
+
+**Step 1: Describe your grammar** using the nearley syntax. In a file called
+`grammar.ne`, write:
+
+```js
+main -> (statement "\n"):+
+statement -> "foo" | "bar"
+```
+
+**Step 2: Compile** the grammar to a JavaScript module. On the command line,
+run:
+
+```bash
+$ nearleyc grammar.ne -o grammar.js
+```
+
+**Step 3: Parse** some data! In a new JavaScript file, write:
+
+```js
+const nearley = require("nearley");
+const grammar = require("./grammar.js");
+
+// Create a Parser object from our grammar.
+const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
+
+// Parse something!
+parser.feed("foo\n");
+
+// parser.results is an array of possible parsings.
+console.log(parser.results); // [[[[ "foo" ],"\n" ]]]
+```
+
+## Writing a parser
 
 Let's explore the building blocks of a nearley parser.
 
