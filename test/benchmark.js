@@ -1,12 +1,15 @@
 
-var path = require('path');
+const fs = require('fs');
+const path = require('path');
 
-var Benchmark = require('benchmark');
+const Benchmark = require('benchmark');
 
-var Parser = require('../lib/nearley.js').Parser;
-var shared = require('./_shared.js');
-var compile = shared.compile
-  , read = shared.read;
+const Parser = require('../nearley').Parser;
+const {compile} = require('../nearleyc');
+
+function read(filename) {
+    return fs.readFileSync(filename, 'utf-8');
+}
 
 
 // For making tests

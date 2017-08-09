@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var nearley = require('../lib/nearley.js');
+var nearley = require('../nearley');
 var nomnom = require('nomnom');
-var Compile = require('../lib/compile.js');
-var StreamWrapper = require('../lib/stream.js');
+var Compile = require('../nearleyc/compile');
+var StreamWrapper = require('../nearleyc/stream');
 
 var opts = nomnom
     .script('nearleyc')
@@ -39,10 +39,10 @@ var opts = nomnom
 var input = opts.file ? fs.createReadStream(opts.file) : process.stdin;
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
-var parserGrammar = require('../lib/nearley-language-bootstrapped.js');
+var parserGrammar = require('../nearleyc/nearley-language-bootstrapped');
 var parser = new nearley.Parser(parserGrammar.ParserRules, parserGrammar.ParserStart);
-var generate = require('../lib/generate.js');
-var lint = require('../lib/lint.js');
+var generate = require('../nearleyc/generate');
+var lint = require('../nearleyc/lint');
 
 input
     .pipe(new StreamWrapper(parser))

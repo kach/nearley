@@ -1,13 +1,14 @@
-var child_process = require('child_process')
-  , chai = require('chai')
-  , mocha = require('mocha');
+const fs = require('fs');
+const child_process = require('child_process');
+const chai = require('chai');
+const mocha = require('mocha');
 
-var shared = require('./_shared.js');
-var compile = shared.compile
-  , nearley = shared.nearley
-  , evalGrammar = shared.evalGrammar
-  , parse = shared.parse
-  , read = shared.read;
+const nearley = require('../nearley');
+const {compile, evalGrammar, parse} = require('../nearleyc');
+
+function read(filename) {
+    return fs.readFileSync(filename, 'utf-8');
+}
 
 chai.should();
 
@@ -17,17 +18,6 @@ function sh(cmd) {
 
 function externalNearleyc(args) {
     return sh("node bin/nearleyc.js " + args);
-}
-
-function parse(grammar, input) {
-    if (typeof grammar == 'string') {
-        if (grammar.match(/\.js$/)) grammar = loadFile(grammar);
-        else grammar = load(grammar);
-    }
-    grammar.should.have.keys(['ParserRules', 'ParserStart']);
-    var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
-    p.feed(input);
-    return p.results;
 }
 
 describe("nearleyc", function() {

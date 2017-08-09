@@ -1,11 +1,11 @@
 
-var fs = require('fs');
 var path = require('path');
 
-var nearley = require('../lib/nearley.js');
-var Compile = require('../lib/compile.js');
-var parserGrammar = nearley.Grammar.fromCompiled(require('../lib/nearley-language-bootstrapped.js'));
-var generate = require('../lib/generate.js');
+var nearley = require('../nearley');
+
+var Compile = require('./compile');
+var parserGrammar = nearley.Grammar.fromCompiled(require('./nearley-language-bootstrapped'));
+var generate = require('./generate');
 
 function parse(grammar, input) {
     var p = new nearley.Parser(grammar);
@@ -41,15 +41,9 @@ function evalGrammar(compiledGrammar) {
     return new nearley.Grammar.fromCompiled(exports);
 }
 
-function read(filename) {
-    return fs.readFileSync(filename, 'utf-8');
-}
-
 module.exports = {
-    nearley: nearley,
-    read: read,
     compile: compile,
-    parse: parse,
     evalGrammar: evalGrammar,
+    parse: parse,
 };
 

@@ -2,7 +2,7 @@
   "name": "nearley",
   "version": "2.10.2",
   "description": "Simple, fast, powerful parser toolkit for JavaScript.",
-  "main": "lib/nearley.js",
+  "main": "nearley.js",
   "dependencies": {
     "nomnom": "~1.6.2",
     "railroad-diagrams": "^1.0.0",
