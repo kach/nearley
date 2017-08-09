@@ -23,22 +23,24 @@ anything you throw at it.
   - [Postprocessors](#postprocessors)
   - [Target languages](#target-languages)
   - [Charsets](#charsets)
-  - [Case-insensitive String Literals](#case-insensitive-string-literals)
+  - [Case-insensitive string literals](#case-insensitive-string-literals)
   - [EBNF](#ebnf)
   - [Macros](#macros)
   - [Additional JS](#additional-js)
-  - [Importing](#importing)
+  - [Importing other grammars](#importing-other-grammars)
 - [Tokenizers](#tokenizers)
-- [Advanced topics](#advanced-topics)
-- [Recipes](#recipes)
   - [Catching errors](#catching-errors)
-- [Exploring a parser interactively](#exploring-a-parser-interactively)
-- [The Unparser](#the-unparser)
-- [Automagical Railroad Diagrams](#automagical-railroad-diagrams)
-- [Other Tools](#other-tools)
+- [Tools](#tools)
+  - [nearley-test: Exploring a parser interactively](#nearley-test-exploring-a-parser-interactively)
+  - [nearley-unparse: The Unparser](#nearley-unparse-the-unparser)
+  - [nearley-railroad: Automagical Railroad Diagrams](#nearley-railroad-automagical-railroad-diagrams)
+  - [Other Tools](#other-tools)
 - [Still confused?](#still-confused)
 - [Contributing](#contributing)
 - [Further reading](#further-reading)
+  - [Documentation](#documentation)
+  - [Recipes](#recipes)
+  - [Details](#details)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -273,7 +275,7 @@ You can use valid RegExp charsets in a rule (unless you're using a
 
 The `.` character can be used to represent any character.
 
-### Case-insensitive String Literals
+### Case-insensitive string literals
 
 You can create case-insensitive string literals by adding an `i` after the
 string literal:
@@ -346,7 +348,7 @@ cow -> "moo" {% ([moo]) => cowSays(moo) %}
 Note that it doesn't matter where you add these; they all get hoisted to the
 top of the generated code.
 
-### Importing
+### Importing other grammars
 
 You can include the content of other grammar files:
 
@@ -422,23 +424,6 @@ ifStatement -> "if" condition "then" block
 You use the parser exactly as normal: call `parser.feed(data)`, and nearley
 will give you the parsed results in return.
 
-## Advanced topics
-
-- [Best practices for writing grammars](docs/how-to-grammar-good.md)
-- [More on tokenizers](docs/custom-tokens-and-lexers.md)
-- [Accessing the internal parse table](docs/accessing-parse-table.md)
-- [Using `nearleyc` in browsers](docs/using-in-frontend.md)
-
-## Recipes
-
-- [Generating and transforming a parse tree (CST and AST)](docs/generating-cst-ast.md)
-- [Writing an indentation-aware (Python-like) lexer](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa)
-- [Making a REPL for your grammar](docs/making-a-repl.md)
-
-### Catching errors
-
-If there are no possible parsings, nearley will throw an error whose `offset`
-property is the index of the offending token.
 
 ```js
 try {
@@ -448,7 +433,17 @@ try {
 }
 ```
 
-## Exploring a parser interactively
+### Catching errors
+
+If there are no possible parsings, nearley will throw an error whose `offset`
+property is the index of the offending token.
+
+
+## Tools
+
+As mentioned above, nearley ships with a host of tools.
+
+### nearley-test: Exploring a parser interactively
 
 A global install of nearley provides `nearley-test`, a simple command-line tool
 you can use to inspect what a parser is doing. You input a generated
@@ -457,7 +452,7 @@ you can use to inspect what a parser is doing. You input a generated
 pretty-prints the internal parse table used by the algorithm. This is helpful
 to test a new parser.
 
-## The Unparser
+### nearley-unparse: The Unparser
 
 The Unparser takes a (compiled) parser and outputs a random string that would
 be accepted by the parser.
@@ -489,7 +484,7 @@ As far as I know, nearley is the only parser generator with this feature. It
 is inspired by Roly Fentanes' [randexp](https://fent.github.io/randexp.js/),
 which does the same thing with regular expressions.
 
-## Automagical Railroad Diagrams
+### nearley-railroad: Automagical Railroad Diagrams
 
 nearley lets you convert your grammars to pretty SVG railroad diagrams that you
 can include in webpages, documentation, and even papers.
@@ -506,7 +501,7 @@ See a bigger example [here](http://nearley.js.org/www/railroad-demo.html).
 [`railroad-diagrams`](https://github.com/tabatkins/railroad-diagrams) by
 tabatkins.)
 
-## Other Tools
+### Other Tools
 
 *This section lists nearley tooling created by other developers. These tools
 are not distributed with nearley, so if you have problems, please contact the
@@ -552,9 +547,9 @@ examples, we also have experimental parsers for **CSV** and **Lua**.
 
 ## Contributing
 
-Tests live in `test/` and can be called with `npm test`. Make sure you read
-`test/profile.log` after tests run, and that nothing has died (parsing is
-tricky, and small changes can kill efficiency).
+Tests live in `test/` and can be called with `npm test`. Please run the
+benchmarks before and after your changes: parsing is tricky, and small changes
+can kill efficiency. We learned this the hard way!
 
 If you're looking for something to do, here's a short list of things that would
 make me happy:
@@ -575,6 +570,21 @@ implemented postprocessors-in-other-languages. Shachar Itzhaky fixed a subtle
 bug with nullables.
 
 ## Further reading
+
+### Documentation
+
+- [Best practices for writing grammars](docs/how-to-grammar-good.md)
+- [More on tokenizers](docs/custom-tokens-and-lexers.md)
+- [Accessing the internal parse table](docs/accessing-parse-table.md)
+- [Using `nearleyc` in browsers](docs/using-in-frontend.md)
+
+### Recipes
+
+- [Transforming parse trees](docs/generating-cst-ast.md)
+- [Writing an indentation-aware (Python-like) lexer](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa)
+- [Making a REPL for your language](docs/making-a-repl.md)
+
+### Details
 
 - Read my [blog post](http://hardmath123.github.io/earley.html) to learn more
   about the algorithm.
