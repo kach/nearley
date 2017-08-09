@@ -269,7 +269,7 @@ expression ->
     | number "/" number {% ([first, _, second]) => first / second %}
 ```
 
-There are twi built-in postprocessors for the most common scenarios:
+There are two built-in postprocessors for the most common scenarios:
 
 - `id` - returns the first element of the `data` array. Useful for
   single-element arrays: `foo -> bar {% id %}`
