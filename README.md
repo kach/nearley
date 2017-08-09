@@ -496,6 +496,10 @@ Webpack users can use
 [nearley-loader](https://github.com/kozily/nearley-loader) by Andrés Arana to
 load grammars directly.
 
+Gulp users can use
+[gulp-nearley](https://github.com/JosephJNK/gulp-nearley) by Joseph Junker to
+compile grammars with a gulpfile.
+
 
 Still confused?
 ---------------
