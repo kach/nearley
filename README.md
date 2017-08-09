@@ -1,9 +1,10 @@
 ![](www/logo/nearley-purple.png)
 
-[nearley](http://nearley.js.org) [![JS.ORG](https://img.shields.io/badge/js.org-nearley-ffb400.svg?style=flat-square)](http://js.org)
-==============
+# [nearley](http://nearley.js.org) [![JS.ORG](https://img.shields.io/badge/js.org-nearley-ffb400.svg?style=flat-square)](http://js.org)
 
-Simple parsing for node.js.
+> Simple parsing in JavaScript
+
+nearley is a fast and extremely powerful parser based on the [Earley algorithm](https://en.wikipedia.org/wiki/Earley_parser). It can parse literally anything you throw at it.
 
 <!-- $ npm install -g doctoc -->
 <!-- $ doctoc --notitle README.md -->
@@ -11,22 +12,25 @@ Simple parsing for node.js.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [What is nearley?](#what-is-nearley)
-- [Why do I care?](#why-do-i-care)
-- [Installation and Usage](#installation-and-usage)
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+- [CLI](#cli)
 - [Parser specification](#parser-specification)
+  - [Terminals, nonterminals, rules](#terminals-nonterminals-rules)
+  - [Comments](#comments)
   - [Postprocessors](#postprocessors)
-  - [Epsilon rules](#epsilon-rules)
+  - [Target languages](#target-languages)
   - [Charsets](#charsets)
   - [Case-insensitive String Literals](#case-insensitive-string-literals)
   - [EBNF](#ebnf)
   - [Macros](#macros)
   - [Additional JS](#additional-js)
   - [Importing](#importing)
-  - [Custom lexers](#custom-lexers)
-  - [Custom tokens](#custom-tokens)
-- [Using a parser](#using-a-parser)
-- [Catching errors](#catching-errors)
+- [Tokenizers](#tokenizers)
+- [Advanced topics](#advanced-topics)
+- [Recipes](#recipes)
+  - [Catching errors](#catching-errors)
 - [Exploring a parser interactively](#exploring-a-parser-interactively)
 - [The Unparser](#the-unparser)
 - [Automagical Railroad Diagrams](#automagical-railroad-diagrams)
@@ -37,60 +41,91 @@ Simple parsing for node.js.
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-What is nearley?
-----------------
-nearley uses the Earley parsing algorithm augmented with Joop Leo's
-optimizations to parse complex data structures easily. nearley is über-fast and
-really powerful. It can parse literally anything you throw at it.
+## Introduction
 
-nearley is used by [artificial
-intelligence](https://github.com/ChalmersGU-AI-course/shrdlite-course-project)
-and [computational
-linguistics](https://wiki.eecs.yorku.ca/course_archive/2014-15/W/6339/useful_handouts)
-classes at universities, as well as [file format
-parsers](https://github.com/raymond-h/node-dmi), [markup
-languages](https://github.com/bobbybee/uPresent) and [complete programming
-languages](https://github.com/bobbybee/carbon). It's an npm [staff
-pick](https://www.npmjs.com/package/npm-collection-staff-picks).
+nearley compiles grammar definitions from a simple syntax resembling [BNF](https://en.wikipedia.org/wiki/Backus–Naur_form) to a JS representation.
+You pass that representation to the nearley's tiny runtime, feed it data, and get the results.
 
-Why do I care?
---------------
-
-nearley can parse what other JS parse engines cannot, because it uses a
-different algorithm. The Earley algorithm is *general*, which means it can
-handle *any* grammar you can define in BNF. In fact, the nearley syntax is
-written in *itself* (this is called bootstrapping).
+nearley uses the Earley parsing algorithm with Joop Leo's optimizations to parse complex data structures easily.
+Thanks to this algorithm, nearley can parse what other JavaScript parsers cannot.
+It can handle *any* grammar you can define in BNF.
+In fact, the nearley syntax is written in *itself* (this is called bootstrapping).
 
 PEGjs and Jison are recursive-descent based, and so they will choke on a lot of
-grammars, in particular [left recursive
-ones](http://en.wikipedia.org/wiki/Left_recursion).
+grammars, in particular [left recursive ones](http://en.wikipedia.org/wiki/Left_recursion).
 
 nearley also has capabilities to catch errors gracefully, and detect ambiguous
 grammars (grammars that can be parsed in multiple ways).
 
-Installation and Usage
-----------------------
+nearley is used by:
 
-> **Note:** For beginners, Guillermo Webster's
-> [nearley-playground](https://omrelli.ug/nearley-playground/) is a wonderful
-> way to explore nearley interactively in your browser:
->
-> ![A screenshot of the playground](www/playground.png)
-> 
-> Enjoy!
+- [artificial intelligence](https://github.com/ChalmersGU-AI-course/shrdlite-course-project) and
+- [computational linguistics](https://wiki.eecs.yorku.ca/course_archive/2014-15/W/6339/useful_handouts)
+classes at universities;
+- [file format parsers](https://github.com/raymond-h/node-dmi);
+- [markup languages](https://github.com/idyll-lang/idyll-compiler); and
+- [complete programming languages](https://github.com/sizigi/lp5562).
 
-To use nearley, you need both a *global* and a *local* installation. The two
-types of installations are described separately below.
+It's an npm [staff pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 
----
+## Installation
 
-To *compile* a nearley parser (a `.ne` file), you need to install the
-`nearleyc` command from npm:
+nearley is published as an [NPM](https://docs.npmjs.com/getting-started/what-is-npm) package compatible with [Node.js](https://nodejs.org/en/) and ES5-compatible browsers.
 
-    $ npm install -g nearley
-    $ nearleyc parser.ne
+```bash
+npm install nearley
+```
 
-nearley ships with three additional tools:
+Also install the package globally if you'd like to use it directly via CLI:
+
+```bash
+npm install -g nearley
+```
+
+> NOTE: You can follow along by using the wonderful [nearley playground](https://omrelli.ug/nearley-playground/), an online interface for exploring nearley grammars interactively in your browser.
+
+## Usage
+
+- Describe your grammar in the nearley syntax. `grammar.ne`:
+
+```js
+main -> (statement "\n"):+
+statement -> "foo" | "bar"
+```
+
+- Compile the grammar to JS:
+
+```bash
+nearleyc grammar.ne -o grammar.js
+```
+
+Add a script to `scripts` in `package.json` that runs the command above if you only have a locally installed copy of nearley.
+
+- Create a parser and feed it data:
+
+```js
+const nearley = require("nearley");
+const grammar = require("./grammar");
+
+// Create a Parser object from our grammar.
+const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
+
+// Parse something.
+parser.feed("foo\n");
+
+// parser.results is an array of possible parsings.
+// It's empty if we're unable to parse the input.
+// If the input can be interpreted in multiple ways, parser.results will contain all of them.
+console.log(parser.results); // [[[[ "foo" ],"\n" ]]]
+```
+
+See below for detailed API and grammar syntax specification.
+
+## CLI
+
+Use `--help` with any of these commands to see available options.
+
+- `nearleyc` compiles grammar files to JavaScript.
 - `nearley-test` lets you quickly test a grammar against some input and see the
   results. It also lets you explore the internal state of nearley's Earley
   table, in case you find that interesting.
@@ -99,123 +134,108 @@ nearley ships with three additional tools:
 - `nearley-railroad` generates pretty railroad diagrams from your parser. This
   is mainly helpful for creating documentation, as (for example) on json.org.
 
-You can uninstall the nearley compiler using `npm uninstall -g nearley`.
+## Parser specification
 
----
+Let's explore the building blocks of a nearley parser.
 
-To *use* a generated grammar, you need to install `nearley` as a per-project
-dependency via npm (note that there is no `-g` in the first command):
+### Terminals, nonterminals, rules
 
-```
-$ npm install nearley
-$ node
-> var nearley = require("nearley");
-> var grammar = require("./my-generated-grammar.js");
-```
+- A *terminal* is a string or a token. E.g. keyword `"if"` is a terminal.
+- A *nonterminal* is a combination of terminals and other nonterminals. E.g. an if statement defined as `"if" condition statement` is a nonteminal.
+- A *rule* (or production rule) is a definition of a nonterminal. E.g. `"if" condition statement` is the rule according to which the if statement nonterminal is parsed.
 
-Alternatively, to use a generated grammar in a browser runtime, include the
-`nearley.js` file in a `<script>` tag.
+The first nonterminal of the grammar is the one the whole input must match. With the following grammar, nearley will try to parse text as `expression`.
 
-```html
-<script src="nearley.js"></script>
-<script src="my-generated-grammar.js"></script>
+```js
+expression -> number "+" number
+number -> [0-9]:+
 ```
 
+Use the pipe character `|` to separate alternative rules for a nonterminal.
 
-Parser specification
---------------------
+```js
+expression ->
+      number "+" number
+    | number "-" number
+    | number "*" number
+    | number "/" number
+```
 
-This is a basic overview of nearley syntax and usage. For an advanced
-styleguide, see [this file](how-to-grammar-good.md).
+The keyword `null` stands for the **epsilon rule**, which matches nothing. The following nonterminal matches zero or more `cow`s in a row, e.g. `cowcowcow`:
 
-A parser consists of several *nonterminals*, which are constructions in a
-language. A nonterminal is made up of a series of either other nonterminals or
-strings. In nearley, you define a nonterminal by giving its name and its
-expansions.
+```js
+a -> null
+    | a "cow"
+```
 
-Strings are the *terminals*, which match those string literals (specified as
-JSON-compatible strings).
+Keep in mind that nearley syntax is not sensitive to formatting. You're welcome to keep rules on the same line: `foo -> bar | qux`.
 
-The following grammar matches a number, a plus sign, and another number:
+### Comments
 
-    expression -> number "+" number
-    
-Anything from a `#` to the end of a line is ignored as a comment:
+Comments are marked with '#'. Everything from `#` to the end of a line is ignored:
 
-    expression -> number "+" number # sum of two numbers
-
-A nonterminal can have multiple expansions, separated by vertical bars (`|`):
-
-    expression ->
-          number "+" number
-        | number "-" number
-        | number "*" number
-        | number "/" number
-
-The parser tries to parse the first nonterminal that you define in a file.
-However, you can (and should!) introduce more nonterminals as "helpers". In
-this example, we would have to define the expansion of `number`.
-
+```ini
+expression -> number "+" number # sum of two numbers
+```
 
 ### Postprocessors
 
-Each meaning (called a *production rule*) can have a postprocessing function,
-that can format the data in a way that you would like:
+By default, nearley wraps everything matched by a rule into an array. `rule -> "foo" "bar"` gives `["foo", "bar"]`.
+Most of the time, you need to process that data in some way: filter out unnecessary tokens, transform into an object, etc.
+
+Each rule can have a *postprocessor* - a JavaScript function that transforms the array and returns whatever you want to get instead. Postprocessors are wrapped in `{% %}`:
 
 ```js
 expression -> number "+" number {%
-    function (data, location, reject) {
-        return ["sum", data[0], data[2]];
-    }
+    (data, location, reject) => ({
+        type: "sum",
+        args: [data[0], data[2]]
+    })
 %}
 ```
 
-`data` is an array whose elements match the nonterminals in order. The
-postprocessor `id` returns the first token in the match (literally
-`function(data) {return data[0];}`).
+The rule above will parse `5+10` into `{ type: "sum", args: [5, 10] }`.
 
-`location` is the index at which that rule was found. Retaining this
-information in a syntax tree is useful if you're writing an interpreter and
-want to give fancy error messages for runtime errors.
+The postprocessor can be any function. It will be passed three arguments:
 
-If, after examining the data, you want to force the rule to fail anyway, return
-`reject`. An example of this is allowing a variable name to be a word that is
-not a string:
+- `data: Array` - is an that contains the results of parsing each part of the rule.
+
+    Note that it is still an array, even if the rule only has one part! You can use the built-in `{% id %}` postprocessor to convert a one-item array into the item itself.
+
+- `location: number` - the index (zero-based) at which the rule match starts.
+
+- `reject: Object` - return this object to signal that this rule doesn't actually match. This can be used for edge-conditions like "I want `[a-z]+` to match variables, EXCEPT for the keyword `if`…" -- but your grammar will no longer be context-free, so use it wisely!
+
+    You can usually avoid the need for `reject` by using a [tokenizer](#tokenizers).
+
+Remember that a postprocessor is scoped to a single rule, not the whole nonterminal. If a nonterminal has multiple alternative rules, each of them can have its own postprocessor:
 
 ```js
-variable -> word {%
-    function(data, location, reject) {
-        if (KEYWORDS.indexOf(data[0]) === -1) {
-            return data[0]; // It's a valid name
-        } else {
-            return reject;  // It's a keyword, so reject it
-        }
-    }
-%}
+expression ->
+      number "+" number {% ([first, _, second]) => first + second %}
+    | number "-" number {% ([first, _, second]) => first - second %}
+    | number "*" number {% ([first, _, second]) => first * second %}
+    | number "/" number {% ([first, _, second]) => first / second %}
 ```
 
-You can write your postprocessors in CoffeeScript by adding `@preprocessor
-coffee` to the top of your file. Similarly, you can write them in TypeScript by
-adding `@preprocessor typescript` to the top of your file. If you would like to
-support a different postprocessor language, feel free to file a PR!
+There are several built-in postprocessors for the most common scenarios:
 
-### Epsilon rules
+- `id` - returns the first element of the `data` array. Useful for single-element arrays: `foo -> bar {% id %}`
+- `nuller` - returns null. Useful for unimportant rules: `space -> " " {% nuller %}`
 
-The **epsilon rule** is the empty rule that matches nothing. The constant
-`null` is the epsilon rule, so:
+### Target languages
 
-    a -> null
-        | a "cow"
+By default, `nearleyc` compiles your grammar to JavaScript. You can also choose CoffeeScript or TypeScript by adding `@preprocessor coffee` or `@preprocessor typescript` at the top of your grammar file.
 
-will match 0 or more `cow`s in a row.
+Remember to write postprocessors in the same language. They are preserved as-is.
 
 ### Charsets
 
-You can use valid RegExp charsets in a rule:
+You can use valid RegExp charsets in a rule (unless you're using a [tokenizer](#tokenizers)):
 
     not_a_letter -> [^a-zA-Z]
 
-The `.` character can be used to represent "any character".
+The `.` character can be used to represent any character.
 
 ### Case-insensitive String Literals
 
@@ -230,176 +250,158 @@ regexes instead. That is, if you are using a lexer, you should *not* use the
 
 ### EBNF
 
-nearley compiles some higher-level constructs into BNF for you. In particular,
-the `*`, `?`, and `+` operators from Regexes (or EBNF) are available as shown:
+nearley supports the `*`, `?`, and `+` operators from [EBNF](https://en.wikipedia.org/wiki/Extended_Backus–Naur_form) (or RegExps) as shown:
 
-    batman -> "na":* "batman" # nananana...nanabatman
+```ini
+batman -> "na":* "batman" # nananana...nanabatman
+```
 
 You can also use capture groups with parentheses. Its contents can be anything
 that a rule can have:
 
-    banana -> "ba" ("na" {% id %} | "NA" {% id %}):+
+```js
+banana -> "ba" ("na" {% id %} | "NA" {% id %}):+
+```
 
 ### Macros
 
-You can create "polymorphic" rules through macros:
+Macros allow you to create polymorphic rules:
 
-    match3[X] -> $X $X $X
-    quote[X]  -> "'" $X "'"
+```ini
+# Matches "'Hello?' 'Hello?' 'Hello?'"
+main -> matchThree[inQuotes["Hello?"]]
 
-    main -> match3[quote["Hello?"]]
-    # matches "'Hello?''Hello?''Hello?'"
+matchThree[X] -> $X " " $X " " $X
 
-Macros are dynamically scoped:
+inQuotes[X] -> "'" $X "'"
+```
 
-    foo[X, Y] -> bar[("moo" | "oink" | "baa")] $Y
-    bar[Z]    -> $X " " $Z # 'remembers' $X from its caller
-    main -> foo["Cows", "."]
-    # matches "Cows oink." and "Cows moo."
+Macros are dynamically scoped, which means they see arguments passed to parent macros:
 
-Macros *cannot* be recursive (`nearleyc` will go into an infinite loop trying
+```ini
+# Matches "Cows oink." and "Cows moo!"
+main -> sentence["Cows", ("." | "!")]
+
+sentence[ANIMAL, PUNCTUATION] -> animalGoes[("moo" | "oink" | "baa")] $PUNCTUATION
+
+animalGoes[SOUND] -> $ANIMAL " " $SOUND # uses $ANIMAL from its caller
+```
+
+Macros are expanded at compile time and inserted in places they are used. They are not "real" rules.
+
+Therefore, macros *cannot* be recursive (`nearleyc` will go into an infinite loop trying
 to expand the macro-loop).
 
 ### Additional JS
 
 For more intricate postprocessors, or any other functionality you may need, you
-can include parts of literal JavaScript between production rules by surrounding
+can include chunks of JavaScript code between production rules by surrounding
 it with `@{% ... %}`:
 
 ```js
-@{% var makeCowWithString = require('./cow.js') %}
-cow -> "moo" {% function(d) {makeCowWithString(d[0]); } %}
+@{%
+const cowSays = require("./cow.js");
+%}
+
+cow -> "moo" {% ([moo]) => cowSays(moo) %}
 ```
 
-Note that it doesn't matter where you define these; they all get hoisted to the
+Note that it doesn't matter where you add these; they all get hoisted to the
 top of the generated code.
 
 ### Importing
 
-You can include the content of other parser files:
+You can include the content of other grammar files:
 
-    @include "../misc/primitives.ne" # path relative to file being compiled
-    sum -> number "+" number
+```ini
+@include "../misc/primitives.ne" # path relative to file being compiled
+sum -> number "+" number # uses "number" from the included file
+```
 
-There are also some built-in parsers whose contents you can include:
+There are several builtin helper files that you can include:
 
-    @builtin "cow.ne"
-    main -> cow:+
+```ini
+@builtin "cow.ne"
+main -> cow:+
+```
 
-See the `builtin/` directory for an index of this library. Contributions are
+See the [`builtin/`](builtin) directory for more details. Contributions are
 welcome here!
 
-Including a parser imports *all* of the nonterminals defined in the parser, as
+Including a file imports *all* of the nonterminals defined in it, as
 well as any JS, macros, and config options defined there.
 
+## Tokenizers
 
-### Custom lexers
+By default, nearley splits the input into characters. This is called scannerless parsing.
 
-You can pass a `lexer` instance to Parser, which must have the following interface:
+A tokenizer splits the input into larger units called tokens, as a separate stage before parsing. For example, it lexes `512 + 10` into `["512", " ", "+", " ", "10"]`.
 
-* `reset(chunk, Info)`: set the internal buffer to `chunk`, and restore line/col/state info taken from `save()`.
-* `next() -> Token` return e.g. `{type, value, line, col, …}`. Only the `value` attribute is required.
-* `save() -> Info` -> return an object describing the current line/col etc. This allows us to preserve this information between `feed()` calls, and also to support `Parser#rewind()`. The exact structure is lexer-specific; nearley doesn't care what's in it.
-* `formatError(token)` -> return a string with an error message describing the line/col of the offending token. You might like to include a preview of the line in question.
-* `has(tokenType)` -> return true if the lexer can emit tokens with that name. Used to resolve `%`-specifiers in compiled nearley grammars.
+Using a tokenizer has many benefits--it:
 
-If Parser isn't given a lexer option, it will look for a `.lexer` attribute on its Grammar. The `@lexer` directive allows exporting a lexer object from your `.ne` grammar file. (See `json.ne` for an example.)
+- Often makes things faster by more than an order of magnitude.
+- Allows you to write cleaner, more maintainable grammars. The idea is to explcitly list all possible token types.
+- Helps to avoid ambiguity in the grammar. A lexer can confidently tell that `className` is not keyword `class` and `Name` after it.
 
+nearley supports and recommends [Moo](https://github.com/tjvr/moo), a super-fast tokenizer. Here's a basic example:
 
-### Custom tokens
-
-Nearley assumes by default that your fundamental unit of parsing, called a
-*token*, is a character. That is, you're parsing a list of characters. However,
-sometimes you want to preprocess your string to turn it into a list of *lexical
-tokens*. This means, instead of seeing "1", "2", "3", the nearley might just
-see a single list item "123". This is called *tokenizing*, and it can bring you
-decent performance gains. It also allows you to write cleaner, more
-maintainable grammars and to prevent ambiguous grammars.
-
-Tokens can be defined in two ways: literal tokens and testable tokens. A
-literal token matches exactly, while a testable token runs a function to test
-whether it is a match or not.
-
-```
+```coffeescript
 @{%
-var print_tok  = {literal: "print"};
-var number_tok = {test: function(x) {return x.constructor === Number; }}
+const moo = require("moo");
+
+const lexer = moo.compile({
+  ws:     /[ \t]+/,
+  number: /[0-9]+/,
+  times:  /\*|x/
+});
 %}
 
-main -> %print_tok %number_tok
+# Pass your lexer object using the @lexer option:
+@lexer lexer
+
+# Use %token to match any token of that type instead of "token":
+multiplication -> %number %ws %times %ws %number {% ([first, , , , second]) => first * second %}
 ```
 
-Now, instead of parsing the string `"print 12"`, you would parse the array
-`["print", 12]`.
+Have a look at [the Moo documentation](https://github.com/tjvr/moo#usage) to learn how to use it.
 
-You can write your own tokenizer using regular expressions, or choose from
-several existing tokenizing libraries for node.
+You can still use raw strings, but they will only match full tokens parsed by Moo. This is convenient for matching keywords.
 
-
-Using a parser
---------------
-
-nearley exposes the following API:
-
-```js
-var grammar = require("generated-code.js");
-var nearley = require("nearley");
-
-// Create a Parser object from our grammar.
-var p = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
-
-// Parse something
-p.feed("1+1");
-// p.results --> [ ["sum", "1", "1"] ]
+```ini
+ifStatement -> "if" condition "then" block
 ```
 
-The `Parser` object can be fed data in parts with `.feed(data)`. You can then
-find an array of parsings with the `.results` property. If `results` is empty,
-then there are no parsings. If `results` contains multiple values, then that
-combination is ambiguous.
+You use the parser exactly as normal: call `parser.feed(data)`, and nearley will give you the parsed results in return.
 
-The incremental feeding design is inspired so that you can parse data from
-stream-like inputs, or even dynamic readline inputs. For example, to create a
-Python-style REPL where it continues to prompt you until you have entered a
-complete block.
+nearley will include line numbers etc. in error messages.
 
-```js
-p.feed(prompt_user(">>> "));
-while (p.results.length < 1) {
-    p.feed(prompt_user("... "));
-}
-console.log(p.results);
-```
+## Advanced topics
 
-The `nearley.Parser` constructor takes an optional third parameter, `options`,
-which is an object with the following possible keys:
+- [Best practices for writing grammars](docs/how-to-grammar-good.md)
+- [Custom tokens and lexers, parsing arbitrary arrays instead of strings](docs/custom-tokens-and-lexers.md)
+- [Accessing the parse table](docs/accessing-parse-table.md)
+- [Using `nearleyc` in browsers](docs/using-in-frontend.md)
 
-- `keepHistory` (boolean, default `false`): if set to `true`, nearley will
-  preserve the internal state of the parser in the parser's `.table` property.
-  Preserving the state has some performance cost (because it can potentially be
-  very large), so we recommend leaving this as `false` unless you are familiar
-  with the Earley parsing algorithm and are planning to do something exciting
-  with the parse table.
+## Recipes
 
-Catching errors
----------------
+- [Generating and transforming a parse tree (CST and AST)](docs/generating-cst-ast.md)
+- [Writing an indentation-aware (Python-like) lexer](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa)
+- [Making a REPL for your grammar](docs/making-a-repl.md)
+
+### Catching errors
 
 If there are no possible parsings, nearley will throw an error whose `offset`
 property is the index of the offending token.
 
 ```js
 try {
-    p.feed("1+gorgonzola");
+    parser.feed("Cow goes% moo.");
 } catch(parseError) {
-    console.log(
-        "Error at character " + parseError.offset
-    ); // "Error at character 2"
+    console.log("Error at character " + parseError.offset); // "Error at character 9"
 }
 ```
 
-
-Exploring a parser interactively
---------------------------------
+## Exploring a parser interactively
 
 The global install will provide `nearley-test`, a simple command-line tool you
 can use to inspect what a parser is doing. You input a generated `grammar.js`
@@ -408,29 +410,22 @@ prints out the output if successful, and also gives you the complete parse
 table used by the algorithm. This is very helpful when you're testing a new
 parser.
 
-This was previously called `bin/nearleythere.js` and written by Robin.
-
-
-The Unparser
-------------
+## The Unparser
 
 The Unparser takes a (compiled) parser and outputs a random string that would
 be accepted by the parser.
 
-```
+```bash
 $ nearley-unparse -s number <(nearleyc builtin/prims.ne)
 -6.22E94
 ```
 
 You can use the Unparser to...
 
-- ...test your parser specification by generating lots of random expressions
-and making sure all of them are "correct".
-- ...generate random strings from a schema (for example, random email addresses
-or telephone numbers).
+- ...test your parser specification by generating lots of random expressions and making sure all of them are "correct".
+- ...generate random strings from a schema (for example, random email addresses or telephone numbers).
 - ...create fuzzers and combinatorial stress-testers.
-- ...play "Mad-Libs" automatically! (Practical application: automatic
-grammatically valid loremtext.)
+- ...play "Mad-Libs" automatically! (Practical application: automatic grammatically valid loremtext.)
 
 The Unparser outputs as a stream by continuously writing characters to its
 output pipe. So, if it "goes off the deep end" and generates a huge string, you
@@ -444,14 +439,12 @@ As far as I know, nearley is the only parser generator with this feature. It
 is inspired by Roly Fentanes' [randexp](https://fent.github.io/randexp.js/),
 which does the same thing with regular expressions.
 
-
-Automagical Railroad Diagrams
------------------------------
+## Automagical Railroad Diagrams
 
 nearley lets you convert your grammars to pretty SVG railroad diagrams that you
 can include in webpages, documentation, and even papers.
 
-```
+```bash
 $ nearley-railroad regex.ne -o grammar.html
 ```
 
@@ -463,9 +456,7 @@ See a bigger example [here](http://nearley.js.org/www/railroad-demo.html).
 [`railroad-diagrams`](https://github.com/tabatkins/railroad-diagrams) by
 tabatkins.)
 
-
-Other Tools
------------
+## Other Tools
 
 *This section lists nearley tooling created by other developers. These tools
 are not distributed with nearley, so if you have problems, please contact the
@@ -500,9 +491,8 @@ Gulp users can use
 [gulp-nearley](https://github.com/JosephJNK/gulp-nearley) by Joseph Junker to
 compile grammars with a gulpfile.
 
+## Still confused?
 
-Still confused?
----------------
 You can read [the calculator example](examples/calculator/arithmetic.ne) to get
 a feel for the syntax (see it live
 [here](http://hardmath123.github.io/nearley/examples/calculator/)). You can
@@ -510,9 +500,7 @@ read a grammar for [tosh](https://tosh.tjvr.org) over [here](examples/tosh.ne).
 There are more sample grammars in the `/examples` directory. For larger
 examples, we also have experimental parsers for **CSV** and **Lua**.
 
-
-Contributing
-------------
+## Contributing
 
 Clone, hack, PR. Tests live in `test/` and can be called with `npm test`. Make
 sure you read `test/profile.log` after tests run, and that nothing has died
@@ -536,12 +524,10 @@ T. Corbin refactored the compiler to be much, much prettier. Bojidar Marinov
 implemented postprocessors-in-other-languages. Shachar Itzhaky fixed a subtle
 bug with nullables.
 
-
-Further reading
----------------
+## Further reading
 
 - Read my [blog post](http://hardmath123.github.io/earley.html) to learn more
-  about the algorithm. 
+  about the algorithm.
 - Read about [Marpa](http://savage.net.au/Marpa.html) to
   learn more than you ever thought you wanted to know about parsing.
 - A [nearley
