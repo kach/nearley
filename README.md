@@ -202,25 +202,30 @@ expression -> number "+" number # sum of two numbers
 
 ### Postprocessors
 
-By default, nearley wraps everything matched by a rule into an array. `rule ->
-"foo" "bar"` gives `["foo", "bar"]`.  Most of the time, you need to process
-that data in some way: filter out unnecessary tokens, transform into an object,
-etc.
+By default, nearley wraps everything matched by a rule into an array. For
+example, when `rule -> "foo" "bar"` matches, it creates the "parse tree"
+`["foo", "bar"]`.  Most of the time, however, you need to process that data in
+some way: for example, you may want to filter out whitespace, or transform the
+results into a custom JavaScript object.
 
-Each rule can have a *postprocessor* - a JavaScript function that transforms
-the array and returns whatever you want to get instead. Postprocessors are
-wrapped in `{% %}`:
+For this purpose, each rule can have a *postprocessor*: a JavaScript function
+that transforms the array and returns a "processed" version of the result.
+Postprocessors are wrapped in `{% %}`:
 
 ```js
 expression -> number "+" number {%
-    (data, location, reject) => ({
-        type: "sum",
-        args: [data[0], data[2]]
-    })
+    function(data, location, reject) {
+        return {
+            operator: "sum",
+            leftOperand: data[0],
+            rightOperand: data[2] // data[1] is "+"
+        };
+    }
 %}
 ```
 
-The rule above will parse `5+10` into `{ type: "sum", args: [5, 10] }`.
+The rule above will parse the string `5+10` into `{ operator: "sum",
+leftOperand: "5", rightOperand: "10" }`.
 
 The postprocessor can be any function. It will be passed three arguments:
 
@@ -228,15 +233,27 @@ The postprocessor can be any function. It will be passed three arguments:
   the rule. Note that it is still an array, even if the rule only has one part!
   You can use the built-in `{% id %}` postprocessor to convert a one-item array
   into the item itself.
-
 - `location: number` - the index (zero-based) at which the rule match starts.
-
+  This is useful, for example, to construct an error message that tells you where
+  in the source the error occurred.
 - `reject: Object` - return this object to signal that this rule doesn't
-  actually match. This can be used for edge-conditions like "I want `[a-z]+` to
-  match variables, except for the keyword `if`". PLease note that grammars using
-  `reject` are not context-free, and are often much slower to parse. Use it
-  wisely! You can usually avoid the need for `reject` by using a
-  [tokenizer](#tokenizers).
+  *actually* match. This is necessary in certain edge-conditions. For example,
+  suppose you want sequences of letters to match variables, except for the
+  keyword `var`. In this case, your rule may be
+  ```js
+  word -> [a-z]:+ {%
+      function(d,l, reject) {
+          if (d[0] == 'var') {
+              return reject;
+          } else {
+              return {'var': d[0]};
+          }
+      }
+  %}
+  ```
+  Please note that grammars using `reject` are not context-free, and are often
+  much slower to parse. Use it wisely! You can usually avoid the need for
+  `reject` by using a [tokenizer](#tokenizers).
 
 Remember that a postprocessor is scoped to a single rule, not the whole
 nonterminal. If a nonterminal has multiple alternative rules, each of them can
