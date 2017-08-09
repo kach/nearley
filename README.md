@@ -44,11 +44,11 @@ pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 - [Getting started: nearley in 3 steps](#getting-started-nearley-in-3-steps)
 - [Writing a parser](#writing-a-parser)
   - [Terminals, nonterminals, rules](#terminals-nonterminals-rules)
-  - [Comments](#comments)
   - [Postprocessors](#postprocessors)
     - [Target languages](#target-languages)
   - [Catching errors](#catching-errors)
-  - [Some syntactic sugar](#some-syntactic-sugar)
+  - [More syntax: tips and tricks](#more-syntax-tips-and-tricks)
+    - [Comments](#comments)
     - [Charsets](#charsets)
     - [Case-insensitive string literals](#case-insensitive-string-literals)
     - [EBNF](#ebnf)
@@ -193,15 +193,6 @@ a -> null
 Keep in mind that nearley syntax is not sensitive to formatting. You're welcome
 to keep rules on the same line: `foo -> bar | qux`.
 
-### Comments
-
-Comments are marked with '#'. Everything from `#` to the end of a line is
-ignored:
-
-```ini
-expression -> number "+" number # sum of two numbers
-```
-
 ### Postprocessors
 
 By default, nearley wraps everything matched by a rule into an array. For
@@ -321,7 +312,16 @@ try {
 }
 ```
 
-### Some syntactic sugar
+### More syntax: tips and tricks
+
+#### Comments
+
+Comments are marked with '#'. Everything from `#` to the end of a line is
+ignored:
+
+```ini
+expression -> number "+" number # sum of two numbers
+```
 
 #### Charsets
 
