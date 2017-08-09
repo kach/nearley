@@ -487,6 +487,10 @@ Webpack users can use
 [nearley-loader](https://github.com/kozily/nearley-loader) by Andrés Arana to
 load grammars directly.
 
+Gulp users can use
+[gulp-nearley](https://github.com/JosephJNK/gulp-nearley) by Joseph Junker to
+compile grammars with a gulpfile.
+
 ## Still confused?
 
 You can read [the calculator example](examples/calculator/arithmetic.ne) to get
@@ -529,3 +533,4 @@ bug with nullables.
 - A [nearley
   tutorial](https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e)
   written by @gajus.
+
