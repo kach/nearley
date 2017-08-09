@@ -17,19 +17,19 @@ function parse(grammar, input) {
 describe("bin/nearleyc", function() {
     afterAll(cleanup)
 
-    it.concurrent('should build test parser (check integrity)', async function() {
+    it.concurrent('builds for ES5', async function() {
         const out = await externalNearleyc("parens.ne", '.js')
         nearley.Grammar.fromCompiled(require(`./${out}.js`))
     });
 
-    it.concurrent('should build for CoffeeScript', async function() {
+    it.concurrent('builds for CoffeeScript', async function() {
         const out = await externalNearleyc("coffeescript-test.ne", ".coffee")
         await sh(`coffee -c ${out}.coffee`)
         var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`))
         expect(parse(grammar, "ABCDEFZ12309")).toEqual([ [ 'ABCDEFZ', '12309' ] ])
     });
 
-    it.concurrent('should build for TypeScript', async function() {
+    it.concurrent('builds for TypeScript', async function() {
         const out = await externalNearleyc("typescript-test.ne", ".ts")
         await sh(`tsc ${out}.ts`);
         var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
@@ -38,7 +38,7 @@ describe("bin/nearleyc", function() {
 
 })
 
-describe('nearleyc', function() {
+describe('generate', function() {
 
     it('calculator example', function() {
         var arith = compile(read("examples/calculator/arithmetic.ne"));

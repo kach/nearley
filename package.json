@@ -25,9 +25,10 @@
   ],
   "scripts": {
     "bootstrap": "bin/nearleyc.js lib/nearley-language-bootstrapped.ne > tmp && mv tmp lib/nearley-language-bootstrapped.js",
-    "test": "jest test/test.js",
+    "test": "jest test",
     "benchmark": "node test/benchmark.js",
-    "doctoc": "doctoc --notitle README.md"
+    "doctoc": "doctoc --notitle README.md",
+    "watch": "jest test --watch -t 'generate|parser'"
   },
   "author": "Hardmath123",
   "contributors": "https://github.com/Hardmath123/nearley/graphs/contributors",
