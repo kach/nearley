@@ -6,25 +6,50 @@ var nearley = require('../nearley');
 var Compile = require('./compile');
 var parserGrammar = nearley.Grammar.fromCompiled(require('./nearley-language-bootstrapped'));
 var generate = require('./generate');
+var lint = require('./lint');
+var StreamWrapper = require('./stream')
 
-function parse(grammar, input) {
-    var p = new nearley.Parser(grammar);
-    p.feed(input);
-    return p.results;
-}
-
-function compile(source) {
-    // parse
-    var results = parse(parserGrammar, source);
+function generateSource(results, options) {
+    var options = options || {};
 
     // compile
-    var c = Compile(results[0], {});
+    var c = Compile(results[0], options);
+
+    // lint
+    if (options.lint) {
+        // options.lint is anything with a .write() method
+        lint(c, {out: options.lint});
+    }
 
     // generate
-    var compiledGrammar = generate(c, 'grammar');
+    var source = generate(c, 'grammar');
+    return source;
+}
+
+function compile(source, options) {
+    // parse
+    var p = new nearley.Parser(parserGrammar);
+    p.feed(source);
+
+    // compile, lint, generate
+    var source = generateSource(p.results, options);
 
     // eval
-    return evalGrammar(compiledGrammar);
+    return evalGrammar(source);
+}
+
+// TODO if streams have no perf benefit here, consider dropping this
+function compileFile(inputStream, outputStream, options) {
+    var parser = new nearley.Parser(parserGrammar)
+    inputStream
+        // parse
+        .pipe(new StreamWrapper(parser))
+        .on('finish', function() {
+            // compile, lint, generate
+            var source = generateSource(parser.results, options)
+            // write
+            outputStream.write(source)
+        })
 }
 
 function requireFromString(source) {
@@ -41,9 +66,10 @@ function evalGrammar(compiledGrammar) {
     return new nearley.Grammar.fromCompiled(exports);
 }
 
+// TODO figure out what API we should be exposing here.
 module.exports = {
-    compile: compile,
-    evalGrammar: evalGrammar,
-    parse: parse,
+    compile: compile, // (source, options) -> Grammar
+    compileFile: compileFile, // (inputStream, outputStream, options)
+    lint: require('../nearleyc/lint'),
 };
 

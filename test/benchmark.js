@@ -11,7 +11,6 @@ function read(filename) {
     return fs.readFileSync(filename, 'utf-8');
 }
 
-
 // For making tests
 
 function addTest(parserName, parser, examples) {

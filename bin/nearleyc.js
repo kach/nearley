@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var nearley = require('../nearley');
 var nomnom = require('nomnom');
-var Compile = require('../nearleyc/compile');
-var StreamWrapper = require('../nearleyc/stream');
+var nearleyc = require('../nearleyc');
 
 var opts = nomnom
     .script('nearleyc')
@@ -39,15 +37,9 @@ var opts = nomnom
 var input = opts.file ? fs.createReadStream(opts.file) : process.stdin;
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
-var parserGrammar = require('../nearleyc/nearley-language-bootstrapped');
-var parser = new nearley.Parser(parserGrammar.ParserRules, parserGrammar.ParserStart);
-var generate = require('../nearleyc/generate');
-var lint = require('../nearleyc/lint');
+nearleyc.compileFile(input, output, {
+    nojs: opts.nojs,
+    'export': opts.export,
+    lint: process.stderr,
+})
 
-input
-    .pipe(new StreamWrapper(parser))
-    .on('finish', function() {
-        var c = Compile(parser.results[0], opts);
-        lint(c, {'out': process.stderr});
-        output.write(generate(c, opts.export));
-    });

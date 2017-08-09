@@ -4,10 +4,15 @@ const chai = require('chai');
 const mocha = require('mocha');
 
 const nearley = require('../nearley');
-const {compile, evalGrammar, parse} = require('../nearleyc');
+const {compile} = require('../nearleyc');
 
 function read(filename) {
     return fs.readFileSync(filename, 'utf-8');
+}
+function parse(grammar, input) {
+    var p = new nearley.Parser(grammar);
+    p.feed(input);
+    return p.results;
 }
 
 chai.should();
@@ -28,7 +33,7 @@ describe("nearleyc", function() {
     it('should build for CoffeeScript', function() {
         externalNearleyc("test/coffeescript-test.ne -o test/tmp.coffeescript-test.coffee").should.equal("");
         sh("coffee -c test/tmp.coffeescript-test.coffee");
-        var grammar = evalGrammar(read("test/tmp.coffeescript-test.js"));
+        var grammar = nearley.Grammar.fromCompiled(require("./tmp.coffeescript-test.js"));
         parse(grammar, "ABCDEFZ12309")
             .should.deep.equal([ [ 'ABCDEFZ', '12309' ] ]);
     });
@@ -37,7 +42,7 @@ describe("nearleyc", function() {
         this.timeout(5000);
         externalNearleyc("test/typescript-test.ne -o test/tmp.typescript-test.ts").should.equal("");
         sh("node ./node_modules/typescript/bin/tsc --project test");
-        var grammar = evalGrammar(read("test/tmp.typescript-test.js"));
+        var grammar = nearley.Grammar.fromCompiled(require("./tmp.typescript-test.js"));
         parse(grammar, "<123>")
             .should.deep.equal([ [ '<', '123', '>' ] ]);
     });
