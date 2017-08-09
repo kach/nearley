@@ -79,18 +79,20 @@ pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 
 ## Installation
 
-nearley is published as an
+The nearley parser is published as an
 [NPM](https://docs.npmjs.com/getting-started/what-is-npm) package compatible
-with [Node.js](https://nodejs.org/en/) and ES5-compatible browsers.
+with [Node.js](https://nodejs.org/en/) and most browsers.
 
 ```bash
-npm install nearley
+$ npm install nearley
 ```
 
-Also install the package globally if you'd like to use it directly via CLI:
+To use the nearley *compiler*, you need to additionally install nearley
+globally. This adds several new commands to your `$PATH`, all of which are
+prefixed with `nearley`.
 
 ```bash
-npm install -g nearley
+$ npm install -g nearley
 ```
 
 > NOTE: If you're not ready to install nearley yet, you can follow along in
