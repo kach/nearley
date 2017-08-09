@@ -13,25 +13,25 @@ function parse(grammar, input) {
     return p.results;
 }
 
+
 describe("bin/nearleyc", function() {
-    beforeAll(cleanup)
     afterAll(cleanup)
 
-    it('should build test parser (check integrity)', function() {
-        const out = externalNearleyc("parens.ne", '.js')
-        var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
+    it.concurrent('should build test parser (check integrity)', async function() {
+        const out = await externalNearleyc("parens.ne", '.js')
+        nearley.Grammar.fromCompiled(require(`./${out}.js`))
     });
 
-    it('should build for CoffeeScript', function() {
-        const out = externalNearleyc("coffeescript-test.ne", ".coffee")
-        sh(`coffee -c ${out}.coffee`);
-        var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
-        expect(parse(grammar, "ABCDEFZ12309")).toEqual([ [ 'ABCDEFZ', '12309' ] ]);
+    it.concurrent('should build for CoffeeScript', async function() {
+        const out = await externalNearleyc("coffeescript-test.ne", ".coffee")
+        await sh(`coffee -c ${out}.coffee`)
+        var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`))
+        expect(parse(grammar, "ABCDEFZ12309")).toEqual([ [ 'ABCDEFZ', '12309' ] ])
     });
 
-    it('should build for TypeScript', function() {
-        const out = externalNearleyc("typescript-test.ne", ".ts")
-        sh(`tsc ${out}.ts`);
+    it.concurrent('should build for TypeScript', async function() {
+        const out = await externalNearleyc("typescript-test.ne", ".ts")
+        await sh(`tsc ${out}.ts`);
         var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
         expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
     });
@@ -93,7 +93,7 @@ describe('nearleyc', function() {
         expect(parse(json, test2)).toEqual([JSON.parse(test2)]);
     });
 
-    it('tosh example', function() {
+    it('tosh example', () => {
         var tosh = compile(read("examples/tosh.ne"));
         expect(parse(tosh, "set foo to 2 * e^ of ( foo * -0.05 + 0.5) * (1 - e ^ of (foo * -0.05 + 0.5))"))
             .toEqual([["setVar:to:","foo",["*",["*",2,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]],["-",1,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]]]]]);
