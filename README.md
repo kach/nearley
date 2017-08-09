@@ -154,7 +154,8 @@ Let's explore the building blocks of a nearley parser.
 
 ### Terminals, nonterminals, rules
 
-- A *terminal* is a string or a token. E.g. keyword `"if"` is a terminal.
+- A *terminal* is a string or a token. For example, the keyword `"if"` is a
+  terminal.
 - A *nonterminal* is a combination of terminals and other nonterminals. For
   example, an if statement defined as `"if" condition statement` is a
   nonteminal.
@@ -181,7 +182,8 @@ expression ->
 ```
 
 The keyword `null` stands for the **epsilon rule**, which matches nothing. The
-following nonterminal matches zero or more `cow`s in a row, e.g. `cowcowcow`:
+following nonterminal matches zero or more `cow`s in a row, such as
+`cowcowcow`:
 
 ```js
 a -> null
@@ -297,7 +299,7 @@ The `.` character can be used to represent any character.
 You can create case-insensitive string literals by adding an `i` after the
 string literal:
 
-    cow -> "cow"i # matches CoW, COW, etc.
+    cow -> "cow"i # matches CoW, COW, and so on.
 
 Note that if you are using a lexer, your lexer should use the `i` flag in its
 regexes instead. That is, if you are using a lexer, you should *not* use the
