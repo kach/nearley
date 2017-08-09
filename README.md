@@ -46,11 +46,12 @@ pick](https://www.npmjs.com/package/npm-collection-staff-picks).
   - [Terminals, nonterminals, rules](#terminals-nonterminals-rules)
   - [Comments](#comments)
   - [Postprocessors](#postprocessors)
+    - [Target languages](#target-languages)
   - [Catching errors](#catching-errors)
-  - [Target languages](#target-languages)
-  - [Charsets](#charsets)
-  - [Case-insensitive string literals](#case-insensitive-string-literals)
-  - [EBNF](#ebnf)
+  - [Some syntactic sugar](#some-syntactic-sugar)
+    - [Charsets](#charsets)
+    - [Case-insensitive string literals](#case-insensitive-string-literals)
+    - [EBNF](#ebnf)
   - [Macros](#macros)
   - [Additional JS](#additional-js)
   - [Importing other grammars](#importing-other-grammars)
@@ -279,6 +280,14 @@ There are two built-in postprocessors for the most common scenarios:
 - `nuller` - returns null. This is useful for whitespace rules: `space -> " "
   {% nuller %}`
 
+#### Target languages
+
+By default, `nearleyc` compiles your grammar to JavaScript. You can also choose
+CoffeeScript or TypeScript by adding `@preprocessor coffee` or `@preprocessor
+typescript` at the top of your grammar file. This can be useful to write your
+postprocessors in a different language, and to get type annotations if you wish
+to use nearley in a statically typed dialect of JavaScript.
+
 ### Catching errors
 
 nearley is a *streaming* parser: you can keep feeding it more strings. This
@@ -312,15 +321,9 @@ try {
 }
 ```
 
-### Target languages
+### Some syntactic sugar
 
-By default, `nearleyc` compiles your grammar to JavaScript. You can also choose
-CoffeeScript or TypeScript by adding `@preprocessor coffee` or `@preprocessor
-typescript` at the top of your grammar file. This can be useful to write your
-postprocessors in a different language, and to get type annotations if you wish
-to use nearley in a statically typed dialect of JavaScript.
-
-### Charsets
+#### Charsets
 
 You can use valid RegExp charsets in a rule (unless you're using a
 [tokenizer](#tokenizers)):
@@ -329,7 +332,7 @@ You can use valid RegExp charsets in a rule (unless you're using a
 
 The `.` character can be used to represent any character.
 
-### Case-insensitive string literals
+#### Case-insensitive string literals
 
 You can create case-insensitive string literals by adding an `i` after the
 string literal:
@@ -340,7 +343,7 @@ Note that if you are using a lexer, your lexer should use the `i` flag in its
 regexes instead. That is, if you are using a lexer, you should *not* use the
 `i` suffix in nearley.
 
-### EBNF
+#### EBNF
 
 nearley supports the `*`, `?`, and `+` operators from
 [EBNF](https://en.wikipedia.org/wiki/Extended_Backus–Naur_form) as shown:
