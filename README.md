@@ -198,7 +198,7 @@ The rule above will parse `5+10` into `{ type: "sum", args: [5, 10] }`.
 
 The postprocessor can be any function. It will be passed three arguments:
 
-- `data: Array` - is an that contains the results of parsing each part of the rule.
+- `data: Array` - an array that contains the results of parsing each part of the rule.
 
     Note that it is still an array, even if the rule only has one part! You can use the built-in `{% id %}` postprocessor to convert a one-item array into the item itself.
 
