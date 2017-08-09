@@ -45,16 +45,15 @@ anything you throw at it.
 
 ## Introduction
 
-nearley compiles grammar definitions from a simple syntax resembling
-[BNF](https://en.wikipedia.org/wiki/Backus–Naur_form) to a JS representation.
-You pass that representation to the nearley's tiny runtime, feed it data, and
-get the results.
+The nearley *compiler* converts grammar definitions from a simple
+[BNF](https://en.wikipedia.org/wiki/Backus–Naur_form)-based syntax to a small
+JS module. You can use that module to construct a nearley *parser*, which
+parses input strings.
 
 nearley uses the Earley parsing algorithm with Joop Leo's optimizations to
-parse complex data structures easily.  Thanks to this algorithm, nearley can
-parse what other JavaScript parsers cannot.  It can handle *any* grammar you
-can define in BNF.  In fact, the nearley syntax is written in *itself* (this is
-called bootstrapping).
+parse complex languages efficiently. In fact, nearley can often parse what
+other JavaScript parsers simply cannot! nearley can handle *any* grammar you
+can define in BNF.
 
 PEGjs and Jison are recursive-descent based, and so they will choke on a lot of
 grammars, in particular [left recursive
@@ -70,10 +69,12 @@ nearley is used by:
 - [computational linguistics](https://wiki.eecs.yorku.ca/course_archive/2014-15/W/6339/useful_handouts)
   classes at universities;
 - [file format parsers](https://github.com/raymond-h/node-dmi);
-- [markup languages](https://github.com/idyll-lang/idyll-compiler); and
-- [complete programming languages](https://github.com/sizigi/lp5562).
+- [markup languages](https://github.com/idyll-lang/idyll-compiler);
+- [complete programming languages](https://github.com/sizigi/lp5562);
+- and nearley itself! The nearley compiler is written in *itself* (this is
+called bootstrapping).
 
-It's an npm [staff
+nearley is an npm [staff
 pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 
 ## Installation
