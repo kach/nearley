@@ -27,7 +27,7 @@ nearley is a fast and extremely powerful parser based on the [Earley algorithm](
   - [Macros](#macros)
   - [Additional JS](#additional-js)
   - [Importing](#importing)
-- [Using a specialized lexer](#using-a-specialized-lexer)
+- [Tokenizers](#tokenizers)
 - [Advanced topics](#advanced-topics)
 - [Recipes](#recipes)
   - [Catching errors](#catching-errors)
