@@ -24,7 +24,7 @@
     "language"
   ],
   "scripts": {
-    "bootstrap": "node bin/nearleyc.js lib/nearley-language-bootstrapped.ne >lib/nearley-language-bootstrapped.js.new && mv lib/nearley-language-bootstrapped.js.new lib/nearley-language-bootstrapped.js",
+    "bootstrap": "bin/nearleyc.js lib/nearley-language-bootstrapped.ne > tmp && mv tmp lib/nearley-language-bootstrapped.js",
     "test": "mocha test/launch.js",
     "benchmark": "node test/benchmark.js",
     "doctoc": "doctoc --notitle README.md"
