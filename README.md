@@ -16,9 +16,8 @@ anything you throw at it.
 
 - [Introduction](#introduction)
 - [Installation](#installation)
-- [Usage](#usage)
-- [CLI](#cli)
-- [Parser specification](#parser-specification)
+- [Getting started: nearley in 3 steps](#getting-started-nearley-in-3-steps)
+- [Writing a parser](#writing-a-parser)
   - [Terminals, nonterminals, rules](#terminals-nonterminals-rules)
   - [Comments](#comments)
   - [Postprocessors](#postprocessors)
