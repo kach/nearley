@@ -259,7 +259,10 @@ The postprocessor can be any function. It will be passed three arguments:
 
 Remember that a postprocessor is scoped to a single rule, not the whole
 nonterminal. If a nonterminal has multiple alternative rules, each of them can
-have its own postprocessor:
+have its own postprocessor.
+
+For arrow-function users, a convenient pattern is to decompose the `data` array
+within the argument of the arrow function:
 
 ```js
 expression ->
@@ -271,11 +274,11 @@ expression ->
 
 There are two built-in postprocessors for the most common scenarios:
 
-- `id` - returns the first element of the `data` array. Useful for
-  single-element arrays: `foo -> bar {% id %}`
+- `id` - returns the first element of the `data` array. This is useful to
+  extract the content of a single-element array: `foo -> bar {% id %}`
 
-- `nuller` - returns null. Useful for unimportant rules: `space -> " " {%
-  nuller %}`
+- `nuller` - returns null. This is useful for whitespace rules: `space -> " "
+  {% nuller %}`
 
 ### Target languages
 
