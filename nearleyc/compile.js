@@ -1,11 +1,10 @@
 (function(root, factory) {
-    // TODO this is not proper UMD, there are bare require()s below
     if (typeof module === 'object' && module.exports) {
-        module.exports = factory(require('../nearley'));
+        module.exports = factory(require('../nearley'), require('./nearley-language-bootstrapped'), require('./lint'));
     } else {
-        root.Compile = factory(root.nearley);
+        root.Compile = factory(root.nearley); // TODO bootstrapped, lint
     }
-}(this, function(nearley) {
+}(this, function(nearley, parserGrammar, lint) {
 
 function Compile(structure, opts) {
     var unique = uniquer();
@@ -47,11 +46,10 @@ function Compile(structure, opts) {
             if (opts.alreadycompiled.indexOf(path) === -1) {
                 opts.alreadycompiled.push(path);
                 f = require('fs').readFileSync(path).toString();
-                var parserGrammar = new require('./nearley-language-bootstrapped');
                 var parser = new nearley.Parser(parserGrammar.ParserRules, parserGrammar.ParserStart);
                 parser.feed(f);
                 var c = Compile(parser.results[0], {path: path, __proto__:opts});
-                require('./lint')(c, {out: process.stderr});
+                lint(c, {out: process.stderr});
                 result.rules = result.rules.concat(c.rules);
                 result.body  = result.body.concat(c.body);
                 result.customTokens = result.customTokens.concat(c.customTokens);
