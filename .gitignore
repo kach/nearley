@@ -9,5 +9,4 @@ test/whitespace.js
 *.cmd
 *.bat
 npm-debug.log
-tmp.*
 sandbox/

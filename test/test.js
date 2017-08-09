@@ -1,9 +1,8 @@
 
 const fs = require('fs');
-const child_process = require('child_process');
-
 const nearley = require('../nearley');
 const {compile} = require('../nearleyc');
+const {sh, externalNearleyc, cleanup} = require('./external');
 
 function read(filename) {
     return fs.readFileSync(filename, 'utf-8');
@@ -14,32 +13,32 @@ function parse(grammar, input) {
     return p.results;
 }
 
-function sh(cmd) {
-    return child_process.execSync(cmd, {encoding: 'utf-8', stdio: 'pipe'});
-}
+describe("bin/nearleyc", function() {
+    beforeAll(cleanup)
+    afterAll(cleanup)
 
-function externalNearleyc(args) {
-    return sh("node bin/nearleyc.js " + args);
-}
-
-describe("nearleyc", function() {
     it('should build test parser (check integrity)', function() {
-        expect(externalNearleyc("test/parens.ne -o test/parens.js")).toBe("");
+        const out = externalNearleyc("parens.ne", '.js')
+        var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
     });
 
     it('should build for CoffeeScript', function() {
-        expect(externalNearleyc("test/coffeescript-test.ne -o test/tmp.coffeescript-test.coffee")).toBe("");
-        sh("coffee -c test/tmp.coffeescript-test.coffee");
-        var grammar = nearley.Grammar.fromCompiled(require("./tmp.coffeescript-test.js"));
+        const out = externalNearleyc("coffeescript-test.ne", ".coffee")
+        sh(`coffee -c ${out}.coffee`);
+        var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
         expect(parse(grammar, "ABCDEFZ12309")).toEqual([ [ 'ABCDEFZ', '12309' ] ]);
     });
 
     it('should build for TypeScript', function() {
-        expect(externalNearleyc("test/typescript-test.ne -o test/tmp.typescript-test.ts")).toBe("");
-        sh("node ./node_modules/typescript/bin/tsc --project test");
-        var grammar = nearley.Grammar.fromCompiled(require("./tmp.typescript-test.js"));
+        const out = externalNearleyc("typescript-test.ne", ".ts")
+        sh(`tsc ${out}.ts`);
+        var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
         expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
     });
+
+})
+
+describe('nearleyc', function() {
 
     it('calculator example', function() {
         var arith = compile(read("examples/calculator/arithmetic.ne"));
