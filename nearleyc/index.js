@@ -53,6 +53,11 @@ function compileFile(inputStream, outputStream, options) {
 }
 
 function requireFromString(source) {
+    if (!module) {
+        var module = {exports: null};
+        eval(source);
+        return module.exports;
+    }
     var filename = '.'
     var Module = module.constructor;
     var m = new Module();
