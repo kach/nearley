@@ -32,6 +32,8 @@ nearley is used by a wide variety of projects:
 nearley is an npm [staff
 pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 
+## Contents
+
 <!-- $ npm install -g doctoc -->
 <!-- $ doctoc --notitle README.md -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
