@@ -44,6 +44,7 @@ describe("nearleyc", function() {
     });
 
     it('should build for TypeScript', function() {
+        this.timeout(5000);
         externalNearleyc("test/typescript-test.ne -o test/tmp.typescript-test.ts").should.equal("");
         sh("node ./node_modules/typescript/bin/tsc --project test");
         var grammar = evalGrammar(read("test/tmp.typescript-test.js"));
