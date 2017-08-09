@@ -2,11 +2,35 @@
 
 # [nearley](http://nearley.js.org) [![JS.ORG](https://img.shields.io/badge/js.org-nearley-ffb400.svg?style=flat-square)](http://js.org)
 
-> Simple parsing in JavaScript
+nearley is a simple, fast and powerful parsing toolkit based on the [Earley
+algorithm](https://en.wikipedia.org/wiki/Earley_parser).
 
-nearley is a fast and powerful parser based on the [Earley
-algorithm](https://en.wikipedia.org/wiki/Earley_parser). It can parse literally
-anything you throw at it.
+For this reason, nearley can often parse what other JavaScript parsers simply
+cannot! nearley can handle *any* grammar you can define in BNF... and also some
+grammars that you *cannot* define in BNF. Indeed, while most existing JS
+parsers such as PEGjs and Jison choke on certain grammars (in particular [left
+recursive ones](http://en.wikipedia.org/wiki/Left_recursion)), nearley, handles
+them easily and efficiently.
+
+nearley also has capabilities to catch errors gracefully, and deal with
+ambiguous grammars (for strings that can be parsed in multiple ways). It comes
+with fantastic tooling, and works in both node and the browser.
+
+nearley is used by a wide variety of projects:
+
+- [artificial
+  intelligence](https://github.com/ChalmersGU-AI-course/shrdlite-course-project)
+  and
+- [computational
+  linguistics](https://wiki.eecs.yorku.ca/course_archive/2014-15/W/6339/useful_handouts)
+  classes at universities;
+- [file format parsers](https://github.com/raymond-h/node-dmi);
+- [data-driven markup languages](https://github.com/idyll-lang/idyll-compiler);
+- [compilers for real programming languages](https://github.com/sizigi/lp5562);
+- and nearley itself! The nearley compiler is written in *itself*.
+
+nearley is an npm [staff
+pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 
 <!-- $ npm install -g doctoc -->
 <!-- $ doctoc --notitle README.md -->
@@ -14,7 +38,6 @@ anything you throw at it.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Introduction](#introduction)
 - [Installation](#installation)
 - [Getting started: nearley in 3 steps](#getting-started-nearley-in-3-steps)
 - [Writing a parser](#writing-a-parser)
@@ -44,52 +67,26 @@ anything you throw at it.
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Introduction
+
+## Installation
 
 The nearley *compiler* converts grammar definitions from a simple
 [BNF](https://en.wikipedia.org/wiki/Backus–Naur_form)-based syntax to a small
 JS module. You can use that module to construct a nearley *parser*, which
 parses input strings.
 
-nearley uses the Earley parsing algorithm with Joop Leo's optimizations to
-parse complex languages efficiently. In fact, nearley can often parse what
-other JavaScript parsers simply cannot! nearley can handle *any* grammar you
-can define in BNF.
-
-PEGjs and Jison are recursive-descent based, and so they will choke on a lot of
-grammars, in particular [left recursive
-ones](http://en.wikipedia.org/wiki/Left_recursion).
-
-nearley also has capabilities to catch errors gracefully, and detect ambiguous
-grammars (grammars that can be parsed in multiple ways).
-
-nearley is used by:
-
-- [artificial intelligence](https://github.com/ChalmersGU-AI-course/shrdlite-course-project)
-  and
-- [computational linguistics](https://wiki.eecs.yorku.ca/course_archive/2014-15/W/6339/useful_handouts)
-  classes at universities;
-- [file format parsers](https://github.com/raymond-h/node-dmi);
-- [markup languages](https://github.com/idyll-lang/idyll-compiler);
-- [complete programming languages](https://github.com/sizigi/lp5562);
-- and nearley itself! The nearley compiler is written in *itself* (this is
-called bootstrapping).
-
-nearley is an npm [staff
-pick](https://www.npmjs.com/package/npm-collection-staff-picks).
-
-## Installation
-
-The nearley parser is published as an
+Both components are published as a single
 [NPM](https://docs.npmjs.com/getting-started/what-is-npm) package compatible
 with [Node.js](https://nodejs.org/en/) and most browsers.
 
+To use the nearley *parser*, you need to install nearley **locally**.
+
 ```bash
-$ npm install nearley
+$ npm install --save nearley
 ```
 
-To use the nearley *compiler*, you need to additionally install nearley
-globally.
+To use the nearley *compiler*, you need to *additionally* install nearley
+**globally**.
 
 ```bash
 $ npm install -g nearley
