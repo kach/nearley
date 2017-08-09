@@ -21,6 +21,7 @@ anything you throw at it.
   - [Terminals, nonterminals, rules](#terminals-nonterminals-rules)
   - [Comments](#comments)
   - [Postprocessors](#postprocessors)
+  - [Catching errors](#catching-errors)
   - [Target languages](#target-languages)
   - [Charsets](#charsets)
   - [Case-insensitive string literals](#case-insensitive-string-literals)
@@ -29,7 +30,6 @@ anything you throw at it.
   - [Additional JS](#additional-js)
   - [Importing other grammars](#importing-other-grammars)
 - [Tokenizers](#tokenizers)
-  - [Catching errors](#catching-errors)
 - [Tools](#tools)
   - [nearley-test: Exploring a parser interactively](#nearley-test-exploring-a-parser-interactively)
   - [nearley-unparse: The Unparser](#nearley-unparse-the-unparser)
@@ -280,6 +280,39 @@ There are two built-in postprocessors for the most common scenarios:
 - `nuller` - returns null. This is useful for whitespace rules: `space -> " "
   {% nuller %}`
 
+### Catching errors
+
+nearley is a *streaming* parser: you can keep feeding it more strings. This
+means that there are two error scenarios in nearley.
+
+Consider the simple parser below for the examples to follow.
+
+```js
+main -> "Cow goes moo." {% function(d) {return "yay!"; } %}
+```
+
+If there are no possible parsings given the current input, but in the *future*
+there *might* be results if you feed it more strings, then nearley will
+temporarily set the `results` array to the empty array, `[]`.
+
+```js
+parser.feed("Cow ");  // parser.results is []
+parser.feed("goes "); // parser.results is []
+parser.feed("moo.");  // parser.results is ["yay!"]
+```
+
+If there are no possible parsings, and there is no way to "recover" by feeding
+more data, then nearley will throw an error whose `offset` property is the
+index of the offending token.
+
+```js
+try {
+    parser.feed("Cow goes% moo.");
+} catch(parseError) {
+    console.log("Error at character " + parseError.offset); // "Error at character 9"
+}
+```
+
 ### Target languages
 
 By default, `nearleyc` compiles your grammar to JavaScript. You can also choose
@@ -443,22 +476,8 @@ This is convenient for matching keywords.
 ifStatement -> "if" condition "then" block
 ```
 
-You use the parser exactly as normal: call `parser.feed(data)`, and nearley
-will give you the parsed results in return.
-
-
-```js
-try {
-    parser.feed("Cow goes% moo.");
-} catch(parseError) {
-    console.log("Error at character " + parseError.offset); // "Error at character 9"
-}
-```
-
-### Catching errors
-
-If there are no possible parsings, nearley will throw an error whose `offset`
-property is the index of the offending token.
+You use the parser as usual: call `parser.feed(data)`, and nearley will give
+you the parsed results in return.
 
 
 ## Tools
