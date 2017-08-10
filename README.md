@@ -568,6 +568,10 @@ Python users can convert nearley grammars to Python using
 [lark](https://github.com/erezsh/lark#how-to-use-nearley-grammars-in-lark) by
 Erez.
 
+Node users can programmatically access the unparser using
+[nearley-there](https://github.com/stolksdorf/nearley-there) by Scott
+Tolksdorf.
+
 Browser users can use
 [nearley-playground](https://omrelli.ug/nearley-playground/) by Guillermo
 Webster to explore nearley interactively in the browser. There is also a [Mac
