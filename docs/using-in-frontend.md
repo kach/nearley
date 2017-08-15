@@ -1,10 +1,8 @@
 # Using the nearley compiler in browsers
 
-Use a tool like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/) to include the `nearley` NPM package in your browser code.
+Both the nearley parser and compiled grammars work in browsers; simply include `nearley.js` and your compiled `grammar.js` file in `<script>` tags and use nearley as usual. However, the nearley *compiler* is not designed for the browser -- you should precompile your grammars and only serve the generated JS files to browsers.
 
-The runtime part works fine in browsers, but there's no concise way to compile a grammar and pass it to the `Parser` constructor. If you have a single static grammar, just precompile it with `nearleyc` and include the compiled JS file in your frontend code.
-
-If you absolutely have to compile a grammar in a browser, e.g. the user enters it into a textarea, then here's an example for you:
+If you absolutely have to compile a grammar in a browser (for example, to implement a nearley IDE) then you can use a tool like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/) to include the `nearley` NPM package in your browser code. Then, you can utilize the `nearleyc` internals to compile grammars dynamically.
 
 ```js
 const nearley = require("nearley");
