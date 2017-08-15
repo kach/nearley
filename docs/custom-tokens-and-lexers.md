@@ -14,8 +14,8 @@ const tokenPrint = { literal: "print" };
 const tokenNumber = { test: x => Number.isInteger(x) };
 %}
 
-# Matches ["print", 12] if the input is an array with those elements.
-main -> %tokenPrint %tokenNumber
+# Matches ["print", 12, ";;"] if the input is an array with those elements.
+main -> %tokenPrint %tokenNumber ";;"
 ```
 
 ## Writing a custom lexer
