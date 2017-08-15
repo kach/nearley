@@ -581,23 +581,6 @@ read a grammar for [tosh](https://tosh.tjvr.org) over [here](examples/tosh.ne).
 There are more sample grammars in the `/examples` directory. For larger
 examples, we also have experimental parsers for **CSV** and **Lua**.
 
-## Contributing
-
-Please read [this document](.github/CONTRIBUTING.md) *before* working on
-nearley. If you are interested in contributing but unsure where to start, take
-a look at the issues labeled "up for grabs" on the issue tracker, or message a
-maintainer.
-
-nearley is MIT licensed.
-
-A big thanks to Nathan Dinsmore for teaching me how to Earley, Aria Stewart for
-helping structure nearley into a mature module, and Robin Windels for
-bootstrapping the grammar. Additionally, Jacob Edelman wrote an experimental
-JavaScript parser with nearley and contributed ideas for EBNF support. Joshua
-T. Corbin refactored the compiler to be much, much prettier. Bojidar Marinov
-implemented postprocessors-in-other-languages. Shachar Itzhaky fixed a subtle
-bug with nullables.
-
 ## Further reading
 
 ### Documentation
