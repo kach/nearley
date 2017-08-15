@@ -68,7 +68,7 @@ pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 - [Further reading](#further-reading)
   - [Documentation](#documentation)
   - [Recipes](#recipes)
-  - [Details](#details)
+  - [Blog posts](#blog-posts)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
