@@ -404,10 +404,19 @@ any JS, macros, and configuration options defined there.
 Once you have compiled a `grammar.ne` file to a `grammar.js` module, you can
 then use nearley to instantiate a `Parser` object.
 
+First, import nearley and your grammar.
+
 ```js
 const nearley = require("nearley");
 const grammar = require("./grammar.js");
+```
 
+Note that if you are parsing in the browser, you can simply include
+`nearley.js` and `grammar.js` in `<script>` tags.
+
+Next, use the grammar to create a new `nearley.Parser` object.
+
+```js
 // Create a Parser object from our grammar.
 const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 ```
@@ -432,9 +441,11 @@ console.log(parser.results);
 // [{'type': 'if', 'condition': ..., 'body': ...}]
 ```
 
-Why is it an array? Sometimes, a grammar can parse a particular string in
-multiple different ways. For example, the following grammar parses the string
-`"xyz"` in two different ways.
+### A note on ambiguity
+
+Why is `parser.results` an array? Sometimes, a grammar can parse a particular
+string in multiple different ways. For example, the following grammar parses
+the string `"xyz"` in two different ways.
 
 ```js
 x -> "xy" "z"
