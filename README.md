@@ -55,6 +55,7 @@ pick](https://www.npmjs.com/package/npm-collection-staff-picks).
   - [Additional JS](#additional-js)
   - [Importing other grammars](#importing-other-grammars)
 - [Using a parser: the nearley API](#using-a-parser-the-nearley-api)
+  - [A note on ambiguity](#a-note-on-ambiguity)
   - [Catching errors](#catching-errors)
   - [Tokenizers](#tokenizers)
 - [Tools](#tools)
