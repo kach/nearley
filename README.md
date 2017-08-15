@@ -273,7 +273,6 @@ There are two built-in postprocessors for the most common scenarios:
 
 - `id` - returns the first element of the `data` array. This is useful to
   extract the content of a single-element array: `foo -> bar {% id %}`
-
 - `nuller` - returns null. This is useful for whitespace rules: `space -> " "
   {% nuller %}`
 
