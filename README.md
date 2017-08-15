@@ -29,7 +29,7 @@ nearley is used by a wide variety of projects:
 - [file format parsers](https://github.com/raymond-h/node-dmi);
 - [data-driven markup languages](https://github.com/idyll-lang/idyll-compiler);
 - [compilers for real programming languages](https://github.com/sizigi/lp5562);
-- and nearley itself! The nearley compiler is written in *itself*.
+- and nearley itself! The nearley compiler is bootstrapped.
 
 nearley is an npm [staff
 pick](https://www.npmjs.com/package/npm-collection-staff-picks).
