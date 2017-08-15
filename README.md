@@ -633,7 +633,7 @@ bug with nullables.
 - [Writing an indentation-aware (Python-like) lexer](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa)
 - [Making a REPL for your language](docs/making-a-repl.md)
 
-### Details
+### Blog posts
 
 - Read my [blog post](http://hardmath123.github.io/earley.html) to learn more
   about the algorithm.
