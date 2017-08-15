@@ -525,7 +525,7 @@ can include in webpages, documentation, and even papers.
 $ nearley-railroad regex.ne -o grammar.html
 ```
 
-![Railroad demo](www/railroad-demo.png)
+![Railroad demo](/www/railroad-demo.png)
 
 See a bigger example [here](http://nearley.js.org/www/railroad-demo.html).
 
@@ -585,10 +585,10 @@ examples, we also have experimental parsers for **CSV** and **Lua**.
 
 ### Documentation
 
-- [Best practices for writing grammars](docs/how-to-grammar-good.md)
-- [More on tokenizers](docs/custom-tokens-and-lexers.md)
-- [Accessing the internal parse table](docs/accessing-parse-table.md)
-- [Using `nearleyc` in browsers](docs/using-in-frontend.md)
+- [Best practices for writing grammars](how-to-grammar-good.html)
+- [More on tokenizers](custom-tokens-and-lexers.html)
+- [Accessing the internal parse table](accessing-parse-table.html)
+- [Using `nearleyc` in browsers](using-in-frontend.html)
 
 ### Recipes
 
