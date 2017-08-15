@@ -15,20 +15,22 @@ const grammar = compileGrammar("main -> foo | bar");
 const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 
 function compileGrammar(sourceCode) {
-    // Oh boy, here we go. We're gonna do what `nearleyc` does.
-
-    // Parse the custom grammar into AST as a nearley grammar.
-    const grammarParser = new nearley.Parser(nearleyGrammar.ParserRules, nearleyGrammar.ParserStart);
+    // Parse the grammar source into an AST
+    const grammarParser = new nearley.Parser(
+        nearleyGrammar.ParserRules,
+        nearleyGrammar.ParserStart
+    );
     grammarParser.feed(sourceCode);
-    const grammarAst = grammarParser.results[0];
+    const grammarAst = grammarParser.results[0]; // TODO check for errors
 
-    // Compile the custom grammar into JS.
-    const grammarInfoObject = compile(grammarAst, {}); // Returns an object with rules, etc.
-    const grammarJs = generate(grammarInfoObject, "grammar"); // Stringifies that object into JS.
+    // Compile the AST into a set of rules
+    const grammarInfoObject = compile(grammarAst, {});
+    // Generate JavaScript code from the rules
+    const grammarJs = generate(grammarInfoObject, "grammar");
 
-    // `nearleyc` would save JS to a file and you'd require it, but in a browser we can only eval.
-    const module = { exports: {} }; // Pretend this is a CommonJS environment to catch exports from the grammar.
-    eval(grammarJs); // Evaluated code sees everything in the lexical scope, it can see `module`.
+    // Pretend this is a CommonJS environment to catch exports from the grammar.
+    const module = { exports: {} };
+    eval(grammarJs);
 
     return module.exports;
 }
