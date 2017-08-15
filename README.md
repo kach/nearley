@@ -649,19 +649,12 @@ examples, we also have experimental parsers for **CSV** and **Lua**.
 
 ## Contributing
 
-Tests live in `test/` and can be called with `npm test`. Please run the
-benchmarks before and after your changes: parsing is tricky, and small changes
-can kill efficiency. We learned this the hard way!
+Please read [this document](.github/CONTRIBUTING.md) *before* working on
+nearley. If you are interested in contributing but unsure where to start, take
+a look at the issues labeled "up for grabs" on the issue tracker, or message a
+maintainer.
 
-If you're looking for something to do, here's a short list of things that would
-make me happy:
-
-- Optimize. There are still plenty of optimizations that an enterprising
-  JS-savant could implement.
-- Help build the builtins library by PRing in your favorite primitives.
-- Solutions to issues labeled "up for grabs" on the issue tracker.
-
-Nearley is MIT licensed.
+nearley is MIT licensed.
 
 A big thanks to Nathan Dinsmore for teaching me how to Earley, Aria Stewart for
 helping structure nearley into a mature module, and Robin Windels for
