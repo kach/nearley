@@ -1,4 +1,4 @@
-# Using the nearley compiler in browsers
+## Using the nearley compiler in browsers
 
 Both the nearley parser and compiled grammars work in browsers; simply include
 `nearley.js` and your compiled `grammar.js` file in `<script>` tags and use

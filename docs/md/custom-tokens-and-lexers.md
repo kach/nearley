@@ -1,6 +1,8 @@
-# Custom tokens and lexers
+## Custom tokens and lexers
 
-## Custom token matchers
+There are two ways nearley can parse token streams.
+
+### Custom token matchers
 
 Aside from the lexer infrastructure, nearley provides a lightweight way to
 parse arbitrary streams.
@@ -23,7 +25,7 @@ main -> %tokenPrint %tokenNumber ";;"
 # parser.feed(["print", 12, ";;"]);
 ```
 
-## Custom lexers
+### Custom lexers
 
 nearley recommends using a [moo](https://github.com/tjvr/moo)-based lexer.
 However, you can use any lexer that conforms to the following interface:

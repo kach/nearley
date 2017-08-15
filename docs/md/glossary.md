@@ -1,5 +1,4 @@
-Glossary
---------
+## Glossary
 
 Parsing terminology gets very confusing very quickly. Here is a glossary that
 can help us all communicate more effectively.
