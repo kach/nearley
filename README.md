@@ -285,39 +285,6 @@ typescript` at the top of your grammar file. This can be useful to write your
 postprocessors in a different language, and to get type annotations if you wish
 to use nearley in a statically typed dialect of JavaScript.
 
-### Catching errors
-
-nearley is a *streaming* parser: you can keep feeding it more strings. This
-means that there are two error scenarios in nearley.
-
-Consider the simple parser below for the examples to follow.
-
-```js
-main -> "Cow goes moo." {% function(d) {return "yay!"; } %}
-```
-
-If there are no possible parsings given the current input, but in the *future*
-there *might* be results if you feed it more strings, then nearley will
-temporarily set the `results` array to the empty array, `[]`.
-
-```js
-parser.feed("Cow ");  // parser.results is []
-parser.feed("goes "); // parser.results is []
-parser.feed("moo.");  // parser.results is ["yay!"]
-```
-
-If there are no possible parsings, and there is no way to "recover" by feeding
-more data, then nearley will throw an error whose `offset` property is the
-index of the offending token.
-
-```js
-try {
-    parser.feed("Cow goes% moo.");
-} catch(parseError) {
-    console.log("Error at character " + parseError.offset); // "Error at character 9"
-}
-```
-
 ### More syntax: tips and tricks
 
 #### Comments
@@ -428,10 +395,44 @@ main -> cow:+
 ```
 
 See the [`builtin/`](builtin) directory for more details. Contributions are
-welcome here!
+welcome!
 
 Including a file imports *all* of the nonterminals defined in it, as well as
-any JS, macros, and config options defined there.
+any JS, macros, and configuration options defined there.
+
+## Catching errors
+
+nearley is a *streaming* parser: you can keep feeding it more strings. This
+means that there are two error scenarios in nearley.
+
+Consider the simple parser below for the examples to follow.
+
+```js
+main -> "Cow goes moo." {% function(d) {return "yay!"; } %}
+```
+
+If there are no possible parsings given the current input, but in the *future*
+there *might* be results if you feed it more strings, then nearley will
+temporarily set the `results` array to the empty array, `[]`.
+
+```js
+parser.feed("Cow ");  // parser.results is []
+parser.feed("goes "); // parser.results is []
+parser.feed("moo.");  // parser.results is ["yay!"]
+```
+
+If there are no possible parsings, and there is no way to "recover" by feeding
+more data, then nearley will throw an error whose `offset` property is the
+index of the offending token.
+
+```js
+try {
+    parser.feed("Cow goes% moo.");
+} catch(parseError) {
+    console.log("Error at character " + parseError.offset); // "Error at character 9"
+}
+```
+
 
 ## Tokenizers
 
@@ -646,4 +647,3 @@ bug with nullables.
 - A [nearley
   tutorial](https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e)
   written by @gajus.
-
