@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>nearley.js - JS Parsing Toolkit</title>
+        <meta charset="utf-8"/>
+        <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
+        <link href='https://fonts.googleapis.com/css?family=Roboto:300,700'
+              rel='stylesheet' type='text/css'/>
+        <link rel="stylesheet" type="text/css" href="/www/main.css"/>
+    </head>
+    <body>
+        <a href="https://github.com/Hardmath123/nearley" class="github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+        <div id="main" class="center">
+            <h1><a href="/">nearley<span style="color: #559;">.js</span><span id="version">2.10.4</span></a></h1>
+<h2 id="glossary">Glossary</h2>
+<p>Parsing terminology gets very confusing very quickly. Here is a glossary that
+can help us all communicate more effectively.</p>
+<p><strong>token</strong>: the smallest meaningful unit (the “words”) of your language</p>
+<p><strong>lexer</strong>: a function that converts a sequence of <em>characters</em> to a sequence of
+<em>tokens</em> (converts a sequence of letters and spaces to a sequence of words)</p>
+<p><strong>string</strong>: a sequence of <em>tokens</em></p>
+<p><strong>concatenation</strong>: joining two strings by appending one to the other</p>
+<p><strong>language</strong>: a set of <em>strings</em></p>
+<p><strong>production rule</strong>: a set of <em>strings</em> specified as a sequence of <em>symbols</em>,
+such that the rule matches a string if it is a <em>concatenation</em> of strings
+matched by the respective symbols</p>
+<p><strong>symbol</strong>: a generic term for a member of a <em>production rule</em>, either a
+<em>nonterminal</em> or a <em>terminal</em></p>
+<p><strong>nonterminal</strong>: a <em>symbol</em> that specifies a set of other <em>production rules</em>
+that match</p>
+<p><strong>terminal</strong>: a <em>symbol</em> that directly specifies a set of <em>tokens</em> that match</p>
+<p><strong>context-free grammar</strong>: a set of <em>production rules</em> that together specify a
+<em>language</em></p>
+<p><strong>context-free language</strong>: a <em>language</em> that can be specified by a
+<em>context-free grammar</em></p>
+<p><strong>Backus-Naur Form</strong>: a set of conventions for describing and typesetting
+context-free grammars</p>
+<p><strong>recognizer</strong>: a function that takes a <em>grammar</em> and a <em>string</em> and sees if
+the grammar matches the string (it just says “yes” or “no”)</p>
+<p><strong>parser</strong>: a function that takes a <em>grammar</em> and a <em>string</em> and returns a
+<em>derivation</em> of that string from that grammar</p>
+<p><strong>derivation</strong>: a way to apply the production rules of a <em>grammar</em> recursively
+to obtain a <em>string</em></p>
+<p><strong>parse tree</strong>: a representation of a <em>derivation</em> as a tree</p>
+<p><strong>abstract syntax tree (AST)</strong>: a version of a <em>parse tree</em> that has undergone
+some <em>postprocessors</em> to simplify it (for example, an AST is likely to omit
+whitespace)</p>
+<p><strong>preprocessor</strong>: the dialect of JavaScript targeted by <code>nearleyc</code>; for
+example, you can emit TypeScript code instead of plain JavaScript (not to be
+confused with <em>postprocessor</em>)</p>
+<p><strong>postprocessor</strong>: a function associated with a production rule, whose purpose
+is to transform a <em>parse tree</em> into an AST, making simplifications along the
+way — for example, by omitting whitespace (not to be confused with
+<em>preprocessor</em>)</p>
+<p><strong>ambiguity</strong>: a situation where there exist more than one <em>derivations</em> for a
+single <em>string</em> — unlike most <em>parser</em> libraries, <em>nearley</em> returns all
+possible derivations</p>
+<p><strong>Earley algorithm</strong>: a <em>parsing</em> algorithm developed by Jay Earley in 1968,
+which can efficiently parse all <em>context-free grammars</em></p>
+<p><strong>Earley table</strong>: the intermediate data structure created by the Earley
+algorithm, where each new token creates a new column</p>
+<p><strong>Leo optimization</strong>: a trick we can use to optimize right-recursion, making it
+just as efficient to parse as <em>left-recursion</em></p>
+<p><strong>left-recursion</strong>: a situation where a nonterminal refers to a production rule
+whose first symbol matches the same nonterminal</p>
+<p><strong>epsilon</strong>: the empty <em>production rule</em>, matching only the empty string</p>
+<p><strong>nullable rule</strong>: a <em>production rule</em> that matches the empty string, even
+though it is not necessarily equal to the <em>epsilon</em> rule (for example, the
+<em>concatenation</em> of epsilon with epsilon)</p>
+<p><strong>nearley</strong>: a <em>parser</em> that parses <em>context-free languages</em>, along with
+several additional utilities for building languages</p>
+
+            <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a
+            href="http://hardmath123.github.io">Hardmath123</a> (<a
+            href="http://github.com/Hardmath123">Github</a>). You're welcome to
+            leave questions, comments, advice, or ideas as Github issues. And
+            feel free to fork nearley with your own experiments!<br/>
+            
+            <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
+            <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
+        </div>
+    </body>
+</html>
