@@ -403,7 +403,8 @@ any JS, macros, and configuration options defined there.
 
 ## Using a parser: the nearley API
 
-Once you have compiled a `grammar.ne` file to a `grammar.js` module, you can then use nearley to instantiate a `Parser` object.
+Once you have compiled a `grammar.ne` file to a `grammar.js` module, you can
+then use nearley to instantiate a `Parser` object.
 
 ```js
 const nearley = require("nearley");
@@ -413,7 +414,9 @@ const grammar = require("./grammar.js");
 const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 ```
 
-Once you have a `Parser`, you can `.feed` it a string to parse. Since nearley is a *streaming* parser, you can feed strings more than once. For example, a REPL might feed the parser lines of code as the user enters them:
+Once you have a `Parser`, you can `.feed` it a string to parse. Since nearley
+is a *streaming* parser, you can feed strings more than once. For example, a
+REPL might feed the parser lines of code as the user enters them:
 
 ```js
 // Parse something!
@@ -431,14 +434,19 @@ console.log(parser.results);
 // [{'type': 'if', 'condition': ..., 'body': ...}]
 ```
 
-Why is it an array? Sometimes, a grammar can parse a particular string in multiple different ways. For example, the following grammar parses the string `"xyz"` in two different ways.
+Why is it an array? Sometimes, a grammar can parse a particular string in
+multiple different ways. For example, the following grammar parses the string
+`"xyz"` in two different ways.
 
 ```js
 x -> "xy" "z"
    | "x" "yz"
 ```
 
-Such grammars are *ambiguous*. nearley provides you with *all* the parsings. In most cases, however, your grammars should not be ambiguous (parsing ambiguous grammars is inefficient!). Thus, the most common usage is to simply query `parser.results[0]`.
+Such grammars are *ambiguous*. nearley provides you with *all* the parsings. In
+most cases, however, your grammars should not be ambiguous (parsing ambiguous
+grammars is inefficient!). Thus, the most common usage is to simply query
+`parser.results[0]`.
 
 ### Catching errors
 
