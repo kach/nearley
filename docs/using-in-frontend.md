@@ -18,16 +18,9 @@ const compile = require("nearley/lib/compile");
 const generate = require("nearley/lib/generate");
 const nearleyGrammar = require("nearley/lib/nearley-language-bootstrapped");
 
-const grammar = compileGrammar("main -> foo | bar");
-
-const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
-
 function compileGrammar(sourceCode) {
     // Parse the grammar source into an AST
-    const grammarParser = new nearley.Parser(
-        nearleyGrammar.ParserRules,
-        nearleyGrammar.ParserStart
-    );
+    const grammarParser = new nearley.Parser(nearleyGrammar);
     grammarParser.feed(sourceCode);
     const grammarAst = grammarParser.results[0]; // TODO check for errors
 
@@ -42,4 +35,8 @@ function compileGrammar(sourceCode) {
 
     return module.exports;
 }
+
+const grammar = compileGrammar("main -> foo | bar");
+
+const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 ```
