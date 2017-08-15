@@ -152,9 +152,7 @@ console.log(parser.results); // [[[[ "foo" ],"\n" ]]]
 
 ## Writing a parser
 
-Let's explore the building blocks of a nearley parser.
-
-### Terminals, nonterminals, rules
+### Vocabulary
 
 - A *terminal* is a string or a token. For example, the keyword `"if"` is a
   terminal.
@@ -162,18 +160,23 @@ Let's explore the building blocks of a nearley parser.
   example, an if statement defined as `"if" condition statement` is a
   nonteminal.
 - A *rule* (or production rule) is a definition of a nonterminal. For example,
-  `"if" condition "then" statement "endif"` is the rule according to which the
-  if statement nonterminal is parsed.
+  `ifStatement -> "if" condition "then" statement "endif"` is the rule
+  according to which the if statement nonterminal is parsed.
 
-The first nonterminal of the grammar is the one the whole input must match.
-With the following grammar, nearley will try to parse text as `expression`.
+By default, nearley attempts to parse the first nonterminal defined in the
+grammar. In the following grammar, nearley will try to parse input text as an
+`expression`.
 
 ```js
 expression -> number "+" number
+expression -> number "-" number
+expression -> number "*" number
+expression -> number "/" number
 number -> [0-9]:+
 ```
 
-Use the pipe character `|` to separate alternative rules for a nonterminal.
+You can use the pipe character `|` to separate alternative rules for a
+nonterminal. In the example below, `expression` has four different rules.
 
 ```js
 expression ->
@@ -188,12 +191,8 @@ following nonterminal matches zero or more `cow`s in a row, such as
 `cowcowcow`:
 
 ```js
-a -> null
-    | a "cow"
+a -> null | a "cow"
 ```
-
-Keep in mind that nearley syntax is not sensitive to formatting. You're welcome
-to keep rules on the same line: `foo -> bar | qux`.
 
 ### Postprocessors
 
