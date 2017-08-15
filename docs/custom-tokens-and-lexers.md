@@ -1,12 +1,16 @@
 # Custom tokens and lexers
 
-## Adding custom token matchers
+## Custom token matchers
 
-Sometimes you might want a more flexible way of matching tokens, whether you're using `@lexer` or not.
+Aside from the lexer infrastructure, nearley provides a lightweight way to
+parse arbitrary streams.
 
-Custom matchers can be defined in two ways: literal tokens and testable tokens. A
-literal token matches exactly, while a testable token runs a function to test
-whether it is a match or not.
+Custom matchers can be defined in two ways: *literal* tokens and *testable*
+tokens. A literal token matches a JS value exactly (with `===`), while a
+testable token runs a predicate that tests whether or not the value matches.
+
+Note that in this case, you would feed a `Parser` instance an *array* of
+objects rather than a string! Here is a simple example:
 
 ```coffeescript
 @{%
@@ -14,26 +18,24 @@ const tokenPrint = { literal: "print" };
 const tokenNumber = { test: x => Number.isInteger(x) };
 %}
 
-# Matches ["print", 12, ";;"] if the input is an array with those elements.
 main -> %tokenPrint %tokenNumber ";;"
+
+# parser.feed(["print", 12, ";;"]);
 ```
 
-## Writing a custom lexer
+## Custom lexers
 
-If you don't want to use [Moo](https://github.com/tjvr/moo), our recommended lexer/tokenizer, you can define your own. Either pass it using `@lexer myLexer` in the grammar, or in options to `Parser`:
+nearley recommends using a [moo](https://github.com/tjvr/moo)-based lexer.
+However, you can use any lexer that conforms to the following interface:
 
-```js
-const nearley = require("nearley");
-const grammar = require("./grammar");
-const myLexer = require("./lexer");
-
-const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar), { lexer: myLexer });
-```
-
-You lexer must have the following interface:
-
-- `next() -> Token` return e.g. `{type, value, line, col, …}`. Only the `value` attribute is required.
-- `save() -> Info` -> return an object describing the current line/col etc. This allows us to preserve this information between `feed()` calls, and also to support `Parser#rewind()`. The exact structure is lexer-specific; nearley doesn't care what's in it.
-- `reset(chunk, Info)`: set the internal buffer to `chunk`, and restore line/col/state info taken from `save()`.
-- `formatError(token)` -> return a string with an error message describing the line/col of the offending token. You might like to include a preview of the line in question.
-- `has(tokenType)` -> return true if the lexer can emit tokens with that name. Used to resolve `%`-specifiers in compiled nearley grammars.
+- `next()` returns a token object, which could have fields for line number,
+  etc. Importantly, a token object *must* have a `value` attribute.
+- `save()` returns an info object that describes the current state of the
+  lexer. nearley places no restrictions on this object.
+- `reset(chunk, info)` sets the internal buffer of the lexer to `chunk`, and
+  restores its state to a state returned by `save()`.
+- `formatError(token)` returns a string with an error message describing a
+  parse error at that token (for example, the string might contain the line and
+  column where the error was found).
+- `has(name)` returns true if the lexer can emit tokens with that name. This is
+  used to resolve `%`-specifiers in compiled nearley grammars.
