@@ -44,7 +44,7 @@ pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 
 - [Installation](#installation)
 - [Getting started: nearley in 3 steps](#getting-started-nearley-in-3-steps)
-- [Writing a parser](#writing-a-parser)
+- [Writing a parser: the nearley grammar language](#writing-a-parser-the-nearley-grammar-language)
   - [Vocabulary](#vocabulary)
   - [Postprocessors](#postprocessors)
     - [Target languages](#target-languages)
