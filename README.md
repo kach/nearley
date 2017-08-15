@@ -56,6 +56,7 @@ pick](https://www.npmjs.com/package/npm-collection-staff-picks).
   - [Macros](#macros)
   - [Additional JS](#additional-js)
   - [Importing other grammars](#importing-other-grammars)
+- [Using a parser: the nearley API](#using-a-parser-the-nearley-api)
 - [Catching errors](#catching-errors)
 - [Tokenizers](#tokenizers)
 - [Tools](#tools)
