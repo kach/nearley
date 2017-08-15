@@ -45,7 +45,7 @@ pick](https://www.npmjs.com/package/npm-collection-staff-picks).
 - [Installation](#installation)
 - [Getting started: nearley in 3 steps](#getting-started-nearley-in-3-steps)
 - [Writing a parser](#writing-a-parser)
-  - [Terminals, nonterminals, rules](#terminals-nonterminals-rules)
+  - [Vocabulary](#vocabulary)
   - [Postprocessors](#postprocessors)
     - [Target languages](#target-languages)
   - [Catching errors](#catching-errors)
