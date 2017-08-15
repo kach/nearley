@@ -16,8 +16,8 @@ can help us all communicate more effectively.
 **language**: a set of *strings*
 
 **production rule**: a set of *strings* specified as a sequence of *symbols*,
-such that the rule matches a string if it is a concatenation of strings matched
-by the respective symbols
+such that the rule matches a string if it is a *concatenation* of strings
+matched by the respective symbols
 
 **symbol**: a generic term for a member of a *production rule*, either a
 *nonterminal* or a *terminal*
