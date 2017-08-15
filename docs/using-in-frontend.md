@@ -1,4 +1,4 @@
-# Using nearley in browsers
+# Using the nearley compiler in browsers
 
 Use a tool like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/) to include the `nearley` NPM package in your browser code.
 
