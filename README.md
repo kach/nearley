@@ -440,7 +440,7 @@ x -> "xy" "z"
 
 Such grammars are *ambiguous*. nearley provides you with *all* the parsings. In most cases, however, your grammars should not be ambiguous (parsing ambiguous grammars is inefficient!). Thus, the most common usage is to simply query `parser.results[0]`.
 
-## Catching errors
+### Catching errors
 
 nearley is a *streaming* parser: you can keep feeding it more strings. This
 means that there are two error scenarios in nearley.
@@ -474,7 +474,7 @@ try {
 ```
 
 
-## Tokenizers
+### Tokenizers
 
 By default, nearley splits the input into a stream of characters. This is
 called *scannerless* parsing.
