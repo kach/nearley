@@ -76,9 +76,11 @@ just as efficient to parse as *left-recursion*
 **left-recursion**: a situation where a nonterminal refers to a production rule
 whose first symbol matches the same nonterminal
 
-**epsilon**: the empty production rule, matching only the empty string
+**epsilon**: the empty *production rule*, matching only the empty string
 
-**nullable rule**: a production rule that matches the empty string
+**nullable rule**: a *production rule* that matches the empty string, even
+though it is not necessarily equal to the *epsilon* rule (for example, the
+*concatenation* of epsilon with epsilon)
 
 **nearley**: a *parser* that parses *context-free languages*, along with
 several additional utilities for building languages
