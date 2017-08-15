@@ -8,6 +8,16 @@ body {
     border-bottom: 0.1em #559 solid;
 }
 
+#main a {
+    color: #55a;
+}
+#main a:visited {
+    color: #55a;
+}
+#main a:hover {
+    color: #259;
+}
+
 h1 {
     font-size: 1.6em;
     font-weight: 100;
@@ -15,6 +25,15 @@ h1 {
     text-align: center;
     margin-top: 3em;
     margin-bottom: 3em;
+}
+
+h1 a {
+    text-decoration: none;
+}
+
+h1:hover {
+    color: #559;
+    cursor: pointer;
 }
 
 #version {
@@ -33,6 +52,12 @@ h1 {
 h2 {
     margin-top: 4em;
 }
+h3 {
+    margin-top: 3em;
+}
+h4 {
+    margin-top: 3em;
+}
 
 .center {
     padding-left: 2em;
@@ -50,8 +75,8 @@ h2 {
 }
 
 #main li {
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 ul li {
@@ -63,16 +88,6 @@ ul li:before {
     content: "\2014";
     margin-left: -1.5em;
     width: 1.5em;
-}
-
-#main a {
-    color: #55a;
-}
-#main a:visited {
-    color: #55a;
-}
-#main a:hover {
-    color: #259;
 }
 
 #main textarea {
@@ -118,16 +133,21 @@ img + .caption {
 }
 
 code {
-    overflow: scroll;
-    border-radius: 0.5em;
-    padding: 0.5em;
-    background-color: #559;
-    color: white;
-    text-shadow: 0em 0em 0.2em black;
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+    padding: 0.2em;
+    border-radius: 0.2em;
+    background-color: #eee;
 }
 
 pre code {
+    border-radius: 0.5em;
+    //background-color: #559;
+    //color: white;
+    //text-shadow: 0em 0em 0.2em black;
+    padding: 0.5em;
     display: block;
+    overflow: auto;
 }
 
 
