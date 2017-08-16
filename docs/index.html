@@ -83,14 +83,19 @@ modules.</p>
 repository</a>.</p>
 <h3 id="vocabulary">Vocabulary</h3>
 <ul>
-<li>A <em>terminal</em> is a string or a token. For example, the keyword <code>&quot;if&quot;</code> is a
-terminal.</li>
-<li>A <em>nonterminal</em> is a combination of terminals and other nonterminals. For
-example, an if statement defined as <code>&quot;if&quot; condition statement</code> is a
-nonteminal.</li>
-<li>A <em>rule</em> (or production rule) is a definition of a nonterminal. For example,
-<code>ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;endif&quot;</code> is the rule
-according to which the if statement nonterminal is parsed.</li>
+<li>A <em>terminal</em> is a single, constant string or a token. For example, the
+keyword <code>&quot;if&quot;</code> is a terminal.</li>
+<li>A <em>nonterminal</em> describes a set of possible strings. For example, all “if”
+statements can be described by a single nonterminal whose value depends on
+the condition and body of the if statement.</li>
+<li>A <em>rule</em> (or production rule) is a definition of a nonterminal. For example,<pre><code class="lang-js">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;endif&quot;
+</code></pre>
+is the rule according to which the if statement nonterminal, <code>ifStatement</code>,
+is parsed. It depends on the nonterminals <code>condition</code> and <code>statement</code>. A
+nonterminal can be described by multiple rules. For example, we can add a
+second rule<pre><code class="lang-js">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;else&quot; statement &quot;endif&quot;
+</code></pre>
+to support “else” clauses.</li>
 </ul>
 <p>By default, nearley attempts to parse the first nonterminal defined in the
 grammar. In the following grammar, nearley will try to parse input text as an

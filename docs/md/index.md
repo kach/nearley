@@ -88,14 +88,23 @@ repository](http://github.com/Hardmath123/nearley).
 
 ### Vocabulary
 
-- A *terminal* is a string or a token. For example, the keyword `"if"` is a
-  terminal.
-- A *nonterminal* is a combination of terminals and other nonterminals. For
-  example, an if statement defined as `"if" condition statement` is a
-  nonteminal.
+- A *terminal* is a single, constant string or a token. For example, the
+  keyword `"if"` is a terminal.
+- A *nonterminal* describes a set of possible strings. For example, all "if"
+  statements can be described by a single nonterminal whose value depends on
+  the condition and body of the if statement.
 - A *rule* (or production rule) is a definition of a nonterminal. For example,
-  `ifStatement -> "if" condition "then" statement "endif"` is the rule
-  according to which the if statement nonterminal is parsed.
+  ```js
+  ifStatement -> "if" condition "then" statement "endif"
+  ```
+  is the rule according to which the if statement nonterminal, `ifStatement`,
+  is parsed. It depends on the nonterminals `condition` and `statement`. A
+  nonterminal can be described by multiple rules. For example, we can add a
+  second rule
+  ```js
+  ifStatement -> "if" condition "then" statement "else" statement "endif"
+  ```
+  to support "else" clauses.
 
 By default, nearley attempts to parse the first nonterminal defined in the
 grammar. In the following grammar, nearley will try to parse input text as an
