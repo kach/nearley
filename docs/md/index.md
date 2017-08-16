@@ -543,36 +543,36 @@ tabatkins.)
 are not distributed with nearley, so if you have problems, please contact the
 respective author for support instead of opening an issue with nearley.*
 
-Atom users can write nearley grammars with [this
+**Atom** users can write nearley grammars with [this
 plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
 
-Sublime Text users can write nearley grammars with [this
+**Sublime Text** users can write nearley grammars with [this
 syntax](https://github.com/liam4/nearley-syntax-sublime) by liam4.
 
-Vim users can use [this plugin](https://github.com/andres-arana/vim-nearley) by
-Andrés Arana.
+**Vim** users can use [this
+plugin](https://github.com/andres-arana/vim-nearley) by Andrés Arana.
 
-Visual Studio Code users can use [this
+**Visual Studio Code** users can use [this
 extension](https://github.com/karyfoundation/nearley-vscode) by Pouya Kary.
 
-Python users can convert nearley grammars to Python using
+**Python** users can convert nearley grammars to Python using
 [lark](https://github.com/erezsh/lark#how-to-use-nearley-grammars-in-lark) by
 Erez.
 
-Node users can programmatically access the unparser using
+**Node** users can programmatically access the unparser using
 [nearley-there](https://github.com/stolksdorf/nearley-there) by Scott
 Tolksdorf.
 
-Browser users can use
+**Browser** users can use
 [nearley-playground](https://omrelli.ug/nearley-playground/) by Guillermo
 Webster to explore nearley interactively in the browser. There is also a [Mac
 app](https://github.com/pmkary/nearley-playground-mac) by Pouya Kary.
 
-Webpack users can use
+**Webpack** users can use
 [nearley-loader](https://github.com/kozily/nearley-loader) by Andrés Arana to
 load grammars directly.
 
-Gulp users can use
+**Gulp** users can use
 [gulp-nearley](https://github.com/JosephJNK/gulp-nearley) by Joseph Junker to
 compile grammars with a gulpfile.
 
