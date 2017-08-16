@@ -555,6 +555,9 @@ respective author for support instead of opening an issue with nearley.*
 **Atom** users can write nearley grammars with [this
 plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
 
+**TextMate** and **Sublime Text** users can use [this
+language](https://github.com/Hardmath123/sublime-nearley) by yours truly.
+
 **Sublime Text** users can write nearley grammars with [this
 syntax](https://github.com/liam4/nearley-syntax-sublime) by liam4.
 
