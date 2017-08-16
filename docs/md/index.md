@@ -558,8 +558,9 @@ plugin](https://github.com/bojidar-bg/nearley-grammar) by Bojidar Marinov.
 **Sublime Text** users can write nearley grammars with [this
 syntax](https://github.com/liam4/nearley-syntax-sublime) by liam4.
 
-**Vim** users can use [this
-plugin](https://github.com/andres-arana/vim-nearley) by Andrés Arana.
+**Vim** users can use [this plugin](https://github.com/tjvr/vim-nearley) by Tim
+(based on [this older plugin](https://github.com/andres-arana/vim-nearley) by
+Andrés Arana).
 
 **Visual Studio Code** users can use [this
 extension](https://github.com/karyfoundation/nearley-vscode) by Pouya Kary.
