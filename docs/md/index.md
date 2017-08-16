@@ -82,6 +82,10 @@ grammars for nearley to parse. Grammars are conventionally kept in `.ne` files.
 You can then use `nearleyc` to compile your `.ne` grammars to JavaScript
 modules.
 
+You can find many examples of nearley grammars online, as well as some in the
+`examples/` directory of the [Github
+repository](http://github.com/Hardmath123/nearley).
+
 ### Vocabulary
 
 - A *terminal* is a string or a token. For example, the keyword `"if"` is a
@@ -571,15 +575,6 @@ load grammars directly.
 Gulp users can use
 [gulp-nearley](https://github.com/JosephJNK/gulp-nearley) by Joseph Junker to
 compile grammars with a gulpfile.
-
-## Still confused?
-
-You can read [the calculator example](examples/calculator/arithmetic.ne) to get
-a feel for the syntax (see it live
-[here](http://hardmath123.github.io/nearley/examples/calculator/)). You can
-read a grammar for [tosh](https://tosh.tjvr.org) over [here](examples/tosh.ne).
-There are more sample grammars in the `/examples` directory. For larger
-examples, we also have experimental parsers for **CSV** and **Lua**.
 
 ## Further reading
 

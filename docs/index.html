@@ -78,6 +78,9 @@ console.log(parser.results); // [[[[ &quot;foo&quot; ],&quot;\n&quot; ]]]
 grammars for nearley to parse. Grammars are conventionally kept in <code>.ne</code> files.
 You can then use <code>nearleyc</code> to compile your <code>.ne</code> grammars to JavaScript
 modules.</p>
+<p>You can find many examples of nearley grammars online, as well as some in the
+<code>examples/</code> directory of the <a href="http://github.com/Hardmath123/nearley">Github
+repository</a>.</p>
 <h3 id="vocabulary">Vocabulary</h3>
 <ul>
 <li>A <em>terminal</em> is a string or a token. For example, the keyword <code>&quot;if&quot;</code> is a
@@ -430,13 +433,6 @@ load grammars directly.</p>
 <p>Gulp users can use
 <a href="https://github.com/JosephJNK/gulp-nearley">gulp-nearley</a> by Joseph Junker to
 compile grammars with a gulpfile.</p>
-<h2 id="still-confused-">Still confused?</h2>
-<p>You can read <a href="examples/calculator/arithmetic.ne">the calculator example</a> to get
-a feel for the syntax (see it live
-<a href="http://hardmath123.github.io/nearley/examples/calculator/">here</a>). You can
-read a grammar for <a href="https://tosh.tjvr.org">tosh</a> over <a href="examples/tosh.ne">here</a>.
-There are more sample grammars in the <code>/examples</code> directory. For larger
-examples, we also have experimental parsers for <strong>CSV</strong> and <strong>Lua</strong>.</p>
 <h2 id="further-reading">Further reading</h2>
 <h3 id="documentation">Documentation</h3>
 <ul>
