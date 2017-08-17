@@ -40,7 +40,7 @@ This actually adds several new commands to your `$PATH`:
 
 These are documented on the [tooling page](tooling.html).
 
-> NOTE: If you're not ready to install nearley yet, you can follow along in
+> Note: If you're not ready to install nearley yet, you can follow along in
 > your browser using the [nearley
 > playground](https://omrelli.ug/nearley-playground/), an online interface for
 > exploring nearley grammars interactively.
@@ -489,25 +489,12 @@ ifStatement -> "if" condition "then" block
 You use the parser as usual: call `parser.feed(data)`, and nearley will give
 you the parsed results in return.
 
-## Further reading
+### Further reading
 
-### Documentation
-
-- [Best practices for writing grammars](how-to-grammar-good.html)
-- [More on tokenizers](custom-tokens-and-lexers.html)
-- [Accessing the internal parse table](accessing-parse-table.html)
-- [Using `nearleyc` in browsers](using-in-frontend.html)
-
-### Recipes
-
-- [Writing an indentation-aware (Python-like) lexer](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa)
-
-### Blog posts
-
+- Take a look at a [nearley
+  tutorial](https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e)
+  written by @gajus.
 - Read my [blog post](http://hardmath123.github.io/earley.html) to learn more
   about the algorithm.
 - Read about [Marpa](http://savage.net.au/Marpa.html) to
   learn more than you ever thought you wanted to know about parsing.
-- A [nearley
-  tutorial](https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e)
-  written by @gajus.

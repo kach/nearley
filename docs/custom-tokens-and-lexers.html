@@ -68,6 +68,11 @@ column where the error was found).</li>
 <li><code>has(name)</code> returns true if the lexer can emit tokens with that name. This is
 used to resolve <code>%</code>-specifiers in compiled nearley grammars.</li>
 </ul>
+<blockquote>
+<p>Note: if you are searching for a lexer that allows indentation-aware
+grammars (like in Python), you can still use moo. See <a href="https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa">this
+example</a></p>
+</blockquote>
 
 
             <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a

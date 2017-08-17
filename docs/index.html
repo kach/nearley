@@ -31,9 +31,7 @@
                         <li class="page-heading"><a href="#a-note-on-ambiguity">A note on ambiguity</a>
                         <li class="page-heading"><a href="#catching-errors">Catching errors</a>
                         <li class="page-heading"><a href="#tokenizers">Tokenizers</a>
-                        <li class="page-heading"><a href="#documentation">Documentation</a>
-                        <li class="page-heading"><a href="#recipes">Recipes</a>
-                        <li class="page-heading"><a href="#blog-posts">Blog posts</a>
+                        <li class="page-heading"><a href="#further-reading">Further reading</a>
                     </ul>
                 </li>
                 <li class="page"><a href="/docs/tooling">Tooling</a>
@@ -73,7 +71,7 @@ is mainly helpful for creating documentation, as (for example) on json.org.</li>
 </ul>
 <p>These are documented on the <a href="tooling.html">tooling page</a>.</p>
 <blockquote>
-<p>NOTE: If you’re not ready to install nearley yet, you can follow along in
+<p>Note: If you’re not ready to install nearley yet, you can follow along in
 your browser using the <a href="https://omrelli.ug/nearley-playground/">nearley
 playground</a>, an online interface for
 exploring nearley grammars interactively.</p>
@@ -396,27 +394,15 @@ This is convenient for matching keywords.</p>
 </code></pre>
 <p>You use the parser as usual: call <code>parser.feed(data)</code>, and nearley will give
 you the parsed results in return.</p>
-<h2 id="further-reading">Further reading</h2>
-<h3 id="documentation">Documentation</h3>
+<h3 id="further-reading">Further reading</h3>
 <ul>
-<li><a href="how-to-grammar-good.html">Best practices for writing grammars</a></li>
-<li><a href="custom-tokens-and-lexers.html">More on tokenizers</a></li>
-<li><a href="accessing-parse-table.html">Accessing the internal parse table</a></li>
-<li><a href="using-in-frontend.html">Using <code>nearleyc</code> in browsers</a></li>
-</ul>
-<h3 id="recipes">Recipes</h3>
-<ul>
-<li><a href="https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa">Writing an indentation-aware (Python-like) lexer</a></li>
-</ul>
-<h3 id="blog-posts">Blog posts</h3>
-<ul>
+<li>Take a look at a <a href="https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e">nearley
+tutorial</a>
+written by @gajus.</li>
 <li>Read my <a href="http://hardmath123.github.io/earley.html">blog post</a> to learn more
 about the algorithm.</li>
 <li>Read about <a href="http://savage.net.au/Marpa.html">Marpa</a> to
 learn more than you ever thought you wanted to know about parsing.</li>
-<li>A <a href="https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e">nearley
-tutorial</a>
-written by @gajus.</li>
 </ul>
 
 

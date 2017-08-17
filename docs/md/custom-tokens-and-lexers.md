@@ -43,3 +43,7 @@ However, you can use any lexer that conforms to the following interface:
   column where the error was found).
 - `has(name)` returns true if the lexer can emit tokens with that name. This is
   used to resolve `%`-specifiers in compiled nearley grammars.
+
+> Note: if you are searching for a lexer that allows indentation-aware
+> grammars (like in Python), you can still use moo. See [this
+> example](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa)
