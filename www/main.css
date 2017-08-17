@@ -194,6 +194,7 @@ input[type="text"]:focus {
 nav {
     border-right: 1px solid #aaa;
     background: #fff;
+    overflow: auto;
 }
 nav ul {
     padding: 0;
