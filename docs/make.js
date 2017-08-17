@@ -28,7 +28,8 @@ Metalsmith(__dirname)
     property: 'paths'
   }))
   .use(collections({
-    docs: '*.md'
+    docs: '*.md',
+    sortBy: 'title',
   }))
   //.use(debug)
   .use(markdown({
