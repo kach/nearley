@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Installation - nearley.js - JS Parsing Toolkit</title>
+        <title>Getting started - nearley.js - JS Parsing Toolkit</title>
         <meta charset="utf-8"/>
         <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
         <link href='https://fonts.googleapis.com/css?family=Roboto:300,700'
@@ -17,10 +17,10 @@
             <ul>
                 <li class="page"><a href="/docs/accessing-parse-table">Accessing the parse table</a>
                 <li class="page"><a href="/docs/glossary">Glossary</a>
-                <li class="page"><a href="/docs/custom-tokens-and-lexers">Custom tokens and lexers</a>
                 <li class="page"><a href="/docs/how-to-grammar-good">How to grammar good</a>
+                <li class="page"><a href="/docs/custom-tokens-and-lexers">Custom tokens and lexers</a>
                 <li class="page">
-                    <a class="page-title-active">Installation</a>
+                    <a class="page-title-active">Getting started</a>
                     <ul>
                         <li class="page-heading"><a href="#vocabulary">Vocabulary</a>
                         <li class="page-heading"><a href="#postprocessors">Postprocessors</a>
@@ -31,26 +31,25 @@
                         <li class="page-heading"><a href="#a-note-on-ambiguity">A note on ambiguity</a>
                         <li class="page-heading"><a href="#catching-errors">Catching errors</a>
                         <li class="page-heading"><a href="#tokenizers">Tokenizers</a>
-                        <li class="page-heading"><a href="#nearley-test-exploring-a-parser-interactively">nearley-test: Exploring a parser interactively</a>
-                        <li class="page-heading"><a href="#nearley-unparse-the-unparser">nearley-unparse: The Unparser</a>
-                        <li class="page-heading"><a href="#nearley-railroad-automagical-railroad-diagrams">nearley-railroad: Automagical Railroad Diagrams</a>
-                        <li class="page-heading"><a href="#other-tools">Other Tools</a>
                         <li class="page-heading"><a href="#documentation">Documentation</a>
                         <li class="page-heading"><a href="#recipes">Recipes</a>
                         <li class="page-heading"><a href="#blog-posts">Blog posts</a>
                     </ul>
                 </li>
+                <li class="page"><a href="/docs/tooling">Tooling</a>
                 <li class="page"><a href="/docs/using-in-frontend">Compiling in browsers</a>
             </ul>
         </nav>
         <div id="main" class="center">
             <h1><a href="/">nearley<span style="color: #559;">.js</span><span id="version">2.10.4</span></a></h1>
 
-<h2>Installation</h2>
+<h2>Getting started</h2>
+<p>nearley consists of two components: a <em>compiler</em> and a <em>parser</em>.</p>
 <p>The nearley <em>compiler</em> converts grammar definitions from a simple
 <a href="https://en.wikipedia.org/wiki/Backus–Naur_form">BNF</a>-based syntax to a small
-JS module. You can use that module to construct a nearley <em>parser</em>, which
+JS module. You can then use that module to construct a nearley <em>parser</em>, which
 parses input strings.</p>
+<h2 id="installation">Installation</h2>
 <p>Both components are published as a single
 <a href="https://docs.npmjs.com/getting-started/what-is-npm">NPM</a> package compatible
 with <a href="https://nodejs.org/en/">Node.js</a> and most browsers.</p>
@@ -72,7 +71,7 @@ random strings that match your grammar.</li>
 <li><code>nearley-railroad</code> generates pretty railroad diagrams from your parser. This
 is mainly helpful for creating documentation, as (for example) on json.org.</li>
 </ul>
-<p>These are documented below.</p>
+<p>These are documented on the <a href="tooling.html">tooling page</a>.</p>
 <blockquote>
 <p>NOTE: If you’re not ready to install nearley yet, you can follow along in
 your browser using the <a href="https://omrelli.ug/nearley-playground/">nearley
@@ -397,81 +396,6 @@ This is convenient for matching keywords.</p>
 </code></pre>
 <p>You use the parser as usual: call <code>parser.feed(data)</code>, and nearley will give
 you the parsed results in return.</p>
-<h2 id="tools">Tools</h2>
-<p>As mentioned above, nearley ships with a host of tools.</p>
-<h3 id="nearley-test-exploring-a-parser-interactively">nearley-test: Exploring a parser interactively</h3>
-<p>A global install of nearley provides <code>nearley-test</code>, a simple command-line tool
-you can use to inspect what a parser is doing. You input a generated
-<code>grammar.js</code> file, and then give it some input to test the parser against.
-<code>nearley-test</code> prints out the output if successful, and optionally
-pretty-prints the internal parse table used by the algorithm. This is helpful
-to test a new parser.</p>
-<h3 id="nearley-unparse-the-unparser">nearley-unparse: The Unparser</h3>
-<p>The Unparser takes a (compiled) parser and outputs a random string that would
-be accepted by the parser.</p>
-<pre><code class="lang-bash">$ nearley-unparse -s number &lt;(nearleyc builtin/prims.ne)
--6.22E94
-</code></pre>
-<p>You can use the Unparser to…</p>
-<ul>
-<li>…test your parser specification by generating lots of random expressions
-and making sure all of them are “correct”.</li>
-<li>…generate random strings from a schema (for example, random email addresses
-or telephone numbers).</li>
-<li>…create fuzzers and combinatorial stress-testers.</li>
-<li>…play “Mad-Libs” automatically! (Practical application: automatic
-grammatically valid loremtext.)</li>
-</ul>
-<p>The Unparser outputs as a stream by continuously writing characters to its
-output pipe. So, if it “goes off the deep end” and generates a huge string, you
-will still see output scrolling by in real-time.</p>
-<p>To limit the size of the output, you can specify a bound on the depth with the
-<code>-d</code> flag. This switches the Unparser to a different algorithm. A larger depth
-bound corresponds to larger generated strings.</p>
-<p>As far as I know, nearley is the only parser generator with this feature. It
-is inspired by Roly Fentanes’ <a href="https://fent.github.io/randexp.js/">randexp</a>,
-which does the same thing with regular expressions.</p>
-<h3 id="nearley-railroad-automagical-railroad-diagrams">nearley-railroad: Automagical Railroad Diagrams</h3>
-<p>nearley lets you convert your grammars to pretty SVG railroad diagrams that you
-can include in webpages, documentation, and even papers.</p>
-<pre><code class="lang-bash">$ nearley-railroad regex.ne -o grammar.html
-</code></pre>
-<p><img src="/www/railroad-demo.png" alt="Railroad demo"></p>
-<p>See a bigger example <a href="http://nearley.js.org/www/railroad-demo.html">here</a>.</p>
-<p>(This feature is powered by
-<a href="https://github.com/tabatkins/railroad-diagrams"><code>railroad-diagrams</code></a> by
-tabatkins.)</p>
-<h3 id="other-tools">Other Tools</h3>
-<p><em>This section lists nearley tooling created by other developers. These tools
-are not distributed with nearley, so if you have problems, please contact the
-respective author for support instead of opening an issue with nearley.</em></p>
-<p><strong>Atom</strong> users can write nearley grammars with <a href="https://github.com/bojidar-bg/nearley-grammar">this
-plugin</a> by Bojidar Marinov.</p>
-<p><strong>TextMate</strong> and <strong>Sublime Text</strong> users can use <a href="https://github.com/Hardmath123/sublime-nearley">this
-language</a> by yours truly.</p>
-<p><strong>Sublime Text</strong> users can write nearley grammars with <a href="https://github.com/liam4/nearley-syntax-sublime">this
-syntax</a> by liam4.</p>
-<p><strong>Vim</strong> users can use <a href="https://github.com/tjvr/vim-nearley">this plugin</a> by Tim
-(based on <a href="https://github.com/andres-arana/vim-nearley">this older plugin</a> by
-Andrés Arana).</p>
-<p><strong>Visual Studio Code</strong> users can use <a href="https://github.com/karyfoundation/nearley-vscode">this
-extension</a> by Pouya Kary.</p>
-<p><strong>Python</strong> users can convert nearley grammars to Python using
-<a href="https://github.com/erezsh/lark#how-to-use-nearley-grammars-in-lark">lark</a> by
-Erez.</p>
-<p><strong>Node</strong> users can programmatically access the unparser using
-<a href="https://github.com/stolksdorf/nearley-there">nearley-there</a> by Scott
-Tolksdorf.</p>
-<p><strong>Browser</strong> users can use
-<a href="https://omrelli.ug/nearley-playground/">nearley-playground</a> by Guillermo
-Webster to explore nearley interactively in the browser. There is also a <a href="https://github.com/pmkary/nearley-playground-mac">Mac
-app</a> by Pouya Kary.</p>
-<p><strong>Webpack</strong> users can use
-<a href="https://github.com/kozily/nearley-loader">nearley-loader</a> by Andrés Arana to
-load grammars directly.</p>
-<p><strong>Gulp</strong> users can use
-<a href="https://github.com/JosephJNK/gulp-nearley">gulp-nearley</a> by Joseph Junker to
-compile grammars with a gulpfile.</p>
 <h2 id="further-reading">Further reading</h2>
 <h3 id="documentation">Documentation</h3>
 <ul>
