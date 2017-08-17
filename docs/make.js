@@ -16,6 +16,17 @@ const debug = (files, metalsmith, done) => {
 }
 */
 
+const docs = articles => (files, metalsmith, done) => {
+  setImmediate(done)
+  Object.assign(metalsmith.metadata(), {
+    docs: articles.map(name => {
+      const f = files[name + '.md']
+      f.isDoc = true
+      return f
+    }),
+  })
+}
+
 Metalsmith(__dirname)
   .metadata({
     version: require('../package.json').version,
@@ -26,10 +37,15 @@ Metalsmith(__dirname)
   .use(paths({
     property: 'paths'
   }))
-  .use(collections({
-    docs: '*.md',
-    sortBy: 'title',
-  }))
+  .use(docs([
+    'accessing-parse-table',
+    'how-to-grammar-good',
+    'custom-tokens-and-lexers',
+    'glossary',
+    'index',
+    'tooling',
+    'using-in-frontend',
+  ]))
   //.use(debug)
   .use(markdown({
     smartypants: true,
