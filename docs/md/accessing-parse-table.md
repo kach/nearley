@@ -1,5 +1,5 @@
 ---
-title: Accessing the internal parse table
+title: Accessing the parse table
 ---
 
 If you are familiar with the Earley parsing algorithm, you can access the

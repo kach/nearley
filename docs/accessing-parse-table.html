@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Accessing the internal parse table - nearley.js - JS Parsing Toolkit</title>
+        <title>Accessing the parse table - nearley.js - JS Parsing Toolkit</title>
         <meta charset="utf-8"/>
         <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
         <link href='https://fonts.googleapis.com/css?family=Roboto:300,700'
@@ -16,19 +16,19 @@
         <nav id="nav">
             <ul>
                 <li class="page">
-                    <a class="page-title-active">Accessing the internal parse table</a>
+                    <a class="page-title-active">Accessing the parse table</a>
                 </li>
-                <li class="page"><a href="/docs/custom-tokens-and-lexers">Custom tokens and lexers</a>
                 <li class="page"><a href="/docs/glossary">Glossary</a>
+                <li class="page"><a href="/docs/custom-tokens-and-lexers">Custom tokens and lexers</a>
                 <li class="page"><a href="/docs/how-to-grammar-good">How to grammar good</a>
                 <li class="page"><a href="/docs/index">Installation</a>
-                <li class="page"><a href="/docs/using-in-frontend">Using the nearley compiler in browsers</a>
+                <li class="page"><a href="/docs/using-in-frontend">Compiling in browsers</a>
             </ul>
         </nav>
         <div id="main" class="center">
             <h1><a href="/">nearley<span style="color: #559;">.js</span><span id="version">2.10.4</span></a></h1>
 
-<h2>Accessing the internal parse table</h2>
+<h2>Accessing the parse table</h2>
 <p>If you are familiar with the Earley parsing algorithm, you can access the
 internal parse table using <code>Parser.table</code> (this, for example, is how
 <code>nearley-test</code> works). One caveat, however: you must pass the <code>keepHistory</code>

@@ -1,5 +1,5 @@
 ---
-title: Using the nearley compiler in browsers
+title: Compiling in browsers
 ---
 
 Both the nearley parser and compiled grammars work in browsers; simply include
