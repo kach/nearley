@@ -1,4 +1,3 @@
-
 const Metalsmith = require('metalsmith')
 const markdown = require('metalsmith-markdown')
 const headings = require('metalsmith-headings')
