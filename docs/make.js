@@ -1,24 +1,41 @@
 
 const Metalsmith = require('metalsmith')
 const markdown = require('metalsmith-markdown')
-//const headings = require('metalsmith-headings')
+const headings = require('metalsmith-headings')
 const layouts = require('metalsmith-layouts')
-//const navigation = require('metalsmith-navigation')
+const collections = require('metalsmith-collections')
+const paths = require('metalsmith-paths')
 
+const Handlebars = require('handlebars')
+Handlebars.registerHelper('eq', (a, b) => a === b)
 
-const nearleyPackage = require('../package.json')
+/*
+const debug = (files, metalsmith, done) => {
+  setImmediate(done)
+  console.log(metalsmith.metadata().collections.articles)
+  console.log(metalsmith.metadata().collections.articles[0].paths)
+}
+*/
 
 Metalsmith(__dirname)
   .metadata({
-    version: nearleyPackage.version,
+    version: require('../package.json').version,
   })
   .source('md/')
   .destination('.')
   .clean(false)
+  .use(paths({
+    property: 'paths'
+  }))
+  .use(collections({
+    docs: '*.md'
+  }))
+  //.use(debug)
   .use(markdown({
     smartypants: true,
     gfm: true,
   }))
+  .use(headings('h3'))
   .use(layouts({
     engine: 'handlebars',
     default: 'template.html',

@@ -79,11 +79,11 @@ h4 {
     margin-bottom: 1em;
 }
 
-ul li {
+#main ul li {
     list-style: none;
     min-width: 10em;
 }
-ul li:before {
+#main ul li:before {
     display: inline-block;
     content: "\2014";
     margin-left: -1.5em;
@@ -188,4 +188,53 @@ input[type="text"] {
 
 input[type="text"]:focus {
     outline: none;
+}
+
+
+nav {
+    border-right: 1px solid #aaa;
+    background: #fff;
+}
+nav ul {
+    padding: 0;
+    margin: 0;
+}
+nav a {
+    text-decoration: none;
+    color: #000;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0.25em 0.5em; */
+}
+.page {
+    display: block;
+    border-bottom: 1px solid #aaa;
+}
+
+.page-title-active {
+    background: #559;
+    color: #fff;
+}
+
+.page-heading {
+    display: block;
+    padding-left: 1em;
+}
+
+
+@media screen and (min-width: 36rem) {
+    nav {
+        position: fixed;
+        width: 16rem;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        white-space: nowrap;
+        overflow-y: scroll;
+        font-size: 1rem;
+    }
+    body {
+        margin-left: 16rem;
+    }
 }
