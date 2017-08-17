@@ -27,6 +27,7 @@ function compile(source) {
     return evalGrammar(compiledGrammar);
 }
 
+/*
 function requireFromString(source) {
     var filename = '.'
     var Module = module.constructor;
@@ -34,6 +35,12 @@ function requireFromString(source) {
     m.paths = Module._nodeModulePaths(path.dirname(filename))
     m._compile(source, filename);
     return m.exports;
+}
+*/
+function requireFromString(source) {
+    var module = {exports: null};
+    eval(source)
+    return module.exports;
 }
 
 function evalGrammar(compiledGrammar) {
