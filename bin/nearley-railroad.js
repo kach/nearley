@@ -117,9 +117,9 @@ function railroad(grm) {
     ].join('\n');
 }
 
-var nearley = require('../lib/nearley.js');
-var StreamWrapper = require('../lib/stream.js');
-var parserGrammar = new require('../lib/nearley-language-bootstrapped.js');
+var nearley = require('../nearley');
+var StreamWrapper = require('../nearleyc/stream');
+var parserGrammar = new require('../nearleyc/nearley-language-bootstrapped');
 var parser = new nearley.Parser(parserGrammar.ParserRules, parserGrammar.ParserStart);
 input
     .pipe(new StreamWrapper(parser))

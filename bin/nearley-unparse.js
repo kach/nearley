@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var nearley = require('../lib/nearley.js');
+var nearley = require('../nearley');
 var nomnom = require('nomnom');
 var randexp = require('randexp');
 

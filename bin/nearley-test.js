@@ -5,9 +5,9 @@
  */
 
 var fs = require('fs');
-var nearley = require('../lib/nearley.js');
+var nearley = require('../nearley');
 var nomnom = require('nomnom');
-var StreamWrapper = require('../lib/stream.js');
+var StreamWrapper = require('../nearleyc/stream');
 
 var opts = nomnom
     .script('nearley-test')

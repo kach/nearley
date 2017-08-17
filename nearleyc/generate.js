@@ -1,6 +1,6 @@
 (function(root, factory) {
     if (typeof module === 'object' && module.exports) {
-        module.exports = factory(require('./nearley'));
+        module.exports = factory(require('../nearley'));
     } else {
         root.generate = factory(root.nearley);
     }
