@@ -1,4 +1,6 @@
-## How to grammar good
+---
+title: How to grammar good
+---
 
 A lot of people have pointed out to me that writing grammars for
 [nearley](http://hardmath123.github.io/nearley/) is *hard*. The thing is,

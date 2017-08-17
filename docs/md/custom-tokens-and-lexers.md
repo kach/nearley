@@ -1,4 +1,6 @@
-## Custom tokens and lexers
+---
+title: Custom tokens and lexers
+---
 
 There are two ways nearley can parse token streams.
 
