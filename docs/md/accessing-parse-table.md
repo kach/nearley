@@ -1,4 +1,6 @@
-## Accessing the internal parse table
+---
+title: Accessing the internal parse table
+---
 
 If you are familiar with the Earley parsing algorithm, you can access the
 internal parse table using `Parser.table` (this, for example, is how

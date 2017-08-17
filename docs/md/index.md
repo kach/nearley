@@ -1,4 +1,6 @@
-## Installation
+---
+title: Installation
+---
 
 The nearley *compiler* converts grammar definitions from a simple
 [BNF](https://en.wikipedia.org/wiki/Backus–Naur_form)-based syntax to a small
