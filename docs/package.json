@@ -1,0 +1,14 @@
+{
+  "name": "nearley-docs",
+  "version": "0.0.1",
+  "main": "make.js",
+  "scripts": {
+    "make": "node make.js"
+  },
+  "dependencies": {
+    "handlebars": "^4.0.10",
+    "metalsmith": "^2.3.0",
+    "metalsmith-layouts": "^1.8.1",
+    "metalsmith-markdown": "^0.2.1"
+  }
+}
