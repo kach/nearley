@@ -44,4 +44,8 @@ Before submitting a **pull request**, have you done the following?
   can sometimes kill performance. :-(
 * _Not_ introduced any new dependencies. Check in with a maintainer if you
   think you need a dependency.
-* Documented your changes --- new features should be mentioned in the README.
+* Documented your changes: new features should be mentioned in the docs, which
+  are located in `/docs`. Edit the relevant `/docs/md/*.md` file in Markdown,
+  and then (in a separate commit) run `npm install && node make.js` from the
+  `/docs` directory to compile.
+  the documentation pages.
