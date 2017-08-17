@@ -194,7 +194,6 @@ input[type="text"]:focus {
 nav {
     border-right: 1px solid #aaa;
     background: #fff;
-    overflow: auto;
 }
 nav ul {
     padding: 0;
@@ -232,7 +231,7 @@ nav a {
         top: 0;
         bottom: 0;
         white-space: nowrap;
-        overflow-y: scroll;
+        overflow-y: auto;
         font-size: 1rem;
     }
     body {
