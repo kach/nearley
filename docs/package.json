@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "make.js",
   "scripts": {
-    "make": "node make.js",
+    "make": "rm *.html && node make.js",
     "start": "http-server ../"
   },
   "dependencies": {
