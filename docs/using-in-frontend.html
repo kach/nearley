@@ -257,6 +257,8 @@ nav a {
 
 
 </style>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
     </head>
     <body class="docs-page">
         <a href="https://github.com/Hardmath123/nearley" class="github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
@@ -277,42 +279,42 @@ nav a {
             <h1><a href="/">nearley<span style="color: #559;">.js</span><span id="version">2.10.4</span></a></h1>
 
 <h2>Compiling in browsers</h2>
-<p class="lang-highlight">Both the nearley parser and compiled grammars work in browsers; simply include
-<code class="lang-css"><span class="hljs-tag">nearley</span><span class="hljs-class">.js</span></code> and your compiled <code class="lang-css"><span class="hljs-tag">grammar</span><span class="hljs-class">.js</span></code> file in <code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="undefined"></span></code> tags and use
+<p>Both the nearley parser and compiled grammars work in browsers; simply include
+<code>nearley.js</code> and your compiled <code>grammar.js</code> file in <code>&lt;script&gt;</code> tags and use
 nearley as usual. However, the nearley <em>compiler</em> is not designed for the
 browser – you should precompile your grammars and only serve the generated JS
 files to browsers.</p>
-<p class="lang-highlight">If you absolutely have to compile a grammar in a browser (for example, to
+<p>If you absolutely have to compile a grammar in a browser (for example, to
 implement a nearley IDE) then you can use a tool like
 <a href="https://webpack.js.org/">Webpack</a> or <a href="https://rollupjs.org/">Rollup</a> to
 include the <code>nearley</code> NPM package in your browser code. Then, you can utilize
 the <code>nearleyc</code> internals to compile grammars dynamically.</p>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-keyword">const</span> nearley = <span class="hljs-built_in">require</span>(<span class="hljs-string">"nearley"</span>);
-<span class="hljs-keyword">const</span> compile = <span class="hljs-built_in">require</span>(<span class="hljs-string">"nearley/lib/compile"</span>);
-<span class="hljs-keyword">const</span> generate = <span class="hljs-built_in">require</span>(<span class="hljs-string">"nearley/lib/generate"</span>);
-<span class="hljs-keyword">const</span> nearleyGrammar = <span class="hljs-built_in">require</span>(<span class="hljs-string">"nearley/lib/nearley-language-bootstrapped"</span>);
+<pre><code class="lang-js">const nearley = require(&quot;nearley&quot;);
+const compile = require(&quot;nearley/lib/compile&quot;);
+const generate = require(&quot;nearley/lib/generate&quot;);
+const nearleyGrammar = require(&quot;nearley/lib/nearley-language-bootstrapped&quot;);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">compileGrammar</span>(<span class="hljs-params">sourceCode</span>) </span>{
-    <span class="hljs-comment">// Parse the grammar source into an AST</span>
-    <span class="hljs-keyword">const</span> grammarParser = <span class="hljs-keyword">new</span> nearley.Parser(nearleyGrammar);
+function compileGrammar(sourceCode) {
+    // Parse the grammar source into an AST
+    const grammarParser = new nearley.Parser(nearleyGrammar);
     grammarParser.feed(sourceCode);
-    <span class="hljs-keyword">const</span> grammarAst = grammarParser.results[<span class="hljs-number">0</span>]; <span class="hljs-comment">// TODO check for errors</span>
+    const grammarAst = grammarParser.results[0]; // TODO check for errors
 
-    <span class="hljs-comment">// Compile the AST into a set of rules</span>
-    <span class="hljs-keyword">const</span> grammarInfoObject = compile(grammarAst, {});
-    <span class="hljs-comment">// Generate JavaScript code from the rules</span>
-    <span class="hljs-keyword">const</span> grammarJs = generate(grammarInfoObject, <span class="hljs-string">"grammar"</span>);
+    // Compile the AST into a set of rules
+    const grammarInfoObject = compile(grammarAst, {});
+    // Generate JavaScript code from the rules
+    const grammarJs = generate(grammarInfoObject, &quot;grammar&quot;);
 
-    <span class="hljs-comment">// Pretend this is a CommonJS environment to catch exports from the grammar.</span>
-    <span class="hljs-keyword">const</span> <span class="hljs-built_in">module</span> = { exports: {} };
-    <span class="hljs-built_in">eval</span>(grammarJs);
+    // Pretend this is a CommonJS environment to catch exports from the grammar.
+    const module = { exports: {} };
+    eval(grammarJs);
 
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">module</span>.exports;
+    return module.exports;
 }
 
-<span class="hljs-keyword">const</span> grammar = compileGrammar(<span class="hljs-string">"main -&gt; foo | bar"</span>);
+const grammar = compileGrammar(&quot;main -&gt; foo | bar&quot;);
 
-<span class="hljs-keyword">const</span> parser = <span class="hljs-keyword">new</span> nearley.Parser(nearley.Grammar.fromCompiled(grammar));
+const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 </code></pre>
 
 

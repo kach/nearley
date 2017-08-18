@@ -7,7 +7,6 @@ const headings = require('metalsmith-headings')
 const layouts = require('metalsmith-layouts')
 const collections = require('metalsmith-collections')
 const paths = require('metalsmith-paths')
-const highlight = require('metalsmith-code-highlight')
 
 const Handlebars = require('handlebars')
 Handlebars.registerHelper('eq', (a, b) => a === b)
@@ -56,7 +55,6 @@ Metalsmith(__dirname)
     smartypants: true,
     gfm: true,
   }))
-  .use(highlight())
   .use(headings('h3'))
   .use(layouts({
     engine: 'handlebars',
