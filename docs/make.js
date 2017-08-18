@@ -40,6 +40,7 @@ Metalsmith(__dirname)
   }))
   .use(docs([
 
+    'index',
     'getting-started',
     'grammar',
     'parser',
