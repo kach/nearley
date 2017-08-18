@@ -39,12 +39,16 @@ Metalsmith(__dirname)
     property: 'paths'
   }))
   .use(docs([
-    'accessing-parse-table',
-    'how-to-grammar-good',
-    'custom-tokens-and-lexers',
     'glossary',
+
+    // install
     'index',
+    'language',
+    'how-to-grammar-good',
+    'usage',
+    'tokenizers',
     'tooling',
+
     'using-in-frontend',
   ]))
   //.use(debug)

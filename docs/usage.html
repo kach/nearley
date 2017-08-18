@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Accessing the parse table - nearley.js - JS Parsing Toolkit</title>
+        <title>Using a parser - nearley.js - JS Parsing Toolkit</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
@@ -262,13 +262,19 @@ nav a {
         <a href="https://github.com/Hardmath123/nearley" class="github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
         <nav id="nav">
             <ul>
-                <li class="page">
-                    <a href="#" class="page-title-active">Accessing the parse table</a>
-                </li>
-                <li class="page"><a href="/docs/how-to-grammar-good">How to grammar good</a>
-                <li class="page"><a href="/docs/custom-tokens-and-lexers">Custom tokens and lexers</a>
                 <li class="page"><a href="/docs/glossary">Glossary</a>
                 <li class="page"><a href="/docs/index">Getting started</a>
+                <li class="page"><a href="/docs/language">Writing a parser</a>
+                <li class="page"><a href="/docs/how-to-grammar-good">How to grammar good</a>
+                <li class="page">
+                    <a href="#" class="page-title-active">Using a parser</a>
+                    <ul>
+                        <li class="page-heading"><a href="#a-note-on-ambiguity">A note on ambiguity</a>
+                        <li class="page-heading"><a href="#catching-errors">Catching errors</a>
+                        <li class="page-heading"><a href="#accessing-the-parse-table">Accessing the parse table</a>
+                    </ul>
+                </li>
+                <li class="page"><a href="/docs/tokenizers">Tokenizers</a>
                 <li class="page"><a href="/docs/tooling">Tooling</a>
                 <li class="page"><a href="/docs/using-in-frontend">Compiling in browsers</a>
             </ul>
@@ -276,7 +282,68 @@ nav a {
         <div id="main" class="center">
             <h1><a href="/">nearley<span style="color: #559;">.js</span><span id="version">2.10.4</span></a></h1>
 
-<h2>Accessing the parse table</h2>
+<h2>Using a parser</h2>
+<h2 id="the-nearley-api">The nearley API</h2>
+<p>Once you have compiled a <code>grammar.ne</code> file to a <code>grammar.js</code> module, you can
+then use nearley to instantiate a <code>Parser</code> object.</p>
+<p>First, import nearley and your grammar.</p>
+<pre><code class="lang-js">const nearley = require(&quot;nearley&quot;);
+const grammar = require(&quot;./grammar.js&quot;);
+</code></pre>
+<p>Note that if you are parsing in the browser, you can simply include
+<code>nearley.js</code> and <code>grammar.js</code> in <code>&lt;script&gt;</code> tags.</p>
+<p>Next, use the grammar to create a new <code>nearley.Parser</code> object.</p>
+<pre><code class="lang-js">// Create a Parser object from our grammar.
+const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
+</code></pre>
+<p>Once you have a <code>Parser</code>, you can <code>.feed</code> it a string to parse. Since nearley
+is a <em>streaming</em> parser, you can feed strings more than once. For example, a
+REPL might feed the parser lines of code as the user enters them:</p>
+<pre><code class="lang-js">// Parse something!
+parser.feed(&quot;if (true) {&quot;);
+parser.feed(&quot;x = 1&quot;);
+parser.feed(&quot;}&quot;);
+// or, parser.feed(&quot;if (true) {x=1}&quot;);
+</code></pre>
+<p>Finally, you can query the <code>.results</code> property of the parser.</p>
+<pre><code class="lang-js">// parser.results is an array of possible parsings.
+console.log(parser.results);
+// [{&#39;type&#39;: &#39;if&#39;, &#39;condition&#39;: ..., &#39;body&#39;: ...}]
+</code></pre>
+<h3 id="a-note-on-ambiguity">A note on ambiguity</h3>
+<p>Why is <code>parser.results</code> an array? Sometimes, a grammar can parse a particular
+string in multiple different ways. For example, the following grammar parses
+the string <code>&quot;xyz&quot;</code> in two different ways.</p>
+<pre><code class="lang-js">x -&gt; &quot;xy&quot; &quot;z&quot;
+   | &quot;x&quot; &quot;yz&quot;
+</code></pre>
+<p>Such grammars are <em>ambiguous</em>. nearley provides you with <em>all</em> the parsings. In
+most cases, however, your grammars should not be ambiguous (parsing ambiguous
+grammars is inefficient!). Thus, the most common usage is to simply query
+<code>parser.results[0]</code>.</p>
+<h3 id="catching-errors">Catching errors</h3>
+<p>nearley is a <em>streaming</em> parser: you can keep feeding it more strings. This
+means that there are two error scenarios in nearley.</p>
+<p>Consider the simple parser below for the examples to follow.</p>
+<pre><code class="lang-js">main -&gt; &quot;Cow goes moo.&quot; {% function(d) {return &quot;yay!&quot;; } %}
+</code></pre>
+<p>If there are no possible parsings given the current input, but in the <em>future</em>
+there <em>might</em> be results if you feed it more strings, then nearley will
+temporarily set the <code>results</code> array to the empty array, <code>[]</code>.</p>
+<pre><code class="lang-js">parser.feed(&quot;Cow &quot;);  // parser.results is []
+parser.feed(&quot;goes &quot;); // parser.results is []
+parser.feed(&quot;moo.&quot;);  // parser.results is [&quot;yay!&quot;]
+</code></pre>
+<p>If there are no possible parsings, and there is no way to “recover” by feeding
+more data, then nearley will throw an error whose <code>offset</code> property is the
+index of the offending token.</p>
+<pre><code class="lang-js">try {
+    parser.feed(&quot;Cow goes% moo.&quot;);
+} catch(parseError) {
+    console.log(&quot;Error at character &quot; + parseError.offset); // &quot;Error at character 9&quot;
+}
+</code></pre>
+<h3 id="accessing-the-parse-table">Accessing the parse table</h3>
 <p>If you are familiar with the Earley parsing algorithm, you can access the
 internal parse table using <code>Parser.table</code> (this, for example, is how
 <code>nearley-test</code> works). One caveat, however: you must pass the <code>keepHistory</code>
