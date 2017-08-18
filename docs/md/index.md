@@ -46,7 +46,7 @@ These are documented on the [tooling page](tooling.html).
 > exploring nearley grammars interactively.
 
 
-### Getting started: nearley in 3 steps
+### Getting started
 
 nearley was written with users in mind: getting started with nearley is as
 simple as:
