@@ -1,3 +1,6 @@
+
+const fs = require('fs')
+
 const Metalsmith = require('metalsmith')
 const markdown = require('metalsmith-markdown')
 const headings = require('metalsmith-headings')
@@ -31,6 +34,7 @@ const docs = articles => (files, metalsmith, done) => {
 Metalsmith(__dirname)
   .metadata({
     version: require('../package.json').version,
+    css: fs.readFileSync('../www/main.css', 'utf-8'),
   })
   .source('md/')
   .destination('.')
