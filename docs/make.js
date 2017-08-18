@@ -44,7 +44,10 @@ Metalsmith(__dirname)
     'custom-tokens-and-lexers',
     'glossary',
 
+    // install
     'index',
+    // language
+    'usage',
     'tooling',
     'tokenizers',
 

@@ -26,11 +26,10 @@
                         <li class="page-heading"><a href="#macros">Macros</a>
                         <li class="page-heading"><a href="#additional-js">Additional JS</a>
                         <li class="page-heading"><a href="#importing-other-grammars">Importing other grammars</a>
-                        <li class="page-heading"><a href="#a-note-on-ambiguity">A note on ambiguity</a>
-                        <li class="page-heading"><a href="#catching-errors">Catching errors</a>
                         <li class="page-heading"><a href="#further-reading">Further reading</a>
                     </ul>
                 </li>
+                <li class="page"><a href="/docs/usage">Using a parser</a>
                 <li class="page"><a href="/docs/tooling">Tooling</a>
                 <li class="page"><a href="/docs/tokenizers">Tokenizers</a>
                 <li class="page"><a href="/docs/using-in-frontend">Compiling in browsers</a>
@@ -289,66 +288,6 @@ main -&gt; cow:+
 welcome!</p>
 <p>Including a file imports <em>all</em> of the nonterminals defined in it, as well as
 any JS, macros, and configuration options defined there.</p>
-<h2 id="using-a-parser-the-nearley-api">Using a parser: the nearley API</h2>
-<p class="lang-highlight">Once you have compiled a <code class="lang-crmsh">grammar.<span class="hljs-operator">ne</span></code> file to a <code class="lang-css"><span class="hljs-tag">grammar</span><span class="hljs-class">.js</span></code> module, you can
-then use nearley to instantiate a <code>Parser</code> object.</p>
-<p>First, import nearley and your grammar.</p>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-keyword">const</span> nearley = <span class="hljs-built_in">require</span>(<span class="hljs-string">"nearley"</span>);
-<span class="hljs-keyword">const</span> grammar = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./grammar.js"</span>);
-</code></pre>
-<p class="lang-highlight">Note that if you are parsing in the browser, you can simply include
-<code class="lang-css"><span class="hljs-tag">nearley</span><span class="hljs-class">.js</span></code> and <code class="lang-css"><span class="hljs-tag">grammar</span><span class="hljs-class">.js</span></code> in <code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="undefined"></span></code> tags.</p>
-<p class="lang-highlight">Next, use the grammar to create a new <code class="lang-css"><span class="hljs-tag">nearley</span><span class="hljs-class">.Parser</span></code> object.</p>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-comment">// Create a Parser object from our grammar.</span>
-<span class="hljs-keyword">const</span> parser = <span class="hljs-keyword">new</span> nearley.Parser(nearley.Grammar.fromCompiled(grammar));
-</code></pre>
-<p class="lang-highlight">Once you have a <code>Parser</code>, you can <code class="lang-asciidoc"><span class="hljs-title">.feed</span></code> it a string to parse. Since nearley
-is a <em>streaming</em> parser, you can feed strings more than once. For example, a
-REPL might feed the parser lines of code as the user enters them:</p>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-comment">// Parse something!</span>
-parser.feed(<span class="hljs-string">"if (true) {"</span>);
-parser.feed(<span class="hljs-string">"x = 1"</span>);
-parser.feed(<span class="hljs-string">"}"</span>);
-<span class="hljs-comment">// or, parser.feed("if (true) {x=1}");</span>
-</code></pre>
-<p class="lang-highlight">Finally, you can query the <code class="lang-asciidoc"><span class="hljs-title">.results</span></code> property of the parser.</p>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-comment">// parser.results is an array of possible parsings.</span>
-<span class="hljs-built_in">console</span>.log(parser.results);
-<span class="hljs-comment">// [{'type': 'if', 'condition': ..., 'body': ...}]</span>
-</code></pre>
-<h3 id="a-note-on-ambiguity">A note on ambiguity</h3>
-<p class="lang-highlight">Why is <code class="lang-css"><span class="hljs-tag">parser</span><span class="hljs-class">.results</span></code> an array? Sometimes, a grammar can parse a particular
-string in multiple different ways. For example, the following grammar parses
-the string <code class="lang-1c"><span class="hljs-string">"xyz"</span></code> in two different ways.</p>
-<pre class="lang-highlight"><code class="lang-js">x -&gt; <span class="hljs-string">"xy"</span> <span class="hljs-string">"z"</span>
-   | <span class="hljs-string">"x"</span> <span class="hljs-string">"yz"</span>
-</code></pre>
-<p class="lang-highlight">Such grammars are <em>ambiguous</em>. nearley provides you with <em>all</em> the parsings. In
-most cases, however, your grammars should not be ambiguous (parsing ambiguous
-grammars is inefficient!). Thus, the most common usage is to simply query
-<code class="lang-css"><span class="hljs-tag">parser</span><span class="hljs-class">.results</span><span class="hljs-attr_selector">[0]</span></code>.</p>
-<h3 id="catching-errors">Catching errors</h3>
-<p>nearley is a <em>streaming</em> parser: you can keep feeding it more strings. This
-means that there are two error scenarios in nearley.</p>
-<p>Consider the simple parser below for the examples to follow.</p>
-<pre class="lang-highlight"><code class="lang-js">main -&gt; <span class="hljs-string">"Cow goes moo."</span> {% <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{<span class="hljs-keyword">return</span> <span class="hljs-string">"yay!"</span>; } %}
-</code></pre>
-<p class="lang-highlight">If there are no possible parsings given the current input, but in the <em>future</em>
-there <em>might</em> be results if you feed it more strings, then nearley will
-temporarily set the <code>results</code> array to the empty array, <code class="lang-json">[]</code>.</p>
-<pre class="lang-highlight"><code class="lang-js">parser.feed(<span class="hljs-string">"Cow "</span>);  <span class="hljs-comment">// parser.results is []</span>
-parser.feed(<span class="hljs-string">"goes "</span>); <span class="hljs-comment">// parser.results is []</span>
-parser.feed(<span class="hljs-string">"moo."</span>);  <span class="hljs-comment">// parser.results is ["yay!"]</span>
-</code></pre>
-<p class="lang-highlight">If there are no possible parsings, and there is no way to “recover” by feeding
-more data, then nearley will throw an error whose <code class="lang-applescript"><span class="hljs-command">offset</span></code> property is the
-index of the offending token.</p>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-keyword">try</span> {
-    parser.feed(<span class="hljs-string">"Cow goes% moo."</span>);
-} <span class="hljs-keyword">catch</span>(parseError) {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Error at character "</span> + parseError.offset); <span class="hljs-comment">// "Error at character 9"</span>
-}
-</code></pre>
 <h3 id="further-reading">Further reading</h3>
 <ul>
 <li>Take a look at a <a href="https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e">nearley
