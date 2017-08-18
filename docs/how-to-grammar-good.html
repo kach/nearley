@@ -5,9 +5,258 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
-        <link href='https://fonts.googleapis.com/css?family=Roboto:300,700'
-              rel='stylesheet' type='text/css'/>
-        <link rel="stylesheet" type="text/css" href="/www/main.css"/>
+<style>
+body {
+    font-family: sans-serif;
+    font-weight: 300;
+    font-size: 15pt;
+    margin: 0px;
+    padding: 0px;
+    border-top: 0.1em #559 solid;
+    border-bottom: 0.1em #559 solid;
+}
+
+.wf-roboto-n3-active body {
+  font-family: Roboto, sans-serif;
+}
+
+#main a {
+    color: #55a;
+}
+#main a:visited {
+    color: #55a;
+}
+#main a:hover {
+    color: #259;
+}
+
+h1 {
+    font-size: 1.6em;
+    font-weight: 100;
+    letter-spacing: 0.5em;
+    text-align: center;
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+
+h1 a {
+    text-decoration: none;
+}
+
+h1:hover {
+    color: #559;
+    cursor: pointer;
+}
+
+#version {
+    background: orange;
+    border-radius: 50%;
+    font-weight: bold;
+    color: white;
+    width: 3.5em;
+    height: 3.5em;
+    display: inline-block;
+    text-align: center;
+    line-height: 3.5em;
+    letter-spacing: 0em;
+}
+
+h2 {
+    margin-top: 4em;
+}
+h3 {
+    margin-top: 3em;
+}
+h4 {
+    margin-top: 3em;
+}
+
+.center {
+    padding-left: 2em;
+    padding-right: 2em;
+    margin-left: auto;
+    margin-right: auto;
+}
+#main {
+    max-width: 35em;
+}
+
+#main p, ul, ol {
+    line-height: 1.5em;
+    margin-bottom: 1em;
+}
+
+#main li {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#main ul li {
+    list-style: none;
+    min-width: 10em;
+}
+#main ul li:before {
+    display: inline-block;
+    content: &quot;\2014&quot;;
+    margin-left: -1.5em;
+    width: 1.5em;
+}
+
+#main textarea {
+    width: 100%;
+    height: 20em;
+    resize: none;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    font-family: menlo, monaco, monospace;
+    font-size: 10pt;
+    padding: 5px;
+
+    border: none;
+    border-left: solid 1px #aaa;
+}
+#main textarea:focus {
+    outline: none;
+}
+
+#main img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
+img + .caption {
+    text-align: center;
+    font-size: 0.7em;
+    color: #aaa;
+}
+
+/*
+#cy-viz {
+    width: 100%;
+}*/
+
+#footer {
+    margin-top: 10em;
+    color: #aaa;
+    font-size: 0.7em;
+    padding: 5em;
+}
+
+code {
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+    padding: 0.2em;
+    border-radius: 0.2em;
+    background-color: #eee;
+}
+
+pre code {
+    border-radius: 0.5em;
+    //background-color: #559;
+    //color: white;
+    //text-shadow: 0em 0em 0.2em black;
+    padding: 0.5em;
+    display: block;
+    overflow: auto;
+}
+
+
+ol.tutorial {
+    counter-reset: tutorial-counter;
+}
+
+ol.tutorial li {
+    list-style: none;
+}
+
+ol.tutorial li:before {
+    content: counter(tutorial-counter);
+    counter-increment: tutorial-counter;
+
+    font-weight: bold;
+    border-radius: 50%;
+    background-color: #559;
+    width: 2em;
+    height: 2em;
+    display: inline-block;
+    text-align: center;
+    line-height: 2em;
+    color: white;
+
+    margin-left: -2em;
+
+    position: relative;
+    right: 1em;
+}
+
+input[type&#x3D;&quot;text&quot;] {
+    border: none;
+    font-family: monospace;
+    font-size: 1em;
+    color: #559;
+}
+
+input[type&#x3D;&quot;text&quot;]:focus {
+    outline: none;
+}
+
+
+nav {
+    border-right: 1px solid #aaa;
+    background: #fff;
+}
+nav ul {
+    padding: 0;
+    margin: 0;
+}
+nav a {
+    text-decoration: none;
+    color: #000;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0.25em 0.5em; */
+}
+.page {
+    display: block;
+    border-bottom: 1px solid #aaa;
+}
+
+.page-title-active {
+    background: #559;
+    color: #fff;
+}
+
+.page-heading {
+    display: block;
+    padding-left: 1em;
+}
+
+
+@media screen and (min-width: 36rem) {
+    nav {
+        position: fixed;
+        width: 16rem;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        white-space: nowrap;
+        overflow-y: auto;
+        font-size: 1rem;
+    }
+    body.docs-page {
+        margin-left: 16rem;
+    }
+}
+
+/* highlight.js */
+
+.hljs{display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0}.hljs,.hljs-subst{color:#444}.hljs-comment{color:#888888}.hljs-keyword,.hljs-attribute,.hljs-selector-tag,.hljs-meta-keyword,.hljs-doctag,.hljs-name{font-weight:bold}.hljs-type,.hljs-string,.hljs-number,.hljs-selector-id,.hljs-selector-class,.hljs-quote,.hljs-template-tag,.hljs-deletion{color:#880000}.hljs-title,.hljs-section{color:#880000;font-weight:bold}.hljs-regexp,.hljs-symbol,.hljs-variable,.hljs-template-variable,.hljs-link,.hljs-selector-attr,.hljs-selector-pseudo{color:#BC6060}.hljs-literal{color:#78A960}.hljs-built_in,.hljs-bullet,.hljs-code,.hljs-addition{color:#397300}.hljs-meta{color:#1f7199}.hljs-meta-string{color:#4d99bf}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
+
+
+</style>
     </head>
     <body class="docs-page">
         <a href="https://github.com/Hardmath123/nearley" class="github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
@@ -57,86 +306,86 @@ algorithm and some basic concepts. From here on out, I’m assuming you know wha
 <em>regular expression</em>, <em>Backus Naur Form</em>, <em>context free grammar</em>, <em>terminal</em>,
 <em>nonterminal</em>, and <em>ambiguous grammar</em> mean. You should know nearley syntax
 well enough to understand what something like</p>
-<pre class="lang-highlight"><code class="lang-cpp"><span class="hljs-keyword">int</span> -&gt; [<span class="hljs-number">0</span>-<span class="hljs-number">9</span>]        {% id %}
-    | <span class="hljs-keyword">int</span> [<span class="hljs-number">0</span>-<span class="hljs-number">9</span>]     {% function(d) {<span class="hljs-keyword">return</span> d[<span class="hljs-number">0</span>] + d[<span class="hljs-number">1</span>]} %}
+<pre><code>int -&gt; [0-9]        {% id %}
+    | int [0-9]     {% function(d) {return d[0] + d[1]} %}
 </code></pre><p>means (though I like to pride myself on the readability of nearley grammar…).</p>
 <h3 id="structure">Structure</h3>
 <p>Your grammar should be structured from the top down. The first few rules in a
 file should describe a general outline, and tiny details (terminals for
 whitespace, literals etc.) should be at the bottom. For example, if you’re
 writing a parser for Scheme, you would start with</p>
-<pre class="lang-highlight"><code class="lang-elixir"><span class="hljs-constant">Sourcefile </span>-&gt; (<span class="hljs-constant">S-</span>expression | <span class="hljs-constant">Comment)</span><span class="hljs-symbol">:*</span>
-</code></pre><p class="lang-highlight">and then fill out what <code class="lang-mel">s-<span class="hljs-keyword">expression</span></code> and <code class="lang-sqf"><span class="hljs-built_in">comment</span></code> mean. Most of the time,
+<pre><code>Sourcefile -&gt; (S-expression | Comment):*
+</code></pre><p>and then fill out what <code>s-expression</code> and <code>comment</code> mean. Most of the time,
 rules defined higher in the file reference rules defined lower down, and rules
 defined near the bottom rarely ever reference rules near the top.</p>
 <h3 id="nonterminal-names">Nonterminal names</h3>
-<p class="lang-highlight">Give your nonterminals useful names–mostly nouns that describe the string it
+<p>Give your nonterminals useful names–mostly nouns that describe the string it
 will match. By convention, we use <code>_</code> for optional whitespace and <code>__</code> for
 mandatory whitespace: it makes it easy to write rules like</p>
-<pre class="lang-highlight"><code class="lang-mel"><span class="hljs-string">"("</span> _ <span class="hljs-keyword">expression</span> _ <span class="hljs-string">")"</span>
-</code></pre><p class="lang-highlight">You can explicitly mark a nonterminal as optional or repetitive by postfixing
-its name with <code>?</code> and <code class="lang-diff"><span class="hljs-addition">+</span></code> (respectively)–as in <code>statementlist+</code> or <code class="lang-sqf"><span class="hljs-built_in">comment</span>?</code>.
-Note that this has no semantic value: use nearley’s EBNF modifiers (<code class="lang-clojure"><span class="hljs-attribute">:*</span></code>, <code class="lang-clojure"><span class="hljs-attribute">:+</span></code>,
-<code class="lang-clojure"><span class="hljs-attribute">:?</span></code>) for that.</p>
+<pre><code>&quot;(&quot; _ expression _ &quot;)&quot;
+</code></pre><p>You can explicitly mark a nonterminal as optional or repetitive by postfixing
+its name with <code>?</code> and <code>+</code> (respectively)–as in <code>statementlist+</code> or <code>comment?</code>.
+Note that this has no semantic value: use nearley’s EBNF modifiers (<code>:*</code>, <code>:+</code>,
+<code>:?</code>) for that.</p>
 <h3 id="don-t-roll-your-own-unroller">Don’t roll your own unroller</h3>
 <p>If you want to match one or more of a nonterminal, use an EBNF modifier. It’s
 semantically legible, contextually appropriate and (most importantly) easy.
 It’s very easy to mess up and create an exponentially ambiguous monstrosity
 such as</p>
-<pre class="lang-highlight"><code class="lang-1c">lotsofletters -&gt; <span class="hljs-string">"a"</span> <span class="hljs-string">| lotsofletters lotsofletters</span>
+<pre><code>lotsofletters -&gt; &quot;a&quot; | lotsofletters lotsofletters
 </code></pre><h3 id="postprocess-or-dispose">Postprocess or dispose</h3>
-<p class="lang-highlight">nearley saves a nested array structure by default, but most of the time that’s
+<p>nearley saves a nested array structure by default, but most of the time that’s
 not what you want. For things like whitespace, you want to throw away all that
 useless information for memory efficiency, so use a postprocessor that just
-returns <code class="lang-actionscript"><span class="hljs-literal">null</span></code>. For syntactic sugar and stuff, construct object literals so
+returns <code>null</code>. For syntactic sugar and stuff, construct object literals so
 that the code that processes your AST is relatively independent of your
 grammar. Constructing object literals also lets you discard junk (parens,
 etc.).</p>
 <h3 id="remember-charclasses-aren-t-regexes">Remember, charclasses aren’t regexes</h3>
-<p class="lang-highlight">The <code class="lang-json">[a-z]</code> syntax only allows you to use regex-style character classes, not
+<p>The <code>[a-z]</code> syntax only allows you to use regex-style character classes, not
 actual regular expressions. Nearley fundamentally does not support regexes as
 terminals. Use EBNF modifiers instead–they do what you want.</p>
 <h3 id="debug-with-nearley-test">Debug with nearley-test</h3>
-<p class="lang-highlight">Use the <code class="lang-stata">nearley-<span class="hljs-keyword">test</span></code> script (installs alongside <code>nearleyc</code>) to debug your
+<p>Use the <code>nearley-test</code> script (installs alongside <code>nearleyc</code>) to debug your
 grammars. It lets you inspect the parse tables, and see all the parsings, or
 the point of failure. This is invaluable when you have a subtle ambiguity
 issue.</p>
 <h3 id="don-t-shy-away-from-left-recursion">Don’t shy away from left recursion</h3>
 <p>You were a good little student and you paid attention to your professors when
 they told you never to write grammars like:</p>
-<pre class="lang-highlight"><code class="lang-stylus"><span class="hljs-tag">a</span> -&gt; <span class="hljs-tag">a</span> <span class="hljs-string">"something"</span>
-</code></pre><p class="lang-highlight">because a naïve recursive-descent parser would bork in an infinite loop.
+<pre><code>a -&gt; a &quot;something&quot;
+</code></pre><p>because a naïve recursive-descent parser would bork in an infinite loop.
 Nearley, of course, is much better, so you don’t have to worry about that. If
 you’re paranoid about efficiency, you should actually prefer left recursion
-over right recursion (<code class="lang-autohotkey"><span class="hljs-literal">a</span> -&gt; <span class="hljs-string">"something"</span> <span class="hljs-literal">a</span></code>) because it’s very slightly faster.
+over right recursion (<code>a -&gt; &quot;something&quot; a</code>) because it’s very slightly faster.
 In any case, that’s how you deal with left or right associativity for binary
 operators.</p>
 <h3 id="do-shy-away-from-left-recursion">Do shy away from left recursion</h3>
-<p class="lang-highlight">…if you’re using it where the EBNF <code class="lang-clojure"><span class="hljs-attribute">:*</span></code> or <code class="lang-clojure"><span class="hljs-attribute">:+</span></code> makes more sense!</p>
+<p>…if you’re using it where the EBNF <code>:*</code> or <code>:+</code> makes more sense!</p>
 <h3 id="operator-precedence-is-not-black-magic">Operator precedence is not black magic</h3>
 <p>Here’s how you do it: you start with your lowest-precedence operator and work
 your way up to your highest precedence ones. Each operator gets its own
 nonterminal:</p>
-<pre class="lang-highlight"><code class="lang-livecodeserver">math -&gt; <span class="hljs-built_in">sum</span>
-<span class="hljs-built_in">sum</span> -&gt; <span class="hljs-built_in">sum</span> (<span class="hljs-string">"+"</span>|<span class="hljs-string">"-"</span>) product | product
-product -&gt; product (<span class="hljs-string">"*"</span>|<span class="hljs-string">"/"</span>) <span class="hljs-built_in">exp</span> | <span class="hljs-built_in">exp</span>
-<span class="hljs-built_in">exp</span> -&gt; <span class="hljs-built_in">number</span> <span class="hljs-string">"^"</span> <span class="hljs-built_in">exp</span> | <span class="hljs-built_in">number</span> <span class="hljs-comment"># this is right associative!</span>
-</code></pre><p class="lang-highlight">It should be pretty clear how this works, and how to extend it to different
+<pre><code>math -&gt; sum
+sum -&gt; sum (&quot;+&quot;|&quot;-&quot;) product | product
+product -&gt; product (&quot;*&quot;|&quot;/&quot;) exp | exp
+exp -&gt; number &quot;^&quot; exp | number # this is right associative!
+</code></pre><p>It should be pretty clear how this works, and how to extend it to different
 types of operators. The main thing is to be careful with your associativity
-direction. Be careful not to write <code class="lang-sml"><span class="hljs-keyword">op</span> -&gt; <span class="hljs-keyword">op</span> <span class="hljs-string">"$"</span> <span class="hljs-keyword">op</span></code>, because that’s ambiguous.</p>
-<p class="lang-highlight">Introducing non-conflicting unary negation (<code class="lang-1c"><span class="hljs-string">"5 * -5"</span></code>) is left as a trivial
+direction. Be careful not to write <code>op -&gt; op &quot;$&quot; op</code>, because that’s ambiguous.</p>
+<p>Introducing non-conflicting unary negation (<code>&quot;5 * -5&quot;</code>) is left as a trivial
 exercise for the enterprising reader.</p>
 <h3 id="comment-your-grammars">Comment your grammars</h3>
 <p>It’s very easy to come back to a grammar a week later and have no idea what
 it’s doing. Leave comments that explain precisely what each nonterminal
 matches, since a clear description will help you debug things in the future.</p>
 <h3 id="use-whitespace-prettily">Use whitespace prettily</h3>
-<p class="lang-highlight">Align your <code class="lang-diff"><span class="hljs-deletion">-&gt;</span></code>s and your <code class="lang-1c"><span class="hljs-string">|</span></code>s and your <code class="lang-gcode">{<span class="hljs-preprocessor">%</span> ... <span class="hljs-preprocessor">%</span>}</code>s. Future retinas will thank
+<p>Align your <code>-&gt;</code>s and your <code>|</code>s and your <code>{% ... %}</code>s. Future retinas will thank
 you.</p>
 <h3 id="parsing-an-established-language-cheat-">Parsing an established language? Cheat!</h3>
-<p class="lang-highlight">Almost all standards publish syntax guides with an accompanying diagram in
+<p>Almost all standards publish syntax guides with an accompanying diagram in
 (E)BNF. It’s worth it to Google around for this. With just a bit of common
-sense, you should be able to transliterate it to a <code class="lang-asciidoc"><span class="hljs-title">.ne</span></code> file.</p>
+sense, you should be able to transliterate it to a <code>.ne</code> file.</p>
 <hr>
 <p>Again, grammar-writing is largely about instinct and experience. The more you
 write, the more you’ll understand how it goes, and the faster you’ll be able to
@@ -152,5 +401,20 @@ prototype and design.</p>
             <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
             <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
         </div>
+
+        <script>
+        WebFontConfig = {
+          google: {
+            families: ['Roboto:300,700']
+          }
+        };
+        </script>
+        <script async src="//cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js"></script>
+        <script id="highlight-js" async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>
+        document.querySelector('#highlight-js').addEventListener('load', function() {
+          hljs.initHighlightingOnLoad();
+        })
+        </script>
     </body>
 </html>
