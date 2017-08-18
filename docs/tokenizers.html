@@ -15,7 +15,6 @@
             <ul>
                 <li class="page"><a href="/docs/accessing-parse-table">Accessing the parse table</a>
                 <li class="page"><a href="/docs/how-to-grammar-good">How to grammar good</a>
-                <li class="page"><a href="/docs/custom-tokens-and-lexers">Custom tokens and lexers</a>
                 <li class="page"><a href="/docs/glossary">Glossary</a>
                 <li class="page"><a href="/docs/index">Getting started</a>
                 <li class="page"><a href="/docs/language">Writing a parser</a>
@@ -23,6 +22,10 @@
                 <li class="page"><a href="/docs/tooling">Tooling</a>
                 <li class="page">
                     <a class="page-title-active">Tokenizers</a>
+                    <ul>
+                        <li class="page-heading"><a href="#custom-token-matchers">Custom token matchers</a>
+                        <li class="page-heading"><a href="#custom-lexers">Custom lexers</a>
+                    </ul>
                 </li>
                 <li class="page"><a href="/docs/using-in-frontend">Compiling in browsers</a>
             </ul>
@@ -73,6 +76,46 @@ This is convenient for matching keywords.</p>
 </code></pre>
 <p class="lang-highlight">You use the parser as usual: call <code class="lang-stylus">parser.<span class="hljs-function"><span class="hljs-title">feed</span><span class="hljs-params">(data)</span></span></code>, and nearley will give
 you the parsed results in return.</p>
+<h2 id="custom-tokens-and-lexers">Custom tokens and lexers</h2>
+<p>There are two ways nearley can parse token streams.</p>
+<h3 id="custom-token-matchers">Custom token matchers</h3>
+<p>Aside from the lexer infrastructure, nearley provides a lightweight way to
+parse arbitrary streams.</p>
+<p class="lang-highlight">Custom matchers can be defined in two ways: <em>literal</em> tokens and <em>testable</em>
+tokens. A literal token matches a JS value exactly (with <code class="lang-haml">=<span class="ruby">==</span></code>), while a
+testable token runs a predicate that tests whether or not the value matches.</p>
+<p class="lang-highlight">Note that in this case, you would feed a <code>Parser</code> instance an <em>array</em> of
+objects rather than a string! Here is a simple example:</p>
+<pre class="lang-highlight"><code class="lang-coffeescript">@{%
+const tokenPrint = { <span class="hljs-attribute">literal</span>: <span class="hljs-string">"print"</span> };
+const tokenNumber = { <span class="hljs-attribute">test</span>: x =&gt; Number.isInteger(x) };
+%}
+
+main -&gt; %tokenPrint %tokenNumber <span class="hljs-string">";;"</span>
+
+<span class="hljs-comment"># parser.feed(["print", 12, ";;"]);</span>
+</code></pre>
+<h3 id="custom-lexers">Custom lexers</h3>
+<p>nearley recommends using a <a href="https://github.com/tjvr/moo">moo</a>-based lexer.
+However, you can use any lexer that conforms to the following interface:</p>
+<ul>
+<li class="lang-highlight"><code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">next</span><span class="hljs-params">()</span></span></code> returns a token object, which could have fields for line number,
+etc. Importantly, a token object <em>must</em> have a <code class="lang-ceylon"><span class="hljs-keyword">value</span></code> attribute.</li>
+<li class="lang-highlight"><code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">save</span><span class="hljs-params">()</span></span></code> returns an info object that describes the current state of the
+lexer. nearley places no restrictions on this object.</li>
+<li class="lang-highlight"><code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">reset</span><span class="hljs-params">(chunk, info)</span></span></code> sets the internal buffer of the lexer to <code>chunk</code>, and
+restores its state to a state returned by <code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">save</span><span class="hljs-params">()</span></span></code>.</li>
+<li class="lang-highlight"><code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">formatError</span><span class="hljs-params">(token)</span></span></code> returns a string with an error message describing a
+parse error at that token (for example, the string might contain the line and
+column where the error was found).</li>
+<li class="lang-highlight"><code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">has</span><span class="hljs-params">(name)</span></span></code> returns true if the lexer can emit tokens with that name. This is
+used to resolve <code class="lang-erlang-repl"><span class="hljs-comment">%</span></code>-specifiers in compiled nearley grammars.</li>
+</ul>
+<blockquote>
+<p>Note: if you are searching for a lexer that allows indentation-aware
+grammars (like in Python), you can still use moo. See <a href="https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa">this
+example</a></p>
+</blockquote>
 
 
             <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a

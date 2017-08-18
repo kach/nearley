@@ -41,7 +41,6 @@ Metalsmith(__dirname)
   .use(docs([
     'accessing-parse-table',
     'how-to-grammar-good',
-    'custom-tokens-and-lexers',
     'glossary',
 
     // install
