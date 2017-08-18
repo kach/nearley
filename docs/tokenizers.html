@@ -268,8 +268,9 @@ nav a {
                 <li class="page">
                     <a href="#" class="page-title-active">Tokenizers</a>
                     <ul>
-                        <li class="page-heading"><a href="#custom-token-matchers">Custom token matchers</a>
+                        <li class="page-heading"><a href="#lexing-with-moo">Lexing with Moo</a>
                         <li class="page-heading"><a href="#custom-lexers">Custom lexers</a>
+                        <li class="page-heading"><a href="#custom-token-matchers">Custom token matchers</a>
                     </ul>
                 </li>
                 <li class="page"><a href="/docs/tooling">Tooling</a>
@@ -298,6 +299,7 @@ easily tell you that <code>superclass</code> is a single keyword, not a sequence
 <li>…gives you <em>lexical information</em> such as line numbers for each token. This
 lets you make better error messages.</li>
 </ul>
+<h3 id="lexing-with-moo">Lexing with Moo</h3>
 <p>nearley supports and recommends <a href="https://github.com/tjvr/moo">Moo</a>, a
 super-fast tokenizer. Here is a simple example:</p>
 <pre><code class="lang-coffeescript">@{%
@@ -324,25 +326,6 @@ This is convenient for matching keywords.</p>
 </code></pre>
 <p>You use the parser as usual: call <code>parser.feed(data)</code>, and nearley will give
 you the parsed results in return.</p>
-<h2 id="custom-tokens-and-lexers">Custom tokens and lexers</h2>
-<p>There are two ways nearley can parse token streams.</p>
-<h3 id="custom-token-matchers">Custom token matchers</h3>
-<p>Aside from the lexer infrastructure, nearley provides a lightweight way to
-parse arbitrary streams.</p>
-<p>Custom matchers can be defined in two ways: <em>literal</em> tokens and <em>testable</em>
-tokens. A literal token matches a JS value exactly (with <code>===</code>), while a
-testable token runs a predicate that tests whether or not the value matches.</p>
-<p>Note that in this case, you would feed a <code>Parser</code> instance an <em>array</em> of
-objects rather than a string! Here is a simple example:</p>
-<pre><code class="lang-coffeescript">@{%
-const tokenPrint = { literal: &quot;print&quot; };
-const tokenNumber = { test: x =&gt; Number.isInteger(x) };
-%}
-
-main -&gt; %tokenPrint %tokenNumber &quot;;;&quot;
-
-# parser.feed([&quot;print&quot;, 12, &quot;;;&quot;]);
-</code></pre>
 <h3 id="custom-lexers">Custom lexers</h3>
 <p>nearley recommends using a <a href="https://github.com/tjvr/moo">moo</a>-based lexer.
 However, you can use any lexer that conforms to the following interface:</p>
@@ -364,6 +347,23 @@ used to resolve <code>%</code>-specifiers in compiled nearley grammars.</li>
 grammars (like in Python), you can still use moo. See <a href="https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa">this
 example</a></p>
 </blockquote>
+<h3 id="custom-token-matchers">Custom token matchers</h3>
+<p>Aside from the lexer infrastructure, nearley provides a lightweight way to
+parse arbitrary streams.</p>
+<p>Custom matchers can be defined in two ways: <em>literal</em> tokens and <em>testable</em>
+tokens. A literal token matches a JS value exactly (with <code>===</code>), while a
+testable token runs a predicate that tests whether or not the value matches.</p>
+<p>Note that in this case, you would feed a <code>Parser</code> instance an <em>array</em> of
+objects rather than a string! Here is a simple example:</p>
+<pre><code class="lang-coffeescript">@{%
+const tokenPrint = { literal: &quot;print&quot; };
+const tokenNumber = { test: x =&gt; Number.isInteger(x) };
+%}
+
+main -&gt; %tokenPrint %tokenNumber &quot;;;&quot;
+
+# parser.feed([&quot;print&quot;, 12, &quot;;;&quot;]);
+</code></pre>
 
 
             <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a

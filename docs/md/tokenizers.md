@@ -20,6 +20,8 @@ Using a tokenizer has many benefits. It...
 - ...gives you *lexical information* such as line numbers for each token. This
   lets you make better error messages.
 
+### Lexing with Moo
+
 nearley supports and recommends [Moo](https://github.com/tjvr/moo), a
 super-fast tokenizer. Here is a simple example:
 
@@ -54,10 +56,26 @@ ifStatement -> "if" condition "then" block
 You use the parser as usual: call `parser.feed(data)`, and nearley will give
 you the parsed results in return.
 
+### Custom lexers
 
-## Custom tokens and lexers
+nearley recommends using a [moo](https://github.com/tjvr/moo)-based lexer.
+However, you can use any lexer that conforms to the following interface:
 
-There are two ways nearley can parse token streams.
+- `next()` returns a token object, which could have fields for line number,
+  etc. Importantly, a token object *must* have a `value` attribute.
+- `save()` returns an info object that describes the current state of the
+  lexer. nearley places no restrictions on this object.
+- `reset(chunk, info)` sets the internal buffer of the lexer to `chunk`, and
+  restores its state to a state returned by `save()`.
+- `formatError(token)` returns a string with an error message describing a
+  parse error at that token (for example, the string might contain the line and
+  column where the error was found).
+- `has(name)` returns true if the lexer can emit tokens with that name. This is
+  used to resolve `%`-specifiers in compiled nearley grammars.
+
+> Note: if you are searching for a lexer that allows indentation-aware
+> grammars (like in Python), you can still use moo. See [this
+> example](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa)
 
 ### Custom token matchers
 
@@ -81,24 +99,3 @@ main -> %tokenPrint %tokenNumber ";;"
 
 # parser.feed(["print", 12, ";;"]);
 ```
-
-### Custom lexers
-
-nearley recommends using a [moo](https://github.com/tjvr/moo)-based lexer.
-However, you can use any lexer that conforms to the following interface:
-
-- `next()` returns a token object, which could have fields for line number,
-  etc. Importantly, a token object *must* have a `value` attribute.
-- `save()` returns an info object that describes the current state of the
-  lexer. nearley places no restrictions on this object.
-- `reset(chunk, info)` sets the internal buffer of the lexer to `chunk`, and
-  restores its state to a state returned by `save()`.
-- `formatError(token)` returns a string with an error message describing a
-  parse error at that token (for example, the string might contain the line and
-  column where the error was found).
-- `has(name)` returns true if the lexer can emit tokens with that name. This is
-  used to resolve `%`-specifiers in compiled nearley grammars.
-
-> Note: if you are searching for a lexer that allows indentation-aware
-> grammars (like in Python), you can still use moo. See [this
-> example](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa)
