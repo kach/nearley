@@ -1,390 +1,416 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>nearley.js - JS Parsing Toolkit</title>
+        <title>Home - nearley.js - JS Parsing Toolkit</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
-        <link href='https://fonts.googleapis.com/css?family=Roboto:300,700'
-              rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" type="text/css" href="www/main.css"/>
-        <script charset="utf-8" src="lib/nearley.js"></script>
-        <script charset="utf-8" src="examples/js/csscolor.js"></script>
+<style>
+body {
+    font-family: sans-serif;
+    font-weight: 300;
+    font-size: 15pt;
+    margin: 0px;
+    padding: 0px;
+    border-top: 0.1em #559 solid;
+    border-bottom: 0.1em #559 solid;
+}
+
+.wf-roboto-n3-active body {
+  font-family: Roboto, sans-serif;
+}
+
+#main a {
+    color: #55a;
+}
+#main a:visited {
+    color: #55a;
+}
+#main a:hover {
+    color: #259;
+}
+
+h1 {
+    font-size: 1.6em;
+    font-weight: 100;
+    letter-spacing: 0.5em;
+    text-align: center;
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+
+h1 a {
+    text-decoration: none;
+}
+
+h1:hover {
+    color: #559;
+    cursor: pointer;
+}
+
+#version {
+    background: orange;
+    border-radius: 50%;
+    font-weight: bold;
+    color: white;
+    width: 3.5em;
+    height: 3.5em;
+    display: inline-block;
+    text-align: center;
+    line-height: 3.5em;
+    letter-spacing: 0em;
+}
+
+h2 {
+    margin-top: 4em;
+}
+h3 {
+    margin-top: 3em;
+}
+h4 {
+    margin-top: 3em;
+}
+
+.center {
+    padding-left: 2em;
+    padding-right: 2em;
+    margin-left: auto;
+    margin-right: auto;
+}
+#main {
+    max-width: 35em;
+}
+
+#main p, ul, ol {
+    line-height: 1.5em;
+    margin-bottom: 1em;
+}
+
+#main li {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#main ul li {
+    list-style: none;
+    min-width: 10em;
+}
+#main ul li:before {
+    display: inline-block;
+    content: &quot;\2014&quot;;
+    margin-left: -1.5em;
+    width: 1.5em;
+}
+
+#main textarea {
+    width: 100%;
+    height: 20em;
+    resize: none;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    font-family: menlo, monaco, monospace;
+    font-size: 10pt;
+    padding: 5px;
+
+    border: none;
+    border-left: solid 1px #aaa;
+}
+#main textarea:focus {
+    outline: none;
+}
+
+#main img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
+img + .caption {
+    text-align: center;
+    font-size: 0.7em;
+    color: #aaa;
+}
+
+/*
+#cy-viz {
+    width: 100%;
+}*/
+
+#footer {
+    margin-top: 10em;
+    color: #aaa;
+    font-size: 0.7em;
+    padding: 5em;
+}
+
+code {
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+    padding: 0.2em;
+    border-radius: 0.2em;
+    background-color: #eee;
+}
+
+pre code {
+    border-radius: 0.5em;
+    //background-color: #559;
+    //color: white;
+    //text-shadow: 0em 0em 0.2em black;
+    padding: 0.5em;
+    display: block;
+    overflow: auto;
+}
+
+
+ol.tutorial {
+    counter-reset: tutorial-counter;
+}
+
+ol.tutorial li {
+    list-style: none;
+}
+
+ol.tutorial li:before {
+    content: counter(tutorial-counter);
+    counter-increment: tutorial-counter;
+
+    font-weight: bold;
+    border-radius: 50%;
+    background-color: #559;
+    width: 2em;
+    height: 2em;
+    display: inline-block;
+    text-align: center;
+    line-height: 2em;
+    color: white;
+
+    margin-left: -2em;
+
+    position: relative;
+    right: 1em;
+}
+
+input[type&#x3D;&quot;text&quot;] {
+    border: none;
+    font-family: monospace;
+    font-size: 1em;
+    color: #559;
+}
+
+input[type&#x3D;&quot;text&quot;]:focus {
+    outline: none;
+}
+
+
+nav {
+    border-right: 1px solid #aaa;
+    background: #fff;
+}
+nav ul {
+    padding: 0;
+    margin: 0;
+}
+nav a {
+    text-decoration: none;
+    color: #000;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0.25em 0.5em; */
+}
+.page {
+    display: block;
+    border-bottom: 1px solid #aaa;
+}
+
+.page-title-active {
+    background: #559;
+    color: #fff;
+}
+
+.page-heading {
+    display: block;
+    padding-left: 1em;
+}
+
+
+@media screen and (min-width: 36rem) {
+    nav {
+        position: fixed;
+        width: 16rem;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        white-space: nowrap;
+        overflow-y: auto;
+        font-size: 1rem;
+    }
+    body.docs-page {
+        margin-left: 16rem;
+    }
+}
+
+/* highlight.js */
+
+.hljs{display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0}.hljs,.hljs-subst{color:#444}.hljs-comment{color:#888888}.hljs-keyword,.hljs-attribute,.hljs-selector-tag,.hljs-meta-keyword,.hljs-doctag,.hljs-name{font-weight:bold}.hljs-type,.hljs-string,.hljs-number,.hljs-selector-id,.hljs-selector-class,.hljs-quote,.hljs-template-tag,.hljs-deletion{color:#880000}.hljs-title,.hljs-section{color:#880000;font-weight:bold}.hljs-regexp,.hljs-symbol,.hljs-variable,.hljs-template-variable,.hljs-link,.hljs-selector-attr,.hljs-selector-pseudo{color:#BC6060}.hljs-literal{color:#78A960}.hljs-built_in,.hljs-bullet,.hljs-code,.hljs-addition{color:#397300}.hljs-meta{color:#1f7199}.hljs-meta-string{color:#4d99bf}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
+
+
+</style>
     </head>
-    <body>
+    <body class="docs-page">
         <a href="https://github.com/Hardmath123/nearley" class="github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+        <nav id="nav">
+            <ul>
+                <li class="page">
+                    <a href="#" class="page-title-active">Home</a>
+                </li>
+                <li class="page"><a href="/docs/getting-started">Getting started</a>
+                <li class="page"><a href="/docs/grammar">Writing a parser</a>
+                <li class="page"><a href="/docs/parser">Using a parser</a>
+                <li class="page"><a href="/docs/tokenizers">Tokenizers</a>
+                <li class="page"><a href="/docs/tooling">Tooling</a>
+                <li class="page"><a href="/docs/how-to-grammar-good">How to grammar good</a>
+                <li class="page"><a href="/docs/using-in-frontend">Compiling in browsers</a>
+                <li class="page"><a href="/docs/glossary">Glossary</a>
+            </ul>
+        </nav>
         <div id="main" class="center">
-            <h1>nearley<span style="color: #559;">.js</span><span id="version">2.0.0</span></h1>
+            <h1><a href="/">nearley<span style="color: #559;">.js</span><span id="version">2.10.4</span></a></h1>
 
-            <p><strong>Parsers</strong> turn strings of characters into
-            meaningful data structures (like a JSON object!).
-            <strong>nearley</strong> is a <strong>fast</strong>,
-            <strong>feature-rich</strong>, and <strong>modern</strong> parser
-            toolkit for JavaScript. nearley is an <a
-            href="https://github.com/npm/npm-collection-staff-picks">npm Staff
-            Pick</a>.
-
-            <h2>nearley 101</h2>
-
-            <ol class="tutorial">
-                <li>Install: <code>$ npm install -g nearley</code> (or try
-                nearley live in your browser <a
-                href="https://omrelli.ug/nearley-playground/">here</a>!)</li>
-
-                <li>Write your grammar:
+<h2>Home</h2>
+<p><strong>Parsers</strong> turn strings of characters into meaningful data structures (like a JSON object!). <strong>nearley</strong> is a <strong>fast</strong>, <strong>feature-rich</strong>, and <strong>modern</strong> parser toolkit for JavaScript. nearley is an <a href="https://github.com/npm/npm-collection-staff-picks">npm Staff Pick</a>.</p>
+<h2 id="nearley-101">nearley 101</h2>
+<ol>
+<li>Install: <code>$ npm install -g nearley</code> (or try nearley live in your browser <a href="https://omrelli.ug/nearley-playground/">here</a>!)</li>
+<li><p>Write your grammar:</p>
 <pre><code># Match a CSS color
 # http://www.w3.org/TR/css3-color/#colorunits
 
-@builtin "whitespace.ne" # `_` means arbitrary amount of whitespace
-@builtin "number.ne"     # `int`, `decimal`, and `percentage` number primitives
+@builtin &quot;whitespace.ne&quot; # `_` means arbitrary amount of whitespace
+@builtin &quot;number.ne&quot;     # `int`, `decimal`, and `percentage` number primitives
 
-csscolor -> "#" hexdigit hexdigit hexdigit hexdigit hexdigit hexdigit
-          | "#" hexdigit hexdigit hexdigit
-          | "rgb"  _ "(" _ colnum _ "," _ colnum _ "," _ colnum _ ")"
-          | "hsl"  _ "(" _ colnum _ "," _ colnum _ "," _ colnum _ ")"
-          | "rgba" _ "(" _ colnum _ "," _ colnum _ "," _ colnum _ "," _ decimal _ ")"
-          | "hsla" _ "(" _ colnum _ "," _ colnum _ "," _ colnum _ "," _ decimal _ ")"
+csscolor -&gt; &quot;#&quot; hexdigit hexdigit hexdigit hexdigit hexdigit hexdigit
+          | &quot;#&quot; hexdigit hexdigit hexdigit
+          | &quot;rgb&quot;  _ &quot;(&quot; _ colnum _ &quot;,&quot; _ colnum _ &quot;,&quot; _ colnum _ &quot;)&quot;
+          | &quot;hsl&quot;  _ &quot;(&quot; _ colnum _ &quot;,&quot; _ colnum _ &quot;,&quot; _ colnum _ &quot;)&quot;
+          | &quot;rgba&quot; _ &quot;(&quot; _ colnum _ &quot;,&quot; _ colnum _ &quot;,&quot; _ colnum _ &quot;,&quot; _ decimal _ &quot;)&quot;
+          | &quot;hsla&quot; _ &quot;(&quot; _ colnum _ &quot;,&quot; _ colnum _ &quot;,&quot; _ colnum _ &quot;,&quot; _ decimal _ &quot;)&quot;
 
-hexdigit -> [a-fA-F0-9]
-colnum   -> int | percentage
-</code></pre>
-</li>
-                <li>Compile your grammar:
-<pre><code>$ nearleyc csscolor.ne -o csscolor.js</code></pre>
-</li>
-                <li>Test your grammar:
-<pre><code>$ nearley-test -i "#00ff00" csscolor.js
-Parse results: 
-[ [ '#', [ '0' ], [ '0' ], [ 'f' ], [ 'f' ], [ '0' ], [ '0' ] ] ]
+hexdigit -&gt; [a-fA-F0-9]
+colnum   -&gt; int | percentage
 </code></pre></li>
-                <li>Turn your grammar into a generator:
+<li><p>Compile your grammar:</p>
+<pre><code>$ nearleyc csscolor.ne -o csscolor.js
+</code></pre></li>
+<li><p>Test your grammar:</p>
+<pre><code>$ nearley-test -i &quot;#00ff00&quot; csscolor.js
+Parse results: 
+[ [ &#39;#&#39;, [ &#39;0&#39; ], [ &#39;0&#39; ], [ &#39;f&#39; ], [ &#39;f&#39; ], [ &#39;0&#39; ], [ &#39;0&#39; ] ] ]
+</code></pre></li>
+<li><p>Turn your grammar into a generator:</p>
 <pre><code>$ nearley-unparse -n 3 csscolor.js
 #Ab21F2
 rgb  ( -29.889%,7,8172)
 #a40
 </code></pre></li>
+<li><p>You try it! Type a CSS color here:</p>
+<input type="text" id="parse-input" placeholder="rgba(0, 255, 0, 0.5)" />
 
-                <li>You try it! Type a CSS color here:
-<input type="text" id="parse-input" placeholder="rgba(0, 255, 0, 0.5)"></input>
-<pre><code id="parse-output">&hellip;and the parsed output will appear here!
-</code></pre>
-
-<script type="text/javascript">
-window.addEventListener('load', function() {
-    document.getElementById('parse-input').addEventListener('keyup', function() {
-        // $ ./bin/nearleyc.js examples/csscolor.ne -o examples/js/csscolor.js
-        var str = this.value;
-        var parser = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
-        try {
-            parser.feed(str);
-            document.getElementById('parse-output').innerHTML = JSON.stringify(parser.results, null, 2);
-            this.style.color = "#559";
-        } catch(e) {
-            document.getElementById('parse-output').innerHTML = "";
-            this.style.color = "red";
-        }
-    }, false);
-
-    var X = new XMLHttpRequest();
-    X.open('GET', 'package.json');
-    X.onreadystatechange = function() {
-        if (X.readyState === 4 && X.status === 200 && X.responseText) {
-            var J = JSON.parse(X.responseText);
-            document.getElementById("version").innerHTML = J.version || "2.0.0";
-        }
-    };
-    X.send();
-}, false);
-</script>
+<pre><code id="parse-output">…and the parsed output will appear here!</code></pre>
 </li>
-
-                <li>Create beautiful railroad diagrams to document your grammar
-                formally.
-
-<pre><code>$ nearley-railroad csscolor.ne -o csscolor.html</pre></code>
-
-Output looks like:
-
-<br/>
-
-<style type="text/css">
-svg.railroad-diagram {
-    background-color: inherit;
-}
-svg.railroad-diagram path {
-    stroke-width: 3;
-    stroke: black;
-    fill: rgba(0,0,0,0);
-}
-svg.railroad-diagram text {
-    font: bold 14px monospace;
-    text-anchor: middle;
-}
-svg.railroad-diagram text.diagram-text {
-    font-size: 12px;
-}
-svg.railroad-diagram text.diagram-arrow {
-    font-size: 16px;
-}
-svg.railroad-diagram text.label {
-    text-anchor: start;
-}
-svg.railroad-diagram text.comment {
-    font: italic 12px monospace;
-}
-svg.railroad-diagram g.non-terminal text {
-    /*font-style: italic;*/
-}
-svg.railroad-diagram rect {
-    stroke-width: 3;
-    stroke: black;
-    fill: hsl(120,100%,90%);
-}
-svg.railroad-diagram path.diagram-text {
-    stroke-width: 3;
-    stroke: black;
-    fill: white;
-    cursor: help;
-}
-svg.railroad-diagram g.diagram-text:hover path.diagram-text {
-    fill: #eee;
-}
-
-</style>
-<svg class="railroad-diagram" width="244" height="62" viewBox="0 0 244 62">
-<g transform="translate(.5 .5)">
-<path d="M 20 21 v 20 m 10 -20 v 20 m -10 -10 h 20.5"></path>
-<g>
-<path d="M40 31h0"></path>
-<path d="M204 31h0"></path>
-<path d="M40 31h20"></path>
-<g>
-<path d="M60 31h0"></path>
-<path d="M184 31h0"></path>
-<g class="terminal">
-<path d="M60 31h0"></path>
-<path d="M184 31h0"></path>
-<rect x="60" y="20" width="124" height="22" rx="10" ry="10"></rect>
-<text x="122" y="35">/&#91;a-fA-F0-9&#93;/</text>
-</g>
-</g>
-<path d="M184 31h20"></path>
-</g>
-<path d="M 204 31 h 20 m -10 -10 v 20 m 10 -20 v 20"></path>
-</g>
-</svg>
-
+<li><p>Create beautiful railroad diagrams to document your grammar formally.</p>
+<pre><code>$ nearley-railroad csscolor.ne -o csscolor.html
+</code></pre><p>Output looks like:</p>
+<p><img src="" alt="XXX TODO railroad diagram"></p>
 <p>See a bigger example <a href="www/railroad-demo.html">here</a>.</p>
-
-
 </li>
+</ol>
+<h2 id="features">Features</h2>
+<ul>
+<li>nearley is the first JS parser to use the <strong>Earley</strong> algorithm (insert your own ‘early bird’ pun here). It also implements Joop Leo’s optimizations for right-recursion, making it effectively <strong>linear-time</strong> for LL(k) grammars.</li>
+<li>nearley lives happily in <strong>node</strong>, but doesn’t mind the <strong>browser</strong>.</li>
+<li>nearley outputs <strong>small</strong> files. And its <strong>expressive</strong> DSL comes with plenty of <strong>syntactic sugar</strong> to keep your source files short. And sweet.</li>
+<li>nearley’s grammar language is powerful and expressive: you can use <strong>macros</strong>, import from a large <strong>builtin library</strong> of pre-defined parser-pieces, use a <strong>tokenizer</strong> for extra performance, and more!</li>
+<li>nearley is built on an idiomatic <strong>streaming API</strong>. You even have access to partial parses to build <strong>predictive</strong> user interfaces.</li>
+<li>nearley processes <strong>left recursion</strong> without choking. In fact, nearley will parse anything you throw at it without complaining or going into a <del>sulk</del> infinite loop.</li>
+<li>nearley handles <strong>ambiguous grammars</strong> gracefully. Ambiguous grammars can be parsed in multiple ways: instead of getting confused, nearley gives you all the parsings (in a deterministic order!).</li>
+<li>nearley allows for debugging with generous <strong>error detection</strong>. When it catches a parse-time error, nearley tells you exactly what went wrong and where.</li>
+<li>nearley is powerful enough to be <strong>bootstrapped</strong>. That means nearley uses nearley to compile parts of nearley. <em>nearleyception!</em></li>
+<li><p>nearley parsers can be inverted to form <strong>generators</strong> which output random strings that match a grammar. Useful for writing <strong>test cases</strong>, <strong>fuzzers</strong>, and <strong>Mad-Libs</strong>.</p>
+</li>
+<li><p>You can export nearley parsers as <strong>railroad diagrams</strong>, which provide easy-to-understand documentation of your grammar.</p>
+</li>
+<li>nearley comes with fantastic tooling. You can find editor plug-ins for <strong>vim</strong>, <strong>Sublime Text</strong>, <strong>Atom</strong>, and <strong>VS Code</strong>; there are also plug-ins for <strong>Webpack</strong> and <strong>gulp</strong>.</li>
+</ul>
+<h2 id="projects-using-nearley">Projects using nearley</h2>
+<ul>
+<li><strong>Artificial Intelligence and NLP</strong>: <a href="https://github.com/ChalmersGU-AI-course/shrdlite-course-project">Shrdlite</a> is a programming project in Artificial Intelligence, a course given at the University of Gothenburg and Chalmers University of Technology. It uses nearley for reading instructions in natural language (i.e. English).</li>
+<li><strong>Standard formats</strong>: <a href="https://github.com/raymond-h/node-dmi">node-dmi</a> is a module that reads iconstate metadata from BYOND DMI files, <a href="https://github.com/inukshuk/edtf.js">edtf.js</a> is a parser for Extended Date Time Format, <a href="https://github.com/farskipper/node-krl-parser">node-krl-parser</a> is a KRL parser for node, <a href="https://github.com/digitalheir/bibliography-js">bibliography</a> is a BibTeX-to-HTML converter, <a href="https://github.com/fiduswriter/biblatex-csl-converter">biblatex-csl-converter</a> converts between bibtex/CSL/JSON, <a href="https://github.com/gajus/scalpel">scalpel</a> parses CSS selectors, <a href="https://github.com/waratuman/rfc5545-rrule">rfc5545-rrule</a> helps parse iCalendar data, <a href="https://github.com/mangudai/mangudai">mangudai</a> parses RMS scripts for Age of Empires II, <a href="https://github.com/r24y/tf-hcl">tf-hcl</a> parses and generates HCL config files, <a href="https://github.com/balbuf/css-selector-inspector">css-selector-inspector</a> parses and tokenizes CSS3 selectors, <a href="https://github.com/hhornbacher/node-scad-parser">node-scad-parser</a> parses OpenSCAD 3D models, <a href="https://github.com/justinkenel/js-sql-parse">js-sql-parse</a> parses SQL statements.</li>
+<li><strong>Templating and files</strong>: <a href="https://github.com/bobbybee/uPresent">uPresent</a> is a markdown-based presentation authoring system, <a href="https://github.com/rtsao/saison">saison</a> is a minimal templating language, <a href="https://github.com/imsky/packdown">Packdown</a> is a tool to generate human-readable archives of multiple files.</li>
+<li><strong>Programming languages</strong>: <a href="https://github.com/bobbybee/carbon">Carbon</a> is a C subset that compiles to JavaScript, optimized for game development, <a href="https://github.com/tleb/ezlang">ezlang</a> is a simple language, <a href="https://github.com/liam4/tlnccuwagnf">tlnccuwagnf</a> is a fun general-purpose language, <a href="https://github.com/nanalan/g">nanalang</a> is a silly esoteric language, <a href="https://github.com/nanalan/english">english</a> is a less esoteric programming language, <a href="https://github.com/farskipper/ecmaless">ecmaless</a> is an easily-extensible language, <a href="https://github.com/xodio/hm-parser">hm-parser</a> parses Haskell-like Hindley-Milner type signatures, <a href="https://github.com/kozily/web">kozily</a> implements the Oz language, <a href="https://stefan1niculae.github.io/abstract-machine/">abstract-machine</a> inspects execution models, <a href="https://github.com/Malpaux/fbp-types">fbp-types</a> provides typechecking primitives for flow-based systems, <a href="https://github.com/sizigi/lp5562">lp5562</a> is an assembler for the TI LP5562 LED driver, <a href="https://github.com/vsl-lang/VSL">VSL</a> is a Versatile Scripting Language, <a href="https://github.com/juanlaube/while-typescript">while-typescript</a> is an implementation of the WHILE language.</li>
+<li><strong>Mathematics</strong>: <a href="https://github.com/andrejewski/solvent">Solvent</a> is a powerful desktop calculator, <a href="https://github.com/andrejewski/truth-table">Truth-table</a> is a tool to visualize propositional logic in truth tables, <a href="http://emunotes.com">Emunotes</a> is a personal Wiki with inline graphing and computation, <a href="https://kgram.github.io/react-equation/">react-equation</a> parses and renders equations in React.</li>
+<li><strong>Domain-specific languages</strong>: <a href="https://github.com/jcorbin/hexant">Hexant</a> is a cellular automata simulator with a DSL for custom automata, <a href="https://github.com/justjake/dicetower">Dicetower</a> is an advanced dice plugin for hubot, <a href="https://github.com/seiyria/deck.zone">deck.zone</a> is a language to create board games, <a href="https://github.com/danigb/in-seconds">in-seconds</a> is a time calculator for music applications, <a href="https://github.com/bumbu/website-spec">website-spec</a> is a tool for functional web testing, <a href="https://github.com/gajus/pianola">pianola</a> allows declarative function composition, <a href="https://idyll-lang.github.io/idyll/">idyll</a> is a markup language for data-driven documents, <a href="https://github.com/affinipay/virtsecgroup">virtsecgroup</a> provides virtual AWS security groups, <a href="https://github.com/Pwootage/deadfad">deadfad</a> is a hex editor that lets you specify structs, <a href="https://github.com/juliankrispel/bishbosh">bishbosh</a> helps you create command-line interfaces, <a href="https://github.com/sgmap/syso">syso</a> codifies aspects of French legal contracts, <a href="https://github.com/independentgeorge/siteswap.js">siteswap</a> parses Siteswap notation for juggling patterns, <a href="https://github.com/amireh/jsgrep">jsgrep</a> provides syntactic grep for JavaScript, <a href="https://github.com/monostable/npm-parse-electronic-component">npm-parse-electronic-component</a> parses descriptions of electronic components like resistors and capacitors.</li>
+<li><strong>Parsing libraries</strong>: <a href="http://nearley.js.org">nearley</a> is a parser toolkit for JavaScript. It has a nearley-based DSL to specify parsers.</li>
+</ul>
+<p>Excited? Get started on <a href="https://github.com/Hardmath123/nearley">Github</a>, visit us on <a href="http://npmjs.org/package/nearley">npm</a>, explore nearley in your browser on the <a href="https://omrelli.ug/nearley-playground/">playground</a>, or try out the <a href="examples/calculator/">calculator demo</a> for more action.</p>
 
-
-
-            </ol>
-
-            <h2>Features</h2>
-            
-            <ul>
-                
-                <li>nearley is the first JS parser to use the
-                <strong>Earley</strong> algorithm (insert your own &lsquo;early
-                bird&rsquo; pun here). It also implements Joop Leo's
-                optimizations for right-recursion, making it effectively
-                <strong>linear-time</strong> for LL(k) grammars.
-                
-                <li>nearley lives happily in <strong>node</strong>, but doesn't
-                mind the <strong>browser</strong>.
-
-                <li>nearley outputs <strong>small</strong> files. And its
-                <strong>expressive</strong> DSL comes with plenty of
-                <strong>syntactic sugar</strong> to keep your source files
-                short. And sweet.
-
-                <li>nearley's grammar language is powerful and expressive: you
-                can use <strong>macros</strong>, import from a large
-                <strong>builtin library</strong> of pre-defined parser-pieces,
-                use a <strong>tokenizer</strong> for extra performance, and
-                more!
-
-                <li>nearley is built on an idiomatic <strong>streaming
-                API</strong>. You even have access to partial parses to build
-                <strong>predictive</strong> user interfaces.
-
-                <li>nearley processes <strong>left recursion</strong> without
-                choking. In fact, nearley will parse anything you throw at it
-                without complaining or going into a <s>sulk</s> infinite loop.
-            
-                <li>nearley handles <strong>ambiguous grammars</strong>
-                gracefully. Ambiguous grammars can be parsed in multiple ways:
-                instead of getting confused, nearley gives you all the parsings
-                (in a deterministic order!).
-
-                <li>nearley allows for debugging with generous <strong>error
-                detection</strong>. When it catches a parse-time error, nearley
-                tells you exactly what went wrong and where.
-
-                <li>nearley is powerful enough to be
-                <strong>bootstrapped</strong>. That means nearley uses nearley
-                to compile parts of nearley. <em>nearleyception!</em>
-
-                <li>nearley parsers can be inverted to form
-                <strong>generators</strong> which output random strings that
-                match a grammar. Useful for writing <strong>test
-                cases</strong>, <strong>fuzzers</strong>, and
-                <strong>Mad-Libs</strong>.<br/>
-
-                <li>You can export nearley parsers as <strong>railroad
-                diagrams</strong>, which provide easy-to-understand
-                documentation of your grammar.
-
-                <li>nearley comes with fantastic tooling. You can find editor
-                plug-ins for <strong>vim</strong>, <strong>Sublime
-                Text</strong>, <strong>Atom</strong>, and <strong>VS
-                Code</strong>; there are also plug-ins for
-                <strong>Webpack</strong> and <strong>gulp</strong>.
-            
-            </ul>
-
-            <h2>Projects using nearley</h2>
-
-            <ul>
-                <li><strong>Artificial Intelligence and NLP</strong>: <a
-                href="https://github.com/ChalmersGU-AI-course/shrdlite-course-project">Shrdlite</a>
-                is a programming project in Artificial Intelligence, a course
-                given at the University of Gothenburg and Chalmers University
-                of Technology. It uses nearley for reading instructions in
-                natural language (i.e. English).</a>
-
-                <li><strong>Standard formats</strong>: <a
-                href="https://github.com/raymond-h/node-dmi">node-dmi</a> is a
-                module that reads iconstate metadata from BYOND DMI files, <a
-                href="https://github.com/inukshuk/edtf.js">edtf.js</a> is a
-                parser for Extended Date Time Format, <a
-                href="https://github.com/farskipper/node-krl-parser">node-krl-parser</a>
-                is a KRL parser for node, <a
-                href="https://github.com/digitalheir/bibliography-js">bibliography</a>
-                is a BibTeX-to-HTML converter, <a
-                href="https://github.com/fiduswriter/biblatex-csl-converter">biblatex-csl-converter</a>
-                converts between bibtex/CSL/JSON, <a
-                href="https://github.com/gajus/scalpel">scalpel</a> parses CSS
-                selectors, <a
-                href="https://github.com/waratuman/rfc5545-rrule">rfc5545-rrule</a>
-                helps parse iCalendar data, <a
-                href="https://github.com/mangudai/mangudai">mangudai</a> parses
-                RMS scripts for Age of Empires II, <a
-                href="https://github.com/r24y/tf-hcl">tf-hcl</a> parses and
-                generates HCL config files, <a
-                href="https://github.com/balbuf/css-selector-inspector">css-selector-inspector</a>
-                parses and tokenizes CSS3 selectors, <a
-                href="https://github.com/hhornbacher/node-scad-parser">node-scad-parser</a>
-                parses OpenSCAD 3D models, <a
-                href="https://github.com/justinkenel/js-sql-parse">js-sql-parse</a>
-                parses SQL statements.
-
-                <li><strong>Templating and files</strong>: <a
-                href="https://github.com/bobbybee/uPresent">uPresent</a> is a
-                markdown-based presentation authoring system, <a
-                href="https://github.com/rtsao/saison">saison</a> is a minimal
-                templating language, <a
-                href="https://github.com/imsky/packdown">Packdown</a> is a tool
-                to generate human-readable archives of multiple files.
-
-
-                <li><strong>Programming languages</strong>: <a
-                href="https://github.com/bobbybee/carbon">Carbon</a> is a C
-                subset that compiles to JavaScript, optimized for game
-                development, <a
-                href="https://github.com/tleb/ezlang">ezlang</a> is a simple
-                language, <a
-                href="https://github.com/liam4/tlnccuwagnf">tlnccuwagnf</a> is
-                a fun general-purpose language, <a
-                href="https://github.com/nanalan/g">nanalang</a> is a silly
-                esoteric language, <a
-                href="https://github.com/nanalan/english">english</a> is a less
-                esoteric programming language, <a
-                href="https://github.com/farskipper/ecmaless">ecmaless</a> is
-                an easily-extensible language, <a
-                href="https://github.com/xodio/hm-parser">hm-parser</a> parses
-                Haskell-like Hindley-Milner type signatures, <a
-                href="https://github.com/kozily/web">kozily</a> implements the
-                Oz language, <a
-                href="https://stefan1niculae.github.io/abstract-machine/">abstract-machine</a>
-                inspects execution models, <a
-                href="https://github.com/Malpaux/fbp-types">fbp-types</a>
-                provides typechecking primitives for flow-based systems, <a
-                href="https://github.com/sizigi/lp5562">lp5562</a> is an
-                assembler for the TI LP5562 LED driver, <a
-                href="https://github.com/vsl-lang/VSL">VSL</a> is a Versatile
-                Scripting Language, <a
-                href="https://github.com/juanlaube/while-typescript">while-typescript</a>
-                is an implementation of the WHILE language.
-
-                <li><strong>Mathematics</strong>: <a
-                href="https://github.com/andrejewski/solvent">Solvent</a> is a
-                powerful desktop calculator, <a
-                href="https://github.com/andrejewski/truth-table">Truth-table</a>
-                is a tool to visualize propositional logic in truth tables, <a
-                href="http://emunotes.com">Emunotes</a> is a personal Wiki with
-                inline graphing and computation, <a
-                href="https://kgram.github.io/react-equation/">react-equation</a>
-                parses and renders equations in React.
-
-
-                <li><strong>Domain-specific languages</strong>: <a
-                href="https://github.com/jcorbin/hexant">Hexant</a> is a
-                cellular automata simulator with a DSL for custom automata, <a
-                href="https://github.com/justjake/dicetower">Dicetower</a> is
-                an advanced dice plugin for hubot, <a
-                href="https://github.com/seiyria/deck.zone">deck.zone</a> is a
-                language to create board games, <a
-                href="https://github.com/danigb/in-seconds">in-seconds</a> is a
-                time calculator for music applications, <a
-                href="https://github.com/bumbu/website-spec">website-spec</a>
-                is a tool for functional web testing, <a
-                href="https://github.com/gajus/pianola">pianola</a> allows
-                declarative function composition, <a
-                href="https://idyll-lang.github.io/idyll/">idyll</a> is a
-                markup language for data-driven documents, <a
-                href="https://github.com/affinipay/virtsecgroup">virtsecgroup</a>
-                provides virtual AWS security groups, <a
-                href="https://github.com/Pwootage/deadfad">deadfad</a> is a hex
-                editor that lets you specify structs, <a
-                href="https://github.com/juliankrispel/bishbosh">bishbosh</a>
-                helps you create command-line interfaces, <a
-                href="https://github.com/sgmap/syso">syso</a> codifies aspects
-                of French legal contracts, <a
-                href="https://github.com/independentgeorge/siteswap.js">siteswap</a>
-                parses Siteswap notation for juggling patterns, <a
-                href="https://github.com/amireh/jsgrep">jsgrep</a> provides
-                syntactic grep for JavaScript, <a
-                href="https://github.com/monostable/npm-parse-electronic-component">npm-parse-electronic-component</a>
-                parses descriptions of electronic components like resistors and
-                capacitors.
-
-                <li><strong>Parsing libraries</strong>: <a
-                href="http://nearley.js.org">nearley</a> is a parser toolkit
-                for JavaScript. It has a nearley-based DSL to specify parsers.
-
-            </ul>
-
-
-            <p>Excited? Get started on
-            <a href="https://github.com/Hardmath123/nearley">Github</a>, visit
-            us on <a href="http://npmjs.org/package/nearley">npm</a>, explore
-            nearley in your browser on the <a
-            href="https://omrelli.ug/nearley-playground/">playground</a>, or
-            try out the <a href="examples/calculator/">calculator demo</a> for
-            more action.
 
             <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a
             href="http://hardmath123.github.io">Hardmath123</a> (<a
             href="http://github.com/Hardmath123">Github</a>). You're welcome to
             leave questions, comments, advice, or ideas as Github issues. And
-            feel free to fork nearley with your own experiments!
+            feel free to fork nearley with your own experiments!<br/>
             
             <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
             <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
         </div>
+
+        <script>
+        WebFontConfig = {
+          google: {
+            families: ['Roboto:300,700']
+          }
+        };
+        </script>
+        <script async src="//cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js"></script>
+        <script id="highlight-js" async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>
+        document.querySelector('#highlight-js').addEventListener('load', function() {
+          hljs.initHighlightingOnLoad();
+        })
+        </script>
+
+        <script charset="utf-8" src="/lib/nearley.js"></script>
+        <script charset="utf-8" src="/examples/js/csscolor.js"></script>
+
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            document.getElementById('parse-input').addEventListener('keyup', function() {
+                // $ ./bin/nearleyc.js examples/csscolor.ne -o examples/js/csscolor.js
+                var str = this.value;
+                var parser = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
+                try {
+                    parser.feed(str);
+                    document.getElementById('parse-output').innerHTML = JSON.stringify(parser.results, null, 2);
+                    this.style.color = "#559";
+                } catch(e) {
+                    document.getElementById('parse-output').innerHTML = "";
+                    this.style.color = "red";
+                }
+            }, false);
+
+            var X = new XMLHttpRequest();
+            X.open('GET', 'package.json');
+            X.onreadystatechange = function() {
+                if (X.readyState === 4 && X.status === 200 && X.responseText) {
+                    var J = JSON.parse(X.responseText);
+                    document.getElementById("version").innerHTML = J.version || "2.0.0";
+                }
+            };
+            X.send();
+        }, false);
+        </script>
+            
     </body>
 </html>
