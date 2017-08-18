@@ -1,6 +1,12 @@
 
-const nearley = require('../lib/nearley.js');
-const {compile, read} = require('./_shared.js');
+const fs = require('fs');
+
+const nearley = require('../lib/nearley');
+const {compile} = require('./_shared');
+
+function read(filename) {
+    return fs.readFileSync(filename, 'utf-8');
+}
 
 function makeParser(neFile) {
     var grammar;
