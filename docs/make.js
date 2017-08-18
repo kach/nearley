@@ -39,7 +39,6 @@ Metalsmith(__dirname)
     property: 'paths'
   }))
   .use(docs([
-    'accessing-parse-table',
     'how-to-grammar-good',
     'glossary',
 
