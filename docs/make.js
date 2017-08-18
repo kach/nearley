@@ -39,15 +39,15 @@ Metalsmith(__dirname)
     property: 'paths'
   }))
   .use(docs([
-    'how-to-grammar-good',
     'glossary',
 
     // install
     'index',
     'language',
+    'how-to-grammar-good',
     'usage',
-    'tooling',
     'tokenizers',
+    'tooling',
 
     'using-in-frontend',
   ]))
