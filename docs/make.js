@@ -43,8 +43,11 @@ Metalsmith(__dirname)
     'how-to-grammar-good',
     'custom-tokens-and-lexers',
     'glossary',
+
     'index',
     'tooling',
+    'tokenizers',
+
     'using-in-frontend',
   ]))
   //.use(debug)
