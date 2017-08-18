@@ -43,9 +43,9 @@ Metalsmith(__dirname)
 
     // install
     'index',
-    'language',
+    'grammar',
     'how-to-grammar-good',
-    'usage',
+    'parser',
     'tokenizers',
     'tooling',
 
