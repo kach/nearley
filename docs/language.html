@@ -128,7 +128,7 @@ keyword <code class="lang-actionscript"><span class="hljs-keyword">var</span></c
 </code></pre>
 Please note that grammars using <code class="lang-vhdl"><span class="hljs-keyword">reject</span></code> are not context-free, and are often
 much slower to parse. Use it wisely! You can usually avoid the need for
-<code class="lang-vhdl"><span class="hljs-keyword">reject</span></code> by using a <a href="#tokenizers">tokenizer</a>.</li>
+<code class="lang-vhdl"><span class="hljs-keyword">reject</span></code> by using a <a href="tokenizers">tokenizer</a>.</li>
 </ul>
 <p>Remember that a postprocessor is scoped to a single rule, not the whole
 nonterminal. If a nonterminal has multiple alternative rules, each of them can
@@ -162,7 +162,7 @@ ignored:</p>
 </code></pre>
 <h4 id="charsets">Charsets</h4>
 <p>You can use valid RegExp charsets in a rule (unless you’re using a
-<a href="#tokenizers">tokenizer</a>):</p>
+<a href="tokenizers">tokenizer</a>):</p>
 <pre class="lang-highlight"><code class="lang-autohotkey">not_<span class="hljs-built_in">a_letter</span> -&gt; [^<span class="hljs-literal">a</span>-zA-Z]
 </code></pre><p class="lang-highlight">The <code class="lang-erlang">.</code> character can be used to represent any character.</p>
 <h4 id="case-insensitive-string-literals">Case-insensitive string literals</h4>

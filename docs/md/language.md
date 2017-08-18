@@ -117,7 +117,7 @@ The postprocessor can be any function. It will be passed three arguments:
   ```
   Please note that grammars using `reject` are not context-free, and are often
   much slower to parse. Use it wisely! You can usually avoid the need for
-  `reject` by using a [tokenizer](#tokenizers).
+  `reject` by using a [tokenizer](tokenizers).
 
 Remember that a postprocessor is scoped to a single rule, not the whole
 nonterminal. If a nonterminal has multiple alternative rules, each of them can
@@ -163,7 +163,7 @@ expression -> number "+" number # sum of two numbers
 #### Charsets
 
 You can use valid RegExp charsets in a rule (unless you're using a
-[tokenizer](#tokenizers)):
+[tokenizer](tokenizers)):
 
     not_a_letter -> [^a-zA-Z]
 
