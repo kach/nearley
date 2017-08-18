@@ -9,8 +9,6 @@
               rel='stylesheet' type='text/css'/>
         <link rel="stylesheet" type="text/css" href="/www/main.css"/>
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
     </head>
     <body class="docs-page">
         <a href="https://github.com/Hardmath123/nearley" class="github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
@@ -53,21 +51,21 @@ parses input strings.</p>
 <a href="https://docs.npmjs.com/getting-started/what-is-npm">NPM</a> package compatible
 with <a href="https://nodejs.org/en/">Node.js</a> and most browsers.</p>
 <p>To use the nearley <em>parser</em>, you need to install nearley <strong>locally</strong>.</p>
-<pre><code class="lang-bash">$ npm install --save nearley
+<pre class="lang-highlight"><code class="lang-bash">$ npm install --save nearley
 </code></pre>
 <p>To use the nearley <em>compiler</em>, you need to <em>additionally</em> install nearley
 <strong>globally</strong>.</p>
-<pre><code class="lang-bash">$ npm install -g nearley
+<pre class="lang-highlight"><code class="lang-bash">$ npm install -g nearley
 </code></pre>
-<p>This actually adds several new commands to your <code>$PATH</code>:</p>
+<p class="lang-highlight">This actually adds several new commands to your <code class="lang-xquery"><span class="hljs-variable">$PATH</span></code>:</p>
 <ul>
-<li><code>nearleyc</code> compiles grammar files to JavaScript.</li>
-<li><code>nearley-test</code> lets you quickly test a grammar against some input and see the
+<li class="lang-highlight"><code>nearleyc</code> compiles grammar files to JavaScript.</li>
+<li class="lang-highlight"><code class="lang-stata">nearley-<span class="hljs-keyword">test</span></code> lets you quickly test a grammar against some input and see the
 results. It also lets you explore the internal state of nearley’s Earley
 table, in case you find that interesting.</li>
-<li><code>nearley-unparse</code> inverts a parser into a generator, allowing you to create
+<li class="lang-highlight"><code>nearley-unparse</code> inverts a parser into a generator, allowing you to create
 random strings that match your grammar.</li>
-<li><code>nearley-railroad</code> generates pretty railroad diagrams from your parser. This
+<li class="lang-highlight"><code>nearley-railroad</code> generates pretty railroad diagrams from your parser. This
 is mainly helpful for creating documentation, as (for example) on json.org.</li>
 </ul>
 <p>These are documented on the <a href="tooling.html">tooling page</a>.</p>
@@ -80,320 +78,320 @@ exploring nearley grammars interactively.</p>
 <h2 id="getting-started-nearley-in-3-steps">Getting started: nearley in 3 steps</h2>
 <p>nearley was written with users in mind: getting started with nearley is as
 simple as:</p>
-<p><strong>Step 1: Describe your grammar</strong> using the nearley syntax. In a file called
-<code>grammar.ne</code>, write:</p>
-<pre><code class="lang-js">main -&gt; (statement &quot;\n&quot;):+
-statement -&gt; &quot;foo&quot; | &quot;bar&quot;
+<p class="lang-highlight"><strong>Step 1: Describe your grammar</strong> using the nearley syntax. In a file called
+<code class="lang-crmsh">grammar.<span class="hljs-operator">ne</span></code>, write:</p>
+<pre class="lang-highlight"><code class="lang-js">main -&gt; (statement <span class="hljs-string">"\n"</span>):+
+statement -&gt; <span class="hljs-string">"foo"</span> | <span class="hljs-string">"bar"</span>
 </code></pre>
 <p><strong>Step 2: Compile</strong> the grammar to a JavaScript module. On the command line,
 run:</p>
-<pre><code class="lang-bash">$ nearleyc grammar.ne -o grammar.js
+<pre class="lang-highlight"><code class="lang-bash">$ nearleyc grammar.ne -o grammar.js
 </code></pre>
 <p><strong>Step 3: Parse</strong> some data! In a new JavaScript file, write:</p>
-<pre><code class="lang-js">const nearley = require(&quot;nearley&quot;);
-const grammar = require(&quot;./grammar.js&quot;);
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-keyword">const</span> nearley = <span class="hljs-built_in">require</span>(<span class="hljs-string">"nearley"</span>);
+<span class="hljs-keyword">const</span> grammar = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./grammar.js"</span>);
 
-// Create a Parser object from our grammar.
-const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
+<span class="hljs-comment">// Create a Parser object from our grammar.</span>
+<span class="hljs-keyword">const</span> parser = <span class="hljs-keyword">new</span> nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 
-// Parse something!
-parser.feed(&quot;foo\n&quot;);
+<span class="hljs-comment">// Parse something!</span>
+parser.feed(<span class="hljs-string">"foo\n"</span>);
 
-// parser.results is an array of possible parsings.
-console.log(parser.results); // [[[[ &quot;foo&quot; ],&quot;\n&quot; ]]]
+<span class="hljs-comment">// parser.results is an array of possible parsings.</span>
+<span class="hljs-built_in">console</span>.log(parser.results); <span class="hljs-comment">// [[[[ "foo" ],"\n" ]]]</span>
 </code></pre>
 <h2 id="writing-a-parser-the-nearley-grammar-language">Writing a parser: the nearley grammar language</h2>
-<p>This section describes the nearley grammar language, in which you can describe
-grammars for nearley to parse. Grammars are conventionally kept in <code>.ne</code> files.
-You can then use <code>nearleyc</code> to compile your <code>.ne</code> grammars to JavaScript
+<p class="lang-highlight">This section describes the nearley grammar language, in which you can describe
+grammars for nearley to parse. Grammars are conventionally kept in <code class="lang-asciidoc"><span class="hljs-title">.ne</span></code> files.
+You can then use <code>nearleyc</code> to compile your <code class="lang-asciidoc"><span class="hljs-title">.ne</span></code> grammars to JavaScript
 modules.</p>
-<p>You can find many examples of nearley grammars online, as well as some in the
+<p class="lang-highlight">You can find many examples of nearley grammars online, as well as some in the
 <code>examples/</code> directory of the <a href="http://github.com/Hardmath123/nearley">Github
 repository</a>.</p>
 <h3 id="vocabulary">Vocabulary</h3>
 <ul>
-<li>A <em>terminal</em> is a single, constant string or a token. For example, the
-keyword <code>&quot;if&quot;</code> is a terminal.</li>
+<li class="lang-highlight">A <em>terminal</em> is a single, constant string or a token. For example, the
+keyword <code class="lang-1c"><span class="hljs-string">"if"</span></code> is a terminal.</li>
 <li>A <em>nonterminal</em> describes a set of possible strings. For example, all “if”
 statements can be described by a single nonterminal whose value depends on
 the condition and body of the if statement.</li>
-<li>A <em>rule</em> (or production rule) is a definition of a nonterminal. For example,<pre><code class="lang-js">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;endif&quot;
+<li class="lang-highlight">A <em>rule</em> (or production rule) is a definition of a nonterminal. For example,<pre class="lang-highlight"><code class="lang-js">ifStatement -&gt; <span class="hljs-string">"if"</span> condition <span class="hljs-string">"then"</span> statement <span class="hljs-string">"endif"</span>
 </code></pre>
-is the rule according to which the if statement nonterminal, <code>ifStatement</code>,
-is parsed. It depends on the nonterminals <code>condition</code> and <code>statement</code>. A
+is the rule according to which the if statement nonterminal, <code class="lang-bash"><span class="hljs-keyword">if</span>Statement</code>,
+is parsed. It depends on the nonterminals <code class="lang-mel"><span class="hljs-keyword">condition</span></code> and <code>statement</code>. A
 nonterminal can be described by multiple rules. For example, we can add a
-second rule<pre><code class="lang-js">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;else&quot; statement &quot;endif&quot;
+second rule<pre class="lang-highlight"><code class="lang-js">ifStatement -&gt; <span class="hljs-string">"if"</span> condition <span class="hljs-string">"then"</span> statement <span class="hljs-string">"else"</span> statement <span class="hljs-string">"endif"</span>
 </code></pre>
 to support “else” clauses.</li>
 </ul>
-<p>By default, nearley attempts to parse the first nonterminal defined in the
+<p class="lang-highlight">By default, nearley attempts to parse the first nonterminal defined in the
 grammar. In the following grammar, nearley will try to parse input text as an
-<code>expression</code>.</p>
-<pre><code class="lang-js">expression -&gt; number &quot;+&quot; number
-expression -&gt; number &quot;-&quot; number
-expression -&gt; number &quot;*&quot; number
-expression -&gt; number &quot;/&quot; number
-number -&gt; [0-9]:+
+<code class="lang-mel"><span class="hljs-keyword">expression</span></code>.</p>
+<pre class="lang-highlight"><code class="lang-js">expression -&gt; number <span class="hljs-string">"+"</span> number
+expression -&gt; number <span class="hljs-string">"-"</span> number
+expression -&gt; number <span class="hljs-string">"*"</span> number
+expression -&gt; number <span class="hljs-string">"/"</span> number
+number -&gt; [<span class="hljs-number">0</span>-<span class="hljs-number">9</span>]:+
 </code></pre>
-<p>You can use the pipe character <code>|</code> to separate alternative rules for a
-nonterminal. In the example below, <code>expression</code> has four different rules.</p>
-<pre><code class="lang-js">expression -&gt;
-      number &quot;+&quot; number
-    | number &quot;-&quot; number
-    | number &quot;*&quot; number
-    | number &quot;/&quot; number
+<p class="lang-highlight">You can use the pipe character <code class="lang-1c"><span class="hljs-string">|</span></code> to separate alternative rules for a
+nonterminal. In the example below, <code class="lang-mel"><span class="hljs-keyword">expression</span></code> has four different rules.</p>
+<pre class="lang-highlight"><code class="lang-js">expression -&gt;
+      number <span class="hljs-string">"+"</span> number
+    | number <span class="hljs-string">"-"</span> number
+    | number <span class="hljs-string">"*"</span> number
+    | number <span class="hljs-string">"/"</span> number
 </code></pre>
-<p>The keyword <code>null</code> stands for the <strong>epsilon rule</strong>, which matches nothing. The
+<p class="lang-highlight">The keyword <code class="lang-actionscript"><span class="hljs-literal">null</span></code> stands for the <strong>epsilon rule</strong>, which matches nothing. The
 following nonterminal matches zero or more <code>cow</code>s in a row, such as
 <code>cowcowcow</code>:</p>
-<pre><code class="lang-js">a -&gt; null | a &quot;cow&quot;
+<pre class="lang-highlight"><code class="lang-js">a -&gt; <span class="hljs-literal">null</span> | a <span class="hljs-string">"cow"</span>
 </code></pre>
 <h3 id="postprocessors">Postprocessors</h3>
-<p>By default, nearley wraps everything matched by a rule into an array. For
-example, when <code>rule -&gt; &quot;foo&quot; &quot;bar&quot;</code> matches, it creates the “parse tree”
-<code>[&quot;foo&quot;, &quot;bar&quot;]</code>.  Most of the time, however, you need to process that data in
+<p class="lang-highlight">By default, nearley wraps everything matched by a rule into an array. For
+example, when <code class="lang-crmsh"><span class="hljs-keyword">rule</span> -&gt; <span class="hljs-string">"foo"</span> <span class="hljs-string">"bar"</span></code> matches, it creates the “parse tree”
+<code class="lang-json">[<span class="hljs-string">"foo"</span>, <span class="hljs-string">"bar"</span>]</code>.  Most of the time, however, you need to process that data in
 some way: for example, you may want to filter out whitespace, or transform the
 results into a custom JavaScript object.</p>
-<p>For this purpose, each rule can have a <em>postprocessor</em>: a JavaScript function
+<p class="lang-highlight">For this purpose, each rule can have a <em>postprocessor</em>: a JavaScript function
 that transforms the array and returns a “processed” version of the result.
-Postprocessors are wrapped in <code>{% %}</code>:</p>
-<pre><code class="lang-js">expression -&gt; number &quot;+&quot; number {%
-    function(data, location, reject) {
-        return {
-            operator: &quot;sum&quot;,
-            leftOperand: data[0],
-            rightOperand: data[2] // data[1] is &quot;+&quot;
+Postprocessors are wrapped in <code class="lang-gcode">{<span class="hljs-preprocessor">%</span> <span class="hljs-preprocessor">%</span>}</code>:</p>
+<pre class="lang-highlight"><code class="lang-js">expression -&gt; number <span class="hljs-string">"+"</span> number {%
+    <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data, location, reject</span>) </span>{
+        <span class="hljs-keyword">return</span> {
+            operator: <span class="hljs-string">"sum"</span>,
+            leftOperand: data[<span class="hljs-number">0</span>],
+            rightOperand: data[<span class="hljs-number">2</span>] <span class="hljs-comment">// data[1] is "+"</span>
         };
     }
 %}
 </code></pre>
-<p>The rule above will parse the string <code>5+10</code> into <code>{ operator: &quot;sum&quot;,
-leftOperand: &quot;5&quot;, rightOperand: &quot;10&quot; }</code>.</p>
+<p class="lang-highlight">The rule above will parse the string <code class="lang-cpp"><span class="hljs-number">5</span>+<span class="hljs-number">10</span></code> into <code class="lang-css"><span class="hljs-rules">{ <span class="hljs-rule"><span class="hljs-attribute">operator</span>:<span class="hljs-value"> <span class="hljs-string">"sum"</span>,
+leftOperand: <span class="hljs-string">"5"</span>, rightOperand: <span class="hljs-string">"10"</span> </span></span></span>}</code>.</p>
 <p>The postprocessor can be any function. It will be passed three arguments:</p>
 <ul>
-<li><code>data: Array</code> - an array that contains the results of parsing each part of
+<li class="lang-highlight"><code class="lang-haskell"><span class="hljs-typedef"><span class="hljs-keyword">data</span>: <span class="hljs-type">Array</span></span></code> - an array that contains the results of parsing each part of
 the rule. Note that it is still an array, even if the rule only has one part!
-You can use the built-in <code>{% id %}</code> postprocessor to convert a one-item array
+You can use the built-in <code class="lang-gcode">{<span class="hljs-preprocessor">%</span> id <span class="hljs-preprocessor">%</span>}</code> postprocessor to convert a one-item array
 into the item itself.</li>
-<li><code>location: number</code> - the index (zero-based) at which the rule match starts.
+<li class="lang-highlight"><code class="lang-http"><span class="hljs-attribute">location</span>: <span class="hljs-string">number</span></code> - the index (zero-based) at which the rule match starts.
 This is useful, for example, to construct an error message that tells you where
 in the source the error occurred.</li>
-<li><code>reject: Object</code> - return this object to signal that this rule doesn’t
+<li class="lang-highlight"><code class="lang-http"><span class="hljs-attribute">reject</span>: <span class="hljs-string">Object</span></code> - return this object to signal that this rule doesn’t
 <em>actually</em> match. This is necessary in certain edge-conditions. For example,
 suppose you want sequences of letters to match variables, except for the
-keyword <code>var</code>. In this case, your rule may be<pre><code class="lang-js">word -&gt; [a-z]:+ {%
-    function(d,l, reject) {
-        if (d[0] == &#39;var&#39;) {
-            return reject;
-        } else {
-            return {&#39;var&#39;: d[0]};
+keyword <code class="lang-actionscript"><span class="hljs-keyword">var</span></code>. In this case, your rule may be<pre class="lang-highlight"><code class="lang-js">word -&gt; [a-z]:+ {%
+    <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d,l, reject</span>) </span>{
+        <span class="hljs-keyword">if</span> (d[<span class="hljs-number">0</span>] == <span class="hljs-string">'var'</span>) {
+            <span class="hljs-keyword">return</span> reject;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> {<span class="hljs-string">'var'</span>: d[<span class="hljs-number">0</span>]};
         }
     }
 %}
 </code></pre>
-Please note that grammars using <code>reject</code> are not context-free, and are often
+Please note that grammars using <code class="lang-vhdl"><span class="hljs-keyword">reject</span></code> are not context-free, and are often
 much slower to parse. Use it wisely! You can usually avoid the need for
-<code>reject</code> by using a <a href="#tokenizers">tokenizer</a>.</li>
+<code class="lang-vhdl"><span class="hljs-keyword">reject</span></code> by using a <a href="#tokenizers">tokenizer</a>.</li>
 </ul>
 <p>Remember that a postprocessor is scoped to a single rule, not the whole
 nonterminal. If a nonterminal has multiple alternative rules, each of them can
 have its own postprocessor.</p>
-<p>For arrow-function users, a convenient pattern is to decompose the <code>data</code> array
+<p class="lang-highlight">For arrow-function users, a convenient pattern is to decompose the <code class="lang-haskell"><span class="hljs-typedef"><span class="hljs-keyword">data</span></span></code> array
 within the argument of the arrow function:</p>
-<pre><code class="lang-js">expression -&gt;
-      number &quot;+&quot; number {% ([first, _, second]) =&gt; first + second %}
-    | number &quot;-&quot; number {% ([first, _, second]) =&gt; first - second %}
-    | number &quot;*&quot; number {% ([first, _, second]) =&gt; first * second %}
-    | number &quot;/&quot; number {% ([first, _, second]) =&gt; first / second %}
+<pre class="lang-highlight"><code class="lang-js">expression -&gt;
+      number <span class="hljs-string">"+"</span> number {% ([first, _, second]) =&gt; first + second %}
+    | number <span class="hljs-string">"-"</span> number {% ([first, _, second]) =&gt; first - second %}
+    | number <span class="hljs-string">"*"</span> number {% ([first, _, second]) =&gt; first * second %}
+    | number <span class="hljs-string">"/"</span> number {% ([first, _, second]) =&gt; first / second %}
 </code></pre>
 <p>There are two built-in postprocessors for the most common scenarios:</p>
 <ul>
-<li><code>id</code> - returns the first element of the <code>data</code> array. This is useful to
-extract the content of a single-element array: <code>foo -&gt; bar {% id %}</code></li>
-<li><code>nuller</code> - returns null. This is useful for whitespace rules: <code>space -&gt; &quot; &quot;
-{% nuller %}</code></li>
+<li class="lang-highlight"><code class="lang-applescript"><span class="hljs-property">id</span></code> - returns the first element of the <code class="lang-haskell"><span class="hljs-typedef"><span class="hljs-keyword">data</span></span></code> array. This is useful to
+extract the content of a single-element array: <code class="lang-erlang-repl"><span class="hljs-function_or_atom">foo</span> <span class="hljs-arrow">-&gt;</span> <span class="hljs-function_or_atom">bar</span> {<span class="hljs-comment">% id %}</span></code></li>
+<li class="lang-highlight"><code>nuller</code> - returns null. This is useful for whitespace rules: <code class="lang-erlang-repl"><span class="hljs-function_or_atom">space</span> <span class="hljs-arrow">-&gt;</span> <span class="hljs-string">" "</span>
+{<span class="hljs-comment">% nuller %}</span></code></li>
 </ul>
 <h4 id="target-languages">Target languages</h4>
-<p>By default, <code>nearleyc</code> compiles your grammar to JavaScript. You can also choose
-CoffeeScript or TypeScript by adding <code>@preprocessor coffee</code> or <code>@preprocessor
+<p class="lang-highlight">By default, <code>nearleyc</code> compiles your grammar to JavaScript. You can also choose
+CoffeeScript or TypeScript by adding <code class="lang-aspectj"><span class="hljs-annotation">@preprocessor</span> coffee</code> or <code class="lang-aspectj"><span class="hljs-annotation">@preprocessor</span>
 typescript</code> at the top of your grammar file. This can be useful to write your
 postprocessors in a different language, and to get type annotations if you wish
 to use nearley in a statically typed dialect of JavaScript.</p>
 <h3 id="more-syntax-tips-and-tricks">More syntax: tips and tricks</h3>
 <h4 id="comments">Comments</h4>
-<p>Comments are marked with ‘#’. Everything from <code>#</code> to the end of a line is
+<p class="lang-highlight">Comments are marked with ‘#’. Everything from <code class="lang-vala"><span class="hljs-preprocessor">#</span></code> to the end of a line is
 ignored:</p>
-<pre><code class="lang-ini">expression -&gt; number &quot;+&quot; number # sum of two numbers
+<pre class="lang-highlight"><code class="lang-ini">expression -&gt; number "+" number <span class="hljs-comment"># sum of two numbers</span>
 </code></pre>
 <h4 id="charsets">Charsets</h4>
 <p>You can use valid RegExp charsets in a rule (unless you’re using a
 <a href="#tokenizers">tokenizer</a>):</p>
-<pre><code>not_a_letter -&gt; [^a-zA-Z]
-</code></pre><p>The <code>.</code> character can be used to represent any character.</p>
+<pre class="lang-highlight"><code class="lang-autohotkey">not_<span class="hljs-built_in">a_letter</span> -&gt; [^<span class="hljs-literal">a</span>-zA-Z]
+</code></pre><p class="lang-highlight">The <code class="lang-erlang">.</code> character can be used to represent any character.</p>
 <h4 id="case-insensitive-string-literals">Case-insensitive string literals</h4>
-<p>You can create case-insensitive string literals by adding an <code>i</code> after the
+<p class="lang-highlight">You can create case-insensitive string literals by adding an <code class="lang-matlab"><span class="hljs-built_in">i</span></code> after the
 string literal:</p>
-<pre><code>cow -&gt; &quot;cow&quot;i # matches CoW, COW, and so on.
-</code></pre><p>Note that if you are using a lexer, your lexer should use the <code>i</code> flag in its
+<pre class="lang-highlight"><code class="lang-elixir">cow -&gt; <span class="hljs-string">"cow"</span>i <span class="hljs-comment"># matches CoW, COW, and so on.</span>
+</code></pre><p class="lang-highlight">Note that if you are using a lexer, your lexer should use the <code class="lang-matlab"><span class="hljs-built_in">i</span></code> flag in its
 regexes instead. That is, if you are using a lexer, you should <em>not</em> use the
-<code>i</code> suffix in nearley.</p>
+<code class="lang-matlab"><span class="hljs-built_in">i</span></code> suffix in nearley.</p>
 <h4 id="ebnf">EBNF</h4>
-<p>nearley supports the <code>*</code>, <code>?</code>, and <code>+</code> operators from
+<p class="lang-highlight">nearley supports the <code class="lang-gherkin"><span class="hljs-keyword">*</span></code>, <code>?</code>, and <code class="lang-diff"><span class="hljs-addition">+</span></code> operators from
 <a href="https://en.wikipedia.org/wiki/Extended_Backus–Naur_form">EBNF</a> as shown:</p>
-<pre><code class="lang-ini">batman -&gt; &quot;na&quot;:* &quot;batman&quot; # nananana...nanabatman
+<pre class="lang-highlight"><code class="lang-ini">batman -&gt; "na":* "batman" <span class="hljs-comment"># nananana...nanabatman</span>
 </code></pre>
 <p>You can also use capture groups with parentheses. Its contents can be anything
 that a rule can have:</p>
-<pre><code class="lang-js">banana -&gt; &quot;ba&quot; (&quot;na&quot; {% id %} | &quot;NA&quot; {% id %}):+
+<pre class="lang-highlight"><code class="lang-js">banana -&gt; <span class="hljs-string">"ba"</span> (<span class="hljs-string">"na"</span> {% id %} | <span class="hljs-string">"NA"</span> {% id %}):+
 </code></pre>
 <h3 id="macros">Macros</h3>
 <p>Macros allow you to create polymorphic rules:</p>
-<pre><code class="lang-ini"># Matches &quot;&#39;Hello?&#39; &#39;Hello?&#39; &#39;Hello?&#39;&quot;
-main -&gt; matchThree[inQuotes[&quot;Hello?&quot;]]
+<pre class="lang-highlight"><code class="lang-ini"><span class="hljs-comment"># Matches "'Hello?' 'Hello?' 'Hello?'"</span>
+main -&gt; matchThree<span class="hljs-title">[inQuotes["Hello?"]]</span>
 
-matchThree[X] -&gt; $X &quot; &quot; $X &quot; &quot; $X
+matchThree<span class="hljs-title">[X]</span> -&gt; $X " " $X " " $X
 
-inQuotes[X] -&gt; &quot;&#39;&quot; $X &quot;&#39;&quot;
+inQuotes<span class="hljs-title">[X]</span> -&gt; "'" $X "'"
 </code></pre>
 <p>Macros are dynamically scoped, which means they see arguments passed to parent
 macros:</p>
-<pre><code class="lang-ini"># Matches &quot;Cows oink.&quot; and &quot;Cows moo!&quot;
-main -&gt; sentence[&quot;Cows&quot;, (&quot;.&quot; | &quot;!&quot;)]
+<pre class="lang-highlight"><code class="lang-ini"><span class="hljs-comment"># Matches "Cows oink." and "Cows moo!"</span>
+main -&gt; sentence<span class="hljs-title">["Cows", ("." | "!")]</span>
 
-sentence[ANIMAL, PUNCTUATION] -&gt; animalGoes[(&quot;moo&quot; | &quot;oink&quot; | &quot;baa&quot;)] $PUNCTUATION
+sentence<span class="hljs-title">[ANIMAL, PUNCTUATION]</span> -&gt; animalGoes<span class="hljs-title">[("moo" | "oink" | "baa")]</span> $PUNCTUATION
 
-animalGoes[SOUND] -&gt; $ANIMAL &quot; &quot; $SOUND # uses $ANIMAL from its caller
+animalGoes<span class="hljs-title">[SOUND]</span> -&gt; $ANIMAL " " $SOUND <span class="hljs-comment"># uses $ANIMAL from its caller</span>
 </code></pre>
-<p>Macros are expanded at compile time and inserted in places they are used. They
+<p class="lang-highlight">Macros are expanded at compile time and inserted in places they are used. They
 are not “real” rules. Therefore, macros <em>cannot</em> be recursive (<code>nearleyc</code> will
 go into an infinite loop trying to expand the macro-loop).</p>
 <h3 id="additional-js">Additional JS</h3>
-<p>For more intricate postprocessors, or any other functionality you may need, you
+<p class="lang-highlight">For more intricate postprocessors, or any other functionality you may need, you
 can include chunks of JavaScript code between production rules by surrounding
-it with <code>@{% ... %}</code>:</p>
-<pre><code class="lang-js">@{%
-const cowSays = require(&quot;./cow.js&quot;);
+it with <code class="lang-gcode">@{<span class="hljs-preprocessor">%</span> ... <span class="hljs-preprocessor">%</span>}</code>:</p>
+<pre class="lang-highlight"><code class="lang-js">@{%
+<span class="hljs-keyword">const</span> cowSays = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./cow.js"</span>);
 %}
 
-cow -&gt; &quot;moo&quot; {% ([moo]) =&gt; cowSays(moo) %}
+cow -&gt; <span class="hljs-string">"moo"</span> {% ([moo]) =&gt; cowSays(moo) %}
 </code></pre>
 <p>Note that it doesn’t matter where you add these; they all get hoisted to the
 top of the generated code.</p>
 <h3 id="importing-other-grammars">Importing other grammars</h3>
 <p>You can include the content of other grammar files:</p>
-<pre><code class="lang-ini">@include &quot;../misc/primitives.ne&quot; # path relative to file being compiled
-sum -&gt; number &quot;+&quot; number # uses &quot;number&quot; from the included file
+<pre class="lang-highlight"><code class="lang-ini">@include "../misc/primitives.ne" <span class="hljs-comment"># path relative to file being compiled</span>
+sum -&gt; number "+" number <span class="hljs-comment"># uses "number" from the included file</span>
 </code></pre>
 <p>There are several builtin helper files that you can include:</p>
-<pre><code class="lang-ini">@builtin &quot;cow.ne&quot;
+<pre class="lang-highlight"><code class="lang-ini">@builtin "cow.ne"
 main -&gt; cow:+
 </code></pre>
-<p>See the <a href="builtin"><code>builtin/</code></a> directory for more details. Contributions are
+<p>See the <a href="builtin" class="lang-highlight"><code class="lang-bash"><span class="hljs-built_in">builtin</span>/</code></a> directory for more details. Contributions are
 welcome!</p>
 <p>Including a file imports <em>all</em> of the nonterminals defined in it, as well as
 any JS, macros, and configuration options defined there.</p>
 <h2 id="using-a-parser-the-nearley-api">Using a parser: the nearley API</h2>
-<p>Once you have compiled a <code>grammar.ne</code> file to a <code>grammar.js</code> module, you can
+<p class="lang-highlight">Once you have compiled a <code class="lang-crmsh">grammar.<span class="hljs-operator">ne</span></code> file to a <code class="lang-css"><span class="hljs-tag">grammar</span><span class="hljs-class">.js</span></code> module, you can
 then use nearley to instantiate a <code>Parser</code> object.</p>
 <p>First, import nearley and your grammar.</p>
-<pre><code class="lang-js">const nearley = require(&quot;nearley&quot;);
-const grammar = require(&quot;./grammar.js&quot;);
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-keyword">const</span> nearley = <span class="hljs-built_in">require</span>(<span class="hljs-string">"nearley"</span>);
+<span class="hljs-keyword">const</span> grammar = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./grammar.js"</span>);
 </code></pre>
-<p>Note that if you are parsing in the browser, you can simply include
-<code>nearley.js</code> and <code>grammar.js</code> in <code>&lt;script&gt;</code> tags.</p>
-<p>Next, use the grammar to create a new <code>nearley.Parser</code> object.</p>
-<pre><code class="lang-js">// Create a Parser object from our grammar.
-const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
+<p class="lang-highlight">Note that if you are parsing in the browser, you can simply include
+<code class="lang-css"><span class="hljs-tag">nearley</span><span class="hljs-class">.js</span></code> and <code class="lang-css"><span class="hljs-tag">grammar</span><span class="hljs-class">.js</span></code> in <code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="undefined"></span></code> tags.</p>
+<p class="lang-highlight">Next, use the grammar to create a new <code class="lang-css"><span class="hljs-tag">nearley</span><span class="hljs-class">.Parser</span></code> object.</p>
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-comment">// Create a Parser object from our grammar.</span>
+<span class="hljs-keyword">const</span> parser = <span class="hljs-keyword">new</span> nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 </code></pre>
-<p>Once you have a <code>Parser</code>, you can <code>.feed</code> it a string to parse. Since nearley
+<p class="lang-highlight">Once you have a <code>Parser</code>, you can <code class="lang-asciidoc"><span class="hljs-title">.feed</span></code> it a string to parse. Since nearley
 is a <em>streaming</em> parser, you can feed strings more than once. For example, a
 REPL might feed the parser lines of code as the user enters them:</p>
-<pre><code class="lang-js">// Parse something!
-parser.feed(&quot;if (true) {&quot;);
-parser.feed(&quot;x = 1&quot;);
-parser.feed(&quot;}&quot;);
-// or, parser.feed(&quot;if (true) {x=1}&quot;);
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-comment">// Parse something!</span>
+parser.feed(<span class="hljs-string">"if (true) {"</span>);
+parser.feed(<span class="hljs-string">"x = 1"</span>);
+parser.feed(<span class="hljs-string">"}"</span>);
+<span class="hljs-comment">// or, parser.feed("if (true) {x=1}");</span>
 </code></pre>
-<p>Finally, you can query the <code>.results</code> property of the parser.</p>
-<pre><code class="lang-js">// parser.results is an array of possible parsings.
-console.log(parser.results);
-// [{&#39;type&#39;: &#39;if&#39;, &#39;condition&#39;: ..., &#39;body&#39;: ...}]
+<p class="lang-highlight">Finally, you can query the <code class="lang-asciidoc"><span class="hljs-title">.results</span></code> property of the parser.</p>
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-comment">// parser.results is an array of possible parsings.</span>
+<span class="hljs-built_in">console</span>.log(parser.results);
+<span class="hljs-comment">// [{'type': 'if', 'condition': ..., 'body': ...}]</span>
 </code></pre>
 <h3 id="a-note-on-ambiguity">A note on ambiguity</h3>
-<p>Why is <code>parser.results</code> an array? Sometimes, a grammar can parse a particular
+<p class="lang-highlight">Why is <code class="lang-css"><span class="hljs-tag">parser</span><span class="hljs-class">.results</span></code> an array? Sometimes, a grammar can parse a particular
 string in multiple different ways. For example, the following grammar parses
-the string <code>&quot;xyz&quot;</code> in two different ways.</p>
-<pre><code class="lang-js">x -&gt; &quot;xy&quot; &quot;z&quot;
-   | &quot;x&quot; &quot;yz&quot;
+the string <code class="lang-1c"><span class="hljs-string">"xyz"</span></code> in two different ways.</p>
+<pre class="lang-highlight"><code class="lang-js">x -&gt; <span class="hljs-string">"xy"</span> <span class="hljs-string">"z"</span>
+   | <span class="hljs-string">"x"</span> <span class="hljs-string">"yz"</span>
 </code></pre>
-<p>Such grammars are <em>ambiguous</em>. nearley provides you with <em>all</em> the parsings. In
+<p class="lang-highlight">Such grammars are <em>ambiguous</em>. nearley provides you with <em>all</em> the parsings. In
 most cases, however, your grammars should not be ambiguous (parsing ambiguous
 grammars is inefficient!). Thus, the most common usage is to simply query
-<code>parser.results[0]</code>.</p>
+<code class="lang-css"><span class="hljs-tag">parser</span><span class="hljs-class">.results</span><span class="hljs-attr_selector">[0]</span></code>.</p>
 <h3 id="catching-errors">Catching errors</h3>
 <p>nearley is a <em>streaming</em> parser: you can keep feeding it more strings. This
 means that there are two error scenarios in nearley.</p>
 <p>Consider the simple parser below for the examples to follow.</p>
-<pre><code class="lang-js">main -&gt; &quot;Cow goes moo.&quot; {% function(d) {return &quot;yay!&quot;; } %}
+<pre class="lang-highlight"><code class="lang-js">main -&gt; <span class="hljs-string">"Cow goes moo."</span> {% <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{<span class="hljs-keyword">return</span> <span class="hljs-string">"yay!"</span>; } %}
 </code></pre>
-<p>If there are no possible parsings given the current input, but in the <em>future</em>
+<p class="lang-highlight">If there are no possible parsings given the current input, but in the <em>future</em>
 there <em>might</em> be results if you feed it more strings, then nearley will
-temporarily set the <code>results</code> array to the empty array, <code>[]</code>.</p>
-<pre><code class="lang-js">parser.feed(&quot;Cow &quot;);  // parser.results is []
-parser.feed(&quot;goes &quot;); // parser.results is []
-parser.feed(&quot;moo.&quot;);  // parser.results is [&quot;yay!&quot;]
+temporarily set the <code>results</code> array to the empty array, <code class="lang-json">[]</code>.</p>
+<pre class="lang-highlight"><code class="lang-js">parser.feed(<span class="hljs-string">"Cow "</span>);  <span class="hljs-comment">// parser.results is []</span>
+parser.feed(<span class="hljs-string">"goes "</span>); <span class="hljs-comment">// parser.results is []</span>
+parser.feed(<span class="hljs-string">"moo."</span>);  <span class="hljs-comment">// parser.results is ["yay!"]</span>
 </code></pre>
-<p>If there are no possible parsings, and there is no way to “recover” by feeding
-more data, then nearley will throw an error whose <code>offset</code> property is the
+<p class="lang-highlight">If there are no possible parsings, and there is no way to “recover” by feeding
+more data, then nearley will throw an error whose <code class="lang-applescript"><span class="hljs-command">offset</span></code> property is the
 index of the offending token.</p>
-<pre><code class="lang-js">try {
-    parser.feed(&quot;Cow goes% moo.&quot;);
-} catch(parseError) {
-    console.log(&quot;Error at character &quot; + parseError.offset); // &quot;Error at character 9&quot;
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-keyword">try</span> {
+    parser.feed(<span class="hljs-string">"Cow goes% moo."</span>);
+} <span class="hljs-keyword">catch</span>(parseError) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Error at character "</span> + parseError.offset); <span class="hljs-comment">// "Error at character 9"</span>
 }
 </code></pre>
 <h3 id="tokenizers">Tokenizers</h3>
 <p>By default, nearley splits the input into a stream of characters. This is
 called <em>scannerless</em> parsing.</p>
-<p>A tokenizer splits the input into a stream of larger units called <em>tokens</em>.
+<p class="lang-highlight">A tokenizer splits the input into a stream of larger units called <em>tokens</em>.
 This happens in a separate stage before parsing. For example, a tokenizer might
-convert <code>512 + 10</code> into <code>[&quot;512&quot;, &quot;+&quot;, &quot;10&quot;]</code>: notice how it removed the
+convert <code class="lang-cpp"><span class="hljs-number">512</span> + <span class="hljs-number">10</span></code> into <code class="lang-json">[<span class="hljs-string">"512"</span>, <span class="hljs-string">"+"</span>, <span class="hljs-string">"10"</span>]</code>: notice how it removed the
 whitespace, and combined multi-digit numbers into a single number.</p>
 <p>Using a tokenizer has many benefits. It…</p>
 <ul>
 <li>…often makes your parser faster by more than an order of magnitude.</li>
 <li>…allows you to write cleaner, more maintainable grammars.</li>
-<li>…helps avoid ambiguous grammars in some cases. For example, a tokenizer can
+<li class="lang-highlight">…helps avoid ambiguous grammars in some cases. For example, a tokenizer can
 easily tell you that <code>superclass</code> is a single keyword, not a sequence of
-<code>super</code> and <code>class</code> keywords.</li>
+<code class="lang-actionscript"><span class="hljs-keyword">super</span></code> and <code class="lang-coffeescript"><span class="hljs-class"><span class="hljs-keyword">class</span></span></code> keywords.</li>
 <li>…gives you <em>lexical information</em> such as line numbers for each token. This
 lets you make better error messages.</li>
 </ul>
 <p>nearley supports and recommends <a href="https://github.com/tjvr/moo">Moo</a>, a
 super-fast tokenizer. Here is a simple example:</p>
-<pre><code class="lang-coffeescript">@{%
-const moo = require(&quot;moo&quot;);
+<pre class="lang-highlight"><code class="lang-coffeescript">@{%
+const moo = <span class="hljs-built_in">require</span>(<span class="hljs-string">"moo"</span>);
 
 const lexer = moo.compile({
-  ws:     /[ \t]+/,
-  number: /[0-9]+/,
-  times:  /\*|x/
+  <span class="hljs-attribute">ws</span>:     <span class="hljs-regexp">/[ \t]+/</span>,
+  <span class="hljs-attribute">number</span>: <span class="hljs-regexp">/[0-9]+/</span>,
+  <span class="hljs-attribute">times</span>:  <span class="hljs-regexp">/\*|x/</span>
 });
 %}
 
-# Pass your lexer object using the @lexer option:
-@lexer lexer
+<span class="hljs-comment"># Pass your lexer object using the @lexer option:</span>
+<span class="hljs-property">@lexer</span> lexer
 
-# Use %token to match any token of that type instead of &quot;token&quot;:
+<span class="hljs-comment"># Use %token to match any token of that type instead of "token":</span>
 multiplication -&gt; %number %ws %times %ws %number {% ([first, , , , second]) =&gt; first * second %}
 </code></pre>
 <p>Have a look at <a href="https://github.com/tjvr/moo#usage">the Moo documentation</a> to
 learn more about the tokenizer.</p>
 <p>Note that when using a tokenizer, raw strings match full tokens parsed by Moo.
 This is convenient for matching keywords.</p>
-<pre><code class="lang-ini">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; block
+<pre class="lang-highlight"><code class="lang-ini">ifStatement -&gt; "if" condition "then" block
 </code></pre>
-<p>You use the parser as usual: call <code>parser.feed(data)</code>, and nearley will give
+<p class="lang-highlight">You use the parser as usual: call <code class="lang-stylus">parser.<span class="hljs-function"><span class="hljs-title">feed</span><span class="hljs-params">(data)</span></span></code>, and nearley will give
 you the parsed results in return.</p>
 <h3 id="further-reading">Further reading</h3>
 <ul>
