@@ -5,7 +5,6 @@ const Metalsmith = require('metalsmith')
 const markdown = require('metalsmith-markdown')
 const headings = require('metalsmith-headings')
 const layouts = require('metalsmith-layouts')
-const collections = require('metalsmith-collections')
 const paths = require('metalsmith-paths')
 
 const Handlebars = require('handlebars')
@@ -14,8 +13,6 @@ Handlebars.registerHelper('eq', (a, b) => a === b)
 /*
 const debug = (files, metalsmith, done) => {
   setImmediate(done)
-  console.log(metalsmith.metadata().collections.articles)
-  console.log(metalsmith.metadata().collections.articles[0].paths)
 }
 */
 
