@@ -1,15 +1,11 @@
 body {
-    font-family: sans-serif;
+    font-family: BlinkMacSystemFont, -apple-system, Helvetica Neue, Open Sans, Ubuntu, Arial, Helvetica, sans-serif;
     font-weight: 300;
     font-size: 15pt;
     margin: 0px;
     padding: 0px;
     border-top: 0.1em #559 solid;
     border-bottom: 0.1em #559 solid;
-}
-
-.wf-roboto-n3-active body {
-  font-family: Roboto, sans-serif;
 }
 
 #main a {
