@@ -234,7 +234,7 @@ nav a {
         overflow-y: auto;
         font-size: 1rem;
     }
-    body {
+    body.docs-page {
         margin-left: 16rem;
     }
 }
