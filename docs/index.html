@@ -20,15 +20,12 @@
                 <li class="page">
                     <a class="page-title-active">Getting started</a>
                     <ul>
-                        <li class="page-heading"><a href="#vocabulary">Vocabulary</a>
-                        <li class="page-heading"><a href="#postprocessors">Postprocessors</a>
-                        <li class="page-heading"><a href="#more-syntax-tips-and-tricks">More syntax: tips and tricks</a>
-                        <li class="page-heading"><a href="#macros">Macros</a>
-                        <li class="page-heading"><a href="#additional-js">Additional JS</a>
-                        <li class="page-heading"><a href="#importing-other-grammars">Importing other grammars</a>
+                        <li class="page-heading"><a href="#installation">Installation</a>
+                        <li class="page-heading"><a href="#getting-started-nearley-in-3-steps">Getting started: nearley in 3 steps</a>
                         <li class="page-heading"><a href="#further-reading">Further reading</a>
                     </ul>
                 </li>
+                <li class="page"><a href="/docs/language">Writing a parser</a>
                 <li class="page"><a href="/docs/usage">Using a parser</a>
                 <li class="page"><a href="/docs/tooling">Tooling</a>
                 <li class="page"><a href="/docs/tokenizers">Tokenizers</a>
@@ -44,7 +41,7 @@
 <a href="https://en.wikipedia.org/wiki/Backus–Naur_form">BNF</a>-based syntax to a small
 JS module. You can then use that module to construct a nearley <em>parser</em>, which
 parses input strings.</p>
-<h2 id="installation">Installation</h2>
+<h3 id="installation">Installation</h3>
 <p>Both components are published as a single
 <a href="https://docs.npmjs.com/getting-started/what-is-npm">NPM</a> package compatible
 with <a href="https://nodejs.org/en/">Node.js</a> and most browsers.</p>
@@ -73,7 +70,7 @@ your browser using the <a href="https://omrelli.ug/nearley-playground/">nearley
 playground</a>, an online interface for
 exploring nearley grammars interactively.</p>
 </blockquote>
-<h2 id="getting-started-nearley-in-3-steps">Getting started: nearley in 3 steps</h2>
+<h3 id="getting-started-nearley-in-3-steps">Getting started: nearley in 3 steps</h3>
 <p>nearley was written with users in mind: getting started with nearley is as
 simple as:</p>
 <p class="lang-highlight"><strong>Step 1: Describe your grammar</strong> using the nearley syntax. In a file called
@@ -98,196 +95,6 @@ parser.feed(<span class="hljs-string">"foo\n"</span>);
 <span class="hljs-comment">// parser.results is an array of possible parsings.</span>
 <span class="hljs-built_in">console</span>.log(parser.results); <span class="hljs-comment">// [[[[ "foo" ],"\n" ]]]</span>
 </code></pre>
-<h2 id="writing-a-parser-the-nearley-grammar-language">Writing a parser: the nearley grammar language</h2>
-<p class="lang-highlight">This section describes the nearley grammar language, in which you can describe
-grammars for nearley to parse. Grammars are conventionally kept in <code class="lang-asciidoc"><span class="hljs-title">.ne</span></code> files.
-You can then use <code>nearleyc</code> to compile your <code class="lang-asciidoc"><span class="hljs-title">.ne</span></code> grammars to JavaScript
-modules.</p>
-<p class="lang-highlight">You can find many examples of nearley grammars online, as well as some in the
-<code>examples/</code> directory of the <a href="http://github.com/Hardmath123/nearley">Github
-repository</a>.</p>
-<h3 id="vocabulary">Vocabulary</h3>
-<ul>
-<li class="lang-highlight">A <em>terminal</em> is a single, constant string or a token. For example, the
-keyword <code class="lang-1c"><span class="hljs-string">"if"</span></code> is a terminal.</li>
-<li>A <em>nonterminal</em> describes a set of possible strings. For example, all “if”
-statements can be described by a single nonterminal whose value depends on
-the condition and body of the if statement.</li>
-<li class="lang-highlight">A <em>rule</em> (or production rule) is a definition of a nonterminal. For example,<pre class="lang-highlight"><code class="lang-js">ifStatement -&gt; <span class="hljs-string">"if"</span> condition <span class="hljs-string">"then"</span> statement <span class="hljs-string">"endif"</span>
-</code></pre>
-is the rule according to which the if statement nonterminal, <code class="lang-bash"><span class="hljs-keyword">if</span>Statement</code>,
-is parsed. It depends on the nonterminals <code class="lang-mel"><span class="hljs-keyword">condition</span></code> and <code>statement</code>. A
-nonterminal can be described by multiple rules. For example, we can add a
-second rule<pre class="lang-highlight"><code class="lang-js">ifStatement -&gt; <span class="hljs-string">"if"</span> condition <span class="hljs-string">"then"</span> statement <span class="hljs-string">"else"</span> statement <span class="hljs-string">"endif"</span>
-</code></pre>
-to support “else” clauses.</li>
-</ul>
-<p class="lang-highlight">By default, nearley attempts to parse the first nonterminal defined in the
-grammar. In the following grammar, nearley will try to parse input text as an
-<code class="lang-mel"><span class="hljs-keyword">expression</span></code>.</p>
-<pre class="lang-highlight"><code class="lang-js">expression -&gt; number <span class="hljs-string">"+"</span> number
-expression -&gt; number <span class="hljs-string">"-"</span> number
-expression -&gt; number <span class="hljs-string">"*"</span> number
-expression -&gt; number <span class="hljs-string">"/"</span> number
-number -&gt; [<span class="hljs-number">0</span>-<span class="hljs-number">9</span>]:+
-</code></pre>
-<p class="lang-highlight">You can use the pipe character <code class="lang-1c"><span class="hljs-string">|</span></code> to separate alternative rules for a
-nonterminal. In the example below, <code class="lang-mel"><span class="hljs-keyword">expression</span></code> has four different rules.</p>
-<pre class="lang-highlight"><code class="lang-js">expression -&gt;
-      number <span class="hljs-string">"+"</span> number
-    | number <span class="hljs-string">"-"</span> number
-    | number <span class="hljs-string">"*"</span> number
-    | number <span class="hljs-string">"/"</span> number
-</code></pre>
-<p class="lang-highlight">The keyword <code class="lang-actionscript"><span class="hljs-literal">null</span></code> stands for the <strong>epsilon rule</strong>, which matches nothing. The
-following nonterminal matches zero or more <code>cow</code>s in a row, such as
-<code>cowcowcow</code>:</p>
-<pre class="lang-highlight"><code class="lang-js">a -&gt; <span class="hljs-literal">null</span> | a <span class="hljs-string">"cow"</span>
-</code></pre>
-<h3 id="postprocessors">Postprocessors</h3>
-<p class="lang-highlight">By default, nearley wraps everything matched by a rule into an array. For
-example, when <code class="lang-crmsh"><span class="hljs-keyword">rule</span> -&gt; <span class="hljs-string">"foo"</span> <span class="hljs-string">"bar"</span></code> matches, it creates the “parse tree”
-<code class="lang-json">[<span class="hljs-string">"foo"</span>, <span class="hljs-string">"bar"</span>]</code>.  Most of the time, however, you need to process that data in
-some way: for example, you may want to filter out whitespace, or transform the
-results into a custom JavaScript object.</p>
-<p class="lang-highlight">For this purpose, each rule can have a <em>postprocessor</em>: a JavaScript function
-that transforms the array and returns a “processed” version of the result.
-Postprocessors are wrapped in <code class="lang-gcode">{<span class="hljs-preprocessor">%</span> <span class="hljs-preprocessor">%</span>}</code>:</p>
-<pre class="lang-highlight"><code class="lang-js">expression -&gt; number <span class="hljs-string">"+"</span> number {%
-    <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data, location, reject</span>) </span>{
-        <span class="hljs-keyword">return</span> {
-            operator: <span class="hljs-string">"sum"</span>,
-            leftOperand: data[<span class="hljs-number">0</span>],
-            rightOperand: data[<span class="hljs-number">2</span>] <span class="hljs-comment">// data[1] is "+"</span>
-        };
-    }
-%}
-</code></pre>
-<p class="lang-highlight">The rule above will parse the string <code class="lang-cpp"><span class="hljs-number">5</span>+<span class="hljs-number">10</span></code> into <code class="lang-css"><span class="hljs-rules">{ <span class="hljs-rule"><span class="hljs-attribute">operator</span>:<span class="hljs-value"> <span class="hljs-string">"sum"</span>,
-leftOperand: <span class="hljs-string">"5"</span>, rightOperand: <span class="hljs-string">"10"</span> </span></span></span>}</code>.</p>
-<p>The postprocessor can be any function. It will be passed three arguments:</p>
-<ul>
-<li class="lang-highlight"><code class="lang-haskell"><span class="hljs-typedef"><span class="hljs-keyword">data</span>: <span class="hljs-type">Array</span></span></code> - an array that contains the results of parsing each part of
-the rule. Note that it is still an array, even if the rule only has one part!
-You can use the built-in <code class="lang-gcode">{<span class="hljs-preprocessor">%</span> id <span class="hljs-preprocessor">%</span>}</code> postprocessor to convert a one-item array
-into the item itself.</li>
-<li class="lang-highlight"><code class="lang-http"><span class="hljs-attribute">location</span>: <span class="hljs-string">number</span></code> - the index (zero-based) at which the rule match starts.
-This is useful, for example, to construct an error message that tells you where
-in the source the error occurred.</li>
-<li class="lang-highlight"><code class="lang-http"><span class="hljs-attribute">reject</span>: <span class="hljs-string">Object</span></code> - return this object to signal that this rule doesn’t
-<em>actually</em> match. This is necessary in certain edge-conditions. For example,
-suppose you want sequences of letters to match variables, except for the
-keyword <code class="lang-actionscript"><span class="hljs-keyword">var</span></code>. In this case, your rule may be<pre class="lang-highlight"><code class="lang-js">word -&gt; [a-z]:+ {%
-    <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d,l, reject</span>) </span>{
-        <span class="hljs-keyword">if</span> (d[<span class="hljs-number">0</span>] == <span class="hljs-string">'var'</span>) {
-            <span class="hljs-keyword">return</span> reject;
-        } <span class="hljs-keyword">else</span> {
-            <span class="hljs-keyword">return</span> {<span class="hljs-string">'var'</span>: d[<span class="hljs-number">0</span>]};
-        }
-    }
-%}
-</code></pre>
-Please note that grammars using <code class="lang-vhdl"><span class="hljs-keyword">reject</span></code> are not context-free, and are often
-much slower to parse. Use it wisely! You can usually avoid the need for
-<code class="lang-vhdl"><span class="hljs-keyword">reject</span></code> by using a <a href="#tokenizers">tokenizer</a>.</li>
-</ul>
-<p>Remember that a postprocessor is scoped to a single rule, not the whole
-nonterminal. If a nonterminal has multiple alternative rules, each of them can
-have its own postprocessor.</p>
-<p class="lang-highlight">For arrow-function users, a convenient pattern is to decompose the <code class="lang-haskell"><span class="hljs-typedef"><span class="hljs-keyword">data</span></span></code> array
-within the argument of the arrow function:</p>
-<pre class="lang-highlight"><code class="lang-js">expression -&gt;
-      number <span class="hljs-string">"+"</span> number {% ([first, _, second]) =&gt; first + second %}
-    | number <span class="hljs-string">"-"</span> number {% ([first, _, second]) =&gt; first - second %}
-    | number <span class="hljs-string">"*"</span> number {% ([first, _, second]) =&gt; first * second %}
-    | number <span class="hljs-string">"/"</span> number {% ([first, _, second]) =&gt; first / second %}
-</code></pre>
-<p>There are two built-in postprocessors for the most common scenarios:</p>
-<ul>
-<li class="lang-highlight"><code class="lang-applescript"><span class="hljs-property">id</span></code> - returns the first element of the <code class="lang-haskell"><span class="hljs-typedef"><span class="hljs-keyword">data</span></span></code> array. This is useful to
-extract the content of a single-element array: <code class="lang-erlang-repl"><span class="hljs-function_or_atom">foo</span> <span class="hljs-arrow">-&gt;</span> <span class="hljs-function_or_atom">bar</span> {<span class="hljs-comment">% id %}</span></code></li>
-<li class="lang-highlight"><code>nuller</code> - returns null. This is useful for whitespace rules: <code class="lang-erlang-repl"><span class="hljs-function_or_atom">space</span> <span class="hljs-arrow">-&gt;</span> <span class="hljs-string">" "</span>
-{<span class="hljs-comment">% nuller %}</span></code></li>
-</ul>
-<h4 id="target-languages">Target languages</h4>
-<p class="lang-highlight">By default, <code>nearleyc</code> compiles your grammar to JavaScript. You can also choose
-CoffeeScript or TypeScript by adding <code class="lang-aspectj"><span class="hljs-annotation">@preprocessor</span> coffee</code> or <code class="lang-aspectj"><span class="hljs-annotation">@preprocessor</span>
-typescript</code> at the top of your grammar file. This can be useful to write your
-postprocessors in a different language, and to get type annotations if you wish
-to use nearley in a statically typed dialect of JavaScript.</p>
-<h3 id="more-syntax-tips-and-tricks">More syntax: tips and tricks</h3>
-<h4 id="comments">Comments</h4>
-<p class="lang-highlight">Comments are marked with ‘#’. Everything from <code class="lang-vala"><span class="hljs-preprocessor">#</span></code> to the end of a line is
-ignored:</p>
-<pre class="lang-highlight"><code class="lang-ini">expression -&gt; number "+" number <span class="hljs-comment"># sum of two numbers</span>
-</code></pre>
-<h4 id="charsets">Charsets</h4>
-<p>You can use valid RegExp charsets in a rule (unless you’re using a
-<a href="#tokenizers">tokenizer</a>):</p>
-<pre class="lang-highlight"><code class="lang-autohotkey">not_<span class="hljs-built_in">a_letter</span> -&gt; [^<span class="hljs-literal">a</span>-zA-Z]
-</code></pre><p class="lang-highlight">The <code class="lang-erlang">.</code> character can be used to represent any character.</p>
-<h4 id="case-insensitive-string-literals">Case-insensitive string literals</h4>
-<p class="lang-highlight">You can create case-insensitive string literals by adding an <code class="lang-matlab"><span class="hljs-built_in">i</span></code> after the
-string literal:</p>
-<pre class="lang-highlight"><code class="lang-elixir">cow -&gt; <span class="hljs-string">"cow"</span>i <span class="hljs-comment"># matches CoW, COW, and so on.</span>
-</code></pre><p class="lang-highlight">Note that if you are using a lexer, your lexer should use the <code class="lang-matlab"><span class="hljs-built_in">i</span></code> flag in its
-regexes instead. That is, if you are using a lexer, you should <em>not</em> use the
-<code class="lang-matlab"><span class="hljs-built_in">i</span></code> suffix in nearley.</p>
-<h4 id="ebnf">EBNF</h4>
-<p class="lang-highlight">nearley supports the <code class="lang-gherkin"><span class="hljs-keyword">*</span></code>, <code>?</code>, and <code class="lang-diff"><span class="hljs-addition">+</span></code> operators from
-<a href="https://en.wikipedia.org/wiki/Extended_Backus–Naur_form">EBNF</a> as shown:</p>
-<pre class="lang-highlight"><code class="lang-ini">batman -&gt; "na":* "batman" <span class="hljs-comment"># nananana...nanabatman</span>
-</code></pre>
-<p>You can also use capture groups with parentheses. Its contents can be anything
-that a rule can have:</p>
-<pre class="lang-highlight"><code class="lang-js">banana -&gt; <span class="hljs-string">"ba"</span> (<span class="hljs-string">"na"</span> {% id %} | <span class="hljs-string">"NA"</span> {% id %}):+
-</code></pre>
-<h3 id="macros">Macros</h3>
-<p>Macros allow you to create polymorphic rules:</p>
-<pre class="lang-highlight"><code class="lang-ini"><span class="hljs-comment"># Matches "'Hello?' 'Hello?' 'Hello?'"</span>
-main -&gt; matchThree<span class="hljs-title">[inQuotes["Hello?"]]</span>
-
-matchThree<span class="hljs-title">[X]</span> -&gt; $X " " $X " " $X
-
-inQuotes<span class="hljs-title">[X]</span> -&gt; "'" $X "'"
-</code></pre>
-<p>Macros are dynamically scoped, which means they see arguments passed to parent
-macros:</p>
-<pre class="lang-highlight"><code class="lang-ini"><span class="hljs-comment"># Matches "Cows oink." and "Cows moo!"</span>
-main -&gt; sentence<span class="hljs-title">["Cows", ("." | "!")]</span>
-
-sentence<span class="hljs-title">[ANIMAL, PUNCTUATION]</span> -&gt; animalGoes<span class="hljs-title">[("moo" | "oink" | "baa")]</span> $PUNCTUATION
-
-animalGoes<span class="hljs-title">[SOUND]</span> -&gt; $ANIMAL " " $SOUND <span class="hljs-comment"># uses $ANIMAL from its caller</span>
-</code></pre>
-<p class="lang-highlight">Macros are expanded at compile time and inserted in places they are used. They
-are not “real” rules. Therefore, macros <em>cannot</em> be recursive (<code>nearleyc</code> will
-go into an infinite loop trying to expand the macro-loop).</p>
-<h3 id="additional-js">Additional JS</h3>
-<p class="lang-highlight">For more intricate postprocessors, or any other functionality you may need, you
-can include chunks of JavaScript code between production rules by surrounding
-it with <code class="lang-gcode">@{<span class="hljs-preprocessor">%</span> ... <span class="hljs-preprocessor">%</span>}</code>:</p>
-<pre class="lang-highlight"><code class="lang-js">@{%
-<span class="hljs-keyword">const</span> cowSays = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./cow.js"</span>);
-%}
-
-cow -&gt; <span class="hljs-string">"moo"</span> {% ([moo]) =&gt; cowSays(moo) %}
-</code></pre>
-<p>Note that it doesn’t matter where you add these; they all get hoisted to the
-top of the generated code.</p>
-<h3 id="importing-other-grammars">Importing other grammars</h3>
-<p>You can include the content of other grammar files:</p>
-<pre class="lang-highlight"><code class="lang-ini">@include "../misc/primitives.ne" <span class="hljs-comment"># path relative to file being compiled</span>
-sum -&gt; number "+" number <span class="hljs-comment"># uses "number" from the included file</span>
-</code></pre>
-<p>There are several builtin helper files that you can include:</p>
-<pre class="lang-highlight"><code class="lang-ini">@builtin "cow.ne"
-main -&gt; cow:+
-</code></pre>
-<p>See the <a href="builtin" class="lang-highlight"><code class="lang-bash"><span class="hljs-built_in">builtin</span>/</code></a> directory for more details. Contributions are
-welcome!</p>
-<p>Including a file imports <em>all</em> of the nonterminals defined in it, as well as
-any JS, macros, and configuration options defined there.</p>
 <h3 id="further-reading">Further reading</h3>
 <ul>
 <li>Take a look at a <a href="https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e">nearley

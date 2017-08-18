@@ -46,7 +46,7 @@ Metalsmith(__dirname)
 
     // install
     'index',
-    // language
+    'language',
     'usage',
     'tooling',
     'tokenizers',
