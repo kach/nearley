@@ -39,17 +39,16 @@ Metalsmith(__dirname)
     property: 'paths'
   }))
   .use(docs([
-    'glossary',
 
-    // install
     'index',
     'grammar',
-    'how-to-grammar-good',
     'parser',
     'tokenizers',
     'tooling',
-
+    'how-to-grammar-good',
     'using-in-frontend',
+    'glossary',
+
   ]))
   //.use(debug)
   .use(markdown({
