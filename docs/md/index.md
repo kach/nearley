@@ -88,13 +88,91 @@ Pick](https://github.com/npm/npm-collection-staff-picks).
 
 ### Projects using nearley
 
-*   **Artificial Intelligence and NLP**: [Shrdlite](https://github.com/ChalmersGU-AI-course/shrdlite-course-project) is a programming project in Artificial Intelligence, a course given at the University of Gothenburg and Chalmers University of Technology. It uses nearley for reading instructions in natural language (i.e. English).
-*   **Standard formats**: [node-dmi](https://github.com/raymond-h/node-dmi) is a module that reads iconstate metadata from BYOND DMI files, [edtf.js](https://github.com/inukshuk/edtf.js) is a parser for Extended Date Time Format, [node-krl-parser](https://github.com/farskipper/node-krl-parser) is a KRL parser for node, [bibliography](https://github.com/digitalheir/bibliography-js) is a BibTeX-to-HTML converter, [biblatex-csl-converter](https://github.com/fiduswriter/biblatex-csl-converter) converts between bibtex/CSL/JSON, [scalpel](https://github.com/gajus/scalpel) parses CSS selectors, [rfc5545-rrule](https://github.com/waratuman/rfc5545-rrule) helps parse iCalendar data, [mangudai](https://github.com/mangudai/mangudai) parses RMS scripts for Age of Empires II, [tf-hcl](https://github.com/r24y/tf-hcl) parses and generates HCL config files, [css-selector-inspector](https://github.com/balbuf/css-selector-inspector) parses and tokenizes CSS3 selectors, [node-scad-parser](https://github.com/hhornbacher/node-scad-parser) parses OpenSCAD 3D models, [js-sql-parse](https://github.com/justinkenel/js-sql-parse) parses SQL statements.
-*   **Templating and files**: [uPresent](https://github.com/bobbybee/uPresent) is a markdown-based presentation authoring system, [saison](https://github.com/rtsao/saison) is a minimal templating language, [Packdown](https://github.com/imsky/packdown) is a tool to generate human-readable archives of multiple files.
-*   **Programming languages**: [Carbon](https://github.com/bobbybee/carbon) is a C subset that compiles to JavaScript, optimized for game development, [ezlang](https://github.com/tleb/ezlang) is a simple language, [tlnccuwagnf](https://github.com/liam4/tlnccuwagnf) is a fun general-purpose language, [nanalang](https://github.com/nanalan/g) is a silly esoteric language, [english](https://github.com/nanalan/english) is a less esoteric programming language, [ecmaless](https://github.com/farskipper/ecmaless) is an easily-extensible language, [hm-parser](https://github.com/xodio/hm-parser) parses Haskell-like Hindley-Milner type signatures, [kozily](https://github.com/kozily/web) implements the Oz language, [abstract-machine](https://stefan1niculae.github.io/abstract-machine/) inspects execution models, [fbp-types](https://github.com/Malpaux/fbp-types) provides typechecking primitives for flow-based systems, [lp5562](https://github.com/sizigi/lp5562) is an assembler for the TI LP5562 LED driver, [VSL](https://github.com/vsl-lang/VSL) is a Versatile Scripting Language, [while-typescript](https://github.com/juanlaube/while-typescript) is an implementation of the WHILE language.
-*   **Mathematics**: [Solvent](https://github.com/andrejewski/solvent) is a powerful desktop calculator, [Truth-table](https://github.com/andrejewski/truth-table) is a tool to visualize propositional logic in truth tables, [Emunotes](http://emunotes.com) is a personal Wiki with inline graphing and computation, [react-equation](https://kgram.github.io/react-equation/) parses and renders equations in React.
-*   **Domain-specific languages**: [Hexant](https://github.com/jcorbin/hexant) is a cellular automata simulator with a DSL for custom automata, [Dicetower](https://github.com/justjake/dicetower) is an advanced dice plugin for hubot, [deck.zone](https://github.com/seiyria/deck.zone) is a language to create board games, [in-seconds](https://github.com/danigb/in-seconds) is a time calculator for music applications, [website-spec](https://github.com/bumbu/website-spec) is a tool for functional web testing, [pianola](https://github.com/gajus/pianola) allows declarative function composition, [idyll](https://idyll-lang.github.io/idyll/) is a markup language for data-driven documents, [virtsecgroup](https://github.com/affinipay/virtsecgroup) provides virtual AWS security groups, [deadfad](https://github.com/Pwootage/deadfad) is a hex editor that lets you specify structs, [bishbosh](https://github.com/juliankrispel/bishbosh) helps you create command-line interfaces, [syso](https://github.com/sgmap/syso) codifies aspects of French legal contracts, [siteswap](https://github.com/independentgeorge/siteswap.js) parses Siteswap notation for juggling patterns, [jsgrep](https://github.com/amireh/jsgrep) provides syntactic grep for JavaScript, [npm-parse-electronic-component](https://github.com/monostable/npm-parse-electronic-component) parses descriptions of electronic components like resistors and capacitors.
-*   **Parsing libraries**: [nearley](http://nearley.js.org) is a parser toolkit for JavaScript. It has a nearley-based DSL to specify parsers.
+**Artificial Intelligence and NLP**:
+[Shrdlite](https://github.com/ChalmersGU-AI-course/shrdlite-course-project) is
+a programming project in Artificial Intelligence, a course given at the
+University of Gothenburg and Chalmers University of Technology. It uses nearley
+for reading instructions in natural language (i.e. English).
 
-Excited? Get started on [Github](https://github.com/Hardmath123/nearley), visit us on [npm](http://npmjs.org/package/nearley), explore nearley in your browser on the [playground](https://omrelli.ug/nearley-playground/), or try out the [calculator demo](examples/calculator/) for more action.
+**Standard formats**: [node-dmi](https://github.com/raymond-h/node-dmi) is a
+module that reads iconstate metadata from BYOND DMI files,
+[edtf.js](https://github.com/inukshuk/edtf.js) is a parser for Extended Date
+Time Format, [node-krl-parser](https://github.com/farskipper/node-krl-parser)
+is a KRL parser for node,
+[bibliography](https://github.com/digitalheir/bibliography-js) is a
+BibTeX-to-HTML converter,
+[biblatex-csl-converter](https://github.com/fiduswriter/biblatex-csl-converter)
+converts between bibtex/CSL/JSON, [scalpel](https://github.com/gajus/scalpel)
+parses CSS selectors,
+[rfc5545-rrule](https://github.com/waratuman/rfc5545-rrule) helps parse
+iCalendar data, [mangudai](https://github.com/mangudai/mangudai) parses RMS
+scripts for Age of Empires II, [tf-hcl](https://github.com/r24y/tf-hcl) parses
+and generates HCL config files,
+[css-selector-inspector](https://github.com/balbuf/css-selector-inspector)
+parses and tokenizes CSS3 selectors,
+[node-scad-parser](https://github.com/hhornbacher/node-scad-parser) parses
+OpenSCAD 3D models, [js-sql-parse](https://github.com/justinkenel/js-sql-parse)
+parses SQL statements.
+
+**Templating and files**: [uPresent](https://github.com/bobbybee/uPresent) is a
+markdown-based presentation authoring system,
+[saison](https://github.com/rtsao/saison) is a minimal templating language,
+[Packdown](https://github.com/imsky/packdown) is a tool to generate
+human-readable archives of multiple files.
+
+**Programming languages**: [Carbon](https://github.com/bobbybee/carbon) is a C
+subset that compiles to JavaScript, optimized for game development,
+[ezlang](https://github.com/tleb/ezlang) is a simple language,
+[tlnccuwagnf](https://github.com/liam4/tlnccuwagnf) is a fun general-purpose
+language, [nanalang](https://github.com/nanalan/g) is a silly esoteric
+language, [english](https://github.com/nanalan/english) is a less esoteric
+programming language, [ecmaless](https://github.com/farskipper/ecmaless) is an
+easily-extensible language, [hm-parser](https://github.com/xodio/hm-parser)
+parses Haskell-like Hindley-Milner type signatures,
+[kozily](https://github.com/kozily/web) implements the Oz language,
+[abstract-machine](https://stefan1niculae.github.io/abstract-machine/) inspects
+execution models, [fbp-types](https://github.com/Malpaux/fbp-types) provides
+typechecking primitives for flow-based systems,
+[lp5562](https://github.com/sizigi/lp5562) is an assembler for the TI LP5562
+LED driver, [VSL](https://github.com/vsl-lang/VSL) is a Versatile Scripting
+Language, [while-typescript](https://github.com/juanlaube/while-typescript) is
+an implementation of the WHILE language.
+
+**Mathematics**: [Solvent](https://github.com/andrejewski/solvent) is a
+powerful desktop calculator,
+[Truth-table](https://github.com/andrejewski/truth-table) is a tool to
+visualize propositional logic in truth tables, [Emunotes](http://emunotes.com)
+is a personal Wiki with inline graphing and computation,
+[react-equation](https://kgram.github.io/react-equation/) parses and renders
+equations in React.
+
+**Domain-specific languages**: [Hexant](https://github.com/jcorbin/hexant) is a
+cellular automata simulator with a DSL for custom automata,
+[Dicetower](https://github.com/justjake/dicetower) is an advanced dice plugin
+for hubot, [deck.zone](https://github.com/seiyria/deck.zone) is a language to
+create board games, [in-seconds](https://github.com/danigb/in-seconds) is a
+time calculator for music applications,
+[website-spec](https://github.com/bumbu/website-spec) is a tool for functional
+web testing, [pianola](https://github.com/gajus/pianola) allows declarative
+function composition, [idyll](https://idyll-lang.github.io/idyll/) is a markup
+language for data-driven documents,
+[virtsecgroup](https://github.com/affinipay/virtsecgroup) provides virtual AWS
+security groups, [deadfad](https://github.com/Pwootage/deadfad) is a hex editor
+that lets you specify structs,
+[bishbosh](https://github.com/juliankrispel/bishbosh) helps you create
+command-line interfaces, [syso](https://github.com/sgmap/syso) codifies aspects
+of French legal contracts,
+[siteswap](https://github.com/independentgeorge/siteswap.js) parses Siteswap
+notation for juggling patterns, [jsgrep](https://github.com/amireh/jsgrep)
+provides syntactic grep for JavaScript,
+[npm-parse-electronic-component](https://github.com/monostable/npm-parse-electronic-component)
+parses descriptions of electronic components like resistors and capacitors.
+
+**Parsing libraries**: [nearley](http://nearley.js.org) is a parser toolkit for
+JavaScript. It has a nearley-based DSL to specify parsers.
+
+<!--Excited? Get started on [Github](https://github.com/Hardmath123/nearley),
+visit us on [npm](http://npmjs.org/package/nearley), explore nearley in your
+browser on the [playground](https://omrelli.ug/nearley-playground/), or try out
+the [calculator demo](examples/calculator/) for more action.-->
 
