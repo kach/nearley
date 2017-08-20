@@ -346,7 +346,9 @@ several additional utilities for building languages</p>
         <script id="highlight-js" async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>
         document.querySelector('#highlight-js').addEventListener('load', function() {
-          hljs.initHighlightingOnLoad();
+            [].slice.apply(document.querySelectorAll('pre code')).forEach(function(b) {
+                hljs.highlightBlock(b)
+            })
         })
         </script>
 
