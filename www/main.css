@@ -120,11 +120,6 @@ img + .caption {
     color: #aaa;
 }
 
-/*
-#cy-viz {
-    width: 100%;
-}*/
-
 #footer {
     margin-top: 10em;
     color: #aaa;
@@ -142,9 +137,6 @@ code {
 
 pre code {
     border-radius: 0.5em;
-    //background-color: #559;
-    //color: white;
-    //text-shadow: 0em 0em 0.2em black;
     padding: 0.5em;
     display: block;
     overflow: auto;

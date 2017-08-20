@@ -73,15 +73,6 @@
                     this.style.color = "red";
                 }
             }, false);
-            var X = new XMLHttpRequest();
-            X.open('GET', 'package.json');
-            X.onreadystatechange = function() {
-                if (X.readyState === 4 && X.status === 200 && X.responseText) {
-                    var J = JSON.parse(X.responseText);
-                    document.getElementById("version").innerHTML = J.version || "2.0.0";
-                }
-            };
-            X.send();
         }, false);
         </script>
 
