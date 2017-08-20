@@ -151,15 +151,15 @@ pre code {
 }
 
 
-ol.tutorial {
+ol {
     counter-reset: tutorial-counter;
 }
 
-ol.tutorial li {
+ol li {
     list-style: none;
 }
 
-ol.tutorial li:before {
+ol li:before {
     content: counter(tutorial-counter);
     counter-increment: tutorial-counter;
 
