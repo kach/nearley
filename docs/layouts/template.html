@@ -56,6 +56,28 @@
         })
         </script>
 
+        {{#if isDemoPage}}
+        <script charset="utf-8" src="/lib/nearley.js"></script>
+        <script charset="utf-8" src="/examples/js/csscolor.js"></script>
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            document.getElementById('parse-input').addEventListener('keyup', function() {
+                // $ ./bin/nearleyc.js examples/csscolor.ne -o examples/js/csscolor.js
+                var str = this.value;
+                var parser = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
+                try {
+                    parser.feed(str);
+                    document.getElementById('parse-output').innerHTML = JSON.stringify(parser.results, null, 2);
+                    this.style.color = "#559";
+                } catch(e) {
+                    document.getElementById('parse-output').innerHTML = "";
+                    this.style.color = "red";
+                }
+            }, false);
+        }, false);
+        </script>
+        {{/if}}
+
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

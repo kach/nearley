@@ -1,6 +1,6 @@
 ---
 title: Home
-layout: demo-page.html
+isDemoPage: true
 ---
 
 **Parsers** turn strings of characters into meaningful data structures (like a
