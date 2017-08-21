@@ -38,7 +38,7 @@ This actually adds several new commands to your `$PATH`:
 - `nearley-railroad` generates pretty railroad diagrams from your parser. This
   is mainly helpful for creating documentation, as (for example) on json.org.
 
-These are documented on the [tooling page](tooling.html).
+These are documented on the [tooling page](tooling).
 
 > Note: If you're not ready to install nearley yet, you can follow along in
 > your browser using the [nearley
@@ -51,7 +51,7 @@ These are documented on the [tooling page](tooling.html).
 nearley was written with users in mind: getting started with nearley is as
 simple as:
 
-**Step 1: Describe your grammar** using the [nearley syntax](grammar.html). In
+**Step 1: Describe your grammar** using the [nearley syntax](grammar). In
 a file called `grammar.ne`, write:
 
 ```js
@@ -67,7 +67,7 @@ $ nearleyc grammar.ne -o grammar.js
 ```
 
 **Step 3: Parse** some data! In a new JavaScript file, instantiate a [Parser
-object](parser.html) and feed it a string:
+object](parser) and feed it a string:
 
 ```js
 const nearley = require("nearley");

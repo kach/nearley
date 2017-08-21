@@ -299,7 +299,7 @@ random strings that match your grammar.</li>
 <li><code>nearley-railroad</code> generates pretty railroad diagrams from your parser. This
 is mainly helpful for creating documentation, as (for example) on json.org.</li>
 </ul>
-<p>These are documented on the <a href="tooling.html">tooling page</a>.</p>
+<p>These are documented on the <a href="tooling">tooling page</a>.</p>
 <blockquote>
 <p>Note: If you’re not ready to install nearley yet, you can follow along in
 your browser using the <a href="https://omrelli.ug/nearley-playground/">nearley
@@ -309,7 +309,7 @@ exploring nearley grammars interactively.</p>
 <h3 id="nearley-in-3-steps">nearley in 3 steps</h3>
 <p>nearley was written with users in mind: getting started with nearley is as
 simple as:</p>
-<p><strong>Step 1: Describe your grammar</strong> using the <a href="grammar.html">nearley syntax</a>. In
+<p><strong>Step 1: Describe your grammar</strong> using the <a href="grammar">nearley syntax</a>. In
 a file called <code>grammar.ne</code>, write:</p>
 <pre><code class="lang-js">main -&gt; (statement &quot;\n&quot;):+
 statement -&gt; &quot;foo&quot; | &quot;bar&quot;
@@ -318,7 +318,7 @@ statement -&gt; &quot;foo&quot; | &quot;bar&quot;
 run:</p>
 <pre><code class="lang-bash">$ nearleyc grammar.ne -o grammar.js
 </code></pre>
-<p><strong>Step 3: Parse</strong> some data! In a new JavaScript file, instantiate a <a href="parser.html">Parser
+<p><strong>Step 3: Parse</strong> some data! In a new JavaScript file, instantiate a <a href="parser">Parser
 object</a> and feed it a string:</p>
 <pre><code class="lang-js">const nearley = require(&quot;nearley&quot;);
 const grammar = require(&quot;./grammar.js&quot;);

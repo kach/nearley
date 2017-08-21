@@ -51,7 +51,7 @@ Pick](https://github.com/npm/npm-collection-staff-picks).
    ```
    $ nearley-railroad csscolor.ne -o csscolor.html
    ```
-   See a demo [here](www/railroad-demo.html).
+   See a demo [here](/www/railroad-demo).
 
 ### Features
 
