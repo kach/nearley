@@ -2,8 +2,6 @@
 title: Writing a parser
 ---
 
-## the nearley grammar language
-
 This section describes the nearley grammar language, in which you can describe
 grammars for nearley to parse. Grammars are conventionally kept in `.ne` files.
 You can then use `nearleyc` to compile your `.ne` grammars to JavaScript

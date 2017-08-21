@@ -2,7 +2,7 @@
 title: Using a parser
 ---
 
-## The nearley API
+This section describes nearley's parser API.
 
 Once you have compiled a `grammar.ne` file to a `grammar.js` module, you can
 then use nearley to instantiate a `Parser` object.
