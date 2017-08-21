@@ -4,7 +4,7 @@
   "main": "make.js",
   "scripts": {
     "make": "rm *.html && node make.js && cp index.html ../",
-    "start": "http-server -c5 ../"
+    "start": "http-server -c5 ."
   },
   "dependencies": {
     "handlebars": "^4.0.10",
