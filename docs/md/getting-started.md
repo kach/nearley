@@ -51,8 +51,8 @@ These are documented on the [tooling page](tooling.html).
 nearley was written with users in mind: getting started with nearley is as
 simple as:
 
-**Step 1: Describe your grammar** using the nearley syntax. In a file called
-`grammar.ne`, write:
+**Step 1: Describe your grammar** using the [nearley syntax](grammar.html). In
+a file called `grammar.ne`, write:
 
 ```js
 main -> (statement "\n"):+
@@ -66,7 +66,8 @@ run:
 $ nearleyc grammar.ne -o grammar.js
 ```
 
-**Step 3: Parse** some data! In a new JavaScript file, write:
+**Step 3: Parse** some data! In a new JavaScript file, instantiate a [Parser
+object](parser.html) and feed it a string:
 
 ```js
 const nearley = require("nearley");

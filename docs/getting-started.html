@@ -309,8 +309,8 @@ exploring nearley grammars interactively.</p>
 <h3 id="nearley-in-3-steps">nearley in 3 steps</h3>
 <p>nearley was written with users in mind: getting started with nearley is as
 simple as:</p>
-<p><strong>Step 1: Describe your grammar</strong> using the nearley syntax. In a file called
-<code>grammar.ne</code>, write:</p>
+<p><strong>Step 1: Describe your grammar</strong> using the <a href="grammar.html">nearley syntax</a>. In
+a file called <code>grammar.ne</code>, write:</p>
 <pre><code class="lang-js">main -&gt; (statement &quot;\n&quot;):+
 statement -&gt; &quot;foo&quot; | &quot;bar&quot;
 </code></pre>
@@ -318,7 +318,8 @@ statement -&gt; &quot;foo&quot; | &quot;bar&quot;
 run:</p>
 <pre><code class="lang-bash">$ nearleyc grammar.ne -o grammar.js
 </code></pre>
-<p><strong>Step 3: Parse</strong> some data! In a new JavaScript file, write:</p>
+<p><strong>Step 3: Parse</strong> some data! In a new JavaScript file, instantiate a <a href="parser.html">Parser
+object</a> and feed it a string:</p>
 <pre><code class="lang-js">const nearley = require(&quot;nearley&quot;);
 const grammar = require(&quot;./grammar.js&quot;);
 
