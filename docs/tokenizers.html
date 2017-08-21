@@ -191,7 +191,7 @@ input[type="text"]:focus {
 
 nav {
     border-right: 1px solid #aaa;
-    background: #fff;
+    background: #fafafa;
 }
 nav ul {
     padding: 0;
@@ -199,7 +199,7 @@ nav ul {
 }
 nav a {
     text-decoration: none;
-    color: #000;
+    color: #334;
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -207,17 +207,16 @@ nav a {
 }
 .page {
     display: block;
-    border-bottom: 1px solid #aaa;
 }
 
-.page-title-active {
-    background: #559;
-    color: #fff;
+.page-title-active,
+.page-heading-active a {
+    color: #66f;
 }
 
 .page-heading {
     display: block;
-    padding-left: 1em;
+    padding-left: 1.5em;
 }
 
 
@@ -374,6 +373,31 @@ document.querySelector('#highlight-js').addEventListener('load', function() {
 })
 </script>
 
+
+<script>
+window.addEventListener('scroll', onScroll)
+window.addEventListener('resize', onScroll)
+
+var timeout
+function onScroll(e) {
+    if (timeout) clearTimeout(timeout)
+    timeout = setTimeout(scrollEnd, 50)
+}
+
+function scrollEnd() {
+  var headings = document.querySelectorAll('h3')
+  var offset = 60
+  for (var i=headings.length; i--; ) {
+    var h3 = headings[i]
+    if (h3.offsetTop < window.scrollY + offset) {
+      var cur = document.querySelector('.page-heading-active')
+      if (cur) cur.className = 'page-heading'
+      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className = 'page-heading page-heading-active'
+      return
+    }
+  }
+}
+</script>
 
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

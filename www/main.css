@@ -185,7 +185,7 @@ input[type="text"]:focus {
 
 nav {
     border-right: 1px solid #aaa;
-    background: #fff;
+    background: #fafafa;
 }
 nav ul {
     padding: 0;
@@ -193,7 +193,7 @@ nav ul {
 }
 nav a {
     text-decoration: none;
-    color: #000;
+    color: #334;
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -201,17 +201,16 @@ nav a {
 }
 .page {
     display: block;
-    border-bottom: 1px solid #aaa;
 }
 
-.page-title-active {
-    background: #559;
-    color: #fff;
+.page-title-active,
+.page-heading-active a {
+    color: #66f;
 }
 
 .page-heading {
     display: block;
-    padding-left: 1em;
+    padding-left: 1.5em;
 }
 
 
