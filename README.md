@@ -3,9 +3,12 @@
 [![npm version](https://badge.fury.io/js/nearley.svg)](https://badge.fury.io/js/nearley)
 
 nearley is a simple, fast and powerful parsing toolkit. It consists of:
-1. A powerful, modular DSL for describing languages
-2. An efficient, lightweight [Earley parser](https://en.wikipedia.org/wiki/Earley_parser)
-3. Loads of tools, editor plug-ins, and other goodies!
+1. [A powerful, modular DSL for describing
+   languages](https://nearley.js.org/docs/grammar)
+2. [An efficient, lightweight Earley
+   parser](https://nearley.js.org/docs/parser)
+3. [Loads of tools, editor plug-ins, and other
+   goodies!](https://nearley.js.org/docs/tooling)
 
 nearley is a **streaming** parser with support for catching **errors**
 gracefully and providing _all_ parsings for **ambiguous** grammars. It is
@@ -18,7 +21,8 @@ Unlike most other parser generators, nearley can handle *any* grammar you can
 define in BNF (and more!). In particular, while most existing JS parsers such
 as PEGjs and Jison choke on certain grammars (e.g. [left recursive
 ones](http://en.wikipedia.org/wiki/Left_recursion)), nearley handles them
-easily and efficiently.
+easily and efficiently by using the [Earley parsing
+algorithm](https://en.wikipedia.org/wiki/Earley_parser).
 
 nearley is used by a wide variety of projects:
 
