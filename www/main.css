@@ -4,8 +4,6 @@ body {
     font-size: 15pt;
     margin: 0px;
     padding: 0px;
-    border-top: 0.1em #559 solid;
-    border-bottom: 0.1em #559 solid;
 }
 
 #main a {
@@ -19,12 +17,11 @@ body {
 }
 
 h1 {
-    font-size: 1.6em;
+    font-size: 1.5em;
     font-weight: 100;
     letter-spacing: 0.5em;
     text-align: center;
-    margin-top: 3em;
-    margin-bottom: 3em;
+    margin: 2em 0;
 }
 
 h1 a {
@@ -50,7 +47,8 @@ h1:hover {
 }
 
 h2 {
-    margin-top: 4em;
+    font-size: 1.5em;
+    margin-top: 2em;
 }
 h3 {
     margin-top: 3em;
@@ -184,8 +182,8 @@ input[type="text"]:focus {
 
 
 nav {
-    border-right: 1px solid #aaa;
-    background: #fff;
+    border-bottom: 2px solid #559;
+    background: #fafafa;
 }
 nav ul {
     padding: 0;
@@ -193,7 +191,7 @@ nav ul {
 }
 nav a {
     text-decoration: none;
-    color: #000;
+    color: #334;
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -201,17 +199,16 @@ nav a {
 }
 .page {
     display: block;
-    border-bottom: 1px solid #aaa;
 }
 
-.page-title-active {
-    background: #559;
-    color: #fff;
+.page-title-active,
+.page-heading-active a {
+    color: #66f;
 }
 
 .page-heading {
     display: block;
-    padding-left: 1em;
+    padding-left: 1.5em;
 }
 
 
@@ -225,6 +222,8 @@ nav a {
         white-space: nowrap;
         overflow-y: auto;
         font-size: 1rem;
+        border-bottom: none;
+        border-right: 2px solid #559;
     }
     body.docs-page {
         margin-left: 16rem;
