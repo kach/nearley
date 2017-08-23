@@ -456,11 +456,15 @@ top of the generated code.</p>
 sum -&gt; number &quot;+&quot; number # uses &quot;number&quot; from the included file
 </code></pre>
 <p>There are some common nonterminals like “integer” and “double-quoted string”
-that ship with nearley to help you rapidly prototype grammars. You can include
-them using the <code>@builtin</code> directive:</p>
+that ship with nearley to help you prototype grammars efficiently. You can
+include them using the <code>@builtin</code> directive:</p>
 <pre><code class="lang-ini">@builtin &quot;number.ne&quot;
 main -&gt; int:+
 </code></pre>
+<p>(Note that we mean “efficient” in the sense that you can get them set up very
+quickly. The builtins are <em>inefficient</em> in the sense that they make your parser
+slower. For a “real” project, you would want to switch to a lexer and implement
+these primitives yourself!)</p>
 <p>See the <code>builtin/</code> directory on Github for more details. Contributions are
 welcome!</p>
 <p>Note that including a file imports <em>all</em> of the nonterminals defined in it, as

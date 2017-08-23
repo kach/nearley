@@ -250,13 +250,18 @@ sum -> number "+" number # uses "number" from the included file
 ```
 
 There are some common nonterminals like "integer" and "double-quoted string"
-that ship with nearley to help you rapidly prototype grammars. You can include
-them using the `@builtin` directive:
+that ship with nearley to help you prototype grammars efficiently. You can
+include them using the `@builtin` directive:
 
 ```ini
 @builtin "number.ne"
 main -> int:+
 ```
+
+(Note that we mean "efficient" in the sense that you can get them set up very
+quickly. The builtins are _inefficient_ in the sense that they make your parser
+slower. For a "real" project, you would want to switch to a lexer and implement
+these primitives yourself!)
 
 See the `builtin/` directory on Github for more details. Contributions are
 welcome!
