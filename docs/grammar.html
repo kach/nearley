@@ -455,14 +455,16 @@ top of the generated code.</p>
 <pre><code class="lang-ini">@include &quot;../misc/primitives.ne&quot; # path relative to file being compiled
 sum -&gt; number &quot;+&quot; number # uses &quot;number&quot; from the included file
 </code></pre>
-<p>There are several builtin helper files that you can include:</p>
-<pre><code class="lang-ini">@builtin &quot;cow.ne&quot;
-main -&gt; cow:+
+<p>There are some common nonterminals like “integer” and “double-quoted string”
+that ship with nearley to help you rapidly prototype grammars. You can include
+them using the <code>@builtin</code> directive:</p>
+<pre><code class="lang-ini">@builtin &quot;number.ne&quot;
+main -&gt; int:+
 </code></pre>
-<p>See the <a href="builtin"><code>builtin/</code></a> directory for more details. Contributions are
+<p>See the <code>builtin/</code> directory on Github for more details. Contributions are
 welcome!</p>
-<p>Including a file imports <em>all</em> of the nonterminals defined in it, as well as
-any JS, macros, and configuration options defined there.</p>
+<p>Note that including a file imports <em>all</em> of the nonterminals defined in it, as
+well as any JS, macros, and configuration options defined there.</p>
 
 
     <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a

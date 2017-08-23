@@ -249,17 +249,17 @@ You can include the content of other grammar files:
 sum -> number "+" number # uses "number" from the included file
 ```
 
-There are several builtin helper files that you can include:
+There are some common nonterminals like "integer" and "double-quoted string"
+that ship with nearley to help you rapidly prototype grammars. You can include
+them using the `@builtin` directive:
 
 ```ini
-@builtin "cow.ne"
-main -> cow:+
+@builtin "number.ne"
+main -> int:+
 ```
 
-See the [`builtin/`](builtin) directory for more details. Contributions are
+See the `builtin/` directory on Github for more details. Contributions are
 welcome!
 
-Including a file imports *all* of the nonterminals defined in it, as well as
-any JS, macros, and configuration options defined there.
-
-
+Note that including a file imports *all* of the nonterminals defined in it, as
+well as any JS, macros, and configuration options defined there.
