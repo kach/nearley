@@ -17,19 +17,21 @@ body {
 }
 
 h1 {
-    font-size: 1.5em;
-    font-weight: 100;
-    letter-spacing: 0.5em;
+    font-size: 1.2em;
+    font-weight: normal;
+    letter-spacing: 0.2em;
     text-align: center;
-    margin: 2em 0;
+    margin:  0em;
+    padding: 1em;
 }
 
 h1 a {
+    color: #559;
     text-decoration: none;
 }
 
-h1:hover {
-    color: #559;
+h1 a:hover {
+    color: orange;
     cursor: pointer;
 }
 
@@ -38,11 +40,11 @@ h1:hover {
     border-radius: 50%;
     font-weight: bold;
     color: white;
-    width: 3.5em;
-    height: 3.5em;
+    width: 3em;
+    height: 3em;
     display: inline-block;
     text-align: center;
-    line-height: 3.5em;
+    line-height: 3em;
     letter-spacing: 0em;
 }
 
@@ -189,7 +191,7 @@ nav ul {
     padding: 0;
     margin: 0;
 }
-nav a {
+nav ul a {
     text-decoration: none;
     color: #334;
     display: block;
