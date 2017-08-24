@@ -83,6 +83,10 @@ parser.feed("foo\n");
 console.log(parser.results); // [[[[ "foo" ],"\n" ]]]
 ```
 
+### What's next?
+
+Now that you have nearley installed, you can [learn how to write a
+grammar](grammar)!
 
 ### Further reading
 

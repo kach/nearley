@@ -268,3 +268,8 @@ welcome!
 
 Note that including a file imports *all* of the nonterminals defined in it, as
 well as any JS, macros, and configuration options defined there.
+
+### What's next?
+
+Now that you have a grammar, you're ready to [learn how to use it to build a
+parser!](parser)

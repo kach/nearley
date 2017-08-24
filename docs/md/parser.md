@@ -117,3 +117,7 @@ parser.feed(...);
 console.log(parser.table);
 ```
 
+### What's next?
+
+Now that you know how to use parsers, [learn how to add a tokenizer to speed
+things up!](tokenizers)
