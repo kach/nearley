@@ -8,6 +8,12 @@
     "railroad-diagrams": "^1.0.0",
     "randexp": "^0.4.2"
   },
+  "files": [
+    "bin/",
+    "lib/",
+    "builtin/",
+    "examples/"
+  ],
   "bin": {
     "nearleyc": "bin/nearleyc.js",
     "nearley-test": "bin/nearley-test.js",
