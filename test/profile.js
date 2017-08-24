@@ -1,5 +1,5 @@
 var nearley = require('../lib/nearley.js');
-var parserGrammar = require('./parens.js');
+var parserGrammar = require('./grammars/parens.js');
 function nspace(n) {
 	var out = "";
 	for (var i=0; i<n; i++) {

@@ -14,19 +14,19 @@ describe("bin/nearleyc", function() {
     after(cleanup)
 
     it('builds for ES5', function() {
-        const out = externalNearleyc("parens.ne", '.js')
+        const out = externalNearleyc("grammars/parens.ne", '.js')
         var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
     });
 
     it('builds for CoffeeScript', function() {
-        const out = externalNearleyc("coffeescript-test.ne", ".coffee")
+        const out = externalNearleyc("grammars/coffeescript-test.ne", ".coffee")
         sh(`coffee -c ${out}.coffee`);
         var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
         expect(parse(grammar, "ABCDEFZ12309")).toEqual([ [ 'ABCDEFZ', '12309' ] ]);
     });
 
     it('builds for TypeScript', function() {
-        const out = externalNearleyc("typescript-test.ne", ".ts")
+        const out = externalNearleyc("grammars/typescript-test.ne", ".ts")
         sh(`tsc ${out}.ts`);
         var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
         expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
@@ -51,17 +51,17 @@ describe('nearleyc', function() {
     });
 
     it('exponential whitespace bug', function() {
-        compile(read('test/indentation.ne'));
+        compile(read('test/grammars/indentation.ne'));
     });
 
     it('nullable whitespace bug', function() {
-        var wsb = compile(read("test/whitespace.ne"));
+        var wsb = compile(read("test/grammars/whitespace.ne"));
         expect(parse(wsb, "(x)")).toEqual(
             [ [ [ [ '(', null, [ [ [ [ 'x' ] ] ] ], null, ')' ] ] ] ]);
     });
 
     it('percent bug', function() {
-        compile(read('test/percent.ne'));
+        compile(read('test/grammars/percent.ne'));
     });
 
     it('tokens', function() {
@@ -70,7 +70,7 @@ describe('nearleyc', function() {
     });
 
     it('leo bug', function() {
-        var leo = compile(read("test/leobug.ne"));
+        var leo = compile(read("test/grammars/leobug.ne"));
         expect(parse(leo, "baab")).toEqual(
             [ [ 'b', [], 'a', [], 'a', [ 'b' ] ],
             [ 'b', [], 'a', [], 'a', [ 'b', [] ] ] ]);
@@ -81,11 +81,11 @@ describe('nearleyc', function() {
         json = compile(read("examples/json.ne"));
     });
     it('json test1', function() {
-        var test1 = read('test/test1.json');
+        var test1 = read('test/grammars/test1.json');
         expect(parse(json, test1)).toEqual([JSON.parse(test1)]);
     });
     it('json test2', function() {
-        var test2 = read('test/test2.json');
+        var test2 = read('test/grammars/test2.json');
         expect(parse(json, test2)).toEqual([JSON.parse(test2)]);
     });
 
@@ -99,8 +99,8 @@ describe('nearleyc', function() {
         // Try compiling the grammar
         var classicCrontab = compile(read("examples/classic_crontab.ne"));
         // Try parsing crontab file using the newly generated parser
-        var crontabTest = read('test/classic_crontab.test');
-        var crontabResults = read('test/classic_crontab.results');
+        var crontabTest = read('test/grammars/classic_crontab.test');
+        var crontabResults = read('test/grammars/classic_crontab.results');
         expect(parse(classicCrontab, crontabTest)).toEqual([JSON.parse(crontabResults)]);
     });
 
@@ -135,7 +135,7 @@ describe('nearleyc', function() {
     });
 
     it('case-insensitive strings', function() {
-        var caseinsensitive = compile(read("test/caseinsensitive.ne"));
+        var caseinsensitive = compile(read("test/grammars/caseinsensitive.ne"));
         var passCases = [
             "Les rêves des amoureux sont comme le bon vin!",
             "LES RÊVES DES AMOUREUX SONT COMME LE BON VIN!",

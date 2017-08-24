@@ -28,7 +28,7 @@
     "benchmark": "benchr test/benchmark.js",
     "test": "mocha test/test.js",
     "doctoc": "doctoc --notitle README.md",
-    "profile": "bin/nearleyc.js test/parens.ne > test/parens.js && node test/profile.js"
+    "profile": "bin/nearleyc.js test/grammars/parens.ne > test/grammars/parens.js && node test/profile.js"
   },
   "author": "Hardmath123",
   "contributors": "https://github.com/Hardmath123/nearley/graphs/contributors",
