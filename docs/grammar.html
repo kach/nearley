@@ -260,6 +260,7 @@ nav ul a {
             <ul>
                 <li class="page-heading"><a href="#vocabulary">Vocabulary</a>
                 <li class="page-heading"><a href="#postprocessors">Postprocessors</a>
+                <li class="page-heading"><a href="#built-in-postprocessors">Built-in postprocessors</a>
                 <li class="page-heading"><a href="#more-syntax-tips-and-tricks">More syntax: tips and tricks</a>
                 <li class="page-heading"><a href="#macros">Macros</a>
                 <li class="page-heading"><a href="#additional-js">Additional JS</a>
@@ -348,10 +349,11 @@ leftOperand: 5, rightOperand: 10 }</code>.</p>
 <p>The postprocessor can be any function with signature <code>function(data, location,
 reject)</code>. Here,</p>
 <ul>
-<li><p><code>data: Array</code> is an array that contains the results of parsing each part of
+<li><code>data: Array</code> is an array that contains the results of parsing each part of
 the rule. Note that it is still an array, even if the rule only has one part!
 You can use the built-in <code>{% id %}</code> postprocessor to convert a one-item array
-into the item itself.</p>
+into the item itself.</li>
+</ul>
 <p>For <strong>arrow function</strong> users, a convenient pattern is to decompose the <code>data</code>
 array within the argument of the arrow function:</p>
 <pre><code class="lang-js">expression -&gt;
@@ -360,45 +362,13 @@ array within the argument of the arrow function:</p>
   | number &quot;*&quot; number {% ([fst, _, snd]) =&gt; fst * snd %}
   | number &quot;/&quot; number {% ([fst, _, snd]) =&gt; fst / snd %}
 </code></pre>
-</li>
-<li><p><code>location: number</code> is the index (zero-based) at which the rule match starts.
-You might use this to show the location of an expression in an error message.</p>
-<blockquote>
-<p>Note: Many <a href="tokenizers">tokenizers</a> provide line, column, and offset
-information in the Token object. If you are using a tokenizer, then it is
-better to use that information than the nearley-provided variable, which
-would only tell you that it saw the nth <em>token</em> rather than the nth
-<em>character</em> in the string.</p>
-</blockquote>
-</li>
-<li><p><code>reject: Object</code> is a unique object that you can return to signal that this
-rule doesn’t <em>actually</em> match its input. </p>
-<p>Reject is used in some edge cases. For example, suppose you want sequences of
-letters to match variables, except for the keyword <code>if</code>. In this case, your
-rule may be</p>
-<pre><code class="lang-js">variable -&gt; [a-z]:+ {%
-    function(d,l, reject) {
-        if (d[0] == &#39;if&#39;) {
-            return reject;
-        } else {
-            return {&#39;name&#39;: d[0]};
-        }
-    }
-%}
-</code></pre>
-<blockquote>
-<p>Warning: Grammars using <code>reject</code> are not context-free, and are often much
-slower to parse. So, we encourage you not to use <code>reject</code> unless absolutely
-necessary. You can usually use a tokenizer instead.</p>
-</blockquote>
-</li>
-</ul>
-<p>nearley provides two built-in postprocessors for the most common scenarios:</p>
+<h3 id="built-in-postprocessors">Built-in postprocessors</h3>
+<p>There are two built-in postprocessors for the most common scenarios:</p>
 <ul>
-<li><code>id</code> returns the first element of the <code>data</code> array. This is useful to
+<li><code>id</code> - returns the first element of the <code>data</code> array. This is useful to
 extract the content of a single-element array: <code>foo -&gt; bar {% id %}</code></li>
-<li><code>nuller</code> returns the JavaScript <code>null</code> value. This is useful for whitespace
-rules: <code>space -&gt; &quot; &quot; {% nuller %}</code></li>
+<li><code>nuller</code> - returns null. This is useful for whitespace rules: <code>space -&gt; &quot; &quot;
+{% nuller %}</code></li>
 </ul>
 <h3 id="more-syntax-tips-and-tricks">More syntax: tips and tricks</h3>
 <h4 id="comments">Comments</h4>

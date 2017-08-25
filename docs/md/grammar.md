@@ -97,53 +97,26 @@ reject)`. Here,
   You can use the built-in `{% id %}` postprocessor to convert a one-item array
   into the item itself.
 
-  For **arrow function** users, a convenient pattern is to decompose the `data`
-  array within the argument of the arrow function:
-  ```js
-  expression ->
-      number "+" number {% ([fst, _, snd]) => fst + snd %}
-    | number "-" number {% ([fst, _, snd]) => fst - snd %}
-    | number "*" number {% ([fst, _, snd]) => fst * snd %}
-    | number "/" number {% ([fst, _, snd]) => fst / snd %}
-  ```
+For **arrow function** users, a convenient pattern is to decompose the `data`
+array within the argument of the arrow function:
 
-- `location: number` is the index (zero-based) at which the rule match starts.
-  You might use this to show the location of an expression in an error message.
+```js
+expression ->
+    number "+" number {% ([fst, _, snd]) => fst + snd %}
+  | number "-" number {% ([fst, _, snd]) => fst - snd %}
+  | number "*" number {% ([fst, _, snd]) => fst * snd %}
+  | number "/" number {% ([fst, _, snd]) => fst / snd %}
+```
 
-  > Note: Many [tokenizers](tokenizers) provide line, column, and offset
-  > information in the Token object. If you are using a tokenizer, then it is
-  > better to use that information than the nearley-provided variable, which
-  > would only tell you that it saw the nth _token_ rather than the nth
-  > _character_ in the string.
 
-- `reject: Object` is a unique object that you can return to signal that this
-  rule doesn't *actually* match its input. 
+### Built-in postprocessors
 
-  Reject is used in some edge cases. For example, suppose you want sequences of
-  letters to match variables, except for the keyword `if`. In this case, your
-  rule may be
-  ```js
-  variable -> [a-z]:+ {%
-      function(d,l, reject) {
-          if (d[0] == 'if') {
-              return reject;
-          } else {
-              return {'name': d[0]};
-          }
-      }
-  %}
-  ```
+There are two built-in postprocessors for the most common scenarios:
 
-  > Warning: Grammars using `reject` are not context-free, and are often much
-  > slower to parse. So, we encourage you not to use `reject` unless absolutely
-  > necessary. You can usually use a tokenizer instead.
-
-nearley provides two built-in postprocessors for the most common scenarios:
-
-- `id` returns the first element of the `data` array. This is useful to
+- `id` - returns the first element of the `data` array. This is useful to
   extract the content of a single-element array: `foo -> bar {% id %}`
-- `nuller` returns the JavaScript `null` value. This is useful for whitespace
-  rules: `space -> " " {% nuller %}`
+- `nuller` - returns null. This is useful for whitespace rules: `space -> " "
+  {% nuller %}`
 
 
 ### More syntax: tips and tricks

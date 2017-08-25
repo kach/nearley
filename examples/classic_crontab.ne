@@ -210,12 +210,12 @@ function minuteJump(d) {
     return {minutes: jumpRange(60, step)};
 }
 
-function minuteRange(d, l, reject) {
+function minuteRange(d) {
     let minNum = d[0];
     let maxNum = d[2];
 
     if (maxNum <= minNum) {
-        return reject;
+        throw new Error('reject');
     }
 
     return {minutes: numRange(minNum, maxNum)};
@@ -241,12 +241,12 @@ function hourJump(d) {
     return {hours: jumpRange(24, step)};
 }
 
-function hourRange(d, l, reject) {
+function hourRange(d) {
     let minNum = d[0];
     let maxNum = d[2];
 
     if (maxNum <= minNum) {
-        return reject;
+        throw new Error('reject');
     }
 
     return {hours: numRange(minNum, maxNum)};
@@ -272,12 +272,12 @@ function dayOfMonthJump(d) {
     return {daysOfMonth: jumpRange(31, step).map(plusN(step)).filter(upToN(31))};
 }
 
-function dayOfMonthRange(d, l, reject) {
+function dayOfMonthRange(d) {
     let minNum = d[0];
     let maxNum = d[2];
 
     if (maxNum <= minNum) {
-        return reject;
+        throw new Error('reject');
     }
 
     return {daysOfMonth: numRange(minNum, maxNum)};
@@ -303,12 +303,12 @@ function monthOfYearJump(d) {
     return {monthsOfYear: jumpRange(12, step).map(plusN(step)).filter(upToN(12))};
 }
 
-function monthOfYearRange(d, l, reject) {
+function monthOfYearRange(d) {
     let minNum = d[0];
     let maxNum = d[2];
 
     if (maxNum <= minNum) {
-        return reject;
+        throw new Error('reject');
     }
 
     return {monthsOfYear: numRange(minNum, maxNum)};
@@ -324,12 +324,12 @@ function allDaysOfWeek(d) {
     return {daysOfWeek: jumpRange(7)};
 }
 
-function dayOfWeekRange(d, l, reject) {
+function dayOfWeekRange(d) {
     let minNum = d[0];
     let maxNum = d[2];
 
     if (maxNum <= minNum) {
-        return reject;
+        throw new Error('reject');
     }
 
     return {daysOfWeek: numRange(minNum, maxNum)};

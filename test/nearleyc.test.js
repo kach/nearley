@@ -128,7 +128,7 @@ describe('nearleyc: example grammars', function() {
         ])
     });
 
-    it('classic crontab', function() {
+    it.skip('classic crontab', function() {
         // Try compiling the grammar
         const classicCrontab = compile(read("examples/classic_crontab.ne"));
         // Try parsing crontab file using the newly generated parser
