@@ -14,19 +14,19 @@ describe("bin/nearleyc", function() {
     after(cleanup)
 
     it('builds for ES5', function() {
-        const out = externalNearleyc("parens.ne", '.js')
+        const out = externalNearleyc("grammars/parens.ne", '.js')
         var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
     });
 
     it('builds for CoffeeScript', function() {
-        const out = externalNearleyc("coffeescript-test.ne", ".coffee")
+        const out = externalNearleyc("grammars/coffeescript-test.ne", ".coffee")
         sh(`coffee -c ${out}.coffee`);
         var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
         expect(parse(grammar, "ABCDEFZ12309")).toEqual([ [ 'ABCDEFZ', '12309' ] ]);
     });
 
     it('builds for TypeScript', function() {
-        const out = externalNearleyc("typescript-test.ne", ".ts")
+        const out = externalNearleyc("grammars/typescript-test.ne", ".ts")
         sh(`tsc ${out}.ts`);
         var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
         expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
@@ -51,17 +51,17 @@ describe('nearleyc', function() {
     });
 
     it('exponential whitespace bug', function() {
-        compile(read('test/indentation.ne'));
+        compile(read('test/grammars/indentation.ne'));
     });
 
     it('nullable whitespace bug', function() {
-        var wsb = compile(read("test/whitespace.ne"));
+        var wsb = compile(read("test/grammars/whitespace.ne"));
         expect(parse(wsb, "(x)")).toEqual(
             [ [ [ [ '(', null, [ [ [ [ 'x' ] ] ] ], null, ')' ] ] ] ]);
     });
 
     it('percent bug', function() {
-        compile(read('test/percent.ne'));
+        compile(read('test/grammars/percent.ne'));
     });
 
     it('tokens', function() {
@@ -70,7 +70,7 @@ describe('nearleyc', function() {
     });
 
     it('leo bug', function() {
-        var leo = compile(read("test/leobug.ne"));
+        var leo = compile(read("test/grammars/leobug.ne"));
         expect(parse(leo, "baab")).toEqual(
             [ [ 'b', [], 'a', [], 'a', [ 'b' ] ],
             [ 'b', [], 'a', [], 'a', [ 'b', [] ] ] ]);
@@ -81,11 +81,11 @@ describe('nearleyc', function() {
         json = compile(read("examples/json.ne"));
     });
     it('json test1', function() {
-        var test1 = read('test/test1.json');
+        var test1 = read('test/grammars/test1.json');
         expect(parse(json, test1)).toEqual([JSON.parse(test1)]);
     });
     it('json test2', function() {
-        var test2 = read('test/test2.json');
+        var test2 = read('test/grammars/test2.json');
         expect(parse(json, test2)).toEqual([JSON.parse(test2)]);
     });
 
@@ -99,8 +99,8 @@ describe('nearleyc', function() {
         // Try compiling the grammar
         var classicCrontab = compile(read("examples/classic_crontab.ne"));
         // Try parsing crontab file using the newly generated parser
-        var crontabTest = read('test/classic_crontab.test');
-        var crontabResults = read('test/classic_crontab.results');
+        var crontabTest = read('test/grammars/classic_crontab.test');
+        var crontabResults = read('test/grammars/classic_crontab.results');
         expect(parse(classicCrontab, crontabTest)).toEqual([JSON.parse(crontabResults)]);
     });
 
@@ -135,7 +135,7 @@ describe('nearleyc', function() {
     });
 
     it('case-insensitive strings', function() {
-        var caseinsensitive = compile(read("test/caseinsensitive.ne"));
+        var caseinsensitive = compile(read("test/grammars/caseinsensitive.ne"));
         var passCases = [
             "Les rêves des amoureux sont comme le bon vin!",
             "LES RÊVES DES AMOUREUX SONT COMME LE BON VIN!",
@@ -148,97 +148,5 @@ describe('nearleyc', function() {
             expect(p[0].toUpperCase()).toBe(passCases[1]);
         });
     });
-
-});
-
-describe('Parser', function() {
-
-    let testGrammar = compile(`
-    y -> x:+
-    x -> [a-z0-9] | "\\n"
-    `)
-
-    it('shows line number in errors', function() {
-      expect(() => parse(testGrammar, 'abc\n12!')).toThrow(
-        'invalid syntax at line 2 col 3:\n' +
-        '\n' +
-        '  12!\n' +
-        '    ^'
-      )
-    })
-
-    it('shows token index in errors', function() {
-      expect(() => parse(testGrammar, ['1', '2', '!'])).toThrow(
-        'invalid syntax at index 2'
-      )
-    })
-
-    var tosh = compile(read("examples/tosh.ne"));
-
-    it('can save state', function() {
-        let first = "say 'hello'";
-        let second = " for 2 secs";
-        let p = new nearley.Parser(tosh, { keepHistory: true });
-        p.feed(first);
-        expect(p.current).toBe(11)
-        expect(p.table.length).toBe(12)
-        var col = p.save();
-        expect(col.index).toBe(11)
-        expect(col.lexerState.col).toBe(first.length)
-    });
-
-    it('can rewind', function() {
-        let first = "say 'hello'";
-        let second = " for 2 secs";
-        let p = new nearley.Parser(tosh, { keepHistory: true });
-        p.feed(first);
-        expect(p.current).toBe(11)
-        expect(p.table.length).toBe(12)
-
-        p.feed(second);
-
-        p.rewind(first.length);
-
-        expect(p.current).toBe(11)
-        expect(p.table.length).toBe(12)
-
-        expect(p.results).toEqual([['say:', 'hello']]);
-    });
-
-    it("won't rewind without `keepHistory` option", function() {
-        let p = new nearley.Parser(tosh, {});
-        expect(() => p.rewind()).toThrow()
-    })
-
-    it('restores line numbers', function() {
-      let p = new nearley.Parser(testGrammar);
-      p.feed('abc\n')
-      expect(p.save().lexerState.line).toBe(2)
-      p.feed('123\n')
-      var col = p.save();
-      expect(col.lexerState.line).toBe(3)
-      p.feed('q')
-      p.restore(col);
-      expect(p.lexer.line).toBe(3)
-      p.feed('z')
-    });
-
-    it('restores column number', function() {
-      let p = new nearley.Parser(testGrammar);
-      p.feed('foo\nbar')
-      var col = p.save();
-      expect(col.lexerState.line).toBe(2)
-      expect(col.lexerState.col).toBe(3)
-      p.feed('123');
-      expect(p.lexerState.col).toBe(6)
-
-      p.restore(col);
-      expect(p.lexerState.line).toBe(2)
-      expect(p.lexerState.col).toBe(3)
-      p.feed('456')
-      expect(p.lexerState.col).toBe(6)
-    });
-
-    // TODO: moo save/restore
 
 });

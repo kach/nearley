@@ -38,7 +38,7 @@ suite('calculator', () => {
 })
 
 suite('json', () => {
-  const jsonFile = read('test/sample1k.json')
+  const jsonFile = read('test/grammars/sample1k.json')
 
   const parse = makeParser('examples/json.ne')
   benchmark('nearley', () => parse(jsonFile))

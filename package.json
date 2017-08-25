@@ -31,8 +31,9 @@
   "scripts": {
     "bootstrap": "bin/nearleyc.js lib/nearley-language-bootstrapped.ne > tmp && mv tmp lib/nearley-language-bootstrapped.js",
     "benchmark": "benchr test/benchmark.js",
-    "test": "mocha test/test.js",
-    "doctoc": "doctoc --notitle README.md"
+    "test": "mocha test/*.test.js",
+    "doctoc": "doctoc --notitle README.md",
+    "profile": "bin/nearleyc.js test/grammars/parens.ne > test/grammars/parens.js && node test/profile.js"
   },
   "author": "Hardmath123",
   "contributors": "https://github.com/Hardmath123/nearley/graphs/contributors",

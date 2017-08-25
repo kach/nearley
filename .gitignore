@@ -3,8 +3,8 @@ node_modules/
 docs/node_modules/
 .DS_Store
 test/profile.log
-test/parens.js
-test/whitespace.js
+test/grammars/parens.js
+test/grammars/whitespace.js
 *.swp
 *.ps1
 *.cmd
