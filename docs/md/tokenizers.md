@@ -24,7 +24,7 @@ Using a tokenizer has many benefits. It...
 ### Lexing with Moo
 
 The `@lexer` directive instructs Nearley to use a lexer you've defined inside a
-Javascript `@{% … %}` block in your grammar.
+[Javascript block](grammar#additional-js) in your grammar.
 
 nearley supports and recommends [Moo](https://github.com/tjvr/moo), a
 super-fast lexer. Construct a lexer using `moo.compile`.

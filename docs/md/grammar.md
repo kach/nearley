@@ -89,19 +89,59 @@ expression -> number "+" number {%
 The rule above will parse the string `5+10` into `{ operator: "sum",
 leftOperand: "5", rightOperand: "10" }`.
 
-The postprocessor can be any function. It will be passed three arguments:
+The postprocessor can be any function. The first argument is the `data` array,
+with the results of parsing each part of the rule.
 
-- `data: Array` - an array that contains the results of parsing each part of
-  the rule. Note that it is still an array, even if the rule only has one part!
-  You can use the built-in `{% id %}` postprocessor to convert a one-item array
-  into the item itself.
+Remember that a postprocessor is **scoped to a single rule**, not the whole
+nonterminal. If a nonterminal has multiple alternative rules, each of them can
+have its own postprocessor.
+
+For **arrow function** users, a convenient pattern is to decompose the `data`
+array within the argument of the arrow function:
+
+```js
+expression ->
+      number "+" number {% ([fst, _, snd]) => fst + snd %}
+    | number "-" number {% ([fst, _, snd]) => fst - snd %}
+    | number "*" number {% ([fst, _, snd]) => fst * snd %}
+    | number "/" number {% ([fst, _, snd]) => fst / snd %}
+```
+
+### Built-in postprocessors
+
+There are two built-in postprocessors for the most common scenarios:
+
+- `id` - returns the first element of the `data` array. This is useful to
+  extract the content of a single-element array: `foo -> bar {% id %}`
+- `nuller` - returns null. This is useful for whitespace rules: `space -> " "
+  {% nuller %}`
+
+
+### Other arguments
+
+Postprocessors are actually passed three arguments:
+
+- `data: Array` - an array that contains the results of parsing each part of the
+  rule. Note that it is still an array, even if the rule only has one part! You
+  can use the built-in `{% id %}` postprocessor to convert a one-item array into
+  the item itself.
+
 - `location: number` - the index (zero-based) at which the rule match starts.
-  This is useful, for example, to construct an error message that tells you where
-  in the source the error occurred.
+  You might use this in an interpreter, to record the position of expressions in
+  the source file.
+
+  Note that [tokenizers](tokenizers) will give you line, column, and offset
+  information in the Token object, and so you're usually better off accessing
+  that!
+
 - `reject: Object` - return this object to signal that this rule doesn't
-  *actually* match. This is necessary in certain edge-conditions. For example,
-  suppose you want sequences of letters to match variables, except for the
-  keyword `var`. In this case, your rule may be
+  *actually* match. 
+
+  > Note that `reject` is **deprecated** and will be removed in the future.
+  
+  Reject is used in some edge cases. For example, suppose you want sequences of
+  letters to match variables, except for the keyword `var`. In this case, your
+  rule may be
   ```js
   word -> [a-z]:+ {%
       function(d,l, reject) {
@@ -113,31 +153,10 @@ The postprocessor can be any function. It will be passed three arguments:
       }
   %}
   ```
-  Please note that grammars using `reject` are not context-free, and are often
-  much slower to parse. Use it wisely! You can usually avoid the need for
-  `reject` by using a [tokenizer](tokenizers).
+  You can usually avoid the need for `reject` by using a
+  [tokenizer](tokenizers).  Grammars using `reject` are not context-free, and
+  are often much slower to parse. Use it wisely!
 
-Remember that a postprocessor is scoped to a single rule, not the whole
-nonterminal. If a nonterminal has multiple alternative rules, each of them can
-have its own postprocessor.
-
-For arrow-function users, a convenient pattern is to decompose the `data` array
-within the argument of the arrow function:
-
-```js
-expression ->
-      number "+" number {% ([first, _, second]) => first + second %}
-    | number "-" number {% ([first, _, second]) => first - second %}
-    | number "*" number {% ([first, _, second]) => first * second %}
-    | number "/" number {% ([first, _, second]) => first / second %}
-```
-
-There are two built-in postprocessors for the most common scenarios:
-
-- `id` - returns the first element of the `data` array. This is useful to
-  extract the content of a single-element array: `foo -> bar {% id %}`
-- `nuller` - returns null. This is useful for whitespace rules: `space -> " "
-  {% nuller %}`
 
 #### Target languages
 
