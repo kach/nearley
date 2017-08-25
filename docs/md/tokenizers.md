@@ -20,10 +20,32 @@ Using a tokenizer has many benefits. It...
 - ...gives you *lexical information* such as line numbers for each token. This
   lets you make better error messages.
 
+
 ### Lexing with Moo
 
+The `@lexer` directive instructs Nearley to use a lexer you've defined inside a
+Javascript `@{% … %}` block in your grammar.
+
 nearley supports and recommends [Moo](https://github.com/tjvr/moo), a
-super-fast tokenizer. Here is a simple example:
+super-fast lexer. Construct a lexer using `moo.compile`.
+
+When using a lexer, there are two ways to match tokens:
+
+  - Use `%token` to match a token with **type** `token`.
+
+    ```ini
+    line -> words %newline
+    ```
+
+  - Use `"foo"` to match a token with **value** `foo`.
+
+    This is convenient for matching keywords:
+
+    ```ini
+    ifStatement -> "if" condition "then" block
+    ```
+
+Here is an example of a simple grammar:
 
 ```coffeescript
 @{%
@@ -32,6 +54,7 @@ const moo = require("moo");
 const lexer = moo.compile({
   ws:     /[ \t]+/,
   number: /[0-9]+/,
+  word: /[a-z]+/,
   times:  /\*|x/
 });
 %}
@@ -41,20 +64,17 @@ const lexer = moo.compile({
 
 # Use %token to match any token of that type instead of "token":
 multiplication -> %number %ws %times %ws %number {% ([first, , , , second]) => first * second %}
+
+# Literal strings now match tokens with that text:
+trig -> "sin" %number
 ```
 
 Have a look at [the Moo documentation](https://github.com/tjvr/moo#usage) to
-learn more about the tokenizer.
-
-Note that when using a tokenizer, raw strings match full tokens parsed by Moo.
-This is convenient for matching keywords.
-
-```ini
-ifStatement -> "if" condition "then" block
-```
+learn more about writing a tokenizer.
 
 You use the parser as usual: call `parser.feed(data)`, and nearley will give
 you the parsed results in return.
+
 
 ### Custom lexers
 
@@ -76,6 +96,7 @@ However, you can use any lexer that conforms to the following interface:
 > Note: if you are searching for a lexer that allows indentation-aware
 > grammars (like in Python), you can still use moo. See [this
 > example](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa)
+
 
 ### Custom token matchers
 
@@ -99,3 +120,4 @@ main -> %tokenPrint %tokenNumber ";;"
 
 # parser.feed(["print", 12, ";;"]);
 ```
+
