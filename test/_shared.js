@@ -8,9 +8,7 @@ var parserGrammar = nearley.Grammar.fromCompiled(require('../lib/nearley-languag
 var generate = require('../lib/generate');
 
 function parse(grammar, input) {
-    var p = new nearley.Parser(grammar);
-    p.feed(input);
-    return p.results;
+    return grammar.parser().feed(input).finish();
 }
 
 function nearleyc(source) {
