@@ -39,8 +39,8 @@ var opts = nomnom
 var input = opts.file ? fs.createReadStream(opts.file) : process.stdin;
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
-var parserGrammar = require('../lib/nearley-language-bootstrapped.js');
-var parser = new nearley.Parser(parserGrammar.ParserRules, parserGrammar.ParserStart);
+var parserGrammar = nearley.Grammar.fromCompiled(require('../lib/nearley-language-bootstrapped.js'));
+var parser = new nearley.Parser(parserGrammar);
 var generate = require('../lib/generate.js');
 var lint = require('../lib/lint.js');
 
