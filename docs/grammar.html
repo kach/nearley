@@ -260,8 +260,6 @@ nav ul a {
             <ul>
                 <li class="page-heading"><a href="#vocabulary">Vocabulary</a>
                 <li class="page-heading"><a href="#postprocessors">Postprocessors</a>
-                <li class="page-heading"><a href="#postprocessors-built-ins">Postprocessors: Built-ins</a>
-                <li class="page-heading"><a href="#postprocessors-other-arguments">Postprocessors: Other Arguments</a>
                 <li class="page-heading"><a href="#more-syntax-tips-and-tricks">More syntax: tips and tricks</a>
                 <li class="page-heading"><a href="#macros">Macros</a>
                 <li class="page-heading"><a href="#additional-js">Additional JS</a>
@@ -316,10 +314,10 @@ number -&gt; [0-9]:+
 <p>You can use the pipe character <code>|</code> to separate alternative rules for a
 nonterminal. In the example below, <code>expression</code> has four different rules.</p>
 <pre><code class="lang-js">expression -&gt;
-      number &quot;+&quot; number
-    | number &quot;-&quot; number
-    | number &quot;*&quot; number
-    | number &quot;/&quot; number
+    number &quot;+&quot; number
+  | number &quot;-&quot; number
+  | number &quot;*&quot; number
+  | number &quot;/&quot; number
 </code></pre>
 <p>The keyword <code>null</code> stands for the <strong>epsilon rule</strong>, which matches nothing. The
 following nonterminal matches zero or more <code>cow</code>s in a row, such as
@@ -328,39 +326,73 @@ following nonterminal matches zero or more <code>cow</code>s in a row, such as
 </code></pre>
 <h3 id="postprocessors">Postprocessors</h3>
 <p>By default, nearley wraps everything matched by a rule into an array. For
-example, when <code>rule -&gt; &quot;foo&quot; &quot;bar&quot;</code> matches, it creates the “parse tree”
-<code>[&quot;foo&quot;, &quot;bar&quot;]</code>.  Most of the time, however, you need to process that data in
-some way: for example, you may want to filter out whitespace, or transform the
-results into a custom JavaScript object.</p>
+example, when <code>rule -&gt; &quot;tick&quot; &quot;tock&quot;</code> matches the string <code>&quot;ticktock&quot;</code>, it
+creates the “parse tree” <code>[&quot;tick&quot;, &quot;tock&quot;]</code>. Most of the time, however, you
+need to process that data in some way: for example, you may want to filter out
+whitespace, or transform the results into a custom JavaScript object.</p>
 <p>For this purpose, each rule can have a <em>postprocessor</em>: a JavaScript function
 that transforms the array and returns a “processed” version of the result.
-Postprocessors are wrapped in <code>{% %}</code>:</p>
+Postprocessors are wrapped in <code>{% %}</code>s:</p>
 <pre><code class="lang-js">expression -&gt; number &quot;+&quot; number {%
-    function(data, location, reject) {
+    function(data) {
         return {
             operator: &quot;sum&quot;,
-            leftOperand: data[0],
+            leftOperand:  data[0],
             rightOperand: data[2] // data[1] is &quot;+&quot;
         };
     }
 %}
 </code></pre>
 <p>The rule above will parse the string <code>5+10</code> into <code>{ operator: &quot;sum&quot;,
-leftOperand: &quot;5&quot;, rightOperand: &quot;10&quot; }</code>.</p>
-<p>The postprocessor can be any function. The first argument is the <code>data</code> array,
-with the results of parsing each part of the rule.</p>
-<p>A postprocessor is scoped to a single rule, not the whole nonterminal. If a
-nonterminal has multiple alternative rules, each rule can have its own
-postprocessor.</p>
+leftOperand: 5, rightOperand: 10 }</code>.</p>
+<p>The postprocessor can be any function with signature <code>function(data, location,
+reject)</code>. Here,</p>
+<ul>
+<li><p><code>data: Array</code> is an array that contains the results of parsing each part of
+the rule. Note that it is still an array, even if the rule only has one part!
+You can use the built-in <code>{% id %}</code> postprocessor to convert a one-item array
+into the item itself.</p>
 <p>For <strong>arrow function</strong> users, a convenient pattern is to decompose the <code>data</code>
 array within the argument of the arrow function:</p>
 <pre><code class="lang-js">expression -&gt;
-      number &quot;+&quot; number {% ([fst, _, snd]) =&gt; fst + snd %}
-    | number &quot;-&quot; number {% ([fst, _, snd]) =&gt; fst - snd %}
-    | number &quot;*&quot; number {% ([fst, _, snd]) =&gt; fst * snd %}
-    | number &quot;/&quot; number {% ([fst, _, snd]) =&gt; fst / snd %}
+    number &quot;+&quot; number {% ([fst, _, snd]) =&gt; fst + snd %}
+  | number &quot;-&quot; number {% ([fst, _, snd]) =&gt; fst - snd %}
+  | number &quot;*&quot; number {% ([fst, _, snd]) =&gt; fst * snd %}
+  | number &quot;/&quot; number {% ([fst, _, snd]) =&gt; fst / snd %}
 </code></pre>
-<h3 id="postprocessors-built-ins">Postprocessors: Built-ins</h3>
+</li>
+<li><p><code>location: number</code> is the index (zero-based) at which the rule match starts.
+You might use this to show the location of an expression in an error message.</p>
+<blockquote>
+<p>Note: Many <a href="tokenizers">tokenizers</a> provide line, column, and offset
+information in the Token object. If you are using a tokenizer, then it is
+better to use that information than the nearley-provided variable, which
+would only tell you that it saw the nth <em>token</em> rather than the nth
+<em>character</em> in the string.</p>
+</blockquote>
+</li>
+<li><p><code>reject: Object</code> is a unique object that you can return to signal that this
+rule doesn’t <em>actually</em> match its input. </p>
+<p>Reject is used in some edge cases. For example, suppose you want sequences of
+letters to match variables, except for the keyword <code>if</code>. In this case, your
+rule may be</p>
+<pre><code class="lang-js">variable -&gt; [a-z]:+ {%
+    function(d,l, reject) {
+        if (d[0] == &#39;if&#39;) {
+            return reject;
+        } else {
+            return {&#39;name&#39;: d[0]};
+        }
+    }
+%}
+</code></pre>
+<blockquote>
+<p>Warning: Grammars using <code>reject</code> are not context-free, and are often much
+slower to parse. So, we encourage you not to use <code>reject</code> unless absolutely
+necessary. You can usually use a tokenizer instead.</p>
+</blockquote>
+</li>
+</ul>
 <p>nearley provides two built-in postprocessors for the most common scenarios:</p>
 <ul>
 <li><code>id</code> returns the first element of the <code>data</code> array. This is useful to
@@ -368,53 +400,6 @@ extract the content of a single-element array: <code>foo -&gt; bar {% id %}</cod
 <li><code>nuller</code> returns the JavaScript <code>null</code> value. This is useful for whitespace
 rules: <code>space -&gt; &quot; &quot; {% nuller %}</code></li>
 </ul>
-<h3 id="postprocessors-other-arguments">Postprocessors: Other Arguments</h3>
-<p>Postprocessors are actually passed three arguments:</p>
-<ul>
-<li><p><code>data: Array</code> an array that contains the results of parsing each part of the
-rule. Note that it is still an array, even if the rule only has one part! You
-can use the built-in <code>{% id %}</code> postprocessor to convert a one-item array
-into the item itself.</p>
-</li>
-<li><p><code>location: number</code> the index (zero-based) at which the rule match starts.
-You might use this to show the location of an expression in an error message.</p>
-<blockquote>
-<p>Note: Many <a href="tokenizers">tokenizers</a> provide line, column, and offset
-information in the Token object. If you are using a tokenizer, then it is
-better to use that information than the nearley-provided variable.</p>
-</blockquote>
-</li>
-<li><p><code>reject: Object</code> return this object to signal that this rule doesn’t
-<em>actually</em> match. </p>
-<p>Reject is used in some edge cases. For example, suppose you want sequences of
-letters to match variables, except for the keyword <code>var</code>. In this case, your
-rule may be</p>
-<pre><code class="lang-js">word -&gt; [a-z]:+ {%
-    function(d,l, reject) {
-        if (d[0] == &#39;var&#39;) {
-            return reject;
-        } else {
-            return {&#39;var&#39;: d[0]};
-        }
-    }
-%}
-</code></pre>
-<blockquote>
-<p>Warning: Grammars using <code>reject</code> are not context-free, and are often much
-slower to parse. Furthermore, you can almost always avoid the need for
-<code>reject</code> by using a <a href="tokenizers">tokenizer</a>. Finally, <code>reject</code> prevents
-nearley from making a variety of optimizations. So, we encourage you not to
-use <code>reject</code> unless absolutely necessary: in the future, we will deprecate
-<code>reject</code>-based grammars.</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="target-languages">Target languages</h4>
-<p>By default, <code>nearleyc</code> compiles your grammar to JavaScript. You can also choose
-CoffeeScript or TypeScript by adding <code>@preprocessor coffee</code> or <code>@preprocessor
-typescript</code> at the top of your grammar file. This can be useful to write your
-postprocessors in a different language, and to get type annotations if you wish
-to use nearley in a statically typed dialect of JavaScript.</p>
 <h3 id="more-syntax-tips-and-tricks">More syntax: tips and tricks</h3>
 <h4 id="comments">Comments</h4>
 <p>Comments are marked with ‘#’. Everything from <code>#</code> to the end of a line is

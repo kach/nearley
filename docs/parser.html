@@ -262,6 +262,7 @@ nav ul a {
                 <li class="page-heading"><a href="#a-note-on-ambiguity">A note on ambiguity</a>
                 <li class="page-heading"><a href="#catching-errors">Catching errors</a>
                 <li class="page-heading"><a href="#accessing-the-parse-table">Accessing the parse table</a>
+                <li class="page-heading"><a href="#using-preprocessors">Using preprocessors</a>
                 <li class="page-heading"><a href="#what-s-next-">What’s next?</a>
             </ul>
         </li>
@@ -354,6 +355,13 @@ const parser = new nearley.Parser(
 parser.feed(...);
 console.log(parser.table);
 </code></pre>
+<h3 id="using-preprocessors">Using preprocessors</h3>
+<p>By default, <code>nearleyc</code> compiles your grammar to JavaScript. However, you can
+instead choose to compile to CoffeeScript or TypeScript by adding
+<code>@preprocessor coffee</code> or <code>@preprocessor typescript</code> at the top of your grammar
+file. This can be useful to write your postprocessors in a different language,
+and to get type annotations if you wish to use nearley in a statically typed
+dialect of JavaScript.</p>
 <h3 id="what-s-next-">What’s next?</h3>
 <p>Now that you know how to use parsers, <a href="tokenizers">learn how to add a tokenizer to speed
 things up!</a></p>

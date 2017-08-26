@@ -48,10 +48,10 @@ nonterminal. In the example below, `expression` has four different rules.
 
 ```js
 expression ->
-      number "+" number
-    | number "-" number
-    | number "*" number
-    | number "/" number
+    number "+" number
+  | number "-" number
+  | number "*" number
+  | number "/" number
 ```
 
 The keyword `null` stands for the **epsilon rule**, which matches nothing. The
@@ -65,21 +65,21 @@ a -> null | a "cow"
 ### Postprocessors
 
 By default, nearley wraps everything matched by a rule into an array. For
-example, when `rule -> "foo" "bar"` matches, it creates the "parse tree"
-`["foo", "bar"]`.  Most of the time, however, you need to process that data in
-some way: for example, you may want to filter out whitespace, or transform the
-results into a custom JavaScript object.
+example, when `rule -> "tick" "tock"` matches the string `"ticktock"`, it
+creates the "parse tree" `["tick", "tock"]`. Most of the time, however, you
+need to process that data in some way: for example, you may want to filter out
+whitespace, or transform the results into a custom JavaScript object.
 
 For this purpose, each rule can have a *postprocessor*: a JavaScript function
 that transforms the array and returns a "processed" version of the result.
-Postprocessors are wrapped in `{% %}`:
+Postprocessors are wrapped in `{% %}`s:
 
 ```js
 expression -> number "+" number {%
-    function(data, location, reject) {
+    function(data) {
         return {
             operator: "sum",
-            leftOperand: data[0],
+            leftOperand:  data[0],
             rightOperand: data[2] // data[1] is "+"
         };
     }
@@ -87,27 +87,56 @@ expression -> number "+" number {%
 ```
 
 The rule above will parse the string `5+10` into `{ operator: "sum",
-leftOperand: "5", rightOperand: "10" }`.
+leftOperand: 5, rightOperand: 10 }`.
 
-The postprocessor can be any function. The first argument is the `data` array,
-with the results of parsing each part of the rule.
+The postprocessor can be any function with signature `function(data, location,
+reject)`. Here,
 
-A postprocessor is scoped to a single rule, not the whole nonterminal. If a
-nonterminal has multiple alternative rules, each rule can have its own
-postprocessor.
+- `data: Array` is an array that contains the results of parsing each part of
+  the rule. Note that it is still an array, even if the rule only has one part!
+  You can use the built-in `{% id %}` postprocessor to convert a one-item array
+  into the item itself.
 
-For **arrow function** users, a convenient pattern is to decompose the `data`
-array within the argument of the arrow function:
-
-```js
-expression ->
+  For **arrow function** users, a convenient pattern is to decompose the `data`
+  array within the argument of the arrow function:
+  ```js
+  expression ->
       number "+" number {% ([fst, _, snd]) => fst + snd %}
     | number "-" number {% ([fst, _, snd]) => fst - snd %}
     | number "*" number {% ([fst, _, snd]) => fst * snd %}
     | number "/" number {% ([fst, _, snd]) => fst / snd %}
-```
+  ```
 
-### Postprocessors: Built-ins
+- `location: number` is the index (zero-based) at which the rule match starts.
+  You might use this to show the location of an expression in an error message.
+
+  > Note: Many [tokenizers](tokenizers) provide line, column, and offset
+  > information in the Token object. If you are using a tokenizer, then it is
+  > better to use that information than the nearley-provided variable, which
+  > would only tell you that it saw the nth _token_ rather than the nth
+  > _character_ in the string.
+
+- `reject: Object` is a unique object that you can return to signal that this
+  rule doesn't *actually* match its input. 
+
+  Reject is used in some edge cases. For example, suppose you want sequences of
+  letters to match variables, except for the keyword `if`. In this case, your
+  rule may be
+  ```js
+  variable -> [a-z]:+ {%
+      function(d,l, reject) {
+          if (d[0] == 'if') {
+              return reject;
+          } else {
+              return {'name': d[0]};
+          }
+      }
+  %}
+  ```
+
+  > Warning: Grammars using `reject` are not context-free, and are often much
+  > slower to parse. So, we encourage you not to use `reject` unless absolutely
+  > necessary. You can usually use a tokenizer instead.
 
 nearley provides two built-in postprocessors for the most common scenarios:
 
@@ -116,56 +145,6 @@ nearley provides two built-in postprocessors for the most common scenarios:
 - `nuller` returns the JavaScript `null` value. This is useful for whitespace
   rules: `space -> " " {% nuller %}`
 
-
-### Postprocessors: Other Arguments
-
-Postprocessors are actually passed three arguments:
-
-- `data: Array` an array that contains the results of parsing each part of the
-  rule. Note that it is still an array, even if the rule only has one part! You
-  can use the built-in `{% id %}` postprocessor to convert a one-item array
-  into the item itself.
-
-- `location: number` the index (zero-based) at which the rule match starts.
-  You might use this to show the location of an expression in an error message.
-
-  > Note: Many [tokenizers](tokenizers) provide line, column, and offset
-  > information in the Token object. If you are using a tokenizer, then it is
-  > better to use that information than the nearley-provided variable.
-
-- `reject: Object` return this object to signal that this rule doesn't
-  *actually* match. 
-
-  Reject is used in some edge cases. For example, suppose you want sequences of
-  letters to match variables, except for the keyword `var`. In this case, your
-  rule may be
-  ```js
-  word -> [a-z]:+ {%
-      function(d,l, reject) {
-          if (d[0] == 'var') {
-              return reject;
-          } else {
-              return {'var': d[0]};
-          }
-      }
-  %}
-  ```
-
-  > Warning: Grammars using `reject` are not context-free, and are often much
-  > slower to parse. Furthermore, you can almost always avoid the need for
-  > `reject` by using a [tokenizer](tokenizers). Finally, `reject` prevents
-  > nearley from making a variety of optimizations. So, we encourage you not to
-  > use `reject` unless absolutely necessary: in the future, we will deprecate
-  > `reject`-based grammars.
-
-
-#### Target languages
-
-By default, `nearleyc` compiles your grammar to JavaScript. You can also choose
-CoffeeScript or TypeScript by adding `@preprocessor coffee` or `@preprocessor
-typescript` at the top of your grammar file. This can be useful to write your
-postprocessors in a different language, and to get type annotations if you wish
-to use nearley in a statically typed dialect of JavaScript.
 
 ### More syntax: tips and tricks
 

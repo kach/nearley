@@ -117,6 +117,15 @@ parser.feed(...);
 console.log(parser.table);
 ```
 
+### Using preprocessors
+
+By default, `nearleyc` compiles your grammar to JavaScript. However, you can
+instead choose to compile to CoffeeScript or TypeScript by adding
+`@preprocessor coffee` or `@preprocessor typescript` at the top of your grammar
+file. This can be useful to write your postprocessors in a different language,
+and to get type annotations if you wish to use nearley in a statically typed
+dialect of JavaScript.
+
 ### What's next?
 
 Now that you know how to use parsers, [learn how to add a tokenizer to speed
