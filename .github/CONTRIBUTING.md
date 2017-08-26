@@ -47,5 +47,4 @@ Before submitting a **pull request**, have you done the following?
 * Documented your changes: new features should be mentioned in the docs, which
   are located in `/docs`. Edit the relevant `/docs/md/*.md` file in Markdown,
   and then (in a separate commit) run `npm install && node run make` from the
-  `/docs` directory to compile.
-  the documentation pages.
+  `/docs` directory to compile the documentation pages.
