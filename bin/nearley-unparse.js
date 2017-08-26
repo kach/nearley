@@ -2,43 +2,40 @@
 
 var fs = require('fs');
 var nearley = require('../lib/nearley.js');
-var nomnom = require('nomnom');
+var opts = require('commander');
 var randexp = require('randexp');
 
-var opts = nomnom
-    .script('nearley-unparse')
-    .option('file', {
-        position: 0,
-        help: "A grammar .js file",
-        required: true,
-    })
-    .option('start', {
-        abbr: 's',
-        help: "An optional start symbol (if not provided then use the parser start symbol)",
-    })
-    .option('count', {
-        abbr: 'n',
-        help: 'The number of samples to generate (separated by \\n).',
-        default: 1
-    })
-    .option('depth', {
-        abbr: 'd',
-        help: 'The depth bound of each sample. Defaults to -1, which means "unbounded".',
-        default: -1
-    })
-    .option('out', {
-        abbr: 'o',
-        help: "File to output to (defaults to stdout)",
-    })
-    .option('version', {
-        abbr: 'v',
-        flag: true,
-        help: "Print version and exit",
-        callback: function() {
-            return require('../package.json').version;
-        }
-    })
-    .parse();
+function parseDecimal (string) {
+  return parseInt(string, 10)
+}
+
+opts
+    .description('Invert a parser into a generator')
+    .usage('<file> [options]')
+    .option(
+        '-s, --start <symbol>',
+        'An optional start symbol (if not provided then use the parser start symbol)'
+    )
+    .option(
+        '-n, --count <n>',
+        'The number of samples to generate (separated by \\n)',
+        parseDecimal,
+        1
+    )
+    .option(
+        '-d, --depth <n>',
+        'The depth bound of each sample. Defaults to -1, which means "unbounded"',
+        parseDecimal,
+        -1
+    )
+    .option(
+        '-o, --out <file>',
+        'File to output to (defaults to stdout)'
+    )
+    .version(require('../package.json').version)
+    .parse(process.argv);
+
+opts.file = opts.args[0]
 
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
