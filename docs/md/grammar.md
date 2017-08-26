@@ -92,9 +92,9 @@ leftOperand: "5", rightOperand: "10" }`.
 The postprocessor can be any function. The first argument is the `data` array,
 with the results of parsing each part of the rule.
 
-Remember that a postprocessor is **scoped to a single rule**, not the whole
-nonterminal. If a nonterminal has multiple alternative rules, each of them can
-have its own postprocessor.
+A postprocessor is scoped to a single rule, not the whole nonterminal. If a
+nonterminal has multiple alternative rules, each rule can have its own
+postprocessor.
 
 For **arrow function** users, a convenient pattern is to decompose the `data`
 array within the argument of the arrow function:
@@ -107,38 +107,35 @@ expression ->
     | number "/" number {% ([fst, _, snd]) => fst / snd %}
 ```
 
-### Built-in postprocessors
+### Postprocessors: Built-ins
 
-There are two built-in postprocessors for the most common scenarios:
+nearley provides two built-in postprocessors for the most common scenarios:
 
-- `id` - returns the first element of the `data` array. This is useful to
+- `id` returns the first element of the `data` array. This is useful to
   extract the content of a single-element array: `foo -> bar {% id %}`
-- `nuller` - returns null. This is useful for whitespace rules: `space -> " "
-  {% nuller %}`
+- `nuller` returns the JavaScript `null` value. This is useful for whitespace
+  rules: `space -> " " {% nuller %}`
 
 
-### Other arguments
+### Postprocessors: Other Arguments
 
 Postprocessors are actually passed three arguments:
 
-- `data: Array` - an array that contains the results of parsing each part of the
+- `data: Array` an array that contains the results of parsing each part of the
   rule. Note that it is still an array, even if the rule only has one part! You
-  can use the built-in `{% id %}` postprocessor to convert a one-item array into
-  the item itself.
+  can use the built-in `{% id %}` postprocessor to convert a one-item array
+  into the item itself.
 
-- `location: number` - the index (zero-based) at which the rule match starts.
-  You might use this in an interpreter, to record the position of expressions in
-  the source file.
+- `location: number` the index (zero-based) at which the rule match starts.
+  You might use this to show the location of an expression in an error message.
 
-  Note that [tokenizers](tokenizers) will give you line, column, and offset
-  information in the Token object, and so you're usually better off accessing
-  that!
+  > Note: Many [tokenizers](tokenizers) provide line, column, and offset
+  > information in the Token object. If you are using a tokenizer, then it is
+  > better to use that information than the nearley-provided variable.
 
-- `reject: Object` - return this object to signal that this rule doesn't
+- `reject: Object` return this object to signal that this rule doesn't
   *actually* match. 
 
-  > Note that `reject` is **deprecated** and will be removed in the future.
-  
   Reject is used in some edge cases. For example, suppose you want sequences of
   letters to match variables, except for the keyword `var`. In this case, your
   rule may be
@@ -153,9 +150,13 @@ Postprocessors are actually passed three arguments:
       }
   %}
   ```
-  You can usually avoid the need for `reject` by using a
-  [tokenizer](tokenizers).  Grammars using `reject` are not context-free, and
-  are often much slower to parse. Use it wisely!
+
+  > Warning: Grammars using `reject` are not context-free, and are often much
+  > slower to parse. Furthermore, you can almost always avoid the need for
+  > `reject` by using a [tokenizer](tokenizers). Finally, `reject` prevents
+  > nearley from making a variety of optimizations. So, we encourage you not to
+  > use `reject` unless absolutely necessary: in the future, we will deprecate
+  > `reject`-based grammars.
 
 
 #### Target languages
