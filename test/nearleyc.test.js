@@ -26,6 +26,7 @@ describe("bin/nearleyc", function() {
     });
 
     it('builds for TypeScript', function() {
+        this.timeout(10000); // It takes a while to run tsc!
         const out = externalNearleyc("grammars/typescript-test.ne", ".ts")
         sh(`tsc ${out}.ts`);
         var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
