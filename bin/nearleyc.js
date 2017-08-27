@@ -41,6 +41,8 @@ var opts = nomnom
     })
     .parse();
 
+var version = require('../package.json').version;
+
 var input = opts.file ? fs.createReadStream(opts.file) : process.stdin;
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
@@ -52,7 +54,10 @@ var lint = require('../lib/lint.js');
 input
     .pipe(new StreamWrapper(parser))
     .on('finish', function() {
-        var c = Compile(parser.results[0], opts);
-        if (!opts.quiet) lint(c, {'out': process.stderr});
+        var c = Compile(
+            parser.results[0],
+            Object.assign({version: version}, opts)
+        );
+        if (!opts.quiet) lint(c, {'out': process.stderr, 'version': version});
         output.write(generate(c, opts.export));
     });
