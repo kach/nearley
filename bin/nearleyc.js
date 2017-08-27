@@ -2,39 +2,31 @@
 
 var fs = require('fs');
 var nearley = require('../lib/nearley.js');
-var nomnom = require('nomnom');
+var opts = require('commander');
 var Compile = require('../lib/compile.js');
 var StreamWrapper = require('../lib/stream.js');
 
-var opts = nomnom
-    .script('nearleyc')
-    .option('file', {
-        position: 0,
-        help: "An input .ne file (if not provided then read from stdin)",
-    })
-    .option('out', {
-        abbr: 'o',
-        help: "File to output to (defaults to stdout)",
-    })
-    .option('export', {
-        abbr: 'e',
-        help: "Variable to set the parser to",
-        default: "grammar"
-    })
-    .option('nojs', {
-        flag: true,
-        default: false,
-        help: "Don't compile postprocessors (for testing)."
-    })
-    .option('version', {
-        abbr: 'v',
-        flag: true,
-        help: "Print version and exit",
-        callback: function() {
-            return require('../package.json').version;
-        }
-    })
-    .parse();
+opts
+    .description('Compile grammar files to JavaScript')
+    .usage('[file] [options]')
+    .option(
+        '-o, --out <file>',
+        'File to output to (defaults to stdout)'
+    )
+    .option(
+        '-e, --export <name>',
+        'Variable to set the parser to',
+        'grammar'
+    )
+    .option(
+        '-N, --nojs',
+        "Don't compile postprocessors (for testing)",
+        false
+    )
+    .version(require('../package.json').version)
+    .parse(process.argv);
+
+opts.file = opts.args[0]
 
 var input = opts.file ? fs.createReadStream(opts.file) : process.stdin;
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
