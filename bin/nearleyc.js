@@ -21,6 +21,11 @@ var opts = nomnom
         help: "Variable to set the parser to",
         default: "grammar"
     })
+    .option('quiet', {
+        abbr: 'q',
+        flag: true,
+        help: "Suppress the linter."
+    })
     .option('nojs', {
         flag: true,
         default: false,
@@ -48,6 +53,6 @@ input
     .pipe(new StreamWrapper(parser))
     .on('finish', function() {
         var c = Compile(parser.results[0], opts);
-        lint(c, {'out': process.stderr});
+        if (!opts.quiet) lint(c, {'out': process.stderr});
         output.write(generate(c, opts.export));
     });
