@@ -124,5 +124,9 @@ var parser = new nearley.Parser(parserGrammar.ParserRules, parserGrammar.ParserS
 input
     .pipe(new StreamWrapper(parser))
     .on('finish', function() {
-        output.write(railroad(parser.results[0]));
+        if (parser.results[0]) {
+            output.write(railroad(parser.results[0]));
+        } else {
+            process.stderr.write('SyntaxError: unexpected EOF\n');
+        }
     });
