@@ -3,7 +3,7 @@ const fs = require('fs');
 const expect = require('expect');
 
 const nearley = require('../lib/nearley');
-const {compile, evalGrammar, parse} = require('./_shared');
+const {compile, evalGrammar, parse, nearleyc} = require('./_shared');
 const {sh, externalNearleyc, cleanup} = require('./external');
 
 function read(filename) {
@@ -151,3 +151,26 @@ describe('nearleyc', function() {
     });
 
 });
+
+describe('builtins', () => {
+
+    it('generate includes id', () => {
+        const source = nearleyc(`
+        X -> "hat" {% id %}
+        `)
+        expect(source.indexOf('function id(')).toNotBe(-1)
+        const g = evalGrammar(source)
+        expect(parse(g, "hat")).toEqual(["hat"])
+    })
+
+    // TODO fix docs?
+    it.skip('nuller', () => {
+        //@builtin "postprocessors.ne"
+        const source = nearleyc(`
+        ws -> " " {% nuller %}
+        `)
+        const g = evalGrammar(source)
+        expect(parse(g, " ")).toEqual([null])
+    })
+})
+

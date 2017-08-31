@@ -13,7 +13,7 @@ function parse(grammar, input) {
     return p.results;
 }
 
-function compile(source) {
+function nearleyc(source) {
     // parse
     var results = parse(parserGrammar, source);
 
@@ -21,7 +21,11 @@ function compile(source) {
     var c = Compile(results[0], {});
 
     // generate
-    var compiledGrammar = generate(c, 'grammar');
+    return generate(c, 'grammar');
+}
+
+function compile(source) {
+    var compiledGrammar = nearleyc(source);
 
     // eval
     return evalGrammar(compiledGrammar);
@@ -50,6 +54,7 @@ function evalGrammar(compiledGrammar) {
 
 module.exports = {
     compile: compile,
+    nearleyc: nearleyc,
     evalGrammar: evalGrammar,
     parse: parse,
 };
