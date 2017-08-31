@@ -5,7 +5,7 @@
 
 function insensitive(sl) {
     var s = sl.literal;
-    result = [];
+    var result = [];
     for (var i=0; i<s.length; i++) {
         var c = s.charAt(i);
         if (c.toUpperCase() !== c || c.toLowerCase() !== c) {
