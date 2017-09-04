@@ -10,6 +10,10 @@ function read(filename) {
     return fs.readFileSync(filename, 'utf-8');
 }
 
+function inspect(grammar) {
+  return grammar.rules.map(g => g.toString())
+}
+
 describe("bin/nearleyc", function() {
     after(cleanup)
 
@@ -174,3 +178,32 @@ describe('builtins', () => {
     })
 })
 
+describe('macros', () => {
+
+    it('seem to work', () => {
+        // Matches "'Hello?' 'Hello?' 'Hello?'"
+        const grammar = compile(`
+            matchThree[X] -> $X " " $X " " $X
+            inQuotes[X] -> "'" $X "'"
+            main -> matchThree[inQuotes["Hello?"]]
+        `)
+
+        expect(inspect(grammar)).toEqual([
+"main$macrocall$2$macrocall$2$string$1 → \"H\" \"e\" \"l\" \"l\" \"o\" \"?\"",
+            "main$macrocall$2$macrocall$2 → main$macrocall$2$macrocall$2$string$1",
+            "main$macrocall$2$macrocall$1 → \"'\" main$macrocall$2$macrocall$2 \"'\"",
+            "main$macrocall$2 → main$macrocall$2$macrocall$1",
+            "main$macrocall$1 → main$macrocall$2 \" \" main$macrocall$2 \" \" main$macrocall$2",
+            "main → main$macrocall$1",
+        ])
+    })
+
+    it('must be defined before use', () => {
+        expect(() => compile(`
+            main -> matchThree[inQuotes["Hello?"]]
+            matchThree[X] -> $X " " $X " " $X
+            inQuotes[X] -> "'" $X "'"
+        `)).toThrow()
+    })
+
+})
