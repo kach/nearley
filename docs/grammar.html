@@ -430,24 +430,23 @@ that a rule can have:</p>
 <h3 id="macros">Macros</h3>
 <p>Macros allow you to create polymorphic rules:</p>
 <pre><code class="lang-ini"># Matches &quot;&#39;Hello?&#39; &#39;Hello?&#39; &#39;Hello?&#39;&quot;
-main -&gt; matchThree[inQuotes[&quot;Hello?&quot;]]
-
 matchThree[X] -&gt; $X &quot; &quot; $X &quot; &quot; $X
-
 inQuotes[X] -&gt; &quot;&#39;&quot; $X &quot;&#39;&quot;
+
+main -&gt; matchThree[inQuotes[&quot;Hello?&quot;]]
 </code></pre>
 <p>Macros are dynamically scoped, which means they see arguments passed to parent
 macros:</p>
 <pre><code class="lang-ini"># Matches &quot;Cows oink.&quot; and &quot;Cows moo!&quot;
-main -&gt; sentence[&quot;Cows&quot;, (&quot;.&quot; | &quot;!&quot;)]
-
 sentence[ANIMAL, PUNCTUATION] -&gt; animalGoes[(&quot;moo&quot; | &quot;oink&quot; | &quot;baa&quot;)] $PUNCTUATION
-
 animalGoes[SOUND] -&gt; $ANIMAL &quot; &quot; $SOUND # uses $ANIMAL from its caller
+
+main -&gt; sentence[&quot;Cows&quot;, (&quot;.&quot; | &quot;!&quot;)]
 </code></pre>
 <p>Macros are expanded at compile time and inserted in places they are used. They
 are not “real” rules. Therefore, macros <em>cannot</em> be recursive (<code>nearleyc</code> will
-go into an infinite loop trying to expand the macro-loop).</p>
+go into an infinite loop trying to expand the macro-loop). They must also be
+defined <em>before</em> they are used.</p>
 <h3 id="additional-js">Additional JS</h3>
 <p>For more intricate postprocessors, or any other functionality you may need, you
 can include chunks of JavaScript code between production rules by surrounding
