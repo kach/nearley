@@ -112,7 +112,8 @@ and generates HCL config files,
 parses and tokenizes CSS3 selectors,
 [node-scad-parser](https://github.com/hhornbacher/node-scad-parser) parses
 OpenSCAD 3D models, [js-sql-parse](https://github.com/justinkenel/js-sql-parse)
-parses SQL statements.
+parses SQL statements,[resp-parser](https://github.com/appology/resp-parser) is
+a parser for the RESP protocol.
 
 **Templating and files**: [uPresent](https://github.com/bobbybee/uPresent) is a
 markdown-based presentation authoring system,
