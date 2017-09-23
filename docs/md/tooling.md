@@ -105,3 +105,6 @@ load grammars directly.
 **Gulp** users can use
 [gulp-nearley](https://github.com/JosephJNK/gulp-nearley) by Joseph Junker to
 compile grammars with a gulpfile.
+
+**Node** users can quickly create the framework for a large nearley-based
+project using [nearley-template](https://github.com/appology/nearley-template).
