@@ -18,6 +18,14 @@ describe("bin/nearleyc", function() {
         var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
     });
 
+    it('builds for ES6+', function() {
+        this.timeout(10000); // It takes a while to run babel!
+        const out = externalNearleyc("grammars/ecmascript-test.ne", ".es")
+        sh(`babel ${out}.es -o ${out}.js --presets=env`);
+        var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
+        expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
+    });
+
     it('builds for CoffeeScript', function() {
         const out = externalNearleyc("grammars/coffeescript-test.ne", ".coffee")
         sh(`coffee -c ${out}.coffee`);
