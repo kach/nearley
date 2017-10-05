@@ -33,6 +33,11 @@ describe("bin/nearleyc", function() {
         expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
     });
 
+    it('builds modules in folders', function() {
+        const out = externalNearleyc("grammars/folder-test.ne", '.js')
+        var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
+    });
+
 })
 
 describe('nearleyc', function() {
