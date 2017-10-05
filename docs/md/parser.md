@@ -44,6 +44,7 @@ console.log(parser.results);
 // [{'type': 'if', 'condition': ..., 'body': ...}]
 ```
 
+
 ### A note on ambiguity
 
 Why is `parser.results` an array? Sometimes, a grammar can parse a particular
@@ -60,17 +61,46 @@ most cases, however, your grammars should not be ambiguous (parsing ambiguous
 grammars is inefficient!). Thus, the most common usage is to simply query
 `parser.results[0]`.
 
+You might like to check first that `parser.results.length` is exactly 1; if
+there is more than one result, then your grammar is ambiguous!
+
 
 ### Catching errors
 
-nearley is a *streaming* parser: you can keep feeding it more strings. This
-means that there are two error scenarios in nearley.
+nearley is a *streaming* parser: you can call `feed()` as many times as you
+like. This means there are two ways parsing can go wrong.
 
 Consider the simple parser below for the examples to follow.
 
 ```js
 main -> "Cow goes moo." {% function(d) {return "yay!"; } %}
 ```
+
+If nearley gets **partway through the chunk** you fed, and parsing cannot
+continue, then nearley will throw an error whose `offset` property is the index
+of the offending token. There is no way to recover from this by feeding more
+data.
+
+```js
+try {
+    parser.feed("Cow goes% moo.");
+} catch (err) {
+    console.log("Error at character " + parseError.offset); // "Error at character 9"
+}
+```
+
+Errors are nicely formatted for you:
+
+```
+Error: invalid syntax at line 1 col 9:
+
+  Cow goes% moo
+          ^
+Unexpected "%"
+```
+
+**After `feed()` finishes**, the `results` array will contain all possible
+parsings.
 
 If there are no possible parsings given the current input, but in the *future*
 there *might* be results if you feed it more strings, then nearley will
@@ -82,17 +112,10 @@ parser.feed("goes "); // parser.results is []
 parser.feed("moo.");  // parser.results is ["yay!"]
 ```
 
-If there are no possible parsings, and there is no way to "recover" by feeding
-more data, then nearley will throw an error whose `offset` property is the
-index of the offending token.
+If you're done calling `feed()`, but the array is still empty, this indicates
+"unexpected end of input". Make sure to check there's at least one result.
 
-```js
-try {
-    parser.feed("Cow goes% moo.");
-} catch(parseError) {
-    console.log("Error at character " + parseError.offset); // "Error at character 9"
-}
-```
+If there's more than one result, that indicates ambiguity--read on.
 
 
 ### Accessing the parse table
