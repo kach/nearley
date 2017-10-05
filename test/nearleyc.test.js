@@ -38,6 +38,11 @@ describe("bin/nearleyc", function() {
         var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
     });
 
+    it('builds modules with multiple includes of the same file', function() {
+        const out = externalNearleyc("grammars/multi-include-test.ne", '.js')
+        var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
+    });
+
 })
 
 describe('nearleyc', function() {

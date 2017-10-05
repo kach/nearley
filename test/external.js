@@ -8,14 +8,15 @@ const expect = require('expect');
 const root = 'test/'
 
 function sh(cmd) {
-    return child_process.execSync(cmd, {encoding: 'utf-8', stdio: 'pipe', cwd: root});
+    return child_process.spawnSync(cmd, {shell: true, encoding: 'utf-8', stdio: 'pipe', cwd: root})
 }
 
 var highestId = 0
 function externalNearleyc(input, ext) {
     const tempPath = 'tmp.' + path.basename(input) + (++highestId)
-    const stderr = sh("../bin/nearleyc.js " + input + " -o " + tempPath + ext);
+    const {stderr, stdout} = sh("../bin/nearleyc.js " + input + " -o " + tempPath + ext);
     expect(stderr).toBe("")
+    expect(stdout).toBe("")
     return tempPath
 }
 
