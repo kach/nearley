@@ -3,8 +3,6 @@ const fs = require('fs')
 const path = require('path')
 const child_process = require('child_process')
 
-const expect = require('expect');
-
 const root = 'test/'
 
 function sh(cmd) {
@@ -13,11 +11,9 @@ function sh(cmd) {
 
 var highestId = 0
 function externalNearleyc(input, ext, flags = []) {
-    const tempPath = 'tmp.' + path.basename(input) + (++highestId)
-    const {stderr, stdout} = sh(`../bin/nearleyc.js ${flags.join(' ')} ${input} -o ${tempPath}${ext}`);
-    expect(stderr).toBe("")
-    expect(stdout).toBe("")
-    return tempPath
+    const outPath = 'tmp.' + path.basename(input) + (++highestId)
+    const {stderr, stdout} = sh(`../bin/nearleyc.js ${flags.join(' ')} ${input} -o ${outPath}${ext}`);
+    return {outPath, stderr, stdout}
 }
 
 function cleanup() {

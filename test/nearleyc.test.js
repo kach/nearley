@@ -14,38 +14,51 @@ describe("bin/nearleyc", function() {
     after(cleanup)
 
     it('builds for ES5', function() {
-        const out = externalNearleyc("grammars/parens.ne", '.js');
-        const grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
+        const {outPath, stdout, stderr} = externalNearleyc("grammars/parens.ne", '.js');
+        expect(stderr).toBe("");
+        expect(stdout).toBe("");
+        const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
     });
 
     it('builds for CoffeeScript', function() {
-        const out = externalNearleyc("grammars/coffeescript-test.ne", ".coffee");
-        sh(`coffee -c ${out}.coffee`);
-        const grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
+        const {outPath, stdout, stderr} = externalNearleyc("grammars/coffeescript-test.ne", ".coffee");
+        expect(stderr).toBe("");
+        expect(stdout).toBe("");
+        sh(`coffee -c ${outPath}.coffee`);
+        const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
         expect(parse(grammar, "ABCDEFZ12309")).toEqual([ [ 'ABCDEFZ', '12309' ] ]);
     });
 
     it('builds for TypeScript', function() {
         this.timeout(10000); // It takes a while to run tsc!
-        const out = externalNearleyc("grammars/typescript-test.ne", ".ts");
-        sh(`tsc ${out}.ts`);
-        const grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
+        const {outPath, stdout, stderr} = externalNearleyc("grammars/typescript-test.ne", ".ts");
+        expect(stderr).toBe("");
+        expect(stdout).toBe("");
+        sh(`tsc ${outPath}.ts`);
+        const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
         expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
     });
 
     it('builds modules in folders', function() {
-        const out = externalNearleyc("grammars/folder-test.ne", '.js');
-        const grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
+        const {outPath, stdout, stderr} = externalNearleyc("grammars/folder-test.ne", '.js');
+        expect(stderr).toBe("");
+        expect(stdout).toBe("");
+        const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
     });
 
     it('builds modules with multiple includes of the same file', function() {
-        const out = externalNearleyc("grammars/multi-include-test.ne", '.js')
-        const grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
+        const {outPath, stdout, stderr} = externalNearleyc("grammars/multi-include-test.ne", '.js');
+        expect(stderr).toBe("");
+        expect(stdout).toBe("");
+        const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
     });
 
     it("doesn't warn when used with the --quiet option", function () {
-        externalNearleyc("grammars/warning-undefined-test.ne", '.js', ['--quiet'])
+        const {stdout, stderr} = externalNearleyc("grammars/warning-undefined-test.ne", '.js', ['--quiet']);
+        expect(stderr).toBe("");
+        expect(stdout).toBe("");
     });
+
 
 })
 
