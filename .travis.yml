@@ -11,7 +11,7 @@ script:
   - cd docs; npm run make; cd ..
   - git status
   - git diff
-  - git diff-index --quiet HEAD -- || (echo "*** Did you forget to rebuild the docs? ***"; exit 1)
+  - git diff-index --quiet HEAD -- || (echo "$(tput bold)$(tput setaf 4)Did you forget to rebuild the docs?   $ cd docs; npm run make$(tput sgr0)"; exit 1)
 cache:
   directories:
     - "node_modules"
