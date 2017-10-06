@@ -12,9 +12,9 @@ function sh(cmd) {
 }
 
 var highestId = 0
-function externalNearleyc(input, ext) {
+function externalNearleyc(input, ext, flags = []) {
     const tempPath = 'tmp.' + path.basename(input) + (++highestId)
-    const {stderr, stdout} = sh("../bin/nearleyc.js " + input + " -o " + tempPath + ext);
+    const {stderr, stdout} = sh(`../bin/nearleyc.js ${flags.join(' ')} ${input} -o ${tempPath}${ext}`);
     expect(stderr).toBe("")
     expect(stdout).toBe("")
     return tempPath

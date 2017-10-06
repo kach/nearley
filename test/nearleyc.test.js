@@ -43,6 +43,10 @@ describe("bin/nearleyc", function() {
         const grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
     });
 
+    it("doesn't warn when used with the --quiet option", function () {
+        externalNearleyc("grammars/warning-undefined-test.ne", '.js', ['--quiet'])
+    });
+
 })
 
 describe('nearleyc', function() {
