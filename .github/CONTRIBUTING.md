@@ -17,6 +17,8 @@ If you think you have found a **bug**, have you done the following?
 * Included a _minimal_ example demonstrating that bug, along with expected and
   actual output.
 * Extra credit: suggested a solution.
+* For **TypeScript**, please clarify if possible whether your bug is in the
+  `@types/nearley` package (which isn't maintained by us), or in `generate.js`.
 
 If you are asking for **help**, have you done the following?
 * Looked through our [frequently asked
@@ -44,6 +46,9 @@ Before submitting a **pull request**, have you done the following?
   can sometimes kill performance. :-(
 * _Not_ introduced any new dependencies. Check in with a maintainer if you
   think you need a dependency.
+* Please don't introduce style changes either--these introduce noise which
+  makes your contribution harder to review! Check with a maintainer: we might
+  be happy to accept them in a separate PR :-)
 * Documented your changes: new features should be mentioned in the docs, which
   are located in `/docs`. Edit the relevant `/docs/md/*.md` file in Markdown,
   and then (in a separate commit) run `npm install && npm run make` from the
