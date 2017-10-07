@@ -183,6 +183,22 @@ describe('nearleyc', function() {
         });
     });
 
+    it('macros', function() {
+        const grammar = compile(read("test/grammars/macro-test.ne"));
+        const passCases = [
+            "a",
+            "b",
+            "a/b",
+            "b/a",
+        ];
+        passCases.forEach(function(c) {
+            const p = parse(grammar, c);
+            expect(p.length).toBe(1);
+            expect(p[0]).toBe("a/b");
+        });
+        expect(() => parse(grammar, "ab")).toThrow();
+    });
+
 });
 
 describe('builtins', () => {
