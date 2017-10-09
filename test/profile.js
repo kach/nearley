@@ -1,15 +1,15 @@
-var nearley = require("../lib/nearley.js");
-var parserGrammar = require("./grammars/parens.js");
+const nearley = require("../lib/nearley.js");
+const parserGrammar = require("./grammars/parens.js");
 function nspace(n) {
-    var out = "";
-    for (var i = 0; i < n; i++) {
+    let out = "";
+    for (let i = 0; i < n; i++) {
         out += " ";
     }
     return out;
 }
 
 function profile(n, type) {
-    var test = "";
+    let test = "";
     for (var i = 0; i < n; i++) {
         test += "(";
     }
@@ -17,9 +17,9 @@ function profile(n, type) {
     for (var i = 0; i < n; i++) {
         test += ")";
     }
-    var starttime = process.hrtime();
-    var startmemory = process.memoryUsage().heapUsed;
-    var p = new nearley.Parser(
+    const starttime = process.hrtime();
+    const startmemory = process.memoryUsage().heapUsed;
+    const p = new nearley.Parser(
         parserGrammar.ParserRules,
         parserGrammar.ParserStart
     ).feed(test);

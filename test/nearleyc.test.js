@@ -9,10 +9,10 @@ function read(filename) {
     return fs.readFileSync(filename, "utf-8");
 }
 
-describe("bin/nearleyc", function() {
+describe("bin/nearleyc", () => {
     after(cleanup);
 
-    it("builds for ES5", function() {
+    it("builds for ES5", () => {
         const { outPath, stdout, stderr } = externalNearleyc(
             "grammars/parens.ne",
             ".js"
@@ -24,7 +24,7 @@ describe("bin/nearleyc", function() {
         );
     });
 
-    it("builds for CoffeeScript", function() {
+    it("builds for CoffeeScript", () => {
         const { outPath, stdout, stderr } = externalNearleyc(
             "grammars/coffeescript-test.ne",
             ".coffee"
@@ -53,7 +53,7 @@ describe("bin/nearleyc", function() {
         expect(parse(grammar, "<123>")).toEqual([["<", "123", ">"]]);
     });
 
-    it("builds modules in folders", function() {
+    it("builds modules in folders", () => {
         const { outPath, stdout, stderr } = externalNearleyc(
             "grammars/folder-test.ne",
             ".js"
@@ -65,7 +65,7 @@ describe("bin/nearleyc", function() {
         );
     });
 
-    it("builds modules with multiple includes of the same file", function() {
+    it("builds modules with multiple includes of the same file", () => {
         const { outPath, stdout, stderr } = externalNearleyc(
             "grammars/multi-include-test.ne",
             ".js"
@@ -77,7 +77,7 @@ describe("bin/nearleyc", function() {
         );
     });
 
-    it("warns about undefined symbol", function() {
+    it("warns about undefined symbol", () => {
         const { stdout, stderr } = externalNearleyc(
             "grammars/warning-undefined-test.ne",
             ".js"
@@ -86,7 +86,7 @@ describe("bin/nearleyc", function() {
         expect(stdout).toBe("");
     });
 
-    it("doesn't warn when used with the --quiet option", function() {
+    it("doesn't warn when used with the --quiet option", () => {
         const {
             stdout,
             stderr
@@ -98,48 +98,48 @@ describe("bin/nearleyc", function() {
     });
 });
 
-describe("nearleyc", function() {
-    it("calculator example", function() {
+describe("nearleyc", () => {
+    it("calculator example", () => {
         const arith = compile(read("examples/calculator/arithmetic.ne"));
         expect(parse(arith, "ln (3 + 2*(8/e - sin(pi/5)))")).toEqual([
             Math.log(3 + 2 * (8 / Math.exp(1) - Math.sin(Math.PI / 5)))
         ]);
     });
 
-    it("csscolor example", function() {
+    it("csscolor example", () => {
         const cssc = compile(read("examples/csscolor.ne"));
         expect(parse(cssc, "#FF00FF")).toEqual([{ r: 0xff, g: 0x00, b: 0xff }]);
         expect(parse(cssc, "#8A7")).toEqual([{ r: 0x88, g: 0xaa, b: 0x77 }]);
         expect(parse(cssc, "rgb(99,66,33)")).toEqual([{ r: 99, g: 66, b: 33 }]);
         expect(parse(cssc, "hsl(99,66,33)")).toEqual([{ h: 99, s: 66, l: 33 }]);
-        expect(function() {
+        expect(() => {
             parse(cssc, "#badcolor");
         }).toThrow();
     });
 
-    it("exponential whitespace bug", function() {
+    it("exponential whitespace bug", () => {
         compile(read("test/grammars/indentation.ne"));
     });
 
-    it("nullable whitespace bug", function() {
+    it("nullable whitespace bug", () => {
         const wsb = compile(read("test/grammars/whitespace.ne"));
         expect(parse(wsb, "(x)")).toEqual([
             [[["(", null, [[[["x"]]]], null, ")"]]]
         ]);
     });
 
-    it("percent bug", function() {
+    it("percent bug", () => {
         compile(read("test/grammars/percent.ne"));
     });
 
-    it("tokens", function() {
+    it("tokens", () => {
         const tokc = compile(read("examples/token.ne"));
         expect(parse(tokc, [123, 456, " ", 789])).toEqual([
             [123, [[456, " ", 789]]]
         ]);
     });
 
-    it("leo bug", function() {
+    it("leo bug", () => {
         const leo = compile(read("test/grammars/leobug.ne"));
         expect(parse(leo, "baab")).toEqual([
             ["b", [], "a", [], "a", ["b"]],
@@ -147,20 +147,20 @@ describe("nearleyc", function() {
         ]);
     });
 
-    var json;
-    it("json example compiles", function() {
+    let json;
+    it("json example compiles", () => {
         json = compile(read("examples/json.ne"));
     });
-    it("json test1", function() {
+    it("json test1", () => {
         const test1 = read("test/grammars/test1.json");
         expect(parse(json, test1)).toEqual([JSON.parse(test1)]);
     });
-    it("json test2", function() {
+    it("json test2", () => {
         const test2 = read("test/grammars/test2.json");
         expect(parse(json, test2)).toEqual([JSON.parse(test2)]);
     });
 
-    it("tosh example", function() {
+    it("tosh example", () => {
         const tosh = compile(read("examples/tosh.ne"));
         expect(
             parse(
@@ -196,7 +196,7 @@ describe("nearleyc", function() {
         ]);
     });
 
-    it("classic crontab", function() {
+    it("classic crontab", () => {
         // Try compiling the grammar
         const classicCrontab = compile(read("examples/classic_crontab.ne"));
         // Try parsing crontab file using the newly generated parser
@@ -207,7 +207,7 @@ describe("nearleyc", function() {
         ]);
     });
 
-    it("parentheses", function() {
+    it("parentheses", () => {
         // Try compiling the grammar
         const parentheses = compile(read("examples/parentheses.ne"));
         const passCases = [
@@ -217,14 +217,14 @@ describe("nearleyc", function() {
             "<<[([])]>([(<>[]{}{}<>())[{}[][]{}{}[]<>[]{}<>{}<>[]<>{}()][[][][]()()()]({})<[]>{(){}()<>}(<>[])]())({})>"
         ];
 
-        for (let i in passCases) {
+        for (const i in passCases) {
             expect(parse(parentheses, passCases[i])).toEqual([true]);
         }
 
         const failCases = [" ", "[}", "[(){}><]", "(((())))(()))"];
 
-        for (let i in failCases) {
-            expect(function() {
+        for (const i in failCases) {
+            expect(() => {
                 parse(parentheses, failCases[i]);
             }).toThrow();
         }
@@ -234,7 +234,7 @@ describe("nearleyc", function() {
         expect(parse(parentheses, "((((())))(())()")).toEqual([]);
     });
 
-    it("case-insensitive strings", function() {
+    it("case-insensitive strings", () => {
         const caseinsensitive = compile(
             read("test/grammars/caseinsensitive.ne")
         );
@@ -244,7 +244,7 @@ describe("nearleyc", function() {
             "leS RêVeS DeS AmOuReUx sOnT CoMmE Le bOn vIn!",
             "LEs rÊvEs dEs aMoUrEuX SoNt cOmMe lE BoN ViN!"
         ];
-        passCases.forEach(function(c) {
+        passCases.forEach(c => {
             const p = parse(caseinsensitive, c);
             expect(p.length).toBe(1);
             expect(p[0].toUpperCase()).toBe(passCases[1]);

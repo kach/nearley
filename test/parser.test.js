@@ -8,42 +8,42 @@ function read(filename) {
     return fs.readFileSync(filename, "utf-8");
 }
 
-describe("Parser", function() {
-    let testGrammar = compile(`
+describe("Parser", () => {
+    const testGrammar = compile(`
     y -> x:+
     x -> [a-z0-9] | "\\n"
     `);
 
-    it("shows line number in errors", function() {
+    it("shows line number in errors", () => {
         expect(() => parse(testGrammar, "abc\n12!")).toThrow(
             "invalid syntax at line 2 col 3:\n" + "\n" + "  12!\n" + "    ^"
         );
     });
 
-    it("shows token index in errors", function() {
+    it("shows token index in errors", () => {
         expect(() => parse(testGrammar, ["1", "2", "!"])).toThrow(
             "invalid syntax at index 2"
         );
     });
 
-    var tosh = compile(read("examples/tosh.ne"));
+    const tosh = compile(read("examples/tosh.ne"));
 
-    it("can save state", function() {
-        let first = "say 'hello'";
-        let second = " for 2 secs";
-        let p = new nearley.Parser(tosh, { keepHistory: true });
+    it("can save state", () => {
+        const first = "say 'hello'";
+        const second = " for 2 secs";
+        const p = new nearley.Parser(tosh, { keepHistory: true });
         p.feed(first);
         expect(p.current).toBe(11);
         expect(p.table.length).toBe(12);
-        var col = p.save();
+        const col = p.save();
         expect(col.index).toBe(11);
         expect(col.lexerState.col).toBe(first.length);
     });
 
-    it("can rewind", function() {
-        let first = "say 'hello'";
-        let second = " for 2 secs";
-        let p = new nearley.Parser(tosh, { keepHistory: true });
+    it("can rewind", () => {
+        const first = "say 'hello'";
+        const second = " for 2 secs";
+        const p = new nearley.Parser(tosh, { keepHistory: true });
         p.feed(first);
         expect(p.current).toBe(11);
         expect(p.table.length).toBe(12);
@@ -58,17 +58,17 @@ describe("Parser", function() {
         expect(p.results).toEqual([["say:", "hello"]]);
     });
 
-    it("won't rewind without `keepHistory` option", function() {
-        let p = new nearley.Parser(tosh, {});
+    it("won't rewind without `keepHistory` option", () => {
+        const p = new nearley.Parser(tosh, {});
         expect(() => p.rewind()).toThrow();
     });
 
-    it("restores line numbers", function() {
-        let p = new nearley.Parser(testGrammar);
+    it("restores line numbers", () => {
+        const p = new nearley.Parser(testGrammar);
         p.feed("abc\n");
         expect(p.save().lexerState.line).toBe(2);
         p.feed("123\n");
-        var col = p.save();
+        const col = p.save();
         expect(col.lexerState.line).toBe(3);
         p.feed("q");
         p.restore(col);
@@ -76,10 +76,10 @@ describe("Parser", function() {
         p.feed("z");
     });
 
-    it("restores column number", function() {
-        let p = new nearley.Parser(testGrammar);
+    it("restores column number", () => {
+        const p = new nearley.Parser(testGrammar);
         p.feed("foo\nbar");
-        var col = p.save();
+        const col = p.save();
         expect(col.lexerState.line).toBe(2);
         expect(col.lexerState.col).toBe(3);
         p.feed("123");

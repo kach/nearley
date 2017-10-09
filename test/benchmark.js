@@ -8,7 +8,7 @@ function read(filename) {
 }
 
 function makeParser(neFile) {
-    var grammar;
+    let grammar;
     try {
         grammar = compile(read(neFile));
     } catch (e) {
@@ -19,7 +19,7 @@ function makeParser(neFile) {
         if (grammar === null) {
             throw "grammar error";
         }
-        var p = new nearley.Parser(grammar);
+        const p = new nearley.Parser(grammar);
         p.feed(input);
         return p.results;
     };

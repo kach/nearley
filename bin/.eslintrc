@@ -1,0 +1,14 @@
+{
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "es6": false
+  },
+  "rules": {
+    "indent": [
+      "error",
+      4
+    ]
+  },
+  "extends": ["eslint:recommended"]
+}

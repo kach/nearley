@@ -13,7 +13,7 @@ function sh(cmd) {
     });
 }
 
-var highestId = 0;
+let highestId = 0;
 function externalNearleyc(input, ext, flags = []) {
     const outPath = "tmp." + path.basename(input) + ++highestId;
     const { stderr, stdout } = sh(
@@ -23,7 +23,7 @@ function externalNearleyc(input, ext, flags = []) {
 }
 
 function cleanup() {
-    for (let name of fs.readdirSync(root)) {
+    for (const name of fs.readdirSync(root)) {
         if (/^tmp\./.test(name)) {
             fs.unlinkSync(path.join(root, name));
         }
