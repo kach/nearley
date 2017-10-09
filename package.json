@@ -34,7 +34,8 @@
     "benchmark": "benchr test/benchmark.js",
     "test": "mocha test/*.test.js",
     "doctoc": "doctoc --notitle README.md",
-    "profile": "bin/nearleyc.js test/grammars/parens.ne > test/grammars/parens.js && node test/profile.js"
+    "profile": "bin/nearleyc.js test/grammars/parens.ne > test/grammars/parens.js && node test/profile.js",
+    "fmt": "prettier --print-width=100 --tab-width=4 --trailing-comma es5 --write lib/{nearley,compile,generated,lint,stream}.js bin/*.js test/*.js"
   },
   "author": "Hardmath123",
   "contributors": "https://github.com/Hardmath123/nearley/graphs/contributors",
@@ -53,6 +54,7 @@
     "microtime": "^2.1.2",
     "mocha": "^2.5.3",
     "moo": "^0.3.2",
+    "prettier": "1.7.4",
     "typescript": "^2.3.4"
   }
 }

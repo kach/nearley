@@ -46,18 +46,15 @@ var version = require("../package.json").version;
 var input = opts.file ? fs.createReadStream(opts.file) : process.stdin;
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
-var parserGrammar = nearley.Grammar.fromCompiled(require("../lib/nearley-language-bootstrapped.js"));
+var parserGrammar = nearley.Grammar.fromCompiled(
+    require("../lib/nearley-language-bootstrapped.js")
+);
 var parser = new nearley.Parser(parserGrammar);
 var generate = require("../lib/generate.js");
 var lint = require("../lib/lint.js");
 
-input
-    .pipe(new StreamWrapper(parser))
-    .on("finish", function() {
-        var c = Compile(
-            parser.results[0],
-            Object.assign({version: version}, opts)
-        );
-        if (!opts.quiet) lint(c, {"out": process.stderr, "version": version});
-        output.write(generate(c, opts.export));
-    });
+input.pipe(new StreamWrapper(parser)).on("finish", function() {
+    var c = Compile(parser.results[0], Object.assign({ version: version }, opts));
+    if (!opts.quiet) lint(c, { out: process.stderr, version: version });
+    output.write(generate(c, opts.export));
+});

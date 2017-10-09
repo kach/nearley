@@ -44,6 +44,7 @@ Before submitting a **pull request**, have you done the following?
   without your change to detect possible bugs, and included the output in your
   pull request as a separate comment. Parsing is tricky, and innocent changes
   can sometimes kill performance. :-(
+* Run the code formatter with `npm run fmt`, to ensure consistent code style.
 * _Not_ introduced any new dependencies. Check in with a maintainer if you
   think you need a dependency.
 * Please don't introduce style changes either--these introduce noise which
