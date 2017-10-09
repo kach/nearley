@@ -10,6 +10,10 @@ function read(filename) {
     return fs.readFileSync(filename, 'utf-8');
 }
 
+function prettyPrint(grammar) {
+  return grammar.rules.map(g => g.toString())
+}
+
 describe("bin/nearleyc", function() {
     after(cleanup)
 
@@ -68,7 +72,7 @@ describe("bin/nearleyc", function() {
 
 })
 
-describe('nearleyc', function() {
+describe('nearleyc: example grammars', function() {
 
     it('calculator example', function() {
         const arith = compile(read("examples/calculator/arithmetic.ne"));
@@ -129,6 +133,38 @@ describe('nearleyc', function() {
             .toEqual([["setVar:to:","foo",["*",["*",2,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]],["-",1,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]]]]]);
     });
 
+    it('json', function() {
+        const grammar = compile(read("examples/json.ne"));
+        expect(prettyPrint(grammar)).toEqual([
+            'json$subexpression$1 → object',
+            'json$subexpression$1 → array',
+            'json → _ json$subexpression$1 _',
+            'object → "{" _ "}"',
+            'object$ebnf$1 → ',
+            'object$ebnf$1$subexpression$1 → _ "," _ pair',
+            'object$ebnf$1 → object$ebnf$1 object$ebnf$1$subexpression$1',
+            'object → "{" _ pair object$ebnf$1 _ "}"',
+            'array → "[" _ "]"',
+            'array$ebnf$1 → ',
+            'array$ebnf$1$subexpression$1 → _ "," _ value',
+            'array$ebnf$1 → array$ebnf$1 array$ebnf$1$subexpression$1',
+            'array → "[" _ value array$ebnf$1 _ "]"',
+            'value → object',
+            'value → array',
+            'value → number',
+            'value → string',
+            'value → "true"',
+            'value → "false"',
+            'value → "null"',
+            'number → %number',
+            'string → %string',
+            'pair → key _ ":" _ value',
+            'key → string',
+            '_ → ',
+            '_ → %space',
+        ])
+    });
+
     it('classic crontab', function() {
         // Try compiling the grammar
         const classicCrontab = compile(read("examples/classic_crontab.ne"));
@@ -183,25 +219,9 @@ describe('nearleyc', function() {
         });
     });
 
-    it('macros', function() {
-        const grammar = compile(read("test/grammars/macro-test.ne"));
-        const passCases = [
-            "a",
-            "b",
-            "a/b",
-            "b/a",
-        ];
-        passCases.forEach(function(c) {
-            const p = parse(grammar, c);
-            expect(p.length).toBe(1);
-            expect(p[0]).toBe("a/b");
-        });
-        expect(() => parse(grammar, "ab")).toThrow();
-    });
-
 });
 
-describe('builtins', () => {
+describe('nearleyc: builtins', () => {
 
     it('generate includes id', () => {
         const source = nearleyc(`
@@ -223,3 +243,47 @@ describe('builtins', () => {
     })
 })
 
+describe('nearleyc: macros', () => {
+
+    it('seems to work', () => {
+        // Matches "'Hello?' 'Hello?' 'Hello?'"
+        const grammar = compile(`
+            matchThree[X] -> $X " " $X " " $X
+            inQuotes[X] -> "'" $X "'"
+            main -> matchThree[inQuotes["Hello?"]]
+        `);
+
+        expect(prettyPrint(grammar)).toEqual([
+            'main$macrocall$2$macrocall$2$string$1 → "H" "e" "l" "l" "o" "?"',
+            'main$macrocall$2$macrocall$2 → main$macrocall$2$macrocall$2$string$1',
+            'main$macrocall$2$macrocall$1 → "\'" main$macrocall$2$macrocall$2 "\'"',
+            'main$macrocall$2 → main$macrocall$2$macrocall$1',
+            'main$macrocall$1 → main$macrocall$2 " " main$macrocall$2 " " main$macrocall$2',
+            'main → main$macrocall$1',
+        ]);
+    });
+
+    it('must be defined before use', () => {
+        expect(() => compile(`
+            main -> matchThree[inQuotes["Hello?"]]
+            matchThree[X] -> $X " " $X " " $X
+            inQuotes[X] -> "'" $X "'"
+        `)).toThrow();
+    });
+
+    it('compiles a simple macro from external file', function() {
+        const grammar = compile(read("test/grammars/macro-test.ne"));
+        const passCases = [
+            "a",
+            "b",
+            "a/b",
+            "b/a",
+        ];
+        passCases.forEach(function(c) {
+            const p = parse(grammar, c);
+            expect(p.length).toBe(1);
+            expect(p[0]).toBe("a/b");
+        });
+        expect(() => parse(grammar, "ab")).toThrow();
+    });
+})
