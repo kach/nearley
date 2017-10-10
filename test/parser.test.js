@@ -3,14 +3,14 @@ const fs = require('fs');
 const expect = require('expect');
 
 const nearley = require('../lib/nearley');
-const {compile, evalGrammar, parse} = require('./_shared');
+const {compile, parse} = require('./_shared');
 
 function read(filename) {
     return fs.readFileSync(filename, 'utf-8');
 }
 
 
-describe('Parser', function() {
+describe('Parser: API', function() {
 
     let testGrammar = compile(`
     y -> x:+
@@ -101,3 +101,63 @@ describe('Parser', function() {
     // TODO: moo save/restore
 
 });
+
+describe('Parser: examples', () => {
+
+    it('nullable whitespace bug', function() {
+        var wsb = compile(read("test/grammars/whitespace.ne"));
+        expect(parse(wsb, "(x)")).toEqual(
+            [ [ [ [ '(', null, [ [ [ [ 'x' ] ] ] ], null, ')' ] ] ] ]);
+    });
+
+    const parentheses = compile(read("examples/parentheses.ne"));
+    it('parentheses', () => {
+        var passCases = [
+            '()',
+            '[(){}<>]',
+            '[(((<>)()({})())(()())(())[])]',
+            '<<[([])]>([(<>[]{}{}<>())[{}[][]{}{}[]<>[]{}<>{}<>[]<>{}()][[][][]()()()]({})<[]>{(){}()<>}(<>[])]())({})>'
+        ];
+
+        for (let i in passCases) {
+            expect(parse(parentheses, passCases[i])).toEqual([true]);
+        }
+
+        var failCases = [
+            ' ',
+            '[}',
+            '[(){}><]',
+            '(((())))(()))'
+        ];
+
+        for (let i in failCases) {
+            expect(function() { parse(parentheses, failCases[i]); }).toThrow()
+        }
+
+        // These are invalid inputs but the parser will not complain
+        expect(parse(parentheses, '')).toEqual([]);
+        expect(parse(parentheses, '((((())))(())()')).toEqual([]);
+    });
+
+    it('tokens', function() {
+        var tokc = compile(read("examples/token.ne"));
+        expect(parse(tokc, [123, 456, " ", 789])).toEqual([ [123, [ [ 456, " ", 789 ] ]] ]);
+    });
+
+    const json = compile(read("examples/json.ne"));
+    it('json', () => {
+        const test1 = '{ "a" : true, "b" : "䕧⡱a\\\\\\"b\\u4567\\u2871䕧⡱\\t\\r\\f\\b\\n", "c" : null, "d" : [null, true, false, null] }\n'
+        expect(parse(json, test1)).toEqual([JSON.parse(test1)])
+
+        const test2 = '{ "a" : true, "b" : "䕧⡱a\\\\\\"b\\u4567\\u2871䕧⡱\\t\\r\\f\\b\\n\\u0010\\u001f\\u005b\\u005c\\u005d", "c" : null, "d" : [null, true, false, -0.2345E+10] }\n'
+        expect(parse(json, test2)).toEqual([JSON.parse(test2)])
+    });
+
+    it('tosh', () => {
+        var tosh = compile(read("examples/tosh.ne"));
+        expect(parse(tosh, "set foo to 2 * e^ of ( foo * -0.05 + 0.5) * (1 - e ^ of (foo * -0.05 + 0.5))"))
+            .toEqual([["setVar:to:","foo",["*",["*",2,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]],["-",1,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]]]]]);
+    })
+
+})
+
