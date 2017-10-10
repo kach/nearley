@@ -14,6 +14,10 @@ function write(filename, contents){
     fs.writeFileSync(filename, contents, 'utf-8');
 }
 
+function prettyPrint(grammar) {
+  return grammar.rules.map(g => g.toString())
+}
+
 describe("bin/nearleyc", function() {
     after(cleanup)
 
@@ -98,7 +102,7 @@ describe("bin/nearleyc", function() {
 
 })
 
-describe('nearleyc', function() {
+describe('nearleyc: example grammars', function() {
 
     it('calculator example', function() {
         const arith = compile(read("examples/calculator/arithmetic.ne"));
@@ -118,45 +122,40 @@ describe('nearleyc', function() {
         compile(read('test/grammars/indentation.ne'));
     });
 
-    it('nullable whitespace bug', function() {
-        const wsb = compile(read("test/grammars/whitespace.ne"));
-        expect(parse(wsb, "(x)")).toEqual(
-            [ [ [ [ '(', null, [ [ [ [ 'x' ] ] ] ], null, ')' ] ] ] ]);
-    });
-
     it('percent bug', function() {
         compile(read('test/grammars/percent.ne'));
     });
 
-    it('tokens', function() {
-        const tokc = compile(read("examples/token.ne"));
-        expect(parse(tokc, [123, 456, " ", 789])).toEqual([ [123, [ [ 456, " ", 789 ] ]] ]);
-    });
-
-    it('leo bug', function() {
-        const leo = compile(read("test/grammars/leobug.ne"));
-        expect(parse(leo, "baab")).toEqual(
-            [ [ 'b', [], 'a', [], 'a', [ 'b' ] ],
-            [ 'b', [], 'a', [], 'a', [ 'b', [] ] ] ]);
-    });
-
-    var json;
-    it('json example compiles', function() {
-        json = compile(read("examples/json.ne"));
-    });
-    it('json test1', function() {
-        const test1 = read('test/grammars/test1.json');
-        expect(parse(json, test1)).toEqual([JSON.parse(test1)]);
-    });
-    it('json test2', function() {
-        const test2 = read('test/grammars/test2.json');
-        expect(parse(json, test2)).toEqual([JSON.parse(test2)]);
-    });
-
-    it('tosh example', function() {
-        const tosh = compile(read("examples/tosh.ne"));
-        expect(parse(tosh, "set foo to 2 * e^ of ( foo * -0.05 + 0.5) * (1 - e ^ of (foo * -0.05 + 0.5))"))
-            .toEqual([["setVar:to:","foo",["*",["*",2,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]],["-",1,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]]]]]);
+    it('json', function() {
+        const grammar = compile(read("examples/json.ne"));
+        expect(prettyPrint(grammar)).toEqual([
+            'json$subexpression$1 → object',
+            'json$subexpression$1 → array',
+            'json → _ json$subexpression$1 _',
+            'object → "{" _ "}"',
+            'object$ebnf$1 → ',
+            'object$ebnf$1$subexpression$1 → _ "," _ pair',
+            'object$ebnf$1 → object$ebnf$1 object$ebnf$1$subexpression$1',
+            'object → "{" _ pair object$ebnf$1 _ "}"',
+            'array → "[" _ "]"',
+            'array$ebnf$1 → ',
+            'array$ebnf$1$subexpression$1 → _ "," _ value',
+            'array$ebnf$1 → array$ebnf$1 array$ebnf$1$subexpression$1',
+            'array → "[" _ value array$ebnf$1 _ "]"',
+            'value → object',
+            'value → array',
+            'value → number',
+            'value → string',
+            'value → "true"',
+            'value → "false"',
+            'value → "null"',
+            'number → %number',
+            'string → %string',
+            'pair → key _ ":" _ value',
+            'key → string',
+            '_ → ',
+            '_ → %space',
+        ])
     });
 
     it('classic crontab', function() {
@@ -166,36 +165,6 @@ describe('nearleyc', function() {
         const crontabTest = read('test/grammars/classic_crontab.test');
         const crontabResults = read('test/grammars/classic_crontab.results');
         expect(parse(classicCrontab, crontabTest)).toEqual([JSON.parse(crontabResults)]);
-    });
-
-    it('parentheses', function() {
-        // Try compiling the grammar
-        const parentheses = compile(read("examples/parentheses.ne"));
-        const passCases = [
-            '()',
-            '[(){}<>]',
-            '[(((<>)()({})())(()())(())[])]',
-            '<<[([])]>([(<>[]{}{}<>())[{}[][]{}{}[]<>[]{}<>{}<>[]<>{}()][[][][]()()()]({})<[]>{(){}()<>}(<>[])]())({})>'
-        ];
-
-        for (let i in passCases) {
-            expect(parse(parentheses, passCases[i])).toEqual([true]);
-        }
-
-        const failCases = [
-            ' ',
-            '[}',
-            '[(){}><]',
-            '(((())))(()))'
-        ];
-
-        for (let i in failCases) {
-            expect(function() { parse(parentheses, failCases[i]); }).toThrow()
-        }
-
-        // These are invalid inputs but the parser will not complain
-        expect(parse(parentheses, '')).toEqual([]);
-        expect(parse(parentheses, '((((())))(())()')).toEqual([]);
     });
 
     it('case-insensitive strings', function() {
@@ -215,7 +184,7 @@ describe('nearleyc', function() {
 
 });
 
-describe('builtins', () => {
+describe('nearleyc: builtins', () => {
 
     it('generate includes id', () => {
         const source = nearleyc(`
@@ -237,3 +206,48 @@ describe('builtins', () => {
     })
 })
 
+describe('nearleyc: macros', () => {
+
+    it('seems to work', () => {
+        // Matches "'Hello?' 'Hello?' 'Hello?'"
+        const grammar = compile(`
+            matchThree[X] -> $X " " $X " " $X
+            inQuotes[X] -> "'" $X "'"
+            main -> matchThree[inQuotes["Hello?"]]
+        `);
+
+        expect(prettyPrint(grammar)).toEqual([
+            'main$macrocall$2$macrocall$2$string$1 → "H" "e" "l" "l" "o" "?"',
+            'main$macrocall$2$macrocall$2 → main$macrocall$2$macrocall$2$string$1',
+            'main$macrocall$2$macrocall$1 → "\'" main$macrocall$2$macrocall$2 "\'"',
+            'main$macrocall$2 → main$macrocall$2$macrocall$1',
+            'main$macrocall$1 → main$macrocall$2 " " main$macrocall$2 " " main$macrocall$2',
+            'main → main$macrocall$1',
+        ]);
+    });
+
+    it('must be defined before use', () => {
+        expect(() => compile(`
+            main -> matchThree[inQuotes["Hello?"]]
+            matchThree[X] -> $X " " $X " " $X
+            inQuotes[X] -> "'" $X "'"
+        `)).toThrow();
+    });
+
+    it('compiles a simple macro from external file', function() {
+        const grammar = compile(read("test/grammars/macro-test.ne"));
+        const passCases = [
+            "a",
+            "b",
+            "a/b",
+            "b/a",
+        ];
+        passCases.forEach(function(c) {
+            const p = parse(grammar, c);
+            expect(p.length).toBe(1);
+            expect(p[0]).toBe("a/b");
+        });
+        expect(() => parse(grammar, "ab")).toThrow();
+    });
+
+})
