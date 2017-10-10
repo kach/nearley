@@ -10,6 +10,10 @@ function read(filename) {
     return fs.readFileSync(filename, 'utf-8');
 }
 
+function write(filename, contents){
+    fs.writeFileSync(filename, contents, 'utf-8');
+}
+
 describe("bin/nearleyc", function() {
     after(cleanup)
 
@@ -22,10 +26,28 @@ describe("bin/nearleyc", function() {
 
     it('builds for ES6+', function() {
         this.timeout(10000); // It takes a while to run babel!
-        const out = externalNearleyc("grammars/ecmascript-test.ne", ".es")
-        sh(`babel ${out}.es -o ${out}.js --presets=env`);
-        var grammar = nearley.Grammar.fromCompiled(require(`./${out}.js`));
-        expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
+        const {outPath, stdout, stderr} = externalNearleyc("grammars/esmodules-test.ne", '.es');
+        expect(stderr).toBe("");
+        expect(stdout).toBe("");
+        sh(`babel ${outPath}.es -o ${outPath}.js --presets=env`);
+        expect(stderr).toBe("");
+        expect(stdout).toBe("");
+
+        // Tests for re exporting the grammar.
+        const tests = [
+            `import { Lexer, ParserRules, ParserStart } from "./${outPath}"; export const grammar = { Lexer, ParserRules, ParserStart };`,
+            `import * as grammar from "./${outPath}"; export { grammar };`,
+            `import grammar from "./${outPath}"; export { grammar };`
+        ];
+        for( let i = 0; i < tests.length; i++ ){
+            const filename = `${outPath}-${i + 1}`;
+            write(`test/${filename}.es`, tests[i]);
+            sh(`babel ${filename}.es -o ${filename}.js --presets=env`);
+            expect(stderr).toBe("");
+            expect(stdout).toBe("");
+            const grammar = nearley.Grammar.fromCompiled(require(`./${filename}.js`).grammar);
+            expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
+        }
     });
 
     it('builds for CoffeeScript', function() {

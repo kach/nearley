@@ -1,4 +1,4 @@
-@preprocessor ecmascript
+@preprocessor esmodule
 
 @{%
 import { compile } from 'moo'
