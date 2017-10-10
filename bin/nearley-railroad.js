@@ -16,11 +16,11 @@ var opts = nomnom
     .script("nearley-railroad")
     .option("file", {
         position: 0,
-        help: "A grammar .ne file (default stdin)"
+        help: "A grammar .ne file (default stdin)",
     })
     .option("out", {
         abbr: "o",
-        help: "File to output to (default stdout)."
+        help: "File to output to (default stdout).",
     })
     .option("version", {
         abbr: "v",
@@ -28,8 +28,9 @@ var opts = nomnom
         help: "Print version and exit",
         callback: function() {
             return require("../package.json").version;
-        }
-    }).parse();
+        },
+    })
+    .parse();
 
 var input = opts.file ? fs.createReadStream(opts.file) : process.stdin;
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
@@ -102,18 +103,18 @@ function railroad(grm) {
     }
 
     return [
-      "<!DOCTYPE html>",
-      "<html>",
+        "<!DOCTYPE html>",
+        "<html>",
         "<head>",
-          '<meta charset="UTF-8">',
-          '<style type="text/css">',
-            style.toString(),
-          "</style>",
+        '<meta charset="UTF-8">',
+        '<style type="text/css">',
+        style.toString(),
+        "</style>",
         "</head>",
         "<body>",
-          diagrams.join("\n"),
+        diagrams.join("\n"),
         "</body>",
-      "</html>"
+        "</html>",
     ].join("\n");
 }
 

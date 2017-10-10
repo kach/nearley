@@ -19,17 +19,17 @@ var opts = nomnom
     .option("export", {
         abbr: "e",
         help: "Variable to set the parser to",
-        default: "grammar"
+        default: "grammar",
     })
     .option("quiet", {
         abbr: "q",
         flag: true,
-        help: "Suppress the linter."
+        help: "Suppress the linter.",
     })
     .option("nojs", {
         flag: true,
         default: false,
-        help: 'Don"t compile postprocessors (for testing).'
+        help: 'Don"t compile postprocessors (for testing).',
     })
     .option("version", {
         abbr: "v",
@@ -37,7 +37,7 @@ var opts = nomnom
         help: "Print version and exit",
         callback: function() {
             return require("../package.json").version;
-        }
+        },
     })
     .parse();
 

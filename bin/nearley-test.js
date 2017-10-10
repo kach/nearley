@@ -40,7 +40,7 @@ var opts = nomnom
         help: "Print version and exit",
         callback: function() {
             return require("../package.json").version;
-        }
+        },
     })
     .parse();
 

@@ -19,12 +19,12 @@ var opts = nomnom
     .option("count", {
         abbr: "n",
         help: "The number of samples to generate (separated by \\n).",
-        default: 1
+        default: 1,
     })
     .option("depth", {
         abbr: "d",
         help: 'The depth bound of each sample. Defaults to -1, which means "unbounded".',
-        default: -1
+        default: -1,
     })
     .option("out", {
         abbr: "o",
@@ -36,7 +36,7 @@ var opts = nomnom
         help: "Print version and exit",
         callback: function() {
             return require("../package.json").version;
-        }
+        },
     })
     .parse();
 
