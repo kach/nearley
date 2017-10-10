@@ -92,45 +92,8 @@ describe('nearleyc: example grammars', function() {
         compile(read('test/grammars/indentation.ne'));
     });
 
-    it('nullable whitespace bug', function() {
-        const wsb = compile(read("test/grammars/whitespace.ne"));
-        expect(parse(wsb, "(x)")).toEqual(
-            [ [ [ [ '(', null, [ [ [ [ 'x' ] ] ] ], null, ')' ] ] ] ]);
-    });
-
     it('percent bug', function() {
         compile(read('test/grammars/percent.ne'));
-    });
-
-    it('tokens', function() {
-        const tokc = compile(read("examples/token.ne"));
-        expect(parse(tokc, [123, 456, " ", 789])).toEqual([ [123, [ [ 456, " ", 789 ] ]] ]);
-    });
-
-    it('leo bug', function() {
-        const leo = compile(read("test/grammars/leobug.ne"));
-        expect(parse(leo, "baab")).toEqual(
-            [ [ 'b', [], 'a', [], 'a', [ 'b' ] ],
-            [ 'b', [], 'a', [], 'a', [ 'b', [] ] ] ]);
-    });
-
-    var json;
-    it('json example compiles', function() {
-        json = compile(read("examples/json.ne"));
-    });
-    it('json test1', function() {
-        const test1 = read('test/grammars/test1.json');
-        expect(parse(json, test1)).toEqual([JSON.parse(test1)]);
-    });
-    it('json test2', function() {
-        const test2 = read('test/grammars/test2.json');
-        expect(parse(json, test2)).toEqual([JSON.parse(test2)]);
-    });
-
-    it('tosh example', function() {
-        const tosh = compile(read("examples/tosh.ne"));
-        expect(parse(tosh, "set foo to 2 * e^ of ( foo * -0.05 + 0.5) * (1 - e ^ of (foo * -0.05 + 0.5))"))
-            .toEqual([["setVar:to:","foo",["*",["*",2,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]],["-",1,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]]]]]);
     });
 
     it('json', function() {
@@ -172,36 +135,6 @@ describe('nearleyc: example grammars', function() {
         const crontabTest = read('test/grammars/classic_crontab.test');
         const crontabResults = read('test/grammars/classic_crontab.results');
         expect(parse(classicCrontab, crontabTest)).toEqual([JSON.parse(crontabResults)]);
-    });
-
-    it('parentheses', function() {
-        // Try compiling the grammar
-        const parentheses = compile(read("examples/parentheses.ne"));
-        const passCases = [
-            '()',
-            '[(){}<>]',
-            '[(((<>)()({})())(()())(())[])]',
-            '<<[([])]>([(<>[]{}{}<>())[{}[][]{}{}[]<>[]{}<>{}<>[]<>{}()][[][][]()()()]({})<[]>{(){}()<>}(<>[])]())({})>'
-        ];
-
-        for (let i in passCases) {
-            expect(parse(parentheses, passCases[i])).toEqual([true]);
-        }
-
-        const failCases = [
-            ' ',
-            '[}',
-            '[(){}><]',
-            '(((())))(()))'
-        ];
-
-        for (let i in failCases) {
-            expect(function() { parse(parentheses, failCases[i]); }).toThrow()
-        }
-
-        // These are invalid inputs but the parser will not complain
-        expect(parse(parentheses, '')).toEqual([]);
-        expect(parse(parentheses, '((((())))(())()')).toEqual([]);
     });
 
     it('case-insensitive strings', function() {
@@ -286,4 +219,5 @@ describe('nearleyc: macros', () => {
         });
         expect(() => parse(grammar, "ab")).toThrow();
     });
+
 })
