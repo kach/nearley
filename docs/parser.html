@@ -315,12 +315,32 @@ the string <code>&quot;xyz&quot;</code> in two different ways.</p>
 most cases, however, your grammars should not be ambiguous (parsing ambiguous
 grammars is inefficient!). Thus, the most common usage is to simply query
 <code>parser.results[0]</code>.</p>
+<p>You might like to check first that <code>parser.results.length</code> is exactly 1; if
+there is more than one result, then your grammar is ambiguous!</p>
 <h3 id="catching-errors">Catching errors</h3>
-<p>nearley is a <em>streaming</em> parser: you can keep feeding it more strings. This
-means that there are two error scenarios in nearley.</p>
+<p>nearley is a <em>streaming</em> parser: you can call <code>feed()</code> as many times as you
+like. This means there are two ways parsing can go wrong.</p>
 <p>Consider the simple parser below for the examples to follow.</p>
 <pre><code class="lang-js">main -&gt; &quot;Cow goes moo.&quot; {% function(d) {return &quot;yay!&quot;; } %}
 </code></pre>
+<p>If nearley gets <strong>partway through the chunk</strong> you fed, and parsing cannot
+continue, then nearley will throw an error whose <code>offset</code> property is the index
+of the offending token. There is no way to recover from this by feeding more
+data.</p>
+<pre><code class="lang-js">try {
+    parser.feed(&quot;Cow goes% moo.&quot;);
+} catch (err) {
+    console.log(&quot;Error at character &quot; + parseError.offset); // &quot;Error at character 9&quot;
+}
+</code></pre>
+<p>Errors are nicely formatted for you:</p>
+<pre><code>Error: invalid syntax at line 1 col 9:
+
+  Cow goes% moo
+          ^
+Unexpected &quot;%&quot;
+</code></pre><p><strong>After <code>feed()</code> finishes</strong>, the <code>results</code> array will contain all possible
+parsings.</p>
 <p>If there are no possible parsings given the current input, but in the <em>future</em>
 there <em>might</em> be results if you feed it more strings, then nearley will
 temporarily set the <code>results</code> array to the empty array, <code>[]</code>.</p>
@@ -328,15 +348,9 @@ temporarily set the <code>results</code> array to the empty array, <code>[]</cod
 parser.feed(&quot;goes &quot;); // parser.results is []
 parser.feed(&quot;moo.&quot;);  // parser.results is [&quot;yay!&quot;]
 </code></pre>
-<p>If there are no possible parsings, and there is no way to “recover” by feeding
-more data, then nearley will throw an error whose <code>offset</code> property is the
-index of the offending token.</p>
-<pre><code class="lang-js">try {
-    parser.feed(&quot;Cow goes% moo.&quot;);
-} catch(parseError) {
-    console.log(&quot;Error at character &quot; + parseError.offset); // &quot;Error at character 9&quot;
-}
-</code></pre>
+<p>If you’re done calling <code>feed()</code>, but the array is still empty, this indicates
+“unexpected end of input”. Make sure to check there’s at least one result.</p>
+<p>If there’s more than one result, that indicates ambiguity–read on.</p>
 <h3 id="accessing-the-parse-table">Accessing the parse table</h3>
 <p>If you are familiar with the Earley parsing algorithm, you can access the
 internal parse table using <code>Parser.table</code> (this, for example, is how
