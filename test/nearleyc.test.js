@@ -48,7 +48,7 @@ describe("bin/nearleyc", function() {
         expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
     });
 
-	it.only('handles formatError nicely', function () {
+	it('handles formatError nicely', function () {
 		this.timeout(0); // take out the timer. This way `tsc` is allowed to take a while!
 		const {outPath, stdout, stderr} = externalNearleyc("grammars/calculator.ne", ".ts");
 		expect(stderr).toBe("");
@@ -88,7 +88,7 @@ describe("bin/nearleyc", function() {
 
 })
 
-xdescribe('nearleyc: example grammars', function() {
+describe('nearleyc: example grammars', function() {
 
     it('calculator example', function() {
         const arith = compile(read("examples/calculator/arithmetic.ne"));
@@ -170,7 +170,7 @@ xdescribe('nearleyc: example grammars', function() {
 
 });
 
-xdescribe('nearleyc: builtins', () => {
+describe('nearleyc: builtins', () => {
 
     it('generate includes id', () => {
         const source = nearleyc(`
@@ -192,7 +192,7 @@ xdescribe('nearleyc: builtins', () => {
     })
 })
 
-xdescribe('nearleyc: macros', () => {
+describe('nearleyc: macros', () => {
 
     it('seems to work', () => {
         // Matches "'Hello?' 'Hello?' 'Hello?'"
