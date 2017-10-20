@@ -1,3 +1,3 @@
 @include "b.ne"
 
-a -> "a" | b
+a -> "a" | b[null]

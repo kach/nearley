@@ -1,1 +1,1 @@
-b -> "b"
+b[Anything] -> "b"
