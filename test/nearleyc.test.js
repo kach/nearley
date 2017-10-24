@@ -43,9 +43,11 @@ describe("bin/nearleyc", function() {
                                            parser.feed('<4>')
                                            console.log(JSON.stringify(parser.results))`);
 
-        { const {stderr, stdout} = sh(`babel-node ${outPath}-parse.js --presets=env`);
-        expect(stderr).toBe("");
-        expect(JSON.parse(stdout)).toEqual([ [ '<', '4', '>' ] ]); }
+        {
+            const {stderr, stdout} = sh(`babel-node ${outPath}-parse.js --presets=env`);
+            expect(stderr).toBe("");
+            expect(JSON.parse(stdout)).toEqual([ [ '<', '4', '>' ] ]); 
+        }
     });
 
     it('builds for CoffeeScript', function() {
