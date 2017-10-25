@@ -103,7 +103,8 @@ is a KRL parser for node,
 BibTeX-to-HTML converter,
 [biblatex-csl-converter](https://github.com/fiduswriter/biblatex-csl-converter)
 converts between bibtex/CSL/JSON, [scalpel](https://github.com/gajus/scalpel)
-parses CSS selectors,
+parses CSS selectors (powering [enzyme](https://github.com/airbnb/enzyme),
+Airbnb's React testing tool),
 [rfc5545-rrule](https://github.com/waratuman/rfc5545-rrule) helps parse
 iCalendar data, [mangudai](https://github.com/mangudai/mangudai) parses RMS
 scripts for Age of Empires II, [tf-hcl](https://github.com/r24y/tf-hcl) parses
