@@ -114,7 +114,8 @@ parses and tokenizes CSS3 selectors,
 [node-scad-parser](https://github.com/hhornbacher/node-scad-parser) parses
 OpenSCAD 3D models, [js-sql-parse](https://github.com/justinkenel/js-sql-parse)
 parses SQL statements,[resp-parser](https://github.com/appology/resp-parser) is
-a parser for the RESP protocol.
+a parser for the RESP protocol, [celio](https://github.com/AntonShan/Celio)
+parses Celestia star catalogs.
 
 **Templating and files**: [uPresent](https://github.com/bobbybee/uPresent) is a
 markdown-based presentation authoring system,
