@@ -111,6 +111,8 @@ scripts for Age of Empires II, [tf-hcl](https://github.com/r24y/tf-hcl) parses
 and generates HCL config files,
 [css-selector-inspector](https://github.com/balbuf/css-selector-inspector)
 parses and tokenizes CSS3 selectors,
+[css-property-parser](https://github.com/mahirshah/css-property-parser)
+validates and expands CSS shorthands,
 [node-scad-parser](https://github.com/hhornbacher/node-scad-parser) parses
 OpenSCAD 3D models, [js-sql-parse](https://github.com/justinkenel/js-sql-parse)
 parses SQL statements,[resp-parser](https://github.com/appology/resp-parser) is
