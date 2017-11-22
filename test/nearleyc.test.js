@@ -69,7 +69,8 @@ describe("bin/nearleyc", function() {
         const {outPath, stdout, stderr} = externalNearleyc("grammars/typescript-test.ne", ".ts");
         expect(stderr).toBe("");
         expect(stdout).toBe("");
-        sh(`tsc ${outPath}.ts`);
+        sh(`tsc ${outPath}.ts --noEmitOnError`);
+        expect(stderr).toBe("");
         const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
         expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
     });
