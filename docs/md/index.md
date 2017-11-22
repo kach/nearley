@@ -103,17 +103,21 @@ is a KRL parser for node,
 BibTeX-to-HTML converter,
 [biblatex-csl-converter](https://github.com/fiduswriter/biblatex-csl-converter)
 converts between bibtex/CSL/JSON, [scalpel](https://github.com/gajus/scalpel)
-parses CSS selectors,
+parses CSS selectors (powering [enzyme](https://github.com/airbnb/enzyme),
+Airbnb's React testing tool),
 [rfc5545-rrule](https://github.com/waratuman/rfc5545-rrule) helps parse
 iCalendar data, [mangudai](https://github.com/mangudai/mangudai) parses RMS
 scripts for Age of Empires II, [tf-hcl](https://github.com/r24y/tf-hcl) parses
 and generates HCL config files,
 [css-selector-inspector](https://github.com/balbuf/css-selector-inspector)
 parses and tokenizes CSS3 selectors,
+[css-property-parser](https://github.com/mahirshah/css-property-parser)
+validates and expands CSS shorthands,
 [node-scad-parser](https://github.com/hhornbacher/node-scad-parser) parses
 OpenSCAD 3D models, [js-sql-parse](https://github.com/justinkenel/js-sql-parse)
 parses SQL statements,[resp-parser](https://github.com/appology/resp-parser) is
-a parser for the RESP protocol.
+a parser for the RESP protocol, [celio](https://github.com/AntonShan/Celio)
+parses Celestia star catalogs.
 
 **Templating and files**: [uPresent](https://github.com/bobbybee/uPresent) is a
 markdown-based presentation authoring system,
@@ -167,7 +171,8 @@ of French legal contracts,
 notation for juggling patterns, [jsgrep](https://github.com/amireh/jsgrep)
 provides syntactic grep for JavaScript,
 [electro-grammar](https://github.com/monostable/electro-grammar) parses
-descriptions of electronic components like resistors and capacitors.
+descriptions of electronic components like resistors and capacitors,
+[cicero](https://github.com/accordproject) helps create smart legal contracts.
 
 **Parsing libraries**: [nearley](http://nearley.js.org) is a parser toolkit for
 JavaScript. It has a nearley-based DSL to specify parsers.

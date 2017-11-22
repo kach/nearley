@@ -10,9 +10,14 @@ function read(filename) {
     return fs.readFileSync(filename, 'utf-8');
 }
 
+function write(filename, contents) {
+    fs.writeFileSync(filename, contents, 'utf-8');
+}
+
 function prettyPrint(grammar) {
   return grammar.rules.map(g => g.toString())
 }
+
 
 describe("bin/nearleyc", function() {
     after(cleanup)
@@ -22,6 +27,27 @@ describe("bin/nearleyc", function() {
         expect(stderr).toBe("");
         expect(stdout).toBe("");
         const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
+    });
+
+    it('builds for ES6+', function() {
+        this.timeout(10000); // It takes a while to run babel!
+
+        const {outPath, stdout, stderr} = externalNearleyc("grammars/esmodules-test.ne", '.js');
+        expect(stderr).toBe("");
+        expect(stdout).toBe("");
+        write(`test/${outPath}-parse.js`, `import {Grammar, Parser} from '../lib/nearley'
+                                           import compiledGrammar from './${outPath}'
+
+                                           const grammar = Grammar.fromCompiled(compiledGrammar)
+                                           const parser = new Parser(grammar)
+                                           parser.feed('<4>')
+                                           console.log(JSON.stringify(parser.results))`);
+
+        {
+            const {stderr, stdout} = sh(`babel-node ${outPath}-parse.js --presets=env`);
+            expect(stderr).toBe("");
+            expect(JSON.parse(stdout)).toEqual([ [ '<', '4', '>' ] ]); 
+        }
     });
 
     it('builds for CoffeeScript', function() {
