@@ -87,7 +87,7 @@ float ->
 			  if (num !== num) {
 				  throw TypeError("Watman!")
 			  }
-		  } catch {}
+		  } catch (e) {}
 		  parseFloat(d[0] + d[1] + d[2])} %}
 	| int           {% (d) => parseInt(d[0]) %}
 
