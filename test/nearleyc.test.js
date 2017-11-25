@@ -66,10 +66,10 @@ describe("bin/nearleyc", function() {
 
     it('builds for TypeScript', function() {
         this.timeout(100000); // It takes a while to run tsc!
-        const {outPath, stdout, stderr} = externalNearleyc("grammars/typescript-test.ne", ".ts");
+        let {outPath, stdout, stderr} = externalNearleyc("grammars/typescript-test.ne", ".ts");
         expect(stderr).toBe("");
         expect(stdout).toBe("");
-        sh(`tsc ${outPath}.ts --noEmitOnError`);
+        ({stdout, stderr} = sh(`tsc ${outPath}.ts --noEmitOnError`));
         expect(stderr).toBe("");
         const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
         expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
