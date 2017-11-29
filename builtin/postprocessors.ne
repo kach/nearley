@@ -3,6 +3,8 @@
 # Postprocessor generator that lets you select the nth element of the list.
 # `id` is equivalent to nth(0).
 @{%
+// Bypasses TS6133. Allow declared but unused functions.
+// @ts-ignore
 function nth(n) {
     return function(d) {
         return d[n];
@@ -12,6 +14,8 @@ function nth(n) {
 
 # Postprocessor generator that lets you generate an object dynamically.
 @{%
+// Bypasses TS6133. Allow declared but unused functions.
+// @ts-ignore
 function $(o) {
     return function(d) {
         var ret = {};

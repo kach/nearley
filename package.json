@@ -55,6 +55,6 @@
     "microtime": "^2.1.2",
     "mocha": "^2.5.3",
     "moo": "^0.3.2",
-    "typescript": "^2.3.4"
+    "typescript": "^2.6.1"
   }
 }
