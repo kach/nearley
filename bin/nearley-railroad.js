@@ -93,6 +93,8 @@ function railroad(grm) {
                 return new rr.NonTerminal(tok);
             } else if (tok.constructor === RegExp) {
                 return new rr.Terminal(tok.toString());
+            } else if (tok.token) {
+                return new rr.Terminal(tok.token);
             } else {
                 return new rr.Comment("[Unimplemented]");
             }
