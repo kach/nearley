@@ -46,6 +46,9 @@ As far as I know, nearley is the only parser generator with this feature. It
 is inspired by Roly Fentanes' [randexp](https://fent.github.io/randexp.js/),
 which does the same thing with regular expressions.
 
+Chase Meadors wrote a standalone nearley-unparse module,
+[nearley-generator](https://github.com/cemulate/nearley-generator).
+
 ### nearley-railroad: Automagical Railroad Diagrams
 
 nearley lets you convert your grammars to pretty SVG railroad diagrams that you

@@ -149,7 +149,8 @@ powerful desktop calculator,
 visualize propositional logic in truth tables, [Emunotes](http://emunotes.com)
 is a personal Wiki with inline graphing and computation,
 [react-equation](https://kgram.github.io/react-equation/) parses and renders
-equations in React.
+equations in React, [the mLab](https://github.com/cemulate/the-mlab) generates
+category theory papers.
 
 **Domain-specific languages**: [Hexant](https://github.com/jcorbin/hexant) is a
 cellular automata simulator with a DSL for custom automata,
