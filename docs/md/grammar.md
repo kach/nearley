@@ -261,7 +261,7 @@ quickly. The builtins are _inefficient_ in the sense that they make your parser
 slower. For a "real" project, you would want to switch to a lexer and implement
 these primitives yourself!)
 
-See the `builtin/` directory on Github for more details. Contributions are
+See the [`builtin/`](https://github.com/kach/nearley/tree/master/builtin) directory on Github for more details. Contributions are
 welcome!
 
 Note that including a file imports *all* of the nonterminals defined in it, as
