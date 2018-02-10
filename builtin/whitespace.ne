@@ -1,5 +1,5 @@
 # Whitespace: `_` is optional, `__` is mandatory.
-_  -> wschar:* {% function(d) {return null;} %}
-__ -> wschar:+ {% function(d) {return null;} %}
+_  -> wschar:* {% nuller %}
+__ -> wschar:+ {% nuller %}
 
 wschar -> [ \t\n\v\f] {% id %}
