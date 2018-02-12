@@ -33,7 +33,7 @@ When using a lexer, there are two ways to match tokens:
 
   - Use `%token` to match a token with **type** `token`.
 
-    ```ini
+    ```ne
     line -> words %newline
     ```
 
@@ -41,7 +41,7 @@ When using a lexer, there are two ways to match tokens:
 
     This is convenient for matching keywords:
 
-    ```ini
+    ```ne
     ifStatement -> "if" condition "then" block
     ```
 
@@ -110,7 +110,7 @@ testable token runs a predicate that tests whether or not the value matches.
 Note that in this case, you would feed a `Parser` instance an *array* of
 objects rather than a string! Here is a simple example:
 
-```coffeescript
+```ne
 @{%
 const tokenPrint = { literal: "print" };
 const tokenNumber = { test: x => Number.isInteger(x) };
@@ -120,4 +120,3 @@ main -> %tokenPrint %tokenNumber ";;"
 
 # parser.feed(["print", 12, ";;"]);
 ```
-
