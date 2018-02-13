@@ -251,7 +251,7 @@ nav ul a {
 
 <a href="https://github.com/kach/nearley" class="github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <nav id="nav">
-    <h1><a href="/">nearley<span style="color: #559;">.js</span><span id="version">2.11.0</span></a></h1>
+    <h1><a href="/">nearley<span style="color: #559;">.js</span><span id="version">2.11.1</span></a></h1>
     <ul>
         <li class="page"><a href="/docs/index">Home</a>
         <li class="page"><a href="/docs/getting-started">Getting started</a>
@@ -293,19 +293,19 @@ keyword <code>&quot;if&quot;</code> is a terminal.</li>
 <li>A <em>nonterminal</em> describes a set of possible strings. For example, all “if”
 statements can be described by a single nonterminal whose value depends on
 the condition and body of the if statement.</li>
-<li>A <em>rule</em> (or production rule) is a definition of a nonterminal. For example,<pre><code class="lang-js">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;endif&quot;
+<li>A <em>rule</em> (or production rule) is a definition of a nonterminal. For example,<pre><code class="lang-ne">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;endif&quot;
 </code></pre>
 is the rule according to which the if statement nonterminal, <code>ifStatement</code>,
 is parsed. It depends on the nonterminals <code>condition</code> and <code>statement</code>. A
 nonterminal can be described by multiple rules. For example, we can add a
-second rule<pre><code class="lang-js">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;else&quot; statement &quot;endif&quot;
+second rule<pre><code class="lang-ne">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;else&quot; statement &quot;endif&quot;
 </code></pre>
 to support “else” clauses.</li>
 </ul>
 <p>By default, nearley attempts to parse the first nonterminal defined in the
 grammar. In the following grammar, nearley will try to parse input text as an
 <code>expression</code>.</p>
-<pre><code class="lang-js">expression -&gt; number &quot;+&quot; number
+<pre><code class="lang-ne">expression -&gt; number &quot;+&quot; number
 expression -&gt; number &quot;-&quot; number
 expression -&gt; number &quot;*&quot; number
 expression -&gt; number &quot;/&quot; number
@@ -313,7 +313,7 @@ number -&gt; [0-9]:+
 </code></pre>
 <p>You can use the pipe character <code>|</code> to separate alternative rules for a
 nonterminal. In the example below, <code>expression</code> has four different rules.</p>
-<pre><code class="lang-js">expression -&gt;
+<pre><code class="lang-ne">expression -&gt;
     number &quot;+&quot; number
   | number &quot;-&quot; number
   | number &quot;*&quot; number
@@ -322,7 +322,7 @@ nonterminal. In the example below, <code>expression</code> has four different ru
 <p>The keyword <code>null</code> stands for the <strong>epsilon rule</strong>, which matches nothing. The
 following nonterminal matches zero or more <code>cow</code>s in a row, such as
 <code>cowcowcow</code>:</p>
-<pre><code class="lang-js">a -&gt; null | a &quot;cow&quot;
+<pre><code class="lang-ne">a -&gt; null | a &quot;cow&quot;
 </code></pre>
 <h3 id="postprocessors">Postprocessors</h3>
 <p>By default, nearley wraps everything matched by a rule into an array. For
@@ -333,7 +333,7 @@ whitespace, or transform the results into a custom JavaScript object.</p>
 <p>For this purpose, each rule can have a <em>postprocessor</em>: a JavaScript function
 that transforms the array and returns a “processed” version of the result.
 Postprocessors are wrapped in <code>{% %}</code>s:</p>
-<pre><code class="lang-js">expression -&gt; number &quot;+&quot; number {%
+<pre><code class="lang-ne">expression -&gt; number &quot;+&quot; number {%
     function(data) {
         return {
             operator: &quot;sum&quot;,
@@ -354,7 +354,7 @@ You can use the built-in <code>{% id %}</code> postprocessor to convert a one-it
 into the item itself.</p>
 <p>For <strong>arrow function</strong> users, a convenient pattern is to decompose the <code>data</code>
 array within the argument of the arrow function:</p>
-<pre><code class="lang-js">expression -&gt;
+<pre><code class="lang-ne">expression -&gt;
     number &quot;+&quot; number {% ([fst, _, snd]) =&gt; fst + snd %}
   | number &quot;-&quot; number {% ([fst, _, snd]) =&gt; fst - snd %}
   | number &quot;*&quot; number {% ([fst, _, snd]) =&gt; fst * snd %}
@@ -372,11 +372,11 @@ would only tell you that it saw the nth <em>token</em> rather than the nth
 </blockquote>
 </li>
 <li><p><code>reject: Object</code> is a unique object that you can return to signal that this
-rule doesn’t <em>actually</em> match its input. </p>
+rule doesn’t <em>actually</em> match its input.</p>
 <p>Reject is used in some edge cases. For example, suppose you want sequences of
 letters to match variables, except for the keyword <code>if</code>. In this case, your
 rule may be</p>
-<pre><code class="lang-js">variable -&gt; [a-z]:+ {%
+<pre><code class="lang-ne">variable -&gt; [a-z]:+ {%
     function(d,l, reject) {
         if (d[0] == &#39;if&#39;) {
             return reject;
@@ -404,7 +404,7 @@ rules: <code>space -&gt; &quot; &quot; {% nuller %}</code></li>
 <h4 id="comments">Comments</h4>
 <p>Comments are marked with ‘#’. Everything from <code>#</code> to the end of a line is
 ignored:</p>
-<pre><code class="lang-ini">expression -&gt; number &quot;+&quot; number # sum of two numbers
+<pre><code class="lang-ne">expression -&gt; number &quot;+&quot; number # sum of two numbers
 </code></pre>
 <h4 id="charsets">Charsets</h4>
 <p>You can use valid RegExp charsets in a rule (unless you’re using a
@@ -421,15 +421,15 @@ regexes instead. That is, if you are using a lexer, you should <em>not</em> use 
 <h4 id="ebnf">EBNF</h4>
 <p>nearley supports the <code>*</code>, <code>?</code>, and <code>+</code> operators from
 <a href="https://en.wikipedia.org/wiki/Extended_Backus–Naur_form">EBNF</a> as shown:</p>
-<pre><code class="lang-ini">batman -&gt; &quot;na&quot;:* &quot;batman&quot; # nananana...nanabatman
+<pre><code class="lang-ne">batman -&gt; &quot;na&quot;:* &quot;batman&quot; # nananana...nanabatman
 </code></pre>
 <p>You can also use capture groups with parentheses. Its contents can be anything
 that a rule can have:</p>
-<pre><code class="lang-js">banana -&gt; &quot;ba&quot; (&quot;na&quot; {% id %} | &quot;NA&quot; {% id %}):+
+<pre><code class="lang-ne">banana -&gt; &quot;ba&quot; (&quot;na&quot; {% id %} | &quot;NA&quot; {% id %}):+
 </code></pre>
 <h3 id="macros">Macros</h3>
 <p>Macros allow you to create polymorphic rules:</p>
-<pre><code class="lang-ini"># Matches &quot;&#39;Hello?&#39; &#39;Hello?&#39; &#39;Hello?&#39;&quot;
+<pre><code class="lang-ne"># Matches &quot;&#39;Hello?&#39; &#39;Hello?&#39; &#39;Hello?&#39;&quot;
 matchThree[X] -&gt; $X &quot; &quot; $X &quot; &quot; $X
 inQuotes[X] -&gt; &quot;&#39;&quot; $X &quot;&#39;&quot;
 
@@ -437,7 +437,7 @@ main -&gt; matchThree[inQuotes[&quot;Hello?&quot;]]
 </code></pre>
 <p>Macros are dynamically scoped, which means they see arguments passed to parent
 macros:</p>
-<pre><code class="lang-ini"># Matches &quot;Cows oink.&quot; and &quot;Cows moo!&quot;
+<pre><code class="lang-ne"># Matches &quot;Cows oink.&quot; and &quot;Cows moo!&quot;
 sentence[ANIMAL, PUNCTUATION] -&gt; animalGoes[(&quot;moo&quot; | &quot;oink&quot; | &quot;baa&quot;)] $PUNCTUATION
 animalGoes[SOUND] -&gt; $ANIMAL &quot; &quot; $SOUND # uses $ANIMAL from its caller
 
@@ -451,7 +451,7 @@ defined <em>before</em> they are used.</p>
 <p>For more intricate postprocessors, or any other functionality you may need, you
 can include chunks of JavaScript code between production rules by surrounding
 it with <code>@{% ... %}</code>:</p>
-<pre><code class="lang-js">@{%
+<pre><code class="lang-ne">@{%
 const cowSays = require(&quot;./cow.js&quot;);
 %}
 
@@ -461,20 +461,20 @@ cow -&gt; &quot;moo&quot; {% ([moo]) =&gt; cowSays(moo) %}
 top of the generated code.</p>
 <h3 id="importing-other-grammars">Importing other grammars</h3>
 <p>You can include the content of other grammar files:</p>
-<pre><code class="lang-ini">@include &quot;../misc/primitives.ne&quot; # path relative to file being compiled
+<pre><code class="lang-ne">@include &quot;../misc/primitives.ne&quot; # path relative to file being compiled
 sum -&gt; number &quot;+&quot; number # uses &quot;number&quot; from the included file
 </code></pre>
 <p>There are some common nonterminals like “integer” and “double-quoted string”
 that ship with nearley to help you prototype grammars efficiently. You can
 include them using the <code>@builtin</code> directive:</p>
-<pre><code class="lang-ini">@builtin &quot;number.ne&quot;
+<pre><code class="lang-ne">@builtin &quot;number.ne&quot;
 main -&gt; int:+
 </code></pre>
 <p>(Note that we mean “efficient” in the sense that you can get them set up very
 quickly. The builtins are <em>inefficient</em> in the sense that they make your parser
 slower. For a “real” project, you would want to switch to a lexer and implement
 these primitives yourself!)</p>
-<p>See the <code>builtin/</code> directory on Github for more details. Contributions are
+<p>See the <a href="https://github.com/kach/nearley/tree/master/builtin"><code>builtin/</code></a> directory on Github for more details. Contributions are
 welcome!</p>
 <p>Note that including a file imports <em>all</em> of the nonterminals defined in it, as
 well as any JS, macros, and configuration options defined there.</p>
