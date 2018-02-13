@@ -19,14 +19,14 @@ repository](http://github.com/Hardmath123/nearley).
   statements can be described by a single nonterminal whose value depends on
   the condition and body of the if statement.
 - A *rule* (or production rule) is a definition of a nonterminal. For example,
-  ```js
+  ```ne
   ifStatement -> "if" condition "then" statement "endif"
   ```
   is the rule according to which the if statement nonterminal, `ifStatement`,
   is parsed. It depends on the nonterminals `condition` and `statement`. A
   nonterminal can be described by multiple rules. For example, we can add a
   second rule
-  ```js
+  ```ne
   ifStatement -> "if" condition "then" statement "else" statement "endif"
   ```
   to support "else" clauses.
@@ -35,7 +35,7 @@ By default, nearley attempts to parse the first nonterminal defined in the
 grammar. In the following grammar, nearley will try to parse input text as an
 `expression`.
 
-```js
+```ne
 expression -> number "+" number
 expression -> number "-" number
 expression -> number "*" number
@@ -46,7 +46,7 @@ number -> [0-9]:+
 You can use the pipe character `|` to separate alternative rules for a
 nonterminal. In the example below, `expression` has four different rules.
 
-```js
+```ne
 expression ->
     number "+" number
   | number "-" number
@@ -58,7 +58,7 @@ The keyword `null` stands for the **epsilon rule**, which matches nothing. The
 following nonterminal matches zero or more `cow`s in a row, such as
 `cowcowcow`:
 
-```js
+```ne
 a -> null | a "cow"
 ```
 
@@ -74,7 +74,7 @@ For this purpose, each rule can have a *postprocessor*: a JavaScript function
 that transforms the array and returns a "processed" version of the result.
 Postprocessors are wrapped in `{% %}`s:
 
-```js
+```ne
 expression -> number "+" number {%
     function(data) {
         return {
@@ -99,7 +99,7 @@ reject)`. Here,
 
   For **arrow function** users, a convenient pattern is to decompose the `data`
   array within the argument of the arrow function:
-  ```js
+  ```ne
   expression ->
       number "+" number {% ([fst, _, snd]) => fst + snd %}
     | number "-" number {% ([fst, _, snd]) => fst - snd %}
@@ -117,12 +117,12 @@ reject)`. Here,
   > _character_ in the string.
 
 - `reject: Object` is a unique object that you can return to signal that this
-  rule doesn't *actually* match its input. 
+  rule doesn't *actually* match its input.
 
   Reject is used in some edge cases. For example, suppose you want sequences of
   letters to match variables, except for the keyword `if`. In this case, your
   rule may be
-  ```js
+  ```ne
   variable -> [a-z]:+ {%
       function(d,l, reject) {
           if (d[0] == 'if') {
@@ -153,7 +153,7 @@ nearley provides two built-in postprocessors for the most common scenarios:
 Comments are marked with '#'. Everything from `#` to the end of a line is
 ignored:
 
-```ini
+```ne
 expression -> number "+" number # sum of two numbers
 ```
 
@@ -182,14 +182,14 @@ regexes instead. That is, if you are using a lexer, you should *not* use the
 nearley supports the `*`, `?`, and `+` operators from
 [EBNF](https://en.wikipedia.org/wiki/Extended_Backus–Naur_form) as shown:
 
-```ini
+```ne
 batman -> "na":* "batman" # nananana...nanabatman
 ```
 
 You can also use capture groups with parentheses. Its contents can be anything
 that a rule can have:
 
-```js
+```ne
 banana -> "ba" ("na" {% id %} | "NA" {% id %}):+
 ```
 
@@ -197,7 +197,7 @@ banana -> "ba" ("na" {% id %} | "NA" {% id %}):+
 
 Macros allow you to create polymorphic rules:
 
-```ini
+```ne
 # Matches "'Hello?' 'Hello?' 'Hello?'"
 matchThree[X] -> $X " " $X " " $X
 inQuotes[X] -> "'" $X "'"
@@ -208,7 +208,7 @@ main -> matchThree[inQuotes["Hello?"]]
 Macros are dynamically scoped, which means they see arguments passed to parent
 macros:
 
-```ini
+```ne
 # Matches "Cows oink." and "Cows moo!"
 sentence[ANIMAL, PUNCTUATION] -> animalGoes[("moo" | "oink" | "baa")] $PUNCTUATION
 animalGoes[SOUND] -> $ANIMAL " " $SOUND # uses $ANIMAL from its caller
@@ -227,7 +227,7 @@ For more intricate postprocessors, or any other functionality you may need, you
 can include chunks of JavaScript code between production rules by surrounding
 it with `@{% ... %}`:
 
-```js
+```ne
 @{%
 const cowSays = require("./cow.js");
 %}
@@ -242,7 +242,7 @@ top of the generated code.
 
 You can include the content of other grammar files:
 
-```ini
+```ne
 @include "../misc/primitives.ne" # path relative to file being compiled
 sum -> number "+" number # uses "number" from the included file
 ```
@@ -251,7 +251,7 @@ There are some common nonterminals like "integer" and "double-quoted string"
 that ship with nearley to help you prototype grammars efficiently. You can
 include them using the `@builtin` directive:
 
-```ini
+```ne
 @builtin "number.ne"
 main -> int:+
 ```

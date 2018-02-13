@@ -13,7 +13,7 @@ Pick](https://github.com/npm/npm-collection-staff-picks).
 1. Install: `$ npm install -g nearley` (or try nearley live in your browser
    [here](https://omrelli.ug/nearley-playground/)!)
 2. Write your grammar:
-   ```
+   ```ne
    # Match a CSS color
    # http://www.w3.org/TR/css3-color/#colorunits
    @builtin "whitespace.ne" # `_` means arbitrary amount of whitespace
@@ -28,18 +28,20 @@ Pick](https://github.com/npm/npm-collection-staff-picks).
    colnum   -> int | percentage
    ```
 3. Compile your grammar:
-   ```
+   ```bash
    $ nearleyc csscolor.ne -o csscolor.js
    ```
 4. Test your grammar:
-   ```
+   ```bash
    $ nearley-test -i "#00ff00" csscolor.js
-   Parse results: 
+   Parse results:
    [ [ '#', [ '0' ], [ '0' ], [ 'f' ], [ 'f' ], [ '0' ], [ '0' ] ] ]
    ```
 5. Turn your grammar into a generator:
-   ```
+   ```bash
    $ nearley-unparse -n 3 csscolor.js
+   ```
+   ```
    #Ab21F2
    rgb  ( -29.889%,7,8172)
    #a40
@@ -48,7 +50,7 @@ Pick](https://github.com/npm/npm-collection-staff-picks).
    <input type="text" id="parse-input" placeholder="rgba(0, 255, 0, 0.5)" />
    <pre><code id="parse-output">…and the parsed output will appear here!</code></pre>
 7. Create beautiful railroad diagrams to document your grammar formally.
-   ```
+   ```bash
    $ nearley-railroad csscolor.ne -o csscolor.html
    ```
    See a demo [here](/www/railroad-demo).
@@ -182,4 +184,3 @@ JavaScript. It has a nearley-based DSL to specify parsers.
 visit us on [npm](http://npmjs.org/package/nearley), explore nearley in your
 browser on the [playground](https://omrelli.ug/nearley-playground/), or try out
 the [calculator demo](examples/calculator/) for more action.-->
-

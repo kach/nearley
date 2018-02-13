@@ -54,7 +54,7 @@ simple as:
 **Step 1: Describe your grammar** using the [nearley syntax](grammar). In
 a file called `grammar.ne`, write:
 
-```js
+```ne
 main -> (statement "\n"):+
 statement -> "foo" | "bar"
 ```

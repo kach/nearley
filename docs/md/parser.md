@@ -51,7 +51,7 @@ Why is `parser.results` an array? Sometimes, a grammar can parse a particular
 string in multiple different ways. For example, the following grammar parses
 the string `"xyz"` in two different ways.
 
-```js
+```ne
 x -> "xy" "z"
    | "x" "yz"
 ```

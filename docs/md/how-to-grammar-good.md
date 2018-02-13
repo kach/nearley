@@ -20,7 +20,7 @@ algorithm and some basic concepts. From here on out, I'm assuming you know what
 *nonterminal*, and *ambiguous grammar* mean. You should know nearley syntax
 well enough to understand what something like
 
-```
+```ne
 int -> [0-9]        {% id %}
     | int [0-9]     {% function(d) {return d[0] + d[1]} %}
 ```
