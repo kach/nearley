@@ -184,3 +184,9 @@ JavaScript. It has a nearley-based DSL to specify parsers.
 visit us on [npm](http://npmjs.org/package/nearley), explore nearley in your
 browser on the [playground](https://omrelli.ug/nearley-playground/), or try out
 the [calculator demo](examples/calculator/) for more action.-->
+
+### Give to nearley
+
+nearley has been maintained by volunteers since 2014. If you want to help
+support us, contact **@kach** or **@tjvr** on GitHub. We'll send over our
+PayPal information -- and maybe something nice. :-).
