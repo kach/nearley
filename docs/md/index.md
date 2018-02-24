@@ -143,7 +143,9 @@ typechecking primitives for flow-based systems,
 [lp5562](https://github.com/sizigi/lp5562) is an assembler for the TI LP5562
 LED driver, [VSL](https://github.com/vsl-lang/VSL) is a Versatile Scripting
 Language, [while-typescript](https://github.com/juanlaube/while-typescript) is
-an implementation of the WHILE language.
+an implementation of the WHILE language,
+[lo](https://github.com/lo-language/velo) is a language for secure distributed
+systems.
 
 **Mathematics**: [Solvent](https://github.com/andrejewski/solvent) is a
 powerful desktop calculator,
