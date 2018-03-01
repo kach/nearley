@@ -348,6 +348,7 @@ parse error at that token (for example, the string might contain the line and
 column where the error was found).</li>
 <li><code>has(name)</code> returns true if the lexer can emit tokens with that name. This is
 used to resolve <code>%</code>-specifiers in compiled nearley grammars.</li>
+<li><code>clone()</code> returns a clone of the lexer to prevent references.</li>
 </ul>
 <blockquote>
 <p>Note: if you are searching for a lexer that allows indentation-aware
