@@ -2,6 +2,60 @@
 @builtin "string.ne"
 
 @{%
+const getValue = ([x]) => x.value
+
+function literals(...list) {
+  const rules = {}
+  for (let lit of list) {
+    rules[lit] = {match: lit, next: 'main'}
+  }
+  return rules
+}
+
+const moo = require('moo')
+const rules = {
+    ws: {match: /\s+/, lineBreaks: true, next: 'main'},
+    comment: /\#.*/,
+    arrow: {match: /[=-]+\>/, next: 'main'},
+    js: {
+      match: /\{\%(?:[^%]|\%[^}])*\%\}/,
+      value: x => x.slice(2, -2),
+    },
+    ...literals(
+      ",", "|", "$", "%", "(", ")",
+      ":?", ":*", ":+",
+      "@include", "@builtin", "@",
+      "]",
+    ),
+    word: {match: /[\w\?\+]+/, next: 'afterWord'},
+    // nb. We don't (and have never) supported \' string escapes.
+    string: {
+      match: /'(?:[^\\'\n]|\\["\\/bfnrt]|\\u[a-fA-F0-9]{4})*'|"(?:[^\\"\n]|\\["\\/bfnrt]|\\u[a-fA-F0-9]{4})*"/,
+      value: x => JSON.parse('"' + x.slice(1, -1) + '"'),
+      next: 'main',
+    },
+    btstring: {
+      match: /`[^`]*`/,
+      value: x => x.slice(1, -1),
+      next: 'main',
+    },
+  }
+
+const lexer = moo.states({
+  main: {
+    ...rules,
+    charclass: {
+      match: /\.|\[(?:\\.|[^\\\n])+?\]/,
+      value: x => new RegExp(x),
+    },
+  },
+  // Both macro arguments and charclasses are both enclosed in [ ].
+  // We disambiguate based on whether the previous token was a `word`.
+  afterWord: {
+    ...rules,
+    "[": {match: "[", next: 'main'},
+  },
+})
 
 function insensitive(sl) {
     var s = sl.literal;
@@ -18,14 +72,15 @@ function insensitive(sl) {
 }
 
 %}
+@lexer lexer
 
 final -> _ prog _  {% function(d) { return d[1]; } %}
 
 prog -> prod  {% function(d) { return [d[0]]; } %}
       | prod ws prog  {% function(d) { return [d[0]].concat(d[2]); } %}
 
-prod -> word _ ("-"|"="):+ ">" _ expression+  {% function(d) { return {name: d[0], rules: d[5]}; } %}
-      | word "[" wordlist "]" _ ("-"|"="):+ ">" _ expression+ {% function(d) {return {macro: d[0], args: d[2], exprs: d[8]}} %}
+prod -> word _ %arrow _ expression+  {% function(d) { return {name: d[0], rules: d[4]}; } %}
+      | word "[" wordlist "]" _ %arrow _ expression+ {% function(d) {return {macro: d[0], args: d[2], exprs: d[7]}} %}
       | "@" _ js  {% function(d) { return {body: d[2]}; } %}
       | "@" word ws word  {% function(d) { return {config: d[1], value: d[3]}; } %}
       | "@include"  _ string {% function(d) {return {include: d[2].literal, builtin: false}} %}
@@ -53,53 +108,21 @@ expr_member ->
     | "(" _ expression+ _ ")" {% function(d) {return {'subexpression': d[2]} ;} %}
     | expr_member _ ebnf_modifier {% function(d) {return {'ebnf': d[0], 'modifier': d[2]}; } %}
 
-ebnf_modifier -> ":+" {% id %} | ":*" {% id %} | ":?" {% id %}
+ebnf_modifier -> ":+" {% getValue %} | ":*" {% getValue %} | ":?" {% getValue %}
 
 expr -> expr_member
       | expr ws expr_member  {% function(d){ return d[0].concat([d[2]]); } %}
 
-word -> [\w\?\+]  {% function(d){ return d[0]; } %}
-      | word [\w\?\+]  {% function(d){ return d[0]+d[1]; } %}
+word -> %word {% getValue %}
 
-string -> dqstring {% function(d) {return { literal: d[0] }; } %}
-#string -> "\"" charset "\""  {% function(d) { return { literal: d[1].join("") }; } %}
-#
-#charset -> null
-#         | charset char  {% function(d) { return d[0].concat([d[1]]); } %}
-#
-#char -> [^\\"]  {% function(d) { return d[0]; } %}
-#      | "\\" .  {% function(d) { return JSON.parse("\""+"\\"+d[1]+"\""); } %}
+string -> %string {% d => ({literal: d[0].value}) %}
+        | %btstring {% d => ({literal: d[0].value}) %}
 
-charclass -> "."  {% function(d) { return new RegExp("."); } %}
-           | "[" charclassmembers "]"  {% function(d) { return new RegExp("[" + d[1].join('') + "]"); } %}
+charclass -> %charclass  {% getValue %}
 
-charclassmembers -> null
-                  | charclassmembers charclassmember  {% function(d) { return d[0].concat([d[1]]); } %}
+js -> %js  {% getValue %}
 
-charclassmember -> [^\\\]]  {% function(d) { return d[0]; } %}
-                 | "\\" .  {% function(d) { return d[0] + d[1]; } %}
-
-js -> "{" "%" jscode "%" "}"  {% function(d) { return d[2]; } %}
-
-jscode -> null  {% function() {return "";} %}
-        | jscode [^%]  {% function(d) {return d[0] + d[1];} %}
-        | jscode "%" [^}] {% function(d) {return d[0] + d[1] + d[2]; } %}
-
-# Optional whitespace with a comment
 _ -> ws:?
+ws -> %ws
+      | %ws:? %comment _
 
-# Whitespace with a comment
-ws -> whitraw
-      | whitraw? comment _
-
-# Literally a string of whitespace
-whitraw -> [\s]
-         | whitraw [\s]
-
-# A string of whitespace OR the empty string
-whitraw? -> null
-          | whitraw
-
-comment -> "#" commentchars "\n"
-commentchars -> null
-              | commentchars [^\n]

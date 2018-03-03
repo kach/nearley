@@ -7,7 +7,8 @@
     "nomnom": "~1.6.2",
     "railroad-diagrams": "^1.0.0",
     "randexp": "0.4.6",
-    "semver": "^5.4.1"
+    "semver": "^5.4.1",
+    "moo": "^0.4.3"
   },
   "files": [
     "bin/",
@@ -30,7 +31,7 @@
     "language"
   ],
   "scripts": {
-    "bootstrap": "bin/nearleyc.js lib/nearley-language-bootstrapped.ne > tmp && mv tmp lib/nearley-language-bootstrapped.js",
+    "bootstrap": "mocha test/pre-bootstrap.js && bin/nearleyc.js lib/nearley-language-bootstrapped.ne > tmp && mv tmp lib/nearley-language-bootstrapped.js && echo bootstrapped ok",
     "benchmark": "benchr test/benchmark.js",
     "test": "mocha test/*.test.js",
     "doctoc": "doctoc --notitle README.md",
@@ -54,7 +55,6 @@
     "expect": "^1.20.2",
     "microtime": "^2.1.2",
     "mocha": "^2.5.3",
-    "moo": "^0.4.3",
     "typescript": "^2.6.1"
   }
 }
