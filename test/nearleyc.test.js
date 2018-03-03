@@ -178,6 +178,10 @@ describe('nearleyc: example grammars', function() {
         });
     });
 
+    it('scannerless nearley grammar', function() {
+        compile(read("test/grammars/scannerless-nearley.ne"));
+    })
+
 });
 
 describe('nearleyc: builtins', () => {
