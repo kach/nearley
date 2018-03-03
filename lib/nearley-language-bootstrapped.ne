@@ -19,29 +19,29 @@ function insensitive(sl) {
 
 %}
 
-final -> whit? prog whit?  {% function(d) { return d[1]; } %}
+final -> _ prog _  {% function(d) { return d[1]; } %}
 
 prog -> prod  {% function(d) { return [d[0]]; } %}
-      | prod whit prog  {% function(d) { return [d[0]].concat(d[2]); } %}
+      | prod ws prog  {% function(d) { return [d[0]].concat(d[2]); } %}
 
-prod -> word whit? ("-"|"="):+ ">" whit? expression+  {% function(d) { return {name: d[0], rules: d[5]}; } %}
-      | word "[" wordlist "]" whit? ("-"|"="):+ ">" whit? expression+ {% function(d) {return {macro: d[0], args: d[2], exprs: d[8]}} %}
-      | "@" whit? js  {% function(d) { return {body: d[2]}; } %}
-      | "@" word whit word  {% function(d) { return {config: d[1], value: d[3]}; } %}
-      | "@include"  whit? string {% function(d) {return {include: d[2].literal, builtin: false}} %}
-      | "@builtin"  whit? string {% function(d) {return {include: d[2].literal, builtin: true }} %}
+prod -> word _ ("-"|"="):+ ">" _ expression+  {% function(d) { return {name: d[0], rules: d[5]}; } %}
+      | word "[" wordlist "]" _ ("-"|"="):+ ">" _ expression+ {% function(d) {return {macro: d[0], args: d[2], exprs: d[8]}} %}
+      | "@" _ js  {% function(d) { return {body: d[2]}; } %}
+      | "@" word ws word  {% function(d) { return {config: d[1], value: d[3]}; } %}
+      | "@include"  _ string {% function(d) {return {include: d[2].literal, builtin: false}} %}
+      | "@builtin"  _ string {% function(d) {return {include: d[2].literal, builtin: true }} %}
 
 expression+ -> completeexpression
-             | expression+ whit? "|" whit? completeexpression  {% function(d) { return d[0].concat([d[4]]); } %}
+             | expression+ _ "|" _ completeexpression  {% function(d) { return d[0].concat([d[4]]); } %}
 
 expressionlist -> completeexpression
-             | expressionlist whit? "," whit? completeexpression {% function(d) { return d[0].concat([d[4]]); } %}
+             | expressionlist _ "," _ completeexpression {% function(d) { return d[0].concat([d[4]]); } %}
 
 wordlist -> word
-            | wordlist whit? "," whit? word {% function(d) { return d[0].concat([d[4]]); } %}
+            | wordlist _ "," _ word {% function(d) { return d[0].concat([d[4]]); } %}
 
 completeexpression -> expr  {% function(d) { return {tokens: d[0]}; } %}
-                    | expr whit? js  {% function(d) { return {tokens: d[0], postprocess: d[2]}; } %}
+                    | expr _ js  {% function(d) { return {tokens: d[0], postprocess: d[2]}; } %}
 
 expr_member ->
       word {% id %}
@@ -50,13 +50,13 @@ expr_member ->
     | string "i":? {% function(d) { if (d[1]) {return insensitive(d[0]); } else {return d[0]; } } %}
     | "%" word {% function(d) {return {token: d[1]}} %}
     | charclass {% id %}
-    | "(" whit? expression+ whit? ")" {% function(d) {return {'subexpression': d[2]} ;} %}
-    | expr_member whit? ebnf_modifier {% function(d) {return {'ebnf': d[0], 'modifier': d[2]}; } %}
+    | "(" _ expression+ _ ")" {% function(d) {return {'subexpression': d[2]} ;} %}
+    | expr_member _ ebnf_modifier {% function(d) {return {'ebnf': d[0], 'modifier': d[2]}; } %}
 
 ebnf_modifier -> ":+" {% id %} | ":*" {% id %} | ":?" {% id %}
 
 expr -> expr_member
-      | expr whit expr_member  {% function(d){ return d[0].concat([d[2]]); } %}
+      | expr ws expr_member  {% function(d){ return d[0].concat([d[2]]); } %}
 
 word -> [\w\?\+]  {% function(d){ return d[0]; } %}
       | word [\w\?\+]  {% function(d){ return d[0]+d[1]; } %}
@@ -85,13 +85,12 @@ jscode -> null  {% function() {return "";} %}
         | jscode [^%]  {% function(d) {return d[0] + d[1];} %}
         | jscode "%" [^}] {% function(d) {return d[0] + d[1] + d[2]; } %}
 
-# Whitespace with a comment
-whit -> whitraw
-      | whitraw? comment whit?
-
 # Optional whitespace with a comment
-whit? -> null
-       | whit
+_ -> ws:?
+
+# Whitespace with a comment
+ws -> whitraw
+      | whitraw? comment _
 
 # Literally a string of whitespace
 whitraw -> [\s]
