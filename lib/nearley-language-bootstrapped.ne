@@ -5,11 +5,11 @@
 const getValue = ([x]) => x.value
 
 function literals(...list) {
-  const rules = {}
-  for (let lit of list) {
-    rules[lit] = {match: lit, next: 'main'}
-  }
-  return rules
+    const rules = {}
+    for (let lit of list) {
+        rules[lit] = {match: lit, next: 'main'}
+    }
+    return rules
 }
 
 const moo = require('moo')
@@ -18,43 +18,43 @@ const rules = {
     comment: /\#.*/,
     arrow: {match: /[=-]+\>/, next: 'main'},
     js: {
-      match: /\{\%(?:[^%]|\%[^}])*\%\}/,
-      value: x => x.slice(2, -2),
+        match: /\{\%(?:[^%]|\%[^}])*\%\}/,
+        value: x => x.slice(2, -2),
     },
     ...literals(
-      ",", "|", "$", "%", "(", ")",
-      ":?", ":*", ":+",
-      "@include", "@builtin", "@",
-      "]",
+    ",", "|", "$", "%", "(", ")",
+    ":?", ":*", ":+",
+    "@include", "@builtin", "@",
+    "]",
     ),
     word: {match: /[\w\?\+]+/, next: 'afterWord'},
     // nb. We don't (and have never) supported \' string escapes.
     string: {
-      match: /'(?:[^\\'\n]|\\["\\/bfnrt]|\\u[a-fA-F0-9]{4})*'|"(?:[^\\"\n]|\\["\\/bfnrt]|\\u[a-fA-F0-9]{4})*"/,
-      value: x => JSON.parse('"' + x.slice(1, -1) + '"'),
-      next: 'main',
+        match: /'(?:[^\\'\n]|\\["\\/bfnrt]|\\u[a-fA-F0-9]{4})*'|"(?:[^\\"\n]|\\["\\/bfnrt]|\\u[a-fA-F0-9]{4})*"/,
+        value: x => JSON.parse('"' + x.slice(1, -1) + '"'),
+        next: 'main',
     },
     btstring: {
-      match: /`[^`]*`/,
-      value: x => x.slice(1, -1),
-      next: 'main',
+        match: /`[^`]*`/,
+        value: x => x.slice(1, -1),
+        next: 'main',
     },
-  }
+}
 
 const lexer = moo.states({
-  main: {
-    ...rules,
-    charclass: {
-      match: /\.|\[(?:\\.|[^\\\n])+?\]/,
-      value: x => new RegExp(x),
+    main: {
+        ...rules,
+        charclass: {
+            match: /\.|\[(?:\\.|[^\\\n])+?\]/,
+            value: x => new RegExp(x),
+        },
     },
-  },
-  // Both macro arguments and charclasses are both enclosed in [ ].
-  // We disambiguate based on whether the previous token was a `word`.
-  afterWord: {
-    ...rules,
-    "[": {match: "[", next: 'main'},
-  },
+    // Both macro arguments and charclasses are both enclosed in [ ].
+    // We disambiguate based on whether the previous token was a `word`.
+    afterWord: {
+        ...rules,
+        "[": {match: "[", next: 'main'},
+    },
 })
 
 function insensitive(sl) {
@@ -64,7 +64,7 @@ function insensitive(sl) {
         var c = s.charAt(i);
         if (c.toUpperCase() !== c || c.toLowerCase() !== c) {
             result.push(new RegExp("[" + c.toLowerCase() + c.toUpperCase() + "]"));
-        } else {
+            } else {
             result.push({literal: c});
         }
     }
