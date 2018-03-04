@@ -2,18 +2,20 @@
 @builtin "string.ne"
 
 @{%
-const getValue = ([x]) => x.value
+function getValue(d) {
+    return d[0].value
+}
 
-function literals(...list) {
-    const rules = {}
+function literals(list) {
+    var rules = {}
     for (let lit of list) {
         rules[lit] = {match: lit, next: 'main'}
     }
     return rules
 }
 
-const moo = require('moo')
-const rules = {
+var moo = require('moo')
+var rules = {
     ws: {match: /\s+/, lineBreaks: true, next: 'main'},
     comment: /\#.*/,
     arrow: {match: /[=-]+\>/, next: 'main'},
@@ -21,12 +23,12 @@ const rules = {
         match: /\{\%(?:[^%]|\%[^}])*\%\}/,
         value: x => x.slice(2, -2),
     },
-    ...literals(
+    ...literals([
     ",", "|", "$", "%", "(", ")",
     ":?", ":*", ":+",
     "@include", "@builtin", "@",
     "]",
-    ),
+    ]),
     word: {match: /[\w\?\+]+/, next: 'afterWord'},
     // nb. We don't (and have never) supported \' string escapes.
     string: {
@@ -41,20 +43,18 @@ const rules = {
     },
 }
 
-const lexer = moo.states({
-    main: {
-        ...rules,
+var lexer = moo.states({
+    main: Object.assign({}, rules, {
         charclass: {
             match: /\.|\[(?:\\.|[^\\\n])+?\]/,
             value: x => new RegExp(x),
         },
-    },
+    }),
     // Both macro arguments and charclasses are both enclosed in [ ].
     // We disambiguate based on whether the previous token was a `word`.
-    afterWord: {
-        ...rules,
+    afterWord: Object.assign({}, rules, {
         "[": {match: "[", next: 'main'},
-    },
+    }),
 })
 
 function insensitive(sl) {
