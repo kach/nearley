@@ -15,7 +15,7 @@ function literals(list) {
 }
 
 var moo = require('moo')
-var rules = {
+var rules = Object.assign({
     ws: {match: /\s+/, lineBreaks: true, next: 'main'},
     comment: /\#.*/,
     arrow: {match: /[=-]+\>/, next: 'main'},
@@ -23,12 +23,6 @@ var rules = {
         match: /\{\%(?:[^%]|\%[^}])*\%\}/,
         value: x => x.slice(2, -2),
     },
-    ...literals([
-    ",", "|", "$", "%", "(", ")",
-    ":?", ":*", ":+",
-    "@include", "@builtin", "@",
-    "]",
-    ]),
     word: {match: /[\w\?\+]+/, next: 'afterWord'},
     // nb. We don't (and have never) supported \' string escapes.
     string: {
@@ -41,7 +35,12 @@ var rules = {
         value: x => x.slice(1, -1),
         next: 'main',
     },
-}
+}, literals([
+    ",", "|", "$", "%", "(", ")",
+    ":?", ":*", ":+",
+    "@include", "@builtin", "@",
+    "]",
+]))
 
 var lexer = moo.states({
     main: Object.assign({}, rules, {
