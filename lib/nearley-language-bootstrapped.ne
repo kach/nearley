@@ -2,6 +2,60 @@
 @builtin "string.ne"
 
 @{%
+function getValue(d) {
+    return d[0].value
+}
+
+function literals(list) {
+    var rules = {}
+    for (let lit of list) {
+        rules[lit] = {match: lit, next: 'main'}
+    }
+    return rules
+}
+
+var moo = require('moo')
+var rules = {
+    ws: {match: /\s+/, lineBreaks: true, next: 'main'},
+    comment: /\#.*/,
+    arrow: {match: /[=-]+\>/, next: 'main'},
+    js: {
+        match: /\{\%(?:[^%]|\%[^}])*\%\}/,
+        value: x => x.slice(2, -2),
+    },
+    ...literals([
+    ",", "|", "$", "%", "(", ")",
+    ":?", ":*", ":+",
+    "@include", "@builtin", "@",
+    "]",
+    ]),
+    word: {match: /[\w\?\+]+/, next: 'afterWord'},
+    // nb. We don't (and have never) supported \' string escapes.
+    string: {
+        match: /'(?:[^\\'\n]|\\["\\/bfnrt]|\\u[a-fA-F0-9]{4})*'|"(?:[^\\"\n]|\\["\\/bfnrt]|\\u[a-fA-F0-9]{4})*"/,
+        value: x => JSON.parse('"' + x.slice(1, -1) + '"'),
+        next: 'main',
+    },
+    btstring: {
+        match: /`[^`]*`/,
+        value: x => x.slice(1, -1),
+        next: 'main',
+    },
+}
+
+var lexer = moo.states({
+    main: Object.assign({}, rules, {
+        charclass: {
+            match: /\.|\[(?:\\.|[^\\\n])+?\]/,
+            value: x => new RegExp(x),
+        },
+    }),
+    // Both macro arguments and charclasses are both enclosed in [ ].
+    // We disambiguate based on whether the previous token was a `word`.
+    afterWord: Object.assign({}, rules, {
+        "[": {match: "[", next: 'main'},
+    }),
+})
 
 function insensitive(sl) {
     var s = sl.literal;
@@ -10,7 +64,7 @@ function insensitive(sl) {
         var c = s.charAt(i);
         if (c.toUpperCase() !== c || c.toLowerCase() !== c) {
             result.push(new RegExp("[" + c.toLowerCase() + c.toUpperCase() + "]"));
-        } else {
+            } else {
             result.push({literal: c});
         }
     }
@@ -18,30 +72,31 @@ function insensitive(sl) {
 }
 
 %}
+@lexer lexer
 
-final -> whit? prog whit?  {% function(d) { return d[1]; } %}
+final -> _ prog _  {% function(d) { return d[1]; } %}
 
 prog -> prod  {% function(d) { return [d[0]]; } %}
-      | prod whit prog  {% function(d) { return [d[0]].concat(d[2]); } %}
+      | prod ws prog  {% function(d) { return [d[0]].concat(d[2]); } %}
 
-prod -> word whit? ("-"|"="):+ ">" whit? expression+  {% function(d) { return {name: d[0], rules: d[5]}; } %}
-      | word "[" wordlist "]" whit? ("-"|"="):+ ">" whit? expression+ {% function(d) {return {macro: d[0], args: d[2], exprs: d[8]}} %}
-      | "@" whit? js  {% function(d) { return {body: d[2]}; } %}
-      | "@" word whit word  {% function(d) { return {config: d[1], value: d[3]}; } %}
-      | "@include"  whit? string {% function(d) {return {include: d[2].literal, builtin: false}} %}
-      | "@builtin"  whit? string {% function(d) {return {include: d[2].literal, builtin: true }} %}
+prod -> word _ %arrow _ expression+  {% function(d) { return {name: d[0], rules: d[4]}; } %}
+      | word "[" wordlist "]" _ %arrow _ expression+ {% function(d) {return {macro: d[0], args: d[2], exprs: d[7]}} %}
+      | "@" _ js  {% function(d) { return {body: d[2]}; } %}
+      | "@" word ws word  {% function(d) { return {config: d[1], value: d[3]}; } %}
+      | "@include"  _ string {% function(d) {return {include: d[2].literal, builtin: false}} %}
+      | "@builtin"  _ string {% function(d) {return {include: d[2].literal, builtin: true }} %}
 
 expression+ -> completeexpression
-             | expression+ whit? "|" whit? completeexpression  {% function(d) { return d[0].concat([d[4]]); } %}
+             | expression+ _ "|" _ completeexpression  {% function(d) { return d[0].concat([d[4]]); } %}
 
 expressionlist -> completeexpression
-             | expressionlist whit? "," whit? completeexpression {% function(d) { return d[0].concat([d[4]]); } %}
+             | expressionlist _ "," _ completeexpression {% function(d) { return d[0].concat([d[4]]); } %}
 
 wordlist -> word
-            | wordlist whit? "," whit? word {% function(d) { return d[0].concat([d[4]]); } %}
+            | wordlist _ "," _ word {% function(d) { return d[0].concat([d[4]]); } %}
 
 completeexpression -> expr  {% function(d) { return {tokens: d[0]}; } %}
-                    | expr whit? js  {% function(d) { return {tokens: d[0], postprocess: d[2]}; } %}
+                    | expr _ js  {% function(d) { return {tokens: d[0], postprocess: d[2]}; } %}
 
 expr_member ->
       word {% id %}
@@ -50,57 +105,24 @@ expr_member ->
     | string "i":? {% function(d) { if (d[1]) {return insensitive(d[0]); } else {return d[0]; } } %}
     | "%" word {% function(d) {return {token: d[1]}} %}
     | charclass {% id %}
-    | "(" whit? expression+ whit? ")" {% function(d) {return {'subexpression': d[2]} ;} %}
-    | expr_member whit? ebnf_modifier {% function(d) {return {'ebnf': d[0], 'modifier': d[2]}; } %}
+    | "(" _ expression+ _ ")" {% function(d) {return {'subexpression': d[2]} ;} %}
+    | expr_member _ ebnf_modifier {% function(d) {return {'ebnf': d[0], 'modifier': d[2]}; } %}
 
-ebnf_modifier -> ":+" {% id %} | ":*" {% id %} | ":?" {% id %}
+ebnf_modifier -> ":+" {% getValue %} | ":*" {% getValue %} | ":?" {% getValue %}
 
 expr -> expr_member
-      | expr whit expr_member  {% function(d){ return d[0].concat([d[2]]); } %}
+      | expr ws expr_member  {% function(d){ return d[0].concat([d[2]]); } %}
 
-word -> [\w\?\+]  {% function(d){ return d[0]; } %}
-      | word [\w\?\+]  {% function(d){ return d[0]+d[1]; } %}
+word -> %word {% getValue %}
 
-string -> dqstring {% function(d) {return { literal: d[0] }; } %}
-#string -> "\"" charset "\""  {% function(d) { return { literal: d[1].join("") }; } %}
-#
-#charset -> null
-#         | charset char  {% function(d) { return d[0].concat([d[1]]); } %}
-#
-#char -> [^\\"]  {% function(d) { return d[0]; } %}
-#      | "\\" .  {% function(d) { return JSON.parse("\""+"\\"+d[1]+"\""); } %}
+string -> %string {% d => ({literal: d[0].value}) %}
+        | %btstring {% d => ({literal: d[0].value}) %}
 
-charclass -> "."  {% function(d) { return new RegExp("."); } %}
-           | "[" charclassmembers "]"  {% function(d) { return new RegExp("[" + d[1].join('') + "]"); } %}
+charclass -> %charclass  {% getValue %}
 
-charclassmembers -> null
-                  | charclassmembers charclassmember  {% function(d) { return d[0].concat([d[1]]); } %}
+js -> %js  {% getValue %}
 
-charclassmember -> [^\\\]]  {% function(d) { return d[0]; } %}
-                 | "\\" .  {% function(d) { return d[0] + d[1]; } %}
+_ -> ws:?
+ws -> %ws
+      | %ws:? %comment _
 
-js -> "{" "%" jscode "%" "}"  {% function(d) { return d[2]; } %}
-
-jscode -> null  {% function() {return "";} %}
-        | jscode [^%]  {% function(d) {return d[0] + d[1];} %}
-        | jscode "%" [^}] {% function(d) {return d[0] + d[1] + d[2]; } %}
-
-# Whitespace with a comment
-whit -> whitraw
-      | whitraw? comment whit?
-
-# Optional whitespace with a comment
-whit? -> null
-       | whit
-
-# Literally a string of whitespace
-whitraw -> [\s]
-         | whitraw [\s]
-
-# A string of whitespace OR the empty string
-whitraw? -> null
-          | whitraw
-
-comment -> "#" commentchars "\n"
-commentchars -> null
-              | commentchars [^\n]
