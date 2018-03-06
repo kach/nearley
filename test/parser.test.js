@@ -120,7 +120,7 @@ describe('Parser: examples', () => {
         ];
 
         for (let i in passCases) {
-            expect(parse(parentheses, passCases[i])).length.toEqual([true]);
+            expect(parse(parentheses, passCases[i])).toEqual([true]);
         }
 
         var failCases = [
