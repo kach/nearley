@@ -139,6 +139,37 @@ describe('Parser: examples', () => {
         expect(parse(parentheses, '((((())))(())()')).toEqual([]);
     });
 
+    const types = compile(read("examples/types.ne"));
+    it('types', () => {
+       var passCases = [
+            'a',
+            '((nat))',
+            'x * (x + x)',
+            'a -> b -> a + b * d'
+       ];
+
+       for (let i in passCases) {
+            //expect(parse(types, passCases[i])).toEqual([true]);
+       }
+
+        var failCases = [
+            '-> a',
+            'forall x y',
+            'forall exists . a',
+            'forall a.exists',
+            'a b',
+            'forall a -> b. c'
+        ];
+
+        for (let i in failCases) {
+            expect(function() { parse(types, failCases[i]); }).toThrow()
+        }
+
+        // These are invalid inputs but the parser will not complain
+        expect(parse(types, 'a + b *')).toEqual([]);
+        expect(parse(types, 'a ->')).toEqual([]);
+    });
+
     it('tokens', function() {
         var tokc = compile(read("examples/token.ne"));
         expect(parse(tokc, [123, 456, " ", 789])).toEqual([ [123, [ [ 456, " ", 789 ] ]] ]);
