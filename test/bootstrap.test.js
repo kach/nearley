@@ -108,6 +108,24 @@ describe('bootstrapped lexer', () => {
       expect(lexTypes('"foo" "bar"')).toEqual(["string", "ws", "string"])
     })
 
+    it('lexes a rule', () => {
+        expect(lex('Tp4 -> "(" _ Tp _ ")"')).toEqual([
+          "word Tp4",
+          "ws  ",
+          "arrow ->",
+          "ws  ",
+          "string (",
+          "ws  ",
+          "word _",
+          "ws  ",
+          "word Tp",
+          "ws  ",
+          "word _",
+          "ws  ",
+          "string )",
+        ])
+    })
+
 })
 
 describe('bootstrapped parser', () => {
@@ -168,6 +186,18 @@ describe('bootstrapped parser', () => {
         check('Y -> foo["string"]')
         check('Y -> foo[%tok]')
         check('Y -> foo[(baz quxx)]')
+    })
+
+    it('parses macro use', () => {
+        check('Y -> foo[Q]')
+        check('Y -> foo[Q, P]')
+        check('Y -> foo["string"]')
+        check('Y -> foo[%tok]')
+        check('Y -> foo[(baz quxx)]')
+    })
+
+    it('parses a rule', () => {
+        check('Tp4 -> "(" _ Tp _ ")"')
     })
 
 })
