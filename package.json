@@ -31,7 +31,7 @@
     "language"
   ],
   "scripts": {
-    "bootstrap": "mocha test/pre-bootstrap.js && bin/nearleyc.js lib/nearley-language-bootstrapped.ne > tmp && mv tmp lib/nearley-language-bootstrapped.js && echo bootstrapped ok",
+    "bootstrap": "mocha test/bootstrap.test.js && bin/nearleyc.js lib/nearley-language-bootstrapped.ne > tmp && mv tmp lib/nearley-language-bootstrapped.js && echo bootstrapped ok",
     "benchmark": "benchr test/benchmark.js",
     "test": "mocha test/*.test.js",
     "doctoc": "doctoc --notitle README.md",
