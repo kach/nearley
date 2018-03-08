@@ -24,10 +24,9 @@ var rules = Object.assign({
         value: x => x.slice(2, -2),
     },
     word: {match: /[\w\?\+]+/, next: 'afterWord'},
-    // nb. We don't (and have never) supported \' string escapes.
     string: {
-        match: /'(?:[^\\'\n]|\\["\\/bfnrt]|\\u[a-fA-F0-9]{4})*'|"(?:[^\\"\n]|\\["\\/bfnrt]|\\u[a-fA-F0-9]{4})*"/,
-        value: x => JSON.parse('"' + x.slice(1, -1) + '"'),
+        match: /"(?:[^\\"\n]|\\["\\/bfnrt]|\\u[a-fA-F0-9]{4})*"/,
+        value: x => JSON.parse(x),
         next: 'main',
     },
     btstring: {
