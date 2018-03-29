@@ -52,7 +52,7 @@ examples to get inspired.
 Please read [this document](.github/CONTRIBUTING.md) *before* working on
 nearley. If you are interested in contributing but unsure where to start, take
 a look at the issues labeled "up for grabs" on the issue tracker, or message a
-maintainer (@Hardmath123 or @tjvr on Github).
+maintainer (@kach or @tjvr on Github).
 
 nearley is MIT licensed.
 
