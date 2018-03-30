@@ -37,7 +37,7 @@ When using a lexer, there are two ways to match tokens:
     line -> words %newline
     ```
 
-  - Use `"foo"` to match a token with **value** `foo`.
+  - Use `"foo"` to match a token with **text** `foo`.
 
     This is convenient for matching keywords:
 
