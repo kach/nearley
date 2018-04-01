@@ -346,8 +346,6 @@ restores its state to a state returned by <code>save()</code>.</li>
 <li><code>formatError(token)</code> returns a string with an error message describing a
 parse error at that token (for example, the string might contain the line and
 column where the error was found).</li>
-<li><code>has(name)</code> returns true if the lexer can emit tokens with that name. This is
-used to resolve <code>%</code>-specifiers in compiled nearley grammars.</li>
 </ul>
 <blockquote>
 <p>Note: if you are searching for a lexer that allows indentation-aware
@@ -371,6 +369,9 @@ main -&gt; %tokenPrint %tokenNumber &quot;;;&quot;
 
 # parser.feed([&quot;print&quot;, 12, &quot;;;&quot;]);
 </code></pre>
+<p>Note that this is only supported if you <em>don’t</em> use <code>@lexer</code>. When using
+Nearley with Moo, <code>%foo</code> instead matches a <em>token of type <code>foo</code></em>. Any JS
+variables named <code>foo</code> defined in your grammar have no effect.</p>
 
 
     <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a
