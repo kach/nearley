@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
 <style>
+@import "https://cdn.jsdelivr.net/npm/github-syntax-light/lib/github-light.css";
 body {
     font-family: BlinkMacSystemFont, -apple-system, Helvetica Neue, Open Sans, Ubuntu, Arial, Helvetica, sans-serif;
     font-weight: 300;
@@ -142,7 +143,7 @@ code {
     background-color: #eee;
 }
 
-pre code {
+pre code, .highlight pre {
     border-radius: 0.5em;
     padding: 0.5em;
     display: block;
@@ -242,8 +243,9 @@ nav ul a {
 
 /* highlight.js */
 
-.hljs{display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0}.hljs,.hljs-subst{color:#444}.hljs-comment{color:#888888}.hljs-keyword,.hljs-attribute,.hljs-selector-tag,.hljs-meta-keyword,.hljs-doctag,.hljs-name{font-weight:bold}.hljs-type,.hljs-string,.hljs-number,.hljs-selector-id,.hljs-selector-class,.hljs-quote,.hljs-template-tag,.hljs-deletion{color:#880000}.hljs-title,.hljs-section{color:#880000;font-weight:bold}.hljs-regexp,.hljs-symbol,.hljs-variable,.hljs-template-variable,.hljs-link,.hljs-selector-attr,.hljs-selector-pseudo{color:#BC6060}.hljs-literal{color:#78A960}.hljs-built_in,.hljs-bullet,.hljs-code,.hljs-addition{color:#397300}.hljs-meta{color:#1f7199}.hljs-meta-string{color:#4d99bf}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
-
+.highlight pre {
+  display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0
+}
 
 </style>
 
@@ -262,18 +264,30 @@ nav ul a {
         <li class="page">
             <a href="#" class="page-title-active">How to grammar good</a>
             <ul>
-                <li class="page-heading"><a href="#structure">Structure</a>
-                <li class="page-heading"><a href="#nonterminal-names">Nonterminal names</a>
-                <li class="page-heading"><a href="#don-t-roll-your-own-unroller">Don’t roll your own unroller</a>
-                <li class="page-heading"><a href="#postprocess-or-dispose">Postprocess or dispose</a>
-                <li class="page-heading"><a href="#remember-charclasses-aren-t-regexes">Remember, charclasses aren’t regexes</a>
-                <li class="page-heading"><a href="#debug-with-nearley-test">Debug with nearley-test</a>
-                <li class="page-heading"><a href="#don-t-shy-away-from-left-recursion">Don’t shy away from left recursion</a>
-                <li class="page-heading"><a href="#do-shy-away-from-left-recursion">Do shy away from left recursion</a>
-                <li class="page-heading"><a href="#operator-precedence-is-not-black-magic">Operator precedence is not black magic</a>
-                <li class="page-heading"><a href="#comment-your-grammars">Comment your grammars</a>
-                <li class="page-heading"><a href="#use-whitespace-prettily">Use whitespace prettily</a>
-                <li class="page-heading"><a href="#parsing-an-established-language-cheat-">Parsing an established language? Cheat!</a>
+                <li class="page-heading"><a href="#structure">
+Structure</a></li>
+                <li class="page-heading"><a href="#nonterminal-names">
+Nonterminal names</a></li>
+                <li class="page-heading"><a href="#dont-roll-your-own-unroller">
+Don&#x27;t roll your own unroller</a></li>
+                <li class="page-heading"><a href="#postprocess-or-dispose">
+Postprocess or dispose</a></li>
+                <li class="page-heading"><a href="#remember-charclasses-arent-regexes">
+Remember, charclasses aren&#x27;t regexes</a></li>
+                <li class="page-heading"><a href="#debug-with-nearley-test">
+Debug with nearley-test</a></li>
+                <li class="page-heading"><a href="#dont-shy-away-from-left-recursion">
+Don&#x27;t shy away from left recursion</a></li>
+                <li class="page-heading"><a href="#do-shy-away-from-left-recursion">
+Do shy away from left recursion</a></li>
+                <li class="page-heading"><a href="#operator-precedence-is-not-black-magic">
+Operator precedence is not black magic</a></li>
+                <li class="page-heading"><a href="#comment-your-grammars">
+Comment your grammars</a></li>
+                <li class="page-heading"><a href="#use-whitespace-prettily">
+Use whitespace prettily</a></li>
+                <li class="page-heading"><a href="#parsing-an-established-language-cheat">
+Parsing an established language? Cheat!</a></li>
             </ul>
         </li>
         <li class="page"><a href="/docs/using-in-frontend">Compiling in browsers</a>
@@ -284,159 +298,181 @@ nav ul a {
 <div id="main" class="center">
 
 <h2>How to grammar good</h2>
-<p>A lot of people have pointed out to me that writing grammars for
-<a href="http://hardmath123.github.io/nearley/">nearley</a> is <em>hard</em>. The thing is,
-writing grammars is, in general, very hard. It doesn’t help that certain
+<html><head></head><body><p>A lot of people have pointed out to me that writing grammars for
+<a href="http://hardmath123.github.io/nearley/" rel="nofollow">nearley</a> is <em>hard</em>. The thing is,
+writing grammars is, in general, very hard. It doesn&apos;t help that certain
 grammar-related problems are provably undecidable.</p>
 <p>As with all of programming, grammar-writing is guided by instinct and pattern
 recognition (on the part of the human, in this case!). This guide is meant to
 walk through some common idioms, ideas, anti-patterns and pitfalls, and
 hopefully make you a confident grammarian. Treat it more as a styleguide than a
 tutorial.</p>
-<p>It might be worth reading <a href="http://hardmath123.github.io/earley.html">Better Earley than
+<p>It might be worth reading <a href="http://hardmath123.github.io/earley.html" rel="nofollow">Better Earley than
 Never</a> first, to understand the
-algorithm and some basic concepts. From here on out, I’m assuming you know what
+algorithm and some basic concepts. From here on out, I&apos;m assuming you know what
 <em>regular expression</em>, <em>Backus Naur Form</em>, <em>context free grammar</em>, <em>terminal</em>,
 <em>nonterminal</em>, and <em>ambiguous grammar</em> mean. You should know nearley syntax
 well enough to understand what something like</p>
-<pre><code class="lang-ne">int -&gt; [0-9]        {% id %}
-    | int [0-9]     {% function(d) {return d[0] + d[1]} %}
-</code></pre>
-<p>means (though I like to pride myself on the readability of nearley grammar…).</p>
-<h3 id="structure">Structure</h3>
+<div class="highlight highlight-source-ne"><pre><span class="pl-en">int</span> <span class="pl-k">-&gt;</span> <span class="pl-s">[0-9]</span>        <span class="pl-c">{%</span> id <span class="pl-c">%}</span>
+    <span class="pl-k">|</span> <span class="pl-en">int</span> <span class="pl-s">[0-9]</span>     <span class="pl-c">{%</span> <span class="pl-k">function</span>(<span class="pl-smi">d</span>) {<span class="pl-k">return</span> d[<span class="pl-c1">0</span>] <span class="pl-k">+</span> d[<span class="pl-c1">1</span>]} <span class="pl-c">%}</span></pre></div>
+<p>means (though I like to pride myself on the readability of nearley grammar...).</p>
+<h3 id="structure">
+Structure</h3>
 <p>Your grammar should be structured from the top down. The first few rules in a
 file should describe a general outline, and tiny details (terminals for
-whitespace, literals etc.) should be at the bottom. For example, if you’re
+whitespace, literals etc.) should be at the bottom. For example, if you&apos;re
 writing a parser for Scheme, you would start with</p>
 <pre><code>Sourcefile -&gt; (S-expression | Comment):*
-</code></pre><p>and then fill out what <code>s-expression</code> and <code>comment</code> mean. Most of the time,
+</code></pre>
+<p>and then fill out what <code>s-expression</code> and <code>comment</code> mean. Most of the time,
 rules defined higher in the file reference rules defined lower down, and rules
 defined near the bottom rarely ever reference rules near the top.</p>
-<h3 id="nonterminal-names">Nonterminal names</h3>
-<p>Give your nonterminals useful names–mostly nouns that describe the string it
+<h3 id="nonterminal-names">
+Nonterminal names</h3>
+<p>Give your nonterminals useful names--mostly nouns that describe the string it
 will match. By convention, we use <code>_</code> for optional whitespace and <code>__</code> for
 mandatory whitespace: it makes it easy to write rules like</p>
 <pre><code>&quot;(&quot; _ expression _ &quot;)&quot;
-</code></pre><p>You can explicitly mark a nonterminal as optional or repetitive by postfixing
-its name with <code>?</code> and <code>+</code> (respectively)–as in <code>statementlist+</code> or <code>comment?</code>.
-Note that this has no semantic value: use nearley’s EBNF modifiers (<code>:*</code>, <code>:+</code>,
+</code></pre>
+<p>You can explicitly mark a nonterminal as optional or repetitive by postfixing
+its name with <code>?</code> and <code>+</code> (respectively)--as in <code>statementlist+</code> or <code>comment?</code>.
+Note that this has no semantic value: use nearley&apos;s EBNF modifiers (<code>:*</code>, <code>:+</code>,
 <code>:?</code>) for that.</p>
-<h3 id="don-t-roll-your-own-unroller">Don’t roll your own unroller</h3>
-<p>If you want to match one or more of a nonterminal, use an EBNF modifier. It’s
+<h3 id="dont-roll-your-own-unroller">
+Don&apos;t roll your own unroller</h3>
+<p>If you want to match one or more of a nonterminal, use an EBNF modifier. It&apos;s
 semantically legible, contextually appropriate and (most importantly) easy.
-It’s very easy to mess up and create an exponentially ambiguous monstrosity
+It&apos;s very easy to mess up and create an exponentially ambiguous monstrosity
 such as</p>
 <pre><code>lotsofletters -&gt; &quot;a&quot; | lotsofletters lotsofletters
-</code></pre><h3 id="postprocess-or-dispose">Postprocess or dispose</h3>
-<p>nearley saves a nested array structure by default, but most of the time that’s
+</code></pre>
+<h3 id="postprocess-or-dispose">
+Postprocess or dispose</h3>
+<p>nearley saves a nested array structure by default, but most of the time that&apos;s
 not what you want. For things like whitespace, you want to throw away all that
 useless information for memory efficiency, so use a postprocessor that just
 returns <code>null</code>. For syntactic sugar and stuff, construct object literals so
 that the code that processes your AST is relatively independent of your
 grammar. Constructing object literals also lets you discard junk (parens,
 etc.).</p>
-<h3 id="remember-charclasses-aren-t-regexes">Remember, charclasses aren’t regexes</h3>
+<h3 id="remember-charclasses-arent-regexes">
+Remember, charclasses aren&apos;t regexes</h3>
 <p>The <code>[a-z]</code> syntax only allows you to use regex-style character classes, not
 actual regular expressions. Nearley fundamentally does not support regexes as
-terminals. Use EBNF modifiers instead–they do what you want.</p>
-<h3 id="debug-with-nearley-test">Debug with nearley-test</h3>
+terminals. Use EBNF modifiers instead--they do what you want.</p>
+<h3 id="debug-with-nearley-test">
+Debug with nearley-test</h3>
 <p>Use the <code>nearley-test</code> script (installs alongside <code>nearleyc</code>) to debug your
 grammars. It lets you inspect the parse tables, and see all the parsings, or
 the point of failure. This is invaluable when you have a subtle ambiguity
 issue.</p>
-<h3 id="don-t-shy-away-from-left-recursion">Don’t shy away from left recursion</h3>
+<h3 id="dont-shy-away-from-left-recursion">
+Don&apos;t shy away from left recursion</h3>
 <p>You were a good little student and you paid attention to your professors when
 they told you never to write grammars like:</p>
 <pre><code>a -&gt; a &quot;something&quot;
-</code></pre><p>because a naïve recursive-descent parser would bork in an infinite loop.
-Nearley, of course, is much better, so you don’t have to worry about that. If
-you’re paranoid about efficiency, you should actually prefer left recursion
-over right recursion (<code>a -&gt; &quot;something&quot; a</code>) because it’s very slightly faster.
-In any case, that’s how you deal with left or right associativity for binary
+</code></pre>
+<p>because a na&#xEF;ve recursive-descent parser would bork in an infinite loop.
+Nearley, of course, is much better, so you don&apos;t have to worry about that. If
+you&apos;re paranoid about efficiency, you should actually prefer left recursion
+over right recursion (<code>a -&gt; &quot;something&quot; a</code>) because it&apos;s very slightly faster.
+In any case, that&apos;s how you deal with left or right associativity for binary
 operators.</p>
-<h3 id="do-shy-away-from-left-recursion">Do shy away from left recursion</h3>
-<p>…if you’re using it where the EBNF <code>:*</code> or <code>:+</code> makes more sense!</p>
-<h3 id="operator-precedence-is-not-black-magic">Operator precedence is not black magic</h3>
-<p>Here’s how you do it: you start with your lowest-precedence operator and work
+<h3 id="do-shy-away-from-left-recursion">
+Do shy away from left recursion</h3>
+<p>...if you&apos;re using it where the EBNF <code>:*</code> or <code>:+</code> makes more sense!</p>
+<h3 id="operator-precedence-is-not-black-magic">
+Operator precedence is not black magic</h3>
+<p>Here&apos;s how you do it: you start with your lowest-precedence operator and work
 your way up to your highest precedence ones. Each operator gets its own
 nonterminal:</p>
 <pre><code>math -&gt; sum
 sum -&gt; sum (&quot;+&quot;|&quot;-&quot;) product | product
 product -&gt; product (&quot;*&quot;|&quot;/&quot;) exp | exp
 exp -&gt; number &quot;^&quot; exp | number # this is right associative!
-</code></pre><p>It should be pretty clear how this works, and how to extend it to different
+</code></pre>
+<p>It should be pretty clear how this works, and how to extend it to different
 types of operators. The main thing is to be careful with your associativity
-direction. Be careful not to write <code>op -&gt; op &quot;$&quot; op</code>, because that’s ambiguous.</p>
+direction. Be careful not to write <code>op -&gt; op &quot;$&quot; op</code>, because that&apos;s ambiguous.</p>
 <p>Introducing non-conflicting unary negation (<code>&quot;5 * -5&quot;</code>) is left as a trivial
 exercise for the enterprising reader.</p>
-<h3 id="comment-your-grammars">Comment your grammars</h3>
-<p>It’s very easy to come back to a grammar a week later and have no idea what
-it’s doing. Leave comments that explain precisely what each nonterminal
+<h3 id="comment-your-grammars">
+Comment your grammars</h3>
+<p>It&apos;s very easy to come back to a grammar a week later and have no idea what
+it&apos;s doing. Leave comments that explain precisely what each nonterminal
 matches, since a clear description will help you debug things in the future.</p>
-<h3 id="use-whitespace-prettily">Use whitespace prettily</h3>
+<h3 id="use-whitespace-prettily">
+Use whitespace prettily</h3>
 <p>Align your <code>-&gt;</code>s and your <code>|</code>s and your <code>{% ... %}</code>s. Future retinas will thank
 you.</p>
-<h3 id="parsing-an-established-language-cheat-">Parsing an established language? Cheat!</h3>
+<h3 id="parsing-an-established-language-cheat">
+Parsing an established language? Cheat!</h3>
 <p>Almost all standards publish syntax guides with an accompanying diagram in
-(E)BNF. It’s worth it to Google around for this. With just a bit of common
+(E)BNF. It&apos;s worth it to Google around for this. With just a bit of common
 sense, you should be able to transliterate it to a <code>.ne</code> file.</p>
 <hr>
 <p>Again, grammar-writing is largely about instinct and experience. The more you
-write, the more you’ll understand how it goes, and the faster you’ll be able to
+write, the more you&apos;ll understand how it goes, and the faster you&apos;ll be able to
 prototype and design.</p>
-
+</body></html>
 
     <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a
     href="http://hardmath123.github.io">Hardmath123</a> (<a
     href="http://github.com/Hardmath123">Github</a>). You're welcome to
     leave questions, comments, advice, or ideas as Github issues. And
     feel free to fork nearley with your own experiments!<br/>
-    
+
     <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
     <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
 </div>
 
-<script id="highlight-js" async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>
-document.querySelector('#highlight-js').addEventListener('load', function() {
-    [].slice.apply(document.querySelectorAll('pre code')).forEach(function(b) {
-        hljs.highlightBlock(b)
-    })
-})
-</script>
-
 
 <script>
-window.addEventListener('scroll', onScroll)
-window.addEventListener('resize', onScroll)
+window.addEventListener("scroll", onScroll);
+window.addEventListener("resize", onScroll);
 
-var timeout
+var timeout;
 function onScroll(e) {
-    if (timeout) clearTimeout(timeout)
-    timeout = setTimeout(scrollEnd, 50)
+  if (timeout) clearTimeout(timeout);
+  timeout = setTimeout(scrollEnd, 50);
 }
 
 function scrollEnd() {
-  var headings = document.querySelectorAll('h3')
-  var offset = 60
-  for (var i=headings.length; i--; ) {
-    var h3 = headings[i]
+  var headings = document.querySelectorAll("h3");
+  var offset = 60;
+  for (var i = headings.length; i--; ) {
+    var h3 = headings[i];
     if (h3.offsetTop < window.scrollY + offset) {
-      var cur = document.querySelector('.page-heading-active')
-      if (cur) cur.className = 'page-heading'
-      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className = 'page-heading page-heading-active'
-      return
+      var cur = document.querySelector(".page-heading-active");
+      if (cur) cur.className = "page-heading";
+      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className =
+        "page-heading page-heading-active";
+      return;
     }
   }
 }
 </script>
 
 <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-46120535-5', 'auto');
-ga('send', 'pageview');
+(function(i, s, o, g, r, a, m) {
+  i["GoogleAnalyticsObject"] = r;
+  (i[r] =
+    i[r] ||
+    function() {
+      (i[r].q = i[r].q || []).push(arguments);
+    }),
+    (i[r].l = 1 * new Date());
+  (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+  a.async = 1;
+  a.src = g;
+  m.parentNode.insertBefore(a, m);
+})(
+  window,
+  document,
+  "script",
+  "https://www.google-analytics.com/analytics.js",
+  "ga"
+);
+ga("create", "UA-46120535-5", "auto");
+ga("send", "pageview");
 </script>
-

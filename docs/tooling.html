@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
 <style>
+@import "https://cdn.jsdelivr.net/npm/github-syntax-light/lib/github-light.css";
 body {
     font-family: BlinkMacSystemFont, -apple-system, Helvetica Neue, Open Sans, Ubuntu, Arial, Helvetica, sans-serif;
     font-weight: 300;
@@ -142,7 +143,7 @@ code {
     background-color: #eee;
 }
 
-pre code {
+pre code, .highlight pre {
     border-radius: 0.5em;
     padding: 0.5em;
     display: block;
@@ -242,8 +243,9 @@ nav ul a {
 
 /* highlight.js */
 
-.hljs{display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0}.hljs,.hljs-subst{color:#444}.hljs-comment{color:#888888}.hljs-keyword,.hljs-attribute,.hljs-selector-tag,.hljs-meta-keyword,.hljs-doctag,.hljs-name{font-weight:bold}.hljs-type,.hljs-string,.hljs-number,.hljs-selector-id,.hljs-selector-class,.hljs-quote,.hljs-template-tag,.hljs-deletion{color:#880000}.hljs-title,.hljs-section{color:#880000;font-weight:bold}.hljs-regexp,.hljs-symbol,.hljs-variable,.hljs-template-variable,.hljs-link,.hljs-selector-attr,.hljs-selector-pseudo{color:#BC6060}.hljs-literal{color:#78A960}.hljs-built_in,.hljs-bullet,.hljs-code,.hljs-addition{color:#397300}.hljs-meta{color:#1f7199}.hljs-meta-string{color:#4d99bf}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
-
+.highlight pre {
+  display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0
+}
 
 </style>
 
@@ -261,10 +263,14 @@ nav ul a {
         <li class="page">
             <a href="#" class="page-title-active">Tooling</a>
             <ul>
-                <li class="page-heading"><a href="#nearley-test-exploring-a-parser-interactively">nearley-test: Exploring a parser interactively</a>
-                <li class="page-heading"><a href="#nearley-unparse-the-unparser">nearley-unparse: The Unparser</a>
-                <li class="page-heading"><a href="#nearley-railroad-automagical-railroad-diagrams">nearley-railroad: Automagical Railroad Diagrams</a>
-                <li class="page-heading"><a href="#other-tools">Other Tools</a>
+                <li class="page-heading"><a href="#nearley-test-exploring-a-parser-interactively">
+nearley-test: Exploring a parser interactively</a></li>
+                <li class="page-heading"><a href="#nearley-unparse-the-unparser">
+nearley-unparse: The Unparser</a></li>
+                <li class="page-heading"><a href="#nearley-railroad-automagical-railroad-diagrams">
+nearley-railroad: Automagical Railroad Diagrams</a></li>
+                <li class="page-heading"><a href="#other-tools">
+Other Tools</a></li>
             </ul>
         </li>
         <li class="page"><a href="/docs/how-to-grammar-good">How to grammar good</a>
@@ -276,53 +282,55 @@ nav ul a {
 <div id="main" class="center">
 
 <h2>Tooling</h2>
-<p>nearley ships with a host of tools to help you develop, test, and maintain your
+<html><head></head><body><p>nearley ships with a host of tools to help you develop, test, and maintain your
 grammars easily.</p>
-<h3 id="nearley-test-exploring-a-parser-interactively">nearley-test: Exploring a parser interactively</h3>
+<h3 id="nearley-test-exploring-a-parser-interactively">
+nearley-test: Exploring a parser interactively</h3>
 <p>A global install of nearley provides <code>nearley-test</code>, a simple command-line tool
 you can use to inspect what a parser is doing. You input a generated
 <code>grammar.js</code> file, and then give it some input to test the parser against.
 <code>nearley-test</code> prints out the output if successful, and optionally
 pretty-prints the internal parse table used by the algorithm. This is helpful
 to test a new parser.</p>
-<h3 id="nearley-unparse-the-unparser">nearley-unparse: The Unparser</h3>
+<h3 id="nearley-unparse-the-unparser">
+nearley-unparse: The Unparser</h3>
 <p>The Unparser takes a (compiled) parser and outputs a random string that would
 be accepted by the parser.</p>
-<pre><code class="lang-bash">$ nearley-unparse -s number &lt;(nearleyc builtin/prims.ne)
--6.22E94
-</code></pre>
-<p>You can use the Unparser to…</p>
+<div class="highlight highlight-source-shell"><pre>$ nearley-unparse -s number <span class="pl-s"><span class="pl-pds">&lt;(</span>nearleyc builtin/prims.ne<span class="pl-pds">)</span></span>
+-6.22E94</pre></div>
+<p>You can use the Unparser to...</p>
 <ul>
-<li>…test your parser specification by generating lots of random expressions
-and making sure all of them are “correct”.</li>
-<li>…generate random strings from a schema (for example, random email addresses
+<li>...test your parser specification by generating lots of random expressions
+and making sure all of them are &quot;correct&quot;.</li>
+<li>...generate random strings from a schema (for example, random email addresses
 or telephone numbers).</li>
-<li>…create fuzzers and combinatorial stress-testers.</li>
-<li>…play “Mad-Libs” automatically! (Practical application: automatic
+<li>...create fuzzers and combinatorial stress-testers.</li>
+<li>...play &quot;Mad-Libs&quot; automatically! (Practical application: automatic
 grammatically valid loremtext.)</li>
 </ul>
 <p>The Unparser outputs as a stream by continuously writing characters to its
-output pipe. So, if it “goes off the deep end” and generates a huge string, you
+output pipe. So, if it &quot;goes off the deep end&quot; and generates a huge string, you
 will still see output scrolling by in real-time.</p>
 <p>To limit the size of the output, you can specify a bound on the depth with the
 <code>-d</code> flag. This switches the Unparser to a different algorithm. A larger depth
 bound corresponds to larger generated strings.</p>
 <p>As far as I know, nearley is the only parser generator with this feature. It
-is inspired by Roly Fentanes’ <a href="https://fent.github.io/randexp.js/">randexp</a>,
+is inspired by Roly Fentanes&apos; <a href="https://fent.github.io/randexp.js/" rel="nofollow">randexp</a>,
 which does the same thing with regular expressions.</p>
 <p>Chase Meadors wrote a standalone nearley-unparse module,
 <a href="https://github.com/cemulate/nearley-generator">nearley-generator</a>.</p>
-<h3 id="nearley-railroad-automagical-railroad-diagrams">nearley-railroad: Automagical Railroad Diagrams</h3>
+<h3 id="nearley-railroad-automagical-railroad-diagrams">
+nearley-railroad: Automagical Railroad Diagrams</h3>
 <p>nearley lets you convert your grammars to pretty SVG railroad diagrams that you
 can include in webpages, documentation, and even papers.</p>
-<pre><code class="lang-bash">$ nearley-railroad regex.ne -o grammar.html
-</code></pre>
-<p><img src="/www/railroad-demo.png" alt="Railroad demo"></p>
+<div class="highlight highlight-source-shell"><pre>$ nearley-railroad regex.ne -o grammar.html</pre></div>
+<p><a href="/www/railroad-demo.png" target="_blank"><img src="/www/railroad-demo.png" alt="Railroad demo" style="max-width:100%;"></a></p>
 <p>See a bigger example <a href="/www/railroad-demo">here</a>.</p>
 <p>(This feature is powered by
 <a href="https://github.com/tabatkins/railroad-diagrams"><code>railroad-diagrams</code></a> by
 tabatkins.)</p>
-<h3 id="other-tools">Other Tools</h3>
+<h3 id="other-tools">
+Other Tools</h3>
 <p><em>This section lists nearley tooling created by other developers. These tools
 are not distributed with nearley, so if you have problems, please contact the
 respective author for support instead of opening an issue with nearley.</em></p>
@@ -334,7 +342,7 @@ language</a> by yours truly.</p>
 syntax</a> by liam4.</p>
 <p><strong>Vim</strong> users can use <a href="https://github.com/tjvr/vim-nearley">this plugin</a> by Tim
 (based on <a href="https://github.com/andres-arana/vim-nearley">this older plugin</a> by
-Andrés Arana).</p>
+Andr&#xE9;s Arana).</p>
 <p><strong>Visual Studio Code</strong> users can use <a href="https://github.com/karyfoundation/nearley-vscode">this
 extension</a> by Pouya Kary.</p>
 <p><strong>Python</strong> users can convert nearley grammars to Python using
@@ -344,70 +352,76 @@ Erez.</p>
 <a href="https://github.com/stolksdorf/nearley-there">nearley-there</a> by Scott
 Tolksdorf.</p>
 <p><strong>Browser</strong> users can use
-<a href="https://omrelli.ug/nearley-playground/">nearley-playground</a> by Guillermo
+<a href="https://omrelli.ug/nearley-playground/" rel="nofollow">nearley-playground</a> by Guillermo
 Webster to explore nearley interactively in the browser. There is also a <a href="https://github.com/pmkary/nearley-playground-mac">Mac
 app</a> by Pouya Kary.</p>
 <p><strong>Webpack</strong> users can use
-<a href="https://github.com/kozily/nearley-loader">nearley-loader</a> by Andrés Arana to
+<a href="https://github.com/kozily/nearley-loader">nearley-loader</a> by Andr&#xE9;s Arana to
 load grammars directly.</p>
 <p><strong>Gulp</strong> users can use
 <a href="https://github.com/JosephJNK/gulp-nearley">gulp-nearley</a> by Joseph Junker to
 compile grammars with a gulpfile.</p>
 <p><strong>Node</strong> users can quickly create the framework for a large nearley-based
 project using <a href="https://github.com/appology/nearley-template">nearley-template</a>.</p>
-
+</body></html>
 
     <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a
     href="http://hardmath123.github.io">Hardmath123</a> (<a
     href="http://github.com/Hardmath123">Github</a>). You're welcome to
     leave questions, comments, advice, or ideas as Github issues. And
     feel free to fork nearley with your own experiments!<br/>
-    
+
     <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
     <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
 </div>
 
-<script id="highlight-js" async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>
-document.querySelector('#highlight-js').addEventListener('load', function() {
-    [].slice.apply(document.querySelectorAll('pre code')).forEach(function(b) {
-        hljs.highlightBlock(b)
-    })
-})
-</script>
-
 
 <script>
-window.addEventListener('scroll', onScroll)
-window.addEventListener('resize', onScroll)
+window.addEventListener("scroll", onScroll);
+window.addEventListener("resize", onScroll);
 
-var timeout
+var timeout;
 function onScroll(e) {
-    if (timeout) clearTimeout(timeout)
-    timeout = setTimeout(scrollEnd, 50)
+  if (timeout) clearTimeout(timeout);
+  timeout = setTimeout(scrollEnd, 50);
 }
 
 function scrollEnd() {
-  var headings = document.querySelectorAll('h3')
-  var offset = 60
-  for (var i=headings.length; i--; ) {
-    var h3 = headings[i]
+  var headings = document.querySelectorAll("h3");
+  var offset = 60;
+  for (var i = headings.length; i--; ) {
+    var h3 = headings[i];
     if (h3.offsetTop < window.scrollY + offset) {
-      var cur = document.querySelector('.page-heading-active')
-      if (cur) cur.className = 'page-heading'
-      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className = 'page-heading page-heading-active'
-      return
+      var cur = document.querySelector(".page-heading-active");
+      if (cur) cur.className = "page-heading";
+      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className =
+        "page-heading page-heading-active";
+      return;
     }
   }
 }
 </script>
 
 <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-46120535-5', 'auto');
-ga('send', 'pageview');
+(function(i, s, o, g, r, a, m) {
+  i["GoogleAnalyticsObject"] = r;
+  (i[r] =
+    i[r] ||
+    function() {
+      (i[r].q = i[r].q || []).push(arguments);
+    }),
+    (i[r].l = 1 * new Date());
+  (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+  a.async = 1;
+  a.src = g;
+  m.parentNode.insertBefore(a, m);
+})(
+  window,
+  document,
+  "script",
+  "https://www.google-analytics.com/analytics.js",
+  "ga"
+);
+ga("create", "UA-46120535-5", "auto");
+ga("send", "pageview");
 </script>
-

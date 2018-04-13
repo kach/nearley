@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
 <style>
+@import "https://cdn.jsdelivr.net/npm/github-syntax-light/lib/github-light.css";
 body {
     font-family: BlinkMacSystemFont, -apple-system, Helvetica Neue, Open Sans, Ubuntu, Arial, Helvetica, sans-serif;
     font-weight: 300;
@@ -142,7 +143,7 @@ code {
     background-color: #eee;
 }
 
-pre code {
+pre code, .highlight pre {
     border-radius: 0.5em;
     padding: 0.5em;
     display: block;
@@ -242,8 +243,9 @@ nav ul a {
 
 /* highlight.js */
 
-.hljs{display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0}.hljs,.hljs-subst{color:#444}.hljs-comment{color:#888888}.hljs-keyword,.hljs-attribute,.hljs-selector-tag,.hljs-meta-keyword,.hljs-doctag,.hljs-name{font-weight:bold}.hljs-type,.hljs-string,.hljs-number,.hljs-selector-id,.hljs-selector-class,.hljs-quote,.hljs-template-tag,.hljs-deletion{color:#880000}.hljs-title,.hljs-section{color:#880000;font-weight:bold}.hljs-regexp,.hljs-symbol,.hljs-variable,.hljs-template-variable,.hljs-link,.hljs-selector-attr,.hljs-selector-pseudo{color:#BC6060}.hljs-literal{color:#78A960}.hljs-built_in,.hljs-bullet,.hljs-code,.hljs-addition{color:#397300}.hljs-meta{color:#1f7199}.hljs-meta-string{color:#4d99bf}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
-
+.highlight pre {
+  display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0
+}
 
 </style>
 
@@ -270,96 +272,101 @@ nav ul a {
 <div id="main" class="center">
 
 <h2>Compiling in browsers</h2>
-<p>Both the nearley parser and compiled grammars work in browsers; simply include
+<html><head></head><body><p>Both the nearley parser and compiled grammars work in browsers; simply include
 <code>nearley.js</code> and your compiled <code>grammar.js</code> file in <code>&lt;script&gt;</code> tags and use
 nearley as usual. However, the nearley <em>compiler</em> is not designed for the
-browser – you should precompile your grammars and only serve the generated JS
+browser -- you should precompile your grammars and only serve the generated JS
 files to browsers.</p>
 <p>If you absolutely have to compile a grammar in a browser (for example, to
 implement a nearley IDE) then you can use a tool like
-<a href="https://webpack.js.org/">Webpack</a> or <a href="https://rollupjs.org/">Rollup</a> to
+<a href="https://webpack.js.org/" rel="nofollow">Webpack</a> or <a href="https://rollupjs.org/" rel="nofollow">Rollup</a> to
 include the <code>nearley</code> NPM package in your browser code. Then, you can utilize
 the <code>nearleyc</code> internals to compile grammars dynamically.</p>
-<pre><code class="lang-js">const nearley = require(&quot;nearley&quot;);
-const compile = require(&quot;nearley/lib/compile&quot;);
-const generate = require(&quot;nearley/lib/generate&quot;);
-const nearleyGrammar = require(&quot;nearley/lib/nearley-language-bootstrapped&quot;);
+<div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-c1">nearley</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>nearley<span class="pl-pds">&quot;</span></span>);
+<span class="pl-k">const</span> <span class="pl-c1">compile</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>nearley/lib/compile<span class="pl-pds">&quot;</span></span>);
+<span class="pl-k">const</span> <span class="pl-c1">generate</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>nearley/lib/generate<span class="pl-pds">&quot;</span></span>);
+<span class="pl-k">const</span> <span class="pl-c1">nearleyGrammar</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>nearley/lib/nearley-language-bootstrapped<span class="pl-pds">&quot;</span></span>);
 
-function compileGrammar(sourceCode) {
-    // Parse the grammar source into an AST
-    const grammarParser = new nearley.Parser(nearleyGrammar);
-    grammarParser.feed(sourceCode);
-    const grammarAst = grammarParser.results[0]; // TODO check for errors
+<span class="pl-k">function</span> <span class="pl-en">compileGrammar</span>(<span class="pl-smi">sourceCode</span>) {
+    <span class="pl-c"><span class="pl-c">//</span> Parse the grammar source into an AST</span>
+    <span class="pl-k">const</span> <span class="pl-c1">grammarParser</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">nearley.Parser</span>(nearleyGrammar);
+    <span class="pl-smi">grammarParser</span>.<span class="pl-en">feed</span>(sourceCode);
+    <span class="pl-k">const</span> <span class="pl-c1">grammarAst</span> <span class="pl-k">=</span> <span class="pl-smi">grammarParser</span>.<span class="pl-smi">results</span>[<span class="pl-c1">0</span>]; <span class="pl-c"><span class="pl-c">//</span> TODO check for errors</span>
 
-    // Compile the AST into a set of rules
-    const grammarInfoObject = compile(grammarAst, {});
-    // Generate JavaScript code from the rules
-    const grammarJs = generate(grammarInfoObject, &quot;grammar&quot;);
+    <span class="pl-c"><span class="pl-c">//</span> Compile the AST into a set of rules</span>
+    <span class="pl-k">const</span> <span class="pl-c1">grammarInfoObject</span> <span class="pl-k">=</span> <span class="pl-en">compile</span>(grammarAst, {});
+    <span class="pl-c"><span class="pl-c">//</span> Generate JavaScript code from the rules</span>
+    <span class="pl-k">const</span> <span class="pl-c1">grammarJs</span> <span class="pl-k">=</span> <span class="pl-en">generate</span>(grammarInfoObject, <span class="pl-s"><span class="pl-pds">&quot;</span>grammar<span class="pl-pds">&quot;</span></span>);
 
-    // Pretend this is a CommonJS environment to catch exports from the grammar.
-    const module = { exports: {} };
-    eval(grammarJs);
+    <span class="pl-c"><span class="pl-c">//</span> Pretend this is a CommonJS environment to catch exports from the grammar.</span>
+    <span class="pl-k">const</span> <span class="pl-c1">module</span> <span class="pl-k">=</span> { exports<span class="pl-k">:</span> {} };
+    <span class="pl-c1">eval</span>(grammarJs);
 
-    return module.exports;
+    <span class="pl-k">return</span> <span class="pl-c1">module</span>.<span class="pl-smi">exports</span>;
 }
 
-const grammar = compileGrammar(&quot;main -&gt; foo | bar&quot;);
+<span class="pl-k">const</span> <span class="pl-c1">grammar</span> <span class="pl-k">=</span> <span class="pl-en">compileGrammar</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>main -&gt; foo | bar<span class="pl-pds">&quot;</span></span>);
 
-const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
-</code></pre>
-
+<span class="pl-k">const</span> <span class="pl-c1">parser</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">nearley.Parser</span>(<span class="pl-smi">nearley</span>.<span class="pl-smi">Grammar</span>.<span class="pl-en">fromCompiled</span>(grammar));</pre></div>
+</body></html>
 
     <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a
     href="http://hardmath123.github.io">Hardmath123</a> (<a
     href="http://github.com/Hardmath123">Github</a>). You're welcome to
     leave questions, comments, advice, or ideas as Github issues. And
     feel free to fork nearley with your own experiments!<br/>
-    
+
     <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
     <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
 </div>
 
-<script id="highlight-js" async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>
-document.querySelector('#highlight-js').addEventListener('load', function() {
-    [].slice.apply(document.querySelectorAll('pre code')).forEach(function(b) {
-        hljs.highlightBlock(b)
-    })
-})
-</script>
-
 
 <script>
-window.addEventListener('scroll', onScroll)
-window.addEventListener('resize', onScroll)
+window.addEventListener("scroll", onScroll);
+window.addEventListener("resize", onScroll);
 
-var timeout
+var timeout;
 function onScroll(e) {
-    if (timeout) clearTimeout(timeout)
-    timeout = setTimeout(scrollEnd, 50)
+  if (timeout) clearTimeout(timeout);
+  timeout = setTimeout(scrollEnd, 50);
 }
 
 function scrollEnd() {
-  var headings = document.querySelectorAll('h3')
-  var offset = 60
-  for (var i=headings.length; i--; ) {
-    var h3 = headings[i]
+  var headings = document.querySelectorAll("h3");
+  var offset = 60;
+  for (var i = headings.length; i--; ) {
+    var h3 = headings[i];
     if (h3.offsetTop < window.scrollY + offset) {
-      var cur = document.querySelector('.page-heading-active')
-      if (cur) cur.className = 'page-heading'
-      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className = 'page-heading page-heading-active'
-      return
+      var cur = document.querySelector(".page-heading-active");
+      if (cur) cur.className = "page-heading";
+      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className =
+        "page-heading page-heading-active";
+      return;
     }
   }
 }
 </script>
 
 <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-46120535-5', 'auto');
-ga('send', 'pageview');
+(function(i, s, o, g, r, a, m) {
+  i["GoogleAnalyticsObject"] = r;
+  (i[r] =
+    i[r] ||
+    function() {
+      (i[r].q = i[r].q || []).push(arguments);
+    }),
+    (i[r].l = 1 * new Date());
+  (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+  a.async = 1;
+  a.src = g;
+  m.parentNode.insertBefore(a, m);
+})(
+  window,
+  document,
+  "script",
+  "https://www.google-analytics.com/analytics.js",
+  "ga"
+);
+ga("create", "UA-46120535-5", "auto");
+ga("send", "pageview");
 </script>
-

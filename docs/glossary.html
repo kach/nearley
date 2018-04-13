@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
 <style>
+@import "https://cdn.jsdelivr.net/npm/github-syntax-light/lib/github-light.css";
 body {
     font-family: BlinkMacSystemFont, -apple-system, Helvetica Neue, Open Sans, Ubuntu, Arial, Helvetica, sans-serif;
     font-weight: 300;
@@ -142,7 +143,7 @@ code {
     background-color: #eee;
 }
 
-pre code {
+pre code, .highlight pre {
     border-radius: 0.5em;
     padding: 0.5em;
     display: block;
@@ -242,8 +243,9 @@ nav ul a {
 
 /* highlight.js */
 
-.hljs{display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0}.hljs,.hljs-subst{color:#444}.hljs-comment{color:#888888}.hljs-keyword,.hljs-attribute,.hljs-selector-tag,.hljs-meta-keyword,.hljs-doctag,.hljs-name{font-weight:bold}.hljs-type,.hljs-string,.hljs-number,.hljs-selector-id,.hljs-selector-class,.hljs-quote,.hljs-template-tag,.hljs-deletion{color:#880000}.hljs-title,.hljs-section{color:#880000;font-weight:bold}.hljs-regexp,.hljs-symbol,.hljs-variable,.hljs-template-variable,.hljs-link,.hljs-selector-attr,.hljs-selector-pseudo{color:#BC6060}.hljs-literal{color:#78A960}.hljs-built_in,.hljs-bullet,.hljs-code,.hljs-addition{color:#397300}.hljs-meta{color:#1f7199}.hljs-meta-string{color:#4d99bf}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
-
+.highlight pre {
+  display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0
+}
 
 </style>
 
@@ -270,9 +272,9 @@ nav ul a {
 <div id="main" class="center">
 
 <h2>Glossary</h2>
-<p>Parsing terminology gets very confusing very quickly. Here is a glossary that
+<html><head></head><body><p>Parsing terminology gets very confusing very quickly. Here is a glossary that
 can help us all communicate more effectively.</p>
-<p><strong>token</strong>: the smallest meaningful unit (the “words”) of your language</p>
+<p><strong>token</strong>: the smallest meaningful unit (the &quot;words&quot;) of your language</p>
 <p><strong>lexer</strong>: a function that converts a sequence of <em>characters</em> to a sequence of
 <em>tokens</em> (converts a sequence of letters and spaces to a sequence of words)</p>
 <p><strong>string</strong>: a sequence of <em>tokens</em></p>
@@ -293,7 +295,7 @@ that match</p>
 <p><strong>Backus-Naur Form</strong>: a set of conventions for describing and typesetting
 context-free grammars</p>
 <p><strong>recognizer</strong>: a function that takes a <em>grammar</em> and a <em>string</em> and sees if
-the grammar matches the string (it just says “yes” or “no”)</p>
+the grammar matches the string (it just says &quot;yes&quot; or &quot;no&quot;)</p>
 <p><strong>parser</strong>: a function that takes a <em>grammar</em> and a <em>string</em> and returns a
 <em>derivation</em> of that string from that grammar</p>
 <p><strong>derivation</strong>: a way to apply the production rules of a <em>grammar</em> recursively
@@ -307,10 +309,10 @@ example, you can emit TypeScript code instead of plain JavaScript (not to be
 confused with <em>postprocessor</em>)</p>
 <p><strong>postprocessor</strong>: a function associated with a production rule, whose purpose
 is to transform a <em>parse tree</em> into an AST, making simplifications along the
-way — for example, by omitting whitespace (not to be confused with
+way --- for example, by omitting whitespace (not to be confused with
 <em>preprocessor</em>)</p>
 <p><strong>ambiguity</strong>: a situation where there exist more than one <em>derivations</em> for a
-single <em>string</em> — unlike most <em>parser</em> libraries, <em>nearley</em> returns all
+single <em>string</em> --- unlike most <em>parser</em> libraries, <em>nearley</em> returns all
 possible derivations</p>
 <p><strong>Earley algorithm</strong>: a <em>parsing</em> algorithm developed by Jay Earley in 1968,
 which can efficiently parse all <em>context-free grammars</em></p>
@@ -326,59 +328,65 @@ though it is not necessarily equal to the <em>epsilon</em> rule (for example, th
 <em>concatenation</em> of epsilon with epsilon)</p>
 <p><strong>nearley</strong>: a <em>parser</em> that parses <em>context-free languages</em>, along with
 several additional utilities for building languages</p>
-
+</body></html>
 
     <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a
     href="http://hardmath123.github.io">Hardmath123</a> (<a
     href="http://github.com/Hardmath123">Github</a>). You're welcome to
     leave questions, comments, advice, or ideas as Github issues. And
     feel free to fork nearley with your own experiments!<br/>
-    
+
     <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
     <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
 </div>
 
-<script id="highlight-js" async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>
-document.querySelector('#highlight-js').addEventListener('load', function() {
-    [].slice.apply(document.querySelectorAll('pre code')).forEach(function(b) {
-        hljs.highlightBlock(b)
-    })
-})
-</script>
-
 
 <script>
-window.addEventListener('scroll', onScroll)
-window.addEventListener('resize', onScroll)
+window.addEventListener("scroll", onScroll);
+window.addEventListener("resize", onScroll);
 
-var timeout
+var timeout;
 function onScroll(e) {
-    if (timeout) clearTimeout(timeout)
-    timeout = setTimeout(scrollEnd, 50)
+  if (timeout) clearTimeout(timeout);
+  timeout = setTimeout(scrollEnd, 50);
 }
 
 function scrollEnd() {
-  var headings = document.querySelectorAll('h3')
-  var offset = 60
-  for (var i=headings.length; i--; ) {
-    var h3 = headings[i]
+  var headings = document.querySelectorAll("h3");
+  var offset = 60;
+  for (var i = headings.length; i--; ) {
+    var h3 = headings[i];
     if (h3.offsetTop < window.scrollY + offset) {
-      var cur = document.querySelector('.page-heading-active')
-      if (cur) cur.className = 'page-heading'
-      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className = 'page-heading page-heading-active'
-      return
+      var cur = document.querySelector(".page-heading-active");
+      if (cur) cur.className = "page-heading";
+      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className =
+        "page-heading page-heading-active";
+      return;
     }
   }
 }
 </script>
 
 <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-46120535-5', 'auto');
-ga('send', 'pageview');
+(function(i, s, o, g, r, a, m) {
+  i["GoogleAnalyticsObject"] = r;
+  (i[r] =
+    i[r] ||
+    function() {
+      (i[r].q = i[r].q || []).push(arguments);
+    }),
+    (i[r].l = 1 * new Date());
+  (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+  a.async = 1;
+  a.src = g;
+  m.parentNode.insertBefore(a, m);
+})(
+  window,
+  document,
+  "script",
+  "https://www.google-analytics.com/analytics.js",
+  "ga"
+);
+ga("create", "UA-46120535-5", "auto");
+ga("send", "pageview");
 </script>
-

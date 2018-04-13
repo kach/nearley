@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
 <style>
+@import "https://cdn.jsdelivr.net/npm/github-syntax-light/lib/github-light.css";
 body {
     font-family: BlinkMacSystemFont, -apple-system, Helvetica Neue, Open Sans, Ubuntu, Arial, Helvetica, sans-serif;
     font-weight: 300;
@@ -142,7 +143,7 @@ code {
     background-color: #eee;
 }
 
-pre code {
+pre code, .highlight pre {
     border-radius: 0.5em;
     padding: 0.5em;
     display: block;
@@ -242,8 +243,9 @@ nav ul a {
 
 /* highlight.js */
 
-.hljs{display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0}.hljs,.hljs-subst{color:#444}.hljs-comment{color:#888888}.hljs-keyword,.hljs-attribute,.hljs-selector-tag,.hljs-meta-keyword,.hljs-doctag,.hljs-name{font-weight:bold}.hljs-type,.hljs-string,.hljs-number,.hljs-selector-id,.hljs-selector-class,.hljs-quote,.hljs-template-tag,.hljs-deletion{color:#880000}.hljs-title,.hljs-section{color:#880000;font-weight:bold}.hljs-regexp,.hljs-symbol,.hljs-variable,.hljs-template-variable,.hljs-link,.hljs-selector-attr,.hljs-selector-pseudo{color:#BC6060}.hljs-literal{color:#78A960}.hljs-built_in,.hljs-bullet,.hljs-code,.hljs-addition{color:#397300}.hljs-meta{color:#1f7199}.hljs-meta-string{color:#4d99bf}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
-
+.highlight pre {
+  display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0
+}
 
 </style>
 
@@ -257,10 +259,14 @@ nav ul a {
         <li class="page">
             <a href="#" class="page-title-active">Getting started</a>
             <ul>
-                <li class="page-heading"><a href="#installation">Installation</a>
-                <li class="page-heading"><a href="#nearley-in-3-steps">nearley in 3 steps</a>
-                <li class="page-heading"><a href="#what-s-next-">What’s next?</a>
-                <li class="page-heading"><a href="#further-reading">Further reading</a>
+                <li class="page-heading"><a href="#installation">
+Installation</a></li>
+                <li class="page-heading"><a href="#nearley-in-3-steps">
+nearley in 3 steps</a></li>
+                <li class="page-heading"><a href="#whats-next">
+What&#x27;s next?</a></li>
+                <li class="page-heading"><a href="#further-reading">
+Further reading</a></li>
             </ul>
         </li>
         <li class="page"><a href="/docs/grammar">Writing a parser</a>
@@ -276,132 +282,141 @@ nav ul a {
 <div id="main" class="center">
 
 <h2>Getting started</h2>
-<p>nearley consists of two components: a <em>compiler</em> and a <em>parser</em>.</p>
+<html><head></head><body><p>nearley consists of two components: a <em>compiler</em> and a <em>parser</em>.</p>
 <p>The nearley <em>compiler</em> converts grammar definitions from a simple
-<a href="https://en.wikipedia.org/wiki/Backus–Naur_form">BNF</a>-based syntax to a small
+<a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form" rel="nofollow">BNF</a>-based syntax to a small
 JS module. You can then use that module to construct a nearley <em>parser</em>, which
 parses input strings.</p>
-<h3 id="installation">Installation</h3>
+<h3 id="installation">
+Installation</h3>
 <p>Both components are published as a single
-<a href="https://docs.npmjs.com/getting-started/what-is-npm">NPM</a> package compatible
-with <a href="https://nodejs.org/en/">Node.js</a> and most browsers.</p>
+<a href="https://docs.npmjs.com/getting-started/what-is-npm" rel="nofollow">NPM</a> package compatible
+with <a href="https://nodejs.org/en/" rel="nofollow">Node.js</a> and most browsers.</p>
 <p>To use the nearley <em>parser</em>, you need to install nearley <strong>locally</strong>.</p>
-<pre><code class="lang-bash">$ npm install --save nearley
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>$ npm install --save nearley</pre></div>
 <p>To use the nearley <em>compiler</em>, you need to <em>additionally</em> install nearley
 <strong>globally</strong>.</p>
-<pre><code class="lang-bash">$ npm install -g nearley
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>$ npm install -g nearley</pre></div>
 <p>This actually adds several new commands to your <code>$PATH</code>:</p>
 <ul>
-<li><code>nearleyc</code> compiles grammar files to JavaScript.</li>
-<li><code>nearley-test</code> lets you quickly test a grammar against some input and see the
-results. It also lets you explore the internal state of nearley’s Earley
+<li>
+<code>nearleyc</code> compiles grammar files to JavaScript.</li>
+<li>
+<code>nearley-test</code> lets you quickly test a grammar against some input and see the
+results. It also lets you explore the internal state of nearley&apos;s Earley
 table, in case you find that interesting.</li>
-<li><code>nearley-unparse</code> inverts a parser into a generator, allowing you to create
+<li>
+<code>nearley-unparse</code> inverts a parser into a generator, allowing you to create
 random strings that match your grammar.</li>
-<li><code>nearley-railroad</code> generates pretty railroad diagrams from your parser. This
+<li>
+<code>nearley-railroad</code> generates pretty railroad diagrams from your parser. This
 is mainly helpful for creating documentation, as (for example) on json.org.</li>
 </ul>
 <p>These are documented on the <a href="tooling">tooling page</a>.</p>
 <blockquote>
-<p>Note: If you’re not ready to install nearley yet, you can follow along in
-your browser using the <a href="https://omrelli.ug/nearley-playground/">nearley
+<p>Note: If you&apos;re not ready to install nearley yet, you can follow along in
+your browser using the <a href="https://omrelli.ug/nearley-playground/" rel="nofollow">nearley
 playground</a>, an online interface for
 exploring nearley grammars interactively.</p>
 </blockquote>
-<h3 id="nearley-in-3-steps">nearley in 3 steps</h3>
+<h3 id="nearley-in-3-steps">
+nearley in 3 steps</h3>
 <p>nearley was written with users in mind: getting started with nearley is as
 simple as:</p>
 <p><strong>Step 1: Describe your grammar</strong> using the <a href="grammar">nearley syntax</a>. In
 a file called <code>grammar.ne</code>, write:</p>
-<pre><code class="lang-ne">main -&gt; (statement &quot;\n&quot;):+
-statement -&gt; &quot;foo&quot; | &quot;bar&quot;
-</code></pre>
+<div class="highlight highlight-source-ne"><pre><span class="pl-en">main</span> <span class="pl-k">-&gt;</span> <span class="pl-k">(</span><span class="pl-en">statement</span> <span class="pl-s">&quot;<span class="pl-cce">\n</span>&quot;</span><span class="pl-k">):+</span>
+<span class="pl-en">statement</span> <span class="pl-k">-&gt;</span> <span class="pl-s">&quot;foo&quot;</span> <span class="pl-k">|</span> <span class="pl-s">&quot;bar&quot;</span></pre></div>
 <p><strong>Step 2: Compile</strong> the grammar to a JavaScript module. On the command line,
 run:</p>
-<pre><code class="lang-bash">$ nearleyc grammar.ne -o grammar.js
-</code></pre>
+<div class="highlight highlight-source-shell"><pre>$ nearleyc grammar.ne -o grammar.js</pre></div>
 <p><strong>Step 3: Parse</strong> some data! In a new JavaScript file, instantiate a <a href="parser">Parser
 object</a> and feed it a string:</p>
-<pre><code class="lang-js">const nearley = require(&quot;nearley&quot;);
-const grammar = require(&quot;./grammar.js&quot;);
+<div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-c1">nearley</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>nearley<span class="pl-pds">&quot;</span></span>);
+<span class="pl-k">const</span> <span class="pl-c1">grammar</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>./grammar.js<span class="pl-pds">&quot;</span></span>);
 
-// Create a Parser object from our grammar.
-const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
+<span class="pl-c"><span class="pl-c">//</span> Create a Parser object from our grammar.</span>
+<span class="pl-k">const</span> <span class="pl-c1">parser</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">nearley.Parser</span>(<span class="pl-smi">nearley</span>.<span class="pl-smi">Grammar</span>.<span class="pl-en">fromCompiled</span>(grammar));
 
-// Parse something!
-parser.feed(&quot;foo\n&quot;);
+<span class="pl-c"><span class="pl-c">//</span> Parse something!</span>
+<span class="pl-smi">parser</span>.<span class="pl-en">feed</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>foo<span class="pl-cce">\n</span><span class="pl-pds">&quot;</span></span>);
 
-// parser.results is an array of possible parsings.
-console.log(parser.results); // [[[[ &quot;foo&quot; ],&quot;\n&quot; ]]]
-</code></pre>
-<h3 id="what-s-next-">What’s next?</h3>
+<span class="pl-c"><span class="pl-c">//</span> parser.results is an array of possible parsings.</span>
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-smi">parser</span>.<span class="pl-smi">results</span>); <span class="pl-c"><span class="pl-c">//</span> [[[[ &quot;foo&quot; ],&quot;\n&quot; ]]]</span></pre></div>
+<h3 id="whats-next">
+What&apos;s next?</h3>
 <p>Now that you have nearley installed, you can <a href="grammar">learn how to write a
 grammar</a>!</p>
-<h3 id="further-reading">Further reading</h3>
+<h3 id="further-reading">
+Further reading</h3>
 <ul>
-<li>Take a look at a <a href="https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e">nearley
+<li>Take a look at a <a href="https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e" rel="nofollow">nearley
 tutorial</a>
 written by @gajus.</li>
-<li>Read my <a href="http://hardmath123.github.io/earley.html">blog post</a> to learn more
+<li>Read my <a href="http://hardmath123.github.io/earley.html" rel="nofollow">blog post</a> to learn more
 about the algorithm.</li>
-<li>Read about <a href="http://savage.net.au/Marpa.html">Marpa</a> to
+<li>Read about <a href="http://savage.net.au/Marpa.html" rel="nofollow">Marpa</a> to
 learn more than you ever thought you wanted to know about parsing.</li>
 </ul>
-
+</body></html>
 
     <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a
     href="http://hardmath123.github.io">Hardmath123</a> (<a
     href="http://github.com/Hardmath123">Github</a>). You're welcome to
     leave questions, comments, advice, or ideas as Github issues. And
     feel free to fork nearley with your own experiments!<br/>
-    
+
     <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
     <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
 </div>
 
-<script id="highlight-js" async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>
-document.querySelector('#highlight-js').addEventListener('load', function() {
-    [].slice.apply(document.querySelectorAll('pre code')).forEach(function(b) {
-        hljs.highlightBlock(b)
-    })
-})
-</script>
-
 
 <script>
-window.addEventListener('scroll', onScroll)
-window.addEventListener('resize', onScroll)
+window.addEventListener("scroll", onScroll);
+window.addEventListener("resize", onScroll);
 
-var timeout
+var timeout;
 function onScroll(e) {
-    if (timeout) clearTimeout(timeout)
-    timeout = setTimeout(scrollEnd, 50)
+  if (timeout) clearTimeout(timeout);
+  timeout = setTimeout(scrollEnd, 50);
 }
 
 function scrollEnd() {
-  var headings = document.querySelectorAll('h3')
-  var offset = 60
-  for (var i=headings.length; i--; ) {
-    var h3 = headings[i]
+  var headings = document.querySelectorAll("h3");
+  var offset = 60;
+  for (var i = headings.length; i--; ) {
+    var h3 = headings[i];
     if (h3.offsetTop < window.scrollY + offset) {
-      var cur = document.querySelector('.page-heading-active')
-      if (cur) cur.className = 'page-heading'
-      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className = 'page-heading page-heading-active'
-      return
+      var cur = document.querySelector(".page-heading-active");
+      if (cur) cur.className = "page-heading";
+      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className =
+        "page-heading page-heading-active";
+      return;
     }
   }
 }
 </script>
 
 <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-46120535-5', 'auto');
-ga('send', 'pageview');
+(function(i, s, o, g, r, a, m) {
+  i["GoogleAnalyticsObject"] = r;
+  (i[r] =
+    i[r] ||
+    function() {
+      (i[r].q = i[r].q || []).push(arguments);
+    }),
+    (i[r].l = 1 * new Date());
+  (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+  a.async = 1;
+  a.src = g;
+  m.parentNode.insertBefore(a, m);
+})(
+  window,
+  document,
+  "script",
+  "https://www.google-analytics.com/analytics.js",
+  "ga"
+);
+ga("create", "UA-46120535-5", "auto");
+ga("send", "pageview");
 </script>
-

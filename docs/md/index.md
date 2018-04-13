@@ -47,8 +47,7 @@ Pick](https://github.com/npm/npm-collection-staff-picks).
    #a40
    ```
 6. You try it! Type a CSS color here:
-   <input type="text" id="parse-input" placeholder="rgba(0, 255, 0, 0.5)" />
-   <pre><code id="parse-output">…and the parsed output will appear here!</code></pre>
+   <div id="sample-parse" />
 7. Create beautiful railroad diagrams to document your grammar formally.
    ```bash
    $ nearley-railroad csscolor.ne -o csscolor.html

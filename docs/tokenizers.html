@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
 <style>
+@import "https://cdn.jsdelivr.net/npm/github-syntax-light/lib/github-light.css";
 body {
     font-family: BlinkMacSystemFont, -apple-system, Helvetica Neue, Open Sans, Ubuntu, Arial, Helvetica, sans-serif;
     font-weight: 300;
@@ -142,7 +143,7 @@ code {
     background-color: #eee;
 }
 
-pre code {
+pre code, .highlight pre {
     border-radius: 0.5em;
     padding: 0.5em;
     display: block;
@@ -242,8 +243,9 @@ nav ul a {
 
 /* highlight.js */
 
-.hljs{display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0}.hljs,.hljs-subst{color:#444}.hljs-comment{color:#888888}.hljs-keyword,.hljs-attribute,.hljs-selector-tag,.hljs-meta-keyword,.hljs-doctag,.hljs-name{font-weight:bold}.hljs-type,.hljs-string,.hljs-number,.hljs-selector-id,.hljs-selector-class,.hljs-quote,.hljs-template-tag,.hljs-deletion{color:#880000}.hljs-title,.hljs-section{color:#880000;font-weight:bold}.hljs-regexp,.hljs-symbol,.hljs-variable,.hljs-template-variable,.hljs-link,.hljs-selector-attr,.hljs-selector-pseudo{color:#BC6060}.hljs-literal{color:#78A960}.hljs-built_in,.hljs-bullet,.hljs-code,.hljs-addition{color:#397300}.hljs-meta{color:#1f7199}.hljs-meta-string{color:#4d99bf}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
-
+.highlight pre {
+  display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0
+}
 
 </style>
 
@@ -260,9 +262,12 @@ nav ul a {
         <li class="page">
             <a href="#" class="page-title-active">Tokenizers</a>
             <ul>
-                <li class="page-heading"><a href="#lexing-with-moo">Lexing with Moo</a>
-                <li class="page-heading"><a href="#custom-lexers">Custom lexers</a>
-                <li class="page-heading"><a href="#custom-token-matchers">Custom token matchers</a>
+                <li class="page-heading"><a href="#lexing-with-moo">
+Lexing with Moo</a></li>
+                <li class="page-heading"><a href="#custom-lexers">
+Custom lexers</a></li>
+                <li class="page-heading"><a href="#custom-token-matchers">
+Custom token matchers</a></li>
             </ul>
         </li>
         <li class="page"><a href="/docs/tooling">Tooling</a>
@@ -275,78 +280,84 @@ nav ul a {
 <div id="main" class="center">
 
 <h2>Tokenizers</h2>
-<p>By default, nearley splits the input into a stream of characters. This is
+<html><head></head><body><p>By default, nearley splits the input into a stream of characters. This is
 called <em>scannerless</em> parsing.</p>
 <p>A tokenizer splits the input into a stream of larger units called <em>tokens</em>.
 This happens in a separate stage before parsing. For example, a tokenizer might
 convert <code>512 + 10</code> into <code>[&quot;512&quot;, &quot;+&quot;, &quot;10&quot;]</code>: notice how it removed the
 whitespace, and combined multi-digit numbers into a single number.</p>
-<p>Using a tokenizer has many benefits. It…</p>
+<p>Using a tokenizer has many benefits. It...</p>
 <ul>
-<li>…often makes your parser faster by more than an order of magnitude.</li>
-<li>…allows you to write cleaner, more maintainable grammars.</li>
-<li>…helps avoid ambiguous grammars in some cases. For example, a tokenizer can
+<li>...often makes your parser faster by more than an order of magnitude.</li>
+<li>...allows you to write cleaner, more maintainable grammars.</li>
+<li>...helps avoid ambiguous grammars in some cases. For example, a tokenizer can
 easily tell you that <code>superclass</code> is a single keyword, not a sequence of
 <code>super</code> and <code>class</code> keywords.</li>
-<li>…gives you <em>lexical information</em> such as line numbers for each token. This
+<li>...gives you <em>lexical information</em> such as line numbers for each token. This
 lets you make better error messages.</li>
 </ul>
-<h3 id="lexing-with-moo">Lexing with Moo</h3>
-<p>The <code>@lexer</code> directive instructs Nearley to use a lexer you’ve defined inside a
+<h3 id="lexing-with-moo">
+Lexing with Moo</h3>
+<p>The <code>@lexer</code> directive instructs Nearley to use a lexer you&apos;ve defined inside a
 <a href="grammar#additional-js">Javascript block</a> in your grammar.</p>
 <p>nearley supports and recommends <a href="https://github.com/tjvr/moo">Moo</a>, a
 super-fast lexer. Construct a lexer using <code>moo.compile</code>.</p>
 <p>When using a lexer, there are two ways to match tokens:</p>
 <ul>
-<li><p>Use <code>%token</code> to match a token with <strong>type</strong> <code>token</code>.</p>
-<pre><code class="lang-ne">line -&gt; words %newline
-</code></pre>
+<li>
+<p>Use <code>%token</code> to match a token with <strong>type</strong> <code>token</code>.</p>
+<div class="highlight highlight-source-ne"><pre><span class="pl-en">line</span> <span class="pl-k">-&gt;</span> <span class="pl-en">words</span> <span class="pl-k">%newline</span></pre></div>
 </li>
-<li><p>Use <code>&quot;foo&quot;</code> to match a token with <strong>text</strong> <code>foo</code>.</p>
+<li>
+<p>Use <code>&quot;foo&quot;</code> to match a token with <strong>text</strong> <code>foo</code>.</p>
 <p>This is convenient for matching keywords:</p>
-<pre><code class="lang-ne">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; block
-</code></pre>
+<div class="highlight highlight-source-ne"><pre><span class="pl-en">ifStatement</span> <span class="pl-k">-&gt;</span> <span class="pl-s">&quot;if&quot;</span> <span class="pl-en">condition</span> <span class="pl-s">&quot;then&quot;</span> <span class="pl-en">block</span></pre></div>
 </li>
 </ul>
 <p>Here is an example of a simple grammar:</p>
-<pre><code class="lang-coffeescript">@{%
-const moo = require(&quot;moo&quot;);
+<div class="highlight highlight-source-coffee"><pre><span class="pl-smi">@</span>{<span class="pl-k">%</span>
+<span class="pl-k">const</span> <span class="pl-v">moo</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>moo<span class="pl-pds">&quot;</span></span>);
 
-const lexer = moo.compile({
-  ws:     /[ \t]+/,
-  number: /[0-9]+/,
-  word: /[a-z]+/,
-  times:  /\*|x/
+<span class="pl-k">const</span> <span class="pl-v">lexer</span> <span class="pl-k">=</span> <span class="pl-smi">moo</span>.<span class="pl-c1">compile</span>({
+  <span class="pl-v">ws</span><span class="pl-k">:</span>     <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-c1">[ <span class="pl-c1">\t</span>]</span><span class="pl-k">+</span><span class="pl-pds">/</span></span>,
+  <span class="pl-v">number</span><span class="pl-k">:</span> <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-c1">[<span class="pl-c1">0-9</span>]</span><span class="pl-k">+</span><span class="pl-pds">/</span></span>,
+  <span class="pl-v">word</span><span class="pl-k">:</span> <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-c1">[<span class="pl-c1">a-z</span>]</span><span class="pl-k">+</span><span class="pl-pds">/</span></span>,
+  <span class="pl-v">times</span><span class="pl-k">:</span>  <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-cce">\*</span><span class="pl-k">|</span>x<span class="pl-pds">/</span></span>
 });
-%}
+<span class="pl-k">%</span>}
 
-# Pass your lexer object using the @lexer option:
-@lexer lexer
+<span class="pl-c"><span class="pl-c">#</span> Pass your lexer object using the @lexer option:</span>
+<span class="pl-smi">@</span><span class="pl-en">lexer</span> lexer
 
-# Use %token to match any token of that type instead of &quot;token&quot;:
-multiplication -&gt; %number %ws %times %ws %number {% ([first, , , , second]) =&gt; first * second %}
+<span class="pl-c"><span class="pl-c">#</span> Use %token to match any token of that type instead of &quot;token&quot;:</span>
+<span class="pl-en">multiplication</span> <span class="pl-k">-&gt;</span> <span class="pl-k">%</span>number <span class="pl-k">%</span>ws <span class="pl-k">%</span>times <span class="pl-k">%</span>ws <span class="pl-k">%</span><span class="pl-en">number</span> {<span class="pl-k">%</span> ([first, , , , second]) <span class="pl-k">=&gt;</span> first <span class="pl-k">*</span> second <span class="pl-k">%</span>}
 
-# Literal strings now match tokens with that text:
-trig -&gt; &quot;sin&quot; %number
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> Literal strings now match tokens with that text:</span>
+<span class="pl-en">trig</span> <span class="pl-k">-&gt;</span> <span class="pl-s"><span class="pl-pds">&quot;</span>sin<span class="pl-pds">&quot;</span></span> <span class="pl-k">%</span>number</pre></div>
 <p>Have a look at <a href="https://github.com/tjvr/moo#usage">the Moo documentation</a> to
 learn more about writing a tokenizer.</p>
 <p>You use the parser as usual: call <code>parser.feed(data)</code>, and nearley will give
 you the parsed results in return.</p>
-<h3 id="custom-lexers">Custom lexers</h3>
+<h3 id="custom-lexers">
+Custom lexers</h3>
 <p>nearley recommends using a <a href="https://github.com/tjvr/moo">moo</a>-based lexer.
 However, you can use any lexer that conforms to the following interface:</p>
 <ul>
-<li><code>next()</code> returns a token object, which could have fields for line number,
+<li>
+<code>next()</code> returns a token object, which could have fields for line number,
 etc. Importantly, a token object <em>must</em> have a <code>value</code> attribute.</li>
-<li><code>save()</code> returns an info object that describes the current state of the
+<li>
+<code>save()</code> returns an info object that describes the current state of the
 lexer. nearley places no restrictions on this object.</li>
-<li><code>reset(chunk, info)</code> sets the internal buffer of the lexer to <code>chunk</code>, and
+<li>
+<code>reset(chunk, info)</code> sets the internal buffer of the lexer to <code>chunk</code>, and
 restores its state to a state returned by <code>save()</code>.</li>
-<li><code>formatError(token)</code> returns a string with an error message describing a
+<li>
+<code>formatError(token)</code> returns a string with an error message describing a
 parse error at that token (for example, the string might contain the line and
 column where the error was found).</li>
-<li><code>has(name)</code> returns true if the lexer can emit tokens with that name. This is
+<li>
+<code>has(name)</code> returns true if the lexer can emit tokens with that name. This is
 used to resolve <code>%</code>-specifiers in compiled nearley grammars.</li>
 </ul>
 <blockquote>
@@ -354,7 +365,8 @@ used to resolve <code>%</code>-specifiers in compiled nearley grammars.</li>
 grammars (like in Python), you can still use moo. See <a href="https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa">this
 example</a></p>
 </blockquote>
-<h3 id="custom-token-matchers">Custom token matchers</h3>
+<h3 id="custom-token-matchers">
+Custom token matchers</h3>
 <p>Aside from the lexer infrastructure, nearley provides a lightweight way to
 parse arbitrary streams.</p>
 <p>Custom matchers can be defined in two ways: <em>literal</em> tokens and <em>testable</em>
@@ -362,68 +374,73 @@ tokens. A literal token matches a JS value exactly (with <code>===</code>), whil
 testable token runs a predicate that tests whether or not the value matches.</p>
 <p>Note that in this case, you would feed a <code>Parser</code> instance an <em>array</em> of
 objects rather than a string! Here is a simple example:</p>
-<pre><code class="lang-ne">@{%
-const tokenPrint = { literal: &quot;print&quot; };
-const tokenNumber = { test: x =&gt; Number.isInteger(x) };
-%}
+<div class="highlight highlight-source-ne"><pre><span class="pl-c">@{%</span>
+<span class="pl-k">const</span> <span class="pl-c1">tokenPrint</span> <span class="pl-k">=</span> { literal<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">&quot;</span>print<span class="pl-pds">&quot;</span></span> };
+<span class="pl-k">const</span> <span class="pl-c1">tokenNumber</span> <span class="pl-k">=</span> { <span class="pl-en">test</span><span class="pl-k">:</span> <span class="pl-smi">x</span> <span class="pl-k">=&gt;</span> <span class="pl-c1">Number</span>.<span class="pl-en">isInteger</span>(x) };
+<span class="pl-c">%}</span>
 
-main -&gt; %tokenPrint %tokenNumber &quot;;;&quot;
+<span class="pl-en">main</span> <span class="pl-k">-&gt;</span> <span class="pl-k">%tokenPrint</span> <span class="pl-k">%tokenNumber</span> <span class="pl-s">&quot;;;&quot;</span>
 
-# parser.feed([&quot;print&quot;, 12, &quot;;;&quot;]);
-</code></pre>
-
+<span class="pl-c"># parser.feed([&quot;print&quot;, 12, &quot;;;&quot;]);</span></pre></div>
+</body></html>
 
     <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a
     href="http://hardmath123.github.io">Hardmath123</a> (<a
     href="http://github.com/Hardmath123">Github</a>). You're welcome to
     leave questions, comments, advice, or ideas as Github issues. And
     feel free to fork nearley with your own experiments!<br/>
-    
+
     <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
     <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
 </div>
 
-<script id="highlight-js" async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>
-document.querySelector('#highlight-js').addEventListener('load', function() {
-    [].slice.apply(document.querySelectorAll('pre code')).forEach(function(b) {
-        hljs.highlightBlock(b)
-    })
-})
-</script>
-
 
 <script>
-window.addEventListener('scroll', onScroll)
-window.addEventListener('resize', onScroll)
+window.addEventListener("scroll", onScroll);
+window.addEventListener("resize", onScroll);
 
-var timeout
+var timeout;
 function onScroll(e) {
-    if (timeout) clearTimeout(timeout)
-    timeout = setTimeout(scrollEnd, 50)
+  if (timeout) clearTimeout(timeout);
+  timeout = setTimeout(scrollEnd, 50);
 }
 
 function scrollEnd() {
-  var headings = document.querySelectorAll('h3')
-  var offset = 60
-  for (var i=headings.length; i--; ) {
-    var h3 = headings[i]
+  var headings = document.querySelectorAll("h3");
+  var offset = 60;
+  for (var i = headings.length; i--; ) {
+    var h3 = headings[i];
     if (h3.offsetTop < window.scrollY + offset) {
-      var cur = document.querySelector('.page-heading-active')
-      if (cur) cur.className = 'page-heading'
-      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className = 'page-heading page-heading-active'
-      return
+      var cur = document.querySelector(".page-heading-active");
+      if (cur) cur.className = "page-heading";
+      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className =
+        "page-heading page-heading-active";
+      return;
     }
   }
 }
 </script>
 
 <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-46120535-5', 'auto');
-ga('send', 'pageview');
+(function(i, s, o, g, r, a, m) {
+  i["GoogleAnalyticsObject"] = r;
+  (i[r] =
+    i[r] ||
+    function() {
+      (i[r].q = i[r].q || []).push(arguments);
+    }),
+    (i[r].l = 1 * new Date());
+  (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+  a.async = 1;
+  a.src = g;
+  m.parentNode.insertBefore(a, m);
+})(
+  window,
+  document,
+  "script",
+  "https://www.google-analytics.com/analytics.js",
+  "ga"
+);
+ga("create", "UA-46120535-5", "auto");
+ga("send", "pageview");
 </script>
-
