@@ -57,7 +57,7 @@ Pick](https://github.com/npm/npm-collection-staff-picks).
 ### Features
 
 *  nearley is the first JS parser to use the **Earley** algorithm (insert your
-   own ‘early bird’ pun here). It also implements Joop Leo's optimizations for
+   own ‘earley bird’ pun here). It also implements Joop Leo's optimizations for
    right-recursion, making it effectively **linear-time** for LL(k) grammars.
 *  nearley lives happily in **node**, but doesn't mind the **browser**.
 *  nearley outputs **small** files. And its **expressive** DSL comes with
