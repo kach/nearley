@@ -84,7 +84,7 @@ data.
 ```js
 try {
     parser.feed("Cow goes% moo.");
-} catch (err) {
+} catch (parseError) {
     console.log("Error at character " + parseError.offset); // "Error at character 9"
 }
 ```
