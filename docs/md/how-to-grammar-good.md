@@ -36,7 +36,7 @@ writing a parser for Scheme, you would start with
 
     Sourcefile -> (S-expression | Comment):*
 
-and then fill out what `s-expression` and `comment` mean. Most of the time,
+and then fill out what `S-expression` and `Comment` mean. Most of the time,
 rules defined higher in the file reference rules defined lower down, and rules
 defined near the bottom rarely ever reference rules near the top.
 
