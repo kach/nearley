@@ -374,14 +374,14 @@ super-fast lexer. Construct a lexer using <code>moo.compile</code>.</p>
 </ul>
 <p>Here is an example of a simple grammar:</p>
 <pre><code class="language-coffeescript"><div class="highlight highlight-source-coffee"><pre><span class="pl-smi">@</span>{<span class="pl-k">%</span>
-<span class="pl-k">const</span> <span class="pl-v">moo</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>moo<span class="pl-pds">&quot;</span></span>);
+  <span class="pl-k">const</span> <span class="pl-v">moo</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>moo<span class="pl-pds">&quot;</span></span>);
 
-<span class="pl-k">const</span> <span class="pl-v">lexer</span> <span class="pl-k">=</span> <span class="pl-smi">moo</span>.<span class="pl-c1">compile</span>({
-  <span class="pl-v">ws</span><span class="pl-k">:</span>     <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-c1">[ <span class="pl-c1">\t</span>]</span><span class="pl-k">+</span><span class="pl-pds">/</span></span>,
-  <span class="pl-v">number</span><span class="pl-k">:</span> <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-c1">[<span class="pl-c1">0-9</span>]</span><span class="pl-k">+</span><span class="pl-pds">/</span></span>,
-  <span class="pl-v">word</span><span class="pl-k">:</span> <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-c1">[<span class="pl-c1">a-z</span>]</span><span class="pl-k">+</span><span class="pl-pds">/</span></span>,
-  <span class="pl-v">times</span><span class="pl-k">:</span>  <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-cce">\*</span><span class="pl-k">|</span>x<span class="pl-pds">/</span></span>
-});
+  <span class="pl-k">const</span> <span class="pl-v">lexer</span> <span class="pl-k">=</span> <span class="pl-smi">moo</span>.<span class="pl-c1">compile</span>({
+    <span class="pl-v">ws</span><span class="pl-k">:</span>     <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-c1">[ <span class="pl-c1">\t</span>]</span><span class="pl-k">+</span><span class="pl-pds">/</span></span>,
+    <span class="pl-v">number</span><span class="pl-k">:</span> <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-c1">[<span class="pl-c1">0-9</span>]</span><span class="pl-k">+</span><span class="pl-pds">/</span></span>,
+    <span class="pl-v">word</span><span class="pl-k">:</span> <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-c1">[<span class="pl-c1">a-z</span>]</span><span class="pl-k">+</span><span class="pl-pds">/</span></span>,
+    <span class="pl-v">times</span><span class="pl-k">:</span>  <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-cce">\*</span><span class="pl-k">|</span>x<span class="pl-pds">/</span></span>
+  });
 <span class="pl-k">%</span>}
 
 <span class="pl-c"><span class="pl-c">#</span> Pass your lexer object using the @lexer option:</span>

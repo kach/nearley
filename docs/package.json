@@ -7,7 +7,7 @@
     "start": "http-server ../"
   },
   "dependencies": {
-    "github-markdown-syntax": "^0.1.1",
+    "github-markdown-syntax": "^0.1.2",
     "handlebars": "^4.0.10",
     "marked": "^0.4.0",
     "metalsmith": "^2.3.0",
