@@ -49,14 +49,14 @@ Here is an example of a simple grammar:
 
 ```coffeescript
 @{%
-const moo = require("moo");
+  const moo = require("moo");
 
-const lexer = moo.compile({
-  ws:     /[ \t]+/,
-  number: /[0-9]+/,
-  word: /[a-z]+/,
-  times:  /\*|x/
-});
+  const lexer = moo.compile({
+    ws:     /[ \t]+/,
+    number: /[0-9]+/,
+    word: /[a-z]+/,
+    times:  /\*|x/
+  });
 %}
 
 # Pass your lexer object using the @lexer option:
