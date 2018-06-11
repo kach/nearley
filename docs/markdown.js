@@ -24,7 +24,8 @@ module.exports = plugin;
 
 function plugin(files, metalsmith, done) {
   Promise.all(
-    Object.entries(files).map(([file, data]) => {
+    Object.keys(files).map(file => {
+      let data = files[data];
       if (!isMarkdown(file)) return;
       const dir = dirname(file);
       let html = basename(file, extname(file)) + ".html";
@@ -39,7 +40,7 @@ function plugin(files, metalsmith, done) {
 
           delete files[file];
           files[html] = data;
-          res()
+          res();
         });
       });
     })
