@@ -30,14 +30,17 @@ function plugin(files, metalsmith, done) {
       let html = basename(file, extname(file)) + ".html";
       if ("." != dir) html = dir + "/" + html;
 
-      marked(data.contents.toString(), options, (err, out) => {
-        if (err instanceof Error) return rej(err);
-        if (typeof err === "string") out = err;
+      return new Promise((res, rej) => {
+        marked(data.contents.toString(), options, (err, out) => {
+          if (err instanceof Error) return rej(err);
+          if (typeof err === "string") out = err;
 
-        data.contents = Buffer.from(out);
+          data.contents = Buffer.from(out);
 
-        delete files[file];
-        files[html] = data;
+          delete files[file];
+          files[html] = data;
+          res()
+        });
       });
     })
   ).then(() => {
