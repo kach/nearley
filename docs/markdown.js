@@ -25,7 +25,7 @@ module.exports = plugin;
 function plugin(files, metalsmith, done) {
   Promise.all(
     Object.keys(files).map(file => {
-      let data = files[data];
+      let data = files[file];
       if (!isMarkdown(file)) return;
       const dir = dirname(file);
       let html = basename(file, extname(file)) + ".html";
