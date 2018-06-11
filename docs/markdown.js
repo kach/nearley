@@ -7,11 +7,12 @@ const isMarkdown = file => /\.md|\.markdown/.test(extname(file));
 const toHighlight = [];
 const highlight = (code, lang, cb) => {
   const len = toHighlight.push({ code, lang, cb });
-  setImmediate(async () => {
+  setImmediate(() => {
     if (len === toHighlight.length) {
-      const results = await gfmSyntax(toHighlight);
-      results.forEach((res, i) => {
-        toHighlight[i].cb(null, res);
+      gfmSyntax(toHighlight).then(results => {
+        results.forEach((res, i) => {
+          toHighlight[i].cb(null, res);
+        });
       });
     }
   });
@@ -23,25 +24,21 @@ module.exports = plugin;
 
 function plugin(files, metalsmith, done) {
   Promise.all(
-    Object.entries(files).map(async ([file, data]) => {
+    Object.entries(files).map(([file, data]) => {
       if (!isMarkdown(file)) return;
       const dir = dirname(file);
       let html = basename(file, extname(file)) + ".html";
       if ("." != dir) html = dir + "/" + html;
-      
-      const str = await new Promise(res =>
-        marked(data.contents.toString(), options, (err, out) => {
-          if (err instanceof Error) return rej(err);
-          if (typeof err === "string") {
-            out = err;
-          }
-          res(out);
-        })
-      );
-      data.contents = Buffer.from(str);
 
-      delete files[file];
-      files[html] = data;
+      marked(data.contents.toString(), options, (err, out) => {
+        if (err instanceof Error) return rej(err);
+        if (typeof err === "string") out = err;
+
+        data.contents = Buffer.from(out);
+
+        delete files[file];
+        files[html] = data;
+      });
     })
   ).then(() => {
     done();
