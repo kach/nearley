@@ -34,7 +34,9 @@ file should describe a general outline, and tiny details (terminals for
 whitespace, literals etc.) should be at the bottom. For example, if you're
 writing a parser for Scheme, you would start with
 
-    Sourcefile -> (S-expression | Comment):*
+```ne
+Sourcefile -> (S-expression | Comment):*
+```ne
 
 and then fill out what `s-expression` and `comment` mean. Most of the time,
 rules defined higher in the file reference rules defined lower down, and rules
@@ -46,7 +48,9 @@ Give your nonterminals useful names--mostly nouns that describe the string it
 will match. By convention, we use `_` for optional whitespace and `__` for
 mandatory whitespace: it makes it easy to write rules like
 
-    "(" _ expression _ ")"
+```ne
+"(" _ expression _ ")"
+```
 
 You can explicitly mark a nonterminal as optional or repetitive by postfixing
 its name with `?` and `+` (respectively)--as in `statementlist+` or `comment?`.
@@ -60,7 +64,9 @@ semantically legible, contextually appropriate and (most importantly) easy.
 It's very easy to mess up and create an exponentially ambiguous monstrosity
 such as
 
-    lotsofletters -> "a" | lotsofletters lotsofletters
+```ne
+lotsofletters -> "a" | lotsofletters lotsofletters
+```
 
 ### Postprocess or dispose
 
@@ -90,7 +96,9 @@ issue.
 You were a good little student and you paid attention to your professors when
 they told you never to write grammars like:
 
-    a -> a "something"
+```ne
+a -> a "something"
+```ne
 
 because a naïve recursive-descent parser would bork in an infinite loop.
 Nearley, of course, is much better, so you don't have to worry about that. If
@@ -109,10 +117,12 @@ Here's how you do it: you start with your lowest-precedence operator and work
 your way up to your highest precedence ones. Each operator gets its own
 nonterminal:
 
-    math -> sum
-    sum -> sum ("+"|"-") product | product
-    product -> product ("*"|"/") exp | exp
-    exp -> number "^" exp | number # this is right associative!
+```ne
+math -> sum
+sum -> sum ("+"|"-") product | product
+product -> product ("*"|"/") exp | exp
+exp -> number "^" exp | number # this is right associative!
+```
 
 It should be pretty clear how this works, and how to extend it to different
 types of operators. The main thing is to be careful with your associativity

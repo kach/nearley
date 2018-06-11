@@ -139,11 +139,23 @@ code {
 
 pre code, .highlight pre {
     border-radius: 0.5em;
-    padding: 0.5em;
+    margin: 5px;
+    padding: 10px;
     display: block;
     overflow: auto;
 }
 
+.highlight pre {
+    padding: 0;
+    margin: 0;
+    display: block;
+    overflow-x: auto;
+}
+
+pre > code > pre > code {
+    padding: 0;
+    margin: 0;
+}
 
 ol {
     counter-reset: tutorial-counter;
@@ -200,7 +212,7 @@ nav ul a {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0.25em 0.5em; */
+    padding: 0.25em 0.5em;
 }
 .page {
     display: block;
@@ -235,6 +247,6 @@ nav ul a {
     }
 }
 
-.highlight pre {
-  display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0
+code pre {
+    margin: 0;
 }

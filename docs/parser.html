@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <title>Using a parser - nearley.js - JS Parsing Toolkit</title>
-<meta charset="utf-8"/>
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="nearley.js is a simple, fast, and powerful parser toolkit for JavaScript." />
 <style>
-@import "https://cdn.jsdelivr.net/npm/github-syntax-light/lib/github-light.css";
+  @import "https://cdn.jsdelivr.net/npm/github-syntax-light/lib/github-light.css";
 body {
     font-family: BlinkMacSystemFont, -apple-system, Helvetica Neue, Open Sans, Ubuntu, Arial, Helvetica, sans-serif;
     font-weight: 300;
@@ -145,11 +145,23 @@ code {
 
 pre code, .highlight pre {
     border-radius: 0.5em;
-    padding: 0.5em;
+    margin: 5px;
+    padding: 10px;
     display: block;
     overflow: auto;
 }
 
+.highlight pre {
+    padding: 0;
+    margin: 0;
+    display: block;
+    overflow-x: auto;
+}
+
+pre > code > pre > code {
+    padding: 0;
+    margin: 0;
+}
 
 ol {
     counter-reset: tutorial-counter;
@@ -206,7 +218,7 @@ nav ul a {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0.25em 0.5em; */
+    padding: 0.25em 0.5em;
 }
 .page {
     display: block;
@@ -241,124 +253,171 @@ nav ul a {
     }
 }
 
-.highlight pre {
-  display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0
+code pre {
+    margin: 0;
 }
-
 </style>
 
-<body class="docs-page">
+<body class="docs-page" >
 
-<a href="https://github.com/kach/nearley" class="github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
-<nav id="nav">
-    <h1><a href="/">nearley<span style="color: #559;">.js</span><span id="version">2.12.1</span></a></h1>
+  <a href="https://github.com/kach/nearley" class="github-corner">
+    <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;">
+      <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+      <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+        fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+      <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+        fill="currentColor" class="octo-body"></path>
+    </svg>
+  </a>
+  <style>
+    .github-corner:hover .octo-arm {
+      animation: octocat-wave 560ms ease-in-out
+    }
+
+    @keyframes octocat-wave {
+      0%,
+      100% {
+        transform: rotate(0)
+      }
+      20%,
+      60% {
+        transform: rotate(-25deg)
+      }
+      40%,
+      80% {
+        transform: rotate(10deg)
+      }
+    }
+
+    @media (max-width:500px) {
+      .github-corner:hover .octo-arm {
+        animation: none
+      }
+      .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+      }
+    }
+  </style>
+  <nav id="nav">
+    <h1>
+      <a href="/">nearley
+        <span style="color: #559;">.js</span>
+        <span id="version">2.12.1</span>
+      </a>
+    </h1>
     <ul>
-        <li class="page"><a href="/docs/index">Home</a>
-        <li class="page"><a href="/docs/getting-started">Getting started</a>
-        <li class="page"><a href="/docs/grammar">Writing a parser</a>
-        <li class="page">
-            <a href="#" class="page-title-active">Using a parser</a>
-            <ul>
-                <li class="page-heading"><a href="#a-note-on-ambiguity">
-A note on ambiguity</a></li>
-                <li class="page-heading"><a href="#catching-errors">
-Catching errors</a></li>
-                <li class="page-heading"><a href="#accessing-the-parse-table">
-Accessing the parse table</a></li>
-                <li class="page-heading"><a href="#using-preprocessors">
-Using preprocessors</a></li>
-                <li class="page-heading"><a href="#whats-next">
-What&#x27;s next?</a></li>
-            </ul>
+               <li class="page">
+          <a href="/docs/index">Home</a>
+                    <li class="page">
+          <a href="/docs/getting-started">Getting started</a>
+                    <li class="page">
+          <a href="/docs/grammar">Writing a parser</a>
+            
+      <li class="page">
+        <a href="#" class="page-title-active">Using a parser</a>
+        <ul>
+          <li class="page-heading">
+            <a href="#a-note-on-ambiguity">A note on ambiguity</a>
+          <li class="page-heading">
+            <a href="#catching-errors">Catching errors</a>
+          <li class="page-heading">
+            <a href="#accessing-the-parse-table">Accessing the parse table</a>
+          <li class="page-heading">
+            <a href="#using-preprocessors">Using preprocessors</a>
+          <li class="page-heading">
+            <a href="#what-s-next-">What’s next?</a>
+        </ul>
         </li>
-        <li class="page"><a href="/docs/tokenizers">Tokenizers</a>
-        <li class="page"><a href="/docs/tooling">Tooling</a>
-        <li class="page"><a href="/docs/how-to-grammar-good">How to grammar good</a>
-        <li class="page"><a href="/docs/using-in-frontend">Compiling in browsers</a>
-        <li class="page"><a href="/docs/glossary">Glossary</a>
+          <li class="page">
+          <a href="/docs/tokenizers">Tokenizers</a>
+                    <li class="page">
+          <a href="/docs/tooling">Tooling</a>
+                    <li class="page">
+          <a href="/docs/how-to-grammar-good">How to grammar good</a>
+                    <li class="page">
+          <a href="/docs/using-in-frontend">Compiling in browsers</a>
+                    <li class="page">
+          <a href="/docs/glossary">Glossary</a>
+           
     </ul>
-</nav>
+  </nav>
 
-<div id="main" class="center">
+  <div id="main" class="center">
 
-<h2>Using a parser</h2>
-<html><head></head><body><p>This section describes nearley&apos;s parser API.</p>
+    <h2>Using a parser</h2>
+    <p>This section describes nearley’s parser API.</p>
 <p>Once you have compiled a <code>grammar.ne</code> file to a <code>grammar.js</code> module, you can
 then use nearley to instantiate a <code>Parser</code> object.</p>
 <p>First, import nearley and your grammar.</p>
-<div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-c1">nearley</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>nearley<span class="pl-pds">&quot;</span></span>);
-<span class="pl-k">const</span> <span class="pl-c1">grammar</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>./grammar.js<span class="pl-pds">&quot;</span></span>);</pre></div>
+<pre><code class="language-js"><div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-c1">nearley</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>nearley<span class="pl-pds">&quot;</span></span>);
+<span class="pl-k">const</span> <span class="pl-c1">grammar</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>./grammar.js<span class="pl-pds">&quot;</span></span>);</pre></div></code></pre>
 <p>Note that if you are parsing in the browser, you can simply include
 <code>nearley.js</code> and <code>grammar.js</code> in <code>&lt;script&gt;</code> tags.</p>
 <p>Next, use the grammar to create a new <code>nearley.Parser</code> object.</p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c"><span class="pl-c">//</span> Create a Parser object from our grammar.</span>
-<span class="pl-k">const</span> <span class="pl-c1">parser</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">nearley.Parser</span>(<span class="pl-smi">nearley</span>.<span class="pl-smi">Grammar</span>.<span class="pl-en">fromCompiled</span>(grammar));</pre></div>
+<pre><code class="language-js"><div class="highlight highlight-source-js"><pre><span class="pl-c"><span class="pl-c">//</span> Create a Parser object from our grammar.</span>
+<span class="pl-k">const</span> <span class="pl-c1">parser</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">nearley.Parser</span>(<span class="pl-smi">nearley</span>.<span class="pl-smi">Grammar</span>.<span class="pl-en">fromCompiled</span>(grammar));</pre></div></code></pre>
 <p>Once you have a <code>Parser</code>, you can <code>.feed</code> it a string to parse. Since nearley
 is a <em>streaming</em> parser, you can feed strings more than once. For example, a
 REPL might feed the parser lines of code as the user enters them:</p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c"><span class="pl-c">//</span> Parse something!</span>
+<pre><code class="language-js"><div class="highlight highlight-source-js"><pre><span class="pl-c"><span class="pl-c">//</span> Parse something!</span>
 <span class="pl-smi">parser</span>.<span class="pl-en">feed</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>if (true) {<span class="pl-pds">&quot;</span></span>);
 <span class="pl-smi">parser</span>.<span class="pl-en">feed</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>x = 1<span class="pl-pds">&quot;</span></span>);
 <span class="pl-smi">parser</span>.<span class="pl-en">feed</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>}<span class="pl-pds">&quot;</span></span>);
-<span class="pl-c"><span class="pl-c">//</span> or, parser.feed(&quot;if (true) {x=1}&quot;);</span></pre></div>
+<span class="pl-c"><span class="pl-c">//</span> or, parser.feed(&quot;if (true) {x=1}&quot;);</span></pre></div></code></pre>
 <p>Finally, you can query the <code>.results</code> property of the parser.</p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c"><span class="pl-c">//</span> parser.results is an array of possible parsings.</span>
+<pre><code class="language-js"><div class="highlight highlight-source-js"><pre><span class="pl-c"><span class="pl-c">//</span> parser.results is an array of possible parsings.</span>
 <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-smi">parser</span>.<span class="pl-smi">results</span>);
-<span class="pl-c"><span class="pl-c">//</span> [{&apos;type&apos;: &apos;if&apos;, &apos;condition&apos;: ..., &apos;body&apos;: ...}]</span></pre></div>
-<h3 id="a-note-on-ambiguity">
-A note on ambiguity</h3>
+<span class="pl-c"><span class="pl-c">//</span> [{&apos;type&apos;: &apos;if&apos;, &apos;condition&apos;: ..., &apos;body&apos;: ...}]</span></pre></div></code></pre>
+<h3 id="a-note-on-ambiguity">A note on ambiguity</h3>
 <p>Why is <code>parser.results</code> an array? Sometimes, a grammar can parse a particular
 string in multiple different ways. For example, the following grammar parses
 the string <code>&quot;xyz&quot;</code> in two different ways.</p>
-<div class="highlight highlight-source-ne"><pre><span class="pl-en">x</span> <span class="pl-k">-&gt;</span> <span class="pl-s">&quot;xy&quot;</span> <span class="pl-s">&quot;z&quot;</span>
-   <span class="pl-k">|</span> <span class="pl-s">&quot;x&quot;</span> <span class="pl-s">&quot;yz&quot;</span></pre></div>
+<pre><code class="language-ne"><div class="highlight highlight-source-ne"><pre><span class="pl-en">x</span> <span class="pl-k">-&gt;</span> <span class="pl-s">&quot;xy&quot;</span> <span class="pl-s">&quot;z&quot;</span>
+   <span class="pl-k">|</span> <span class="pl-s">&quot;x&quot;</span> <span class="pl-s">&quot;yz&quot;</span></pre></div></code></pre>
 <p>Such grammars are <em>ambiguous</em>. nearley provides you with <em>all</em> the parsings. In
 most cases, however, your grammars should not be ambiguous (parsing ambiguous
 grammars is inefficient!). Thus, the most common usage is to simply query
 <code>parser.results[0]</code>.</p>
 <p>You might like to check first that <code>parser.results.length</code> is exactly 1; if
 there is more than one result, then your grammar is ambiguous!</p>
-<h3 id="catching-errors">
-Catching errors</h3>
+<h3 id="catching-errors">Catching errors</h3>
 <p>nearley is a <em>streaming</em> parser: you can call <code>feed()</code> as many times as you
 like. This means there are two ways parsing can go wrong.</p>
 <p>Consider the simple parser below for the examples to follow.</p>
-<div class="highlight highlight-source-js"><pre>main <span class="pl-k">-</span><span class="pl-k">&gt;</span> <span class="pl-s"><span class="pl-pds">&quot;</span>Cow goes moo.<span class="pl-pds">&quot;</span></span> {<span class="pl-k">%</span> <span class="pl-k">function</span>(<span class="pl-smi">d</span>) {<span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">&quot;</span>yay!<span class="pl-pds">&quot;</span></span>; } <span class="pl-k">%</span>}</pre></div>
+<pre><code class="language-js"><div class="highlight highlight-source-js"><pre>main <span class="pl-k">-</span><span class="pl-k">&gt;</span> <span class="pl-s"><span class="pl-pds">&quot;</span>Cow goes moo.<span class="pl-pds">&quot;</span></span> {<span class="pl-k">%</span> <span class="pl-k">function</span>(<span class="pl-smi">d</span>) {<span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">&quot;</span>yay!<span class="pl-pds">&quot;</span></span>; } <span class="pl-k">%</span>}</pre></div></code></pre>
 <p>If nearley gets <strong>partway through the chunk</strong> you fed, and parsing cannot
 continue, then nearley will throw an error whose <code>offset</code> property is the index
 of the offending token. There is no way to recover from this by feeding more
 data.</p>
-<div class="highlight highlight-source-js"><pre><span class="pl-k">try</span> {
+<pre><code class="language-js"><div class="highlight highlight-source-js"><pre><span class="pl-k">try</span> {
     <span class="pl-smi">parser</span>.<span class="pl-en">feed</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>Cow goes% moo.<span class="pl-pds">&quot;</span></span>);
 } <span class="pl-k">catch</span> (err) {
     <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>Error at character <span class="pl-pds">&quot;</span></span> <span class="pl-k">+</span> <span class="pl-smi">parseError</span>.<span class="pl-smi">offset</span>); <span class="pl-c"><span class="pl-c">//</span> &quot;Error at character 9&quot;</span>
-}</pre></div>
+}</pre></div></code></pre>
 <p>Errors are nicely formatted for you:</p>
-<pre><code>Error: invalid syntax at line 1 col 9:
+<pre><code><pre><code>Error: invalid syntax at line 1 col 9:
 
   Cow goes% moo
           ^
 Unexpected &quot;%&quot;
-</code></pre>
-<p><strong>After <code>feed()</code> finishes</strong>, the <code>results</code> array will contain all possible
+</code></pre></code></pre><p><strong>After <code>feed()</code> finishes</strong>, the <code>results</code> array will contain all possible
 parsings.</p>
 <p>If there are no possible parsings given the current input, but in the <em>future</em>
 there <em>might</em> be results if you feed it more strings, then nearley will
 temporarily set the <code>results</code> array to the empty array, <code>[]</code>.</p>
-<div class="highlight highlight-source-js"><pre><span class="pl-smi">parser</span>.<span class="pl-en">feed</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>Cow <span class="pl-pds">&quot;</span></span>);  <span class="pl-c"><span class="pl-c">//</span> parser.results is []</span>
+<pre><code class="language-js"><div class="highlight highlight-source-js"><pre><span class="pl-smi">parser</span>.<span class="pl-en">feed</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>Cow <span class="pl-pds">&quot;</span></span>);  <span class="pl-c"><span class="pl-c">//</span> parser.results is []</span>
 <span class="pl-smi">parser</span>.<span class="pl-en">feed</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>goes <span class="pl-pds">&quot;</span></span>); <span class="pl-c"><span class="pl-c">//</span> parser.results is []</span>
-<span class="pl-smi">parser</span>.<span class="pl-en">feed</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>moo.<span class="pl-pds">&quot;</span></span>);  <span class="pl-c"><span class="pl-c">//</span> parser.results is [&quot;yay!&quot;]</span></pre></div>
-<p>If you&apos;re done calling <code>feed()</code>, but the array is still empty, this indicates
-&quot;unexpected end of input&quot;. Make sure to check there&apos;s at least one result.</p>
-<p>If there&apos;s more than one result, that indicates ambiguity--read on.</p>
-<h3 id="accessing-the-parse-table">
-Accessing the parse table</h3>
+<span class="pl-smi">parser</span>.<span class="pl-en">feed</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>moo.<span class="pl-pds">&quot;</span></span>);  <span class="pl-c"><span class="pl-c">//</span> parser.results is [&quot;yay!&quot;]</span></pre></div></code></pre>
+<p>If you’re done calling <code>feed()</code>, but the array is still empty, this indicates
+“unexpected end of input”. Make sure to check there’s at least one result.</p>
+<p>If there’s more than one result, that indicates ambiguity–read on.</p>
+<h3 id="accessing-the-parse-table">Accessing the parse table</h3>
 <p>If you are familiar with the Earley parsing algorithm, you can access the
 internal parse table using <code>Parser.table</code> (this, for example, is how
 <code>nearley-test</code> works). One caveat, however: you must pass the <code>keepHistory</code>
 option to nearley to prevent it from garbage-collecting inaccessible columns of
 the table.</p>
-<div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-c1">nearley</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>nearley<span class="pl-pds">&quot;</span></span>);
+<pre><code class="language-js"><div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-c1">nearley</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>nearley<span class="pl-pds">&quot;</span></span>);
 <span class="pl-k">const</span> <span class="pl-c1">grammar</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>./grammar<span class="pl-pds">&quot;</span></span>);
 
 <span class="pl-k">const</span> <span class="pl-c1">parser</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">nearley.Parser</span>(
@@ -368,58 +427,61 @@ the table.</p>
 
 
 <span class="pl-smi">parser</span>.<span class="pl-en">feed</span>(<span class="pl-k">...</span>);
-<span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-smi">parser</span>.<span class="pl-smi">table</span>);</pre></div>
-<h3 id="using-preprocessors">
-Using preprocessors</h3>
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-smi">parser</span>.<span class="pl-smi">table</span>);</pre></div></code></pre>
+<h3 id="using-preprocessors">Using preprocessors</h3>
 <p>By default, <code>nearleyc</code> compiles your grammar to JavaScript. However, you can
 instead choose to compile to CoffeeScript or TypeScript by adding
 <code>@preprocessor coffee</code> or <code>@preprocessor typescript</code> at the top of your grammar
 file. This can be useful to write your postprocessors in a different language,
 and to get type annotations if you wish to use nearley in a statically typed
 dialect of JavaScript.</p>
-<h3 id="whats-next">
-What&apos;s next?</h3>
+<h3 id="what-s-next-">What’s next?</h3>
 <p>Now that you know how to use parsers, <a href="tokenizers">learn how to add a tokenizer to speed
 things up!</a></p>
-</body></html>
-
-    <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a
-    href="http://hardmath123.github.io">Hardmath123</a> (<a
-    href="http://github.com/Hardmath123">Github</a>). You're welcome to
-    leave questions, comments, advice, or ideas as Github issues. And
-    feel free to fork nearley with your own experiments!<br/>
-
-    <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
-    <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
-</div>
 
 
-<script>
-window.addEventListener("scroll", onScroll);
-window.addEventListener("resize", onScroll);
+    <div id="footer">
+      <p>nearley is MIT-licensed. It's maintained by
+        <a href="http://hardmath123.github.io">Hardmath123</a> (
+        <a href="http://github.com/Hardmath123">Github</a>). You're welcome to leave questions, comments, advice, or ideas as Github issues. And feel free to fork
+        nearley with your own experiments!
+        <br/>
 
-var timeout;
-function onScroll(e) {
-  if (timeout) clearTimeout(timeout);
-  timeout = setTimeout(scrollEnd, 50);
-}
+        <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
+          <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo" />
+        </a>
+    </div>
 
-function scrollEnd() {
-  var headings = document.querySelectorAll("h3");
-  var offset = 60;
-  for (var i = headings.length; i--; ) {
-    var h3 = headings[i];
-    if (h3.offsetTop < window.scrollY + offset) {
-      var cur = document.querySelector(".page-heading-active");
-      if (cur) cur.className = "page-heading";
-      document.querySelector('a[href="#' + h3.id + '"]').parentNode.className =
-        "page-heading page-heading-active";
-      return;
-    }
-  }
-}
-</script>
+    <script>
+      window.addEventListener('scroll', onScroll)
+      window.addEventListener('resize', onScroll)
+      var timeout
+      function onScroll(e) {
+        if (timeout) clearTimeout(timeout)
+        timeout = setTimeout(scrollEnd, 50)
+      }
+      function scrollEnd() {
+        var headings = document.querySelectorAll('h3')
+        var offset = 60
+        for (var i = headings.length; i--;) {
+          var h3 = headings[i]
+          if (h3.offsetTop < window.scrollY + offset) {
+            var cur = document.querySelector('.page-heading-active')
+            if (cur) cur.className = 'page-heading'
+            document.querySelector('a[href="#' + h3.id + '"]').parentNode.className = 'page-heading page-heading-active'
+            return
+          }
+        }
+      }
+    </script>
 
-<script>
-(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date;a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","https://www.google-analytics.com/analytics.js","ga");ga("create","UA-46120535-5","auto");ga("send","pageview");
-</script>
+    <script>
+      (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+      ga('create', 'UA-46120535-5', 'auto');
+      ga('send', 'pageview');
+    </script>
