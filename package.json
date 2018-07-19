@@ -1,6 +1,6 @@
 {
   "name": "nearley",
-  "version": "2.14.0",
+  "version": "2.15.0",
   "description": "Simple, fast, powerful parser toolkit for JavaScript.",
   "main": "lib/nearley.js",
   "dependencies": {
