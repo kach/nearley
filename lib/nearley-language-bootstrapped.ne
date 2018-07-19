@@ -72,7 +72,7 @@ function insensitive(sl) {
 %}
 @lexer lexer
 
-final -> _ prog _  {% function(d) { return d[1]; } %}
+final -> _ prog _ %ws:?  {% function(d) { return d[1]; } %}
 
 prog -> prod  {% function(d) { return [d[0]]; } %}
       | prod ws prog  {% function(d) { return [d[0]].concat(d[2]); } %}

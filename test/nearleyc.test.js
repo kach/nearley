@@ -95,6 +95,11 @@ describe("bin/nearleyc", function() {
         expect(stdout).toBe("");
     });
 
+    it("allows trailing comments without newline terminators", function () {
+        const {stdout, stderr} = externalNearleyc("grammars/trailing-comment.ne", '.js');
+        expect(stderr).toBe("");
+    });
+
 
 })
 
