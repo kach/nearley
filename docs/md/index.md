@@ -145,7 +145,8 @@ LED driver, [VSL](https://github.com/vsl-lang/VSL) is a Versatile Scripting
 Language, [while-typescript](https://github.com/juanlaube/while-typescript) is
 an implementation of the WHILE language,
 [lo](https://github.com/lo-language/velo) is a language for secure distributed
-systems.
+systems, [jaco](https://github.com/calculemuscode/jaco) is an implementation of
+CMU's C0 teaching language.
 
 **Mathematics**: [Solvent](https://github.com/andrejewski/solvent) is a
 powerful desktop calculator,
