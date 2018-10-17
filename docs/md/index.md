@@ -146,7 +146,8 @@ Language, [while-typescript](https://github.com/juanlaube/while-typescript) is
 an implementation of the WHILE language,
 [lo](https://github.com/lo-language/velo) is a language for secure distributed
 systems, [jaco](https://github.com/calculemuscode/jaco) is an implementation of
-CMU's C0 teaching language.
+CMU's C0 teaching language, [walt](https://github.com/ballercat/walt) is a
+subset of JavaScript that targets WebAssembly.
 
 **Mathematics**: [Solvent](https://github.com/andrejewski/solvent) is a
 powerful desktop calculator,
