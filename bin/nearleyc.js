@@ -31,6 +31,11 @@ var opts = nomnom
         default: false,
         help: "Don't compile postprocessors (for testing)."
     })
+    .option('minify-rule-names', {
+        flag: true,
+        default: false,
+        help: "Use shortend rule names to reduce the size of the generated file"
+    })
     .option('version', {
         abbr: 'v',
         flag: true,
@@ -60,5 +65,5 @@ input
             Object.assign({version: version}, opts)
         );
         if (!opts.quiet) lint(c, {'out': process.stderr, 'version': version});
-        output.write(generate(c, opts.export));
+        output.write(generate(c, opts));
     });
