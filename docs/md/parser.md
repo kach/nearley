@@ -148,7 +148,7 @@ If you plan to recover after an invalid token is fed, it is possible to do so vi
 let parserState = null;
 try {
    parserState = parser.save();
-   parser.feed(...)
+   parser.feed(...);
 } catch (e) {
    parser.restore(parserState);
 }
