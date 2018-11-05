@@ -1,0 +1,65 @@
+declare module "nearley" {
+
+    declare type Token = {
+        value: string
+    }
+
+    declare type Position = {
+        line: number,
+        col: number
+    }
+
+    declare type Symbol = {
+        literal?: Object,
+        type?: string,
+        toString(): string
+    }
+
+    declare function PostProcessor(data: Array<string>, reference: number, fail: Object): any
+
+    declare export class Rule {
+        constructor(name: string, symbols: Array<Symbol>, postprocess: Array<typeof PostProcessor>): Rule;
+        toString(withCursorAt: ?number): string;
+    }
+
+    declare class State {
+        constructor(rule: Rule, dot: number, reference: number, wantedBy: Array<State>): State;
+        toString(): string;
+        nextState(child: State): State;
+        build(): Array<string>;
+        finish(): void;
+    }
+
+    declare class Column {
+        constructor(grammar: Grammar, index: number): Column;
+        process(nextColumn: Column): void;
+        predict(exp: string): void;
+        complete(left: State, right: State): void;
+    }
+
+    declare export class Grammar {
+        constructor(rules: Array<Rule>, start:string): Grammar;
+        static fromCompiled(rules: Array<Rule>, start:string): Grammar;
+    }
+
+    declare class StreamLexer {
+        constructor(): StreamLexer;
+        reset(data: string, state: Position): void;
+        next(): Token|void;
+        save(): Position;
+        formatError(token: any, message: string): string;
+    }
+
+    declare export class Parser {
+        constructor(rules: Grammar|Array<Rule>, start: string, options: Object): Parser;
+        feed(chunk: string): Parser;
+        save(): Column;
+        restore(column: Column): void;
+        /**
+         * @deprecated rewind
+         */
+        rewind(index: number): void;
+        rewind(index: number): void;
+        finish(): Array<any>;
+    }
+}
