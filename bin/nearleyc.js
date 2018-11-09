@@ -68,7 +68,7 @@ input
         );
         if (!opts.quiet) lint(c, {'out': process.stderr, 'version': version});
         if (opts.format && opts.file){
-            format(opts.file);
+            format.format(opts.file);
         }
         output.write(generate(c, opts.export));
     });
