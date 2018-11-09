@@ -39,6 +39,12 @@ var opts = nomnom
             return require('../package.json').version;
         }
     })
+    .option('format', {
+        abbr: 'f',
+        flag: true,
+        default: false,
+        help: "Format the production rules as specified by the style guide."
+    })
     .parse();
 
 var version = require('../package.json').version;
@@ -50,6 +56,7 @@ var parserGrammar = nearley.Grammar.fromCompiled(require('../lib/nearley-languag
 var parser = new nearley.Parser(parserGrammar);
 var generate = require('../lib/generate.js');
 var lint = require('../lib/lint.js');
+var format = require('../lib/format.js')
 
 input
     .pipe(new StreamWrapper(parser))
@@ -60,5 +67,9 @@ input
             Object.assign({version: version}, opts)
         );
         if (!opts.quiet) lint(c, {'out': process.stderr, 'version': version});
+        if (opts.format && opts.file){
+            format(opts.file);
+        }
         output.write(generate(c, opts.export));
     });
+
