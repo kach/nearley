@@ -6,47 +6,21 @@
 
 var fs = require('fs');
 var nearley = require('../lib/nearley.js');
-var nomnom = require('nomnom');
+var opts = require('commander');
 var StreamWrapper = require('../lib/stream.js');
 
-var opts = nomnom
-    .script('nearley-test')
-    .option('file', {
-        position: 0,
-        help: "A grammar .js file",
-        required: true,
-    })
-    .option('input', {
-        abbr: 'i',
-        help: "An input string to parse (if not provided then read from stdin)",
-        type: 'string',
-    })
-    .option('start', {
-        abbr: 's',
-        help: "An optional start symbol (if not provided then use the parser start symbol)",
-    })
-    .option('out', {
-        abbr: 'o',
-        help: "File to output to (defaults to stdout)",
-    })
-    .option('quiet', {
-        abbr: 'q',
-        flag: true,
-        help: "Output parse results only (hide Earley table)",
-    })
-    .option('version', {
-        abbr: 'v',
-        flag: true,
-        help: "Print version and exit",
-        callback: function() {
-            return require('../package.json').version;
-        }
-    })
-    .parse();
+var version = require('../package.json').version;
+opts.version(version, '-v, --version')
+    .arguments('<file.js>')
+    .option('-i, --input [string]', 'An input string to parse (if not provided then read from stdin)')
+    .option('-s, --start [symbol]', 'An optional start symbol (if not provided then use the parser start symbol)', false)
+    .option('-o, --out [filename]', 'File to output to (defaults to stdout)', false)
+    .option('-q, --quiet', 'Output parse results only (hide Earley table)', false)
+    .parse(process.argv);
 
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
-var filename = require('path').resolve(opts.file);
+var filename = require('path').resolve(opts.args[0]);
 var grammar = nearley.Grammar.fromCompiled(require(filename));
 if (opts.start) grammar.start = opts.start
 var parser = new nearley.Parser(grammar, {

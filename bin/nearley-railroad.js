@@ -10,28 +10,15 @@ try {
 
 var fs = require('fs');
 var path = require('path');
-var nomnom = require('nomnom');
+var opts = require('commander');
 
-var opts = nomnom
-    .script('nearley-railroad')
-    .option('file', {
-        position: 0,
-        help: "A grammar .ne file (default stdin)"
-    })
-    .option('out', {
-        abbr: 'o',
-        help: "File to output to (default stdout)."
-    })
-    .option('version', {
-        abbr: 'v',
-        flag: true,
-        help: "Print version and exit",
-        callback: function() {
-            return require('../package.json').version;
-        }
-    }).parse();
+var version = require('../package.json').version;
+opts.version(version, '-v, --version')
+    .arguments('<file.ne>')
+    .option('-o, --out [filename.svg]', 'File to output to (default stdout).', false)
+    .parse(process.argv);
 
-var input = opts.file ? fs.createReadStream(opts.file) : process.stdin;
+var input = opts.args[0] ? fs.createReadStream(opts.args[0]) : process.stdin;
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
 function railroad(grm) {

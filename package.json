@@ -4,7 +4,7 @@
   "description": "Simple, fast, powerful parser toolkit for JavaScript.",
   "main": "lib/nearley.js",
   "dependencies": {
-    "nomnom": "~1.6.2",
+    "commander": "^2.19.0",
     "railroad-diagrams": "^1.0.0",
     "randexp": "0.4.6",
     "semver": "^5.4.1",
