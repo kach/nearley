@@ -179,7 +179,9 @@ notation for juggling patterns, [jsgrep](https://github.com/amireh/jsgrep)
 provides syntactic grep for JavaScript,
 [electro-grammar](https://github.com/monostable/electro-grammar) parses
 descriptions of electronic components like resistors and capacitors,
-[cicero](https://github.com/accordproject) helps create smart legal contracts.
+[cicero](https://github.com/accordproject) helps create smart legal contracts,
+[Eventbot](https://geteventbot.com) is a calendar plugin for Slack used by
+thousands of teams.
 
 **Parsing libraries**: [nearley](http://nearley.js.org) is a parser toolkit for
 JavaScript. It has a nearley-based DSL to specify parsers.
