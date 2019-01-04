@@ -1,6 +1,4 @@
 # nearley grammar
-@builtin "string.ne"
-
 @{%
 function getValue(d) {
     return d[0].value
