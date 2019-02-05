@@ -92,8 +92,10 @@ grammar](grammar)!
 
 - Take a look at a [nearley
   tutorial](https://medium.com/@gajus/parsing-absolutely-anything-in-javascript-using-earley-algorithm-886edcc31e5e)
-  written by @gajus.
+written by @gajus, or a [blog post about using nearley-unparse to generate
+murder mystery
+plots](http://humans-who-read-grammars.blogspot.com/2018/04/having-fun-with-phrase-structure.html).
 - Read my [blog post](http://hardmath123.github.io/earley.html) to learn more
   about the algorithm.
-- Read about [Marpa](http://savage.net.au/Marpa.html) to
-  learn more than you ever thought you wanted to know about parsing.
+- Read about [Marpa](http://savage.net.au/Marpa.html) to learn more than you
+  ever thought you wanted to know about parsing.

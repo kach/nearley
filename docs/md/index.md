@@ -90,11 +90,13 @@ Pick](https://github.com/npm/npm-collection-staff-picks).
 
 ### Projects using nearley
 
-**Artificial Intelligence and NLP**:
+**Artificial Intelligence, NLP, Linguistics**:
 [Shrdlite](https://github.com/ChalmersGU-AI-course/shrdlite-course-project) is
 a programming project in Artificial Intelligence, a course given at the
 University of Gothenburg and Chalmers University of Technology. It uses nearley
 for reading instructions in natural language (i.e. English).
+[lexicon-grammars](https://github.com/fauxneticien/lexicon-grammars) was used
+to parse lexicons for a project at Australian National University.
 
 **Standard formats**: [node-dmi](https://github.com/raymond-h/node-dmi) is a
 module that reads iconstate metadata from BYOND DMI files,
