@@ -8,7 +8,7 @@ describe("macro", function() {
       tests: {
         'please work': {
             code: `
-              const macro = require("../lib/macro");
+              const macro = require("../macro");
               macro("./test/grammars/whitespace.ne");
             `,
             output: `
