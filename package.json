@@ -1,6 +1,6 @@
 {
-  "name": "@zemnmez/nearley",
-  "version": "2.23.0",
+  "name": "nearley",
+  "version": "2.16.0",
   "description": "Simple, fast, powerful parser toolkit for JavaScript.",
   "main": "lib/nearley.js",
   "dependencies": {
@@ -15,8 +15,7 @@
   "files": [
     "bin/",
     "lib/",
-    "builtin/",
-    "macro.js"
+    "builtin/"
   ],
   "bin": {
     "nearleyc": "bin/nearleyc.js",
