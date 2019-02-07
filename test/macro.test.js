@@ -6,7 +6,7 @@ describe("macro", function() {
       plugin,
       babelOptions: {filename: __filename, parserOpts: {plugins: ['jsx']}},
       tests: {
-        'please work': {
+        'babel macro produces correct output': {
             code: `
               const macro = require("../macro");
               macro("./test/grammars/whitespace.ne");
