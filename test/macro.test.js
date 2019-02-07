@@ -9,7 +9,7 @@ describe("macro", function() {
         'babel macro produces correct output': {
             code: `
               const macro = require("../macro");
-              macro("./test/grammars/whitespace.ne");
+              macro("./grammars/whitespace.ne");
             `,
             output: `
       (() => {

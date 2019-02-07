@@ -7,11 +7,12 @@ const Compile = require('./lib/compile.js');
 const { version } = require('./package.json');
 const opts = require('commander');
 const fs = require('fs');
+const { dirname, resolve } = require('path');
 
 let hurl = (why) => {throw why};
 
 
-module.exports = createMacro(({references, babel}) => {
+module.exports = createMacro(({references, babel, state: {file: {opts: {filename}}}}) => {
   references.default.map(({ parentPath: path}) => {
     path.isCallExpression() || hurl('used as non-call expression');
 
@@ -38,7 +39,7 @@ module.exports = createMacro(({references, babel}) => {
       .parse(["fake", "fake", grammarFile])
 
     parser.feed('\n');
-    parser.feed(fs.readFileSync(grammarFile))
+    parser.feed(fs.readFileSync(resolve(dirname(filename), grammarFile)));
     const c = Compile(
       parser.results[0],
       Object.assign({version}, opts)
