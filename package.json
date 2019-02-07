@@ -15,7 +15,8 @@
   "files": [
     "bin/",
     "lib/",
-    "builtin/"
+    "builtin/",
+    "macro.js"
   ],
   "bin": {
     "nearleyc": "bin/nearleyc.js",
