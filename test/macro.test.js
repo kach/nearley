@@ -9,7 +9,7 @@ describe("macro", function() {
         'please work': {
             code: `
               const macro = require("../lib/macro");
-              macro("./grammars/whitespace.ne");
+              macro("./test/grammars/whitespace.ne");
             `,
             output: `
       (() => {
