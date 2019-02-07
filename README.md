@@ -1,4 +1,5 @@
 # [nearley](http://nearley.js.org) ↗️
+## With added macro support!
 [![JS.ORG](https://img.shields.io/badge/js.org-nearley-ffb400.svg?style=flat-square)](http://js.org)
 [![npm version](https://badge.fury.io/js/nearley.svg)](https://badge.fury.io/js/nearley)
 
