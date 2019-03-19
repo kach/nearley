@@ -27,21 +27,21 @@ var parser = new nearley.Parser(grammar, {
     keepHistory: true,
 });
 
-var writeTable = function (writeStream, parser) {
+var writeTable = (writeStream, parser) => {
     writeStream.write("Table length: " + parser.table.length + "\n");
     writeStream.write("Number of parses: " + parser.results.length + "\n");
     writeStream.write("Parse Charts");
-    parser.table.forEach(function (column, index) {
+    parser.table.forEach((column, index) => {
         writeStream.write("\nChart: " + index++ + "\n");
         var stateNumber = 0;
-        column.states.forEach(function (state, stateIndex) {
+        column.states.forEach((state, stateIndex) => {
             writeStream.write(stateIndex + ": " + state.toString() + "\n");
         })
     })
     writeStream.write("\n\nParse results: \n");
 }
 
-var writeResults = function (writeStream, parser) {
+var writeResults = (writeStream, parser) => {
     writeStream.write(require('util').inspect(parser.results, {colors: !opts.quiet, depth: null}));
     writeStream.write("\n");
 }
@@ -49,7 +49,7 @@ var writeResults = function (writeStream, parser) {
 if (typeof(opts.input) === "undefined") {
     process.stdin
         .pipe(new StreamWrapper(parser))
-        .on('finish', function() {
+        .on('finish', () => {
             if (!opts.quiet) writeTable(output, parser);
             writeResults(output, parser);
         });
