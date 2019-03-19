@@ -27,7 +27,7 @@ var lint = require('../lib/lint.js');
 
 input
     .pipe(new StreamWrapper(parser))
-    .on('finish', function() {
+    .on('finish', () => {
         parser.feed('\n');
         var c = Compile(
             parser.results[0],
