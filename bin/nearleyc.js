@@ -31,8 +31,8 @@ input
         parser.feed('\n');
         var c = Compile(
             parser.results[0],
-            Object.assign({version: version}, opts)
+            Object.assign({version}, opts)
         );
-        if (!opts.quiet) lint(c, {'out': process.stderr, 'version': version});
+        if (!opts.quiet) lint(c, {'out': process.stderr, version});
         output.write(generate(c, opts.export));
     });
