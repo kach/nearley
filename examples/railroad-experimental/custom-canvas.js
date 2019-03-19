@@ -12,7 +12,7 @@ function railroad(grm) {
     }
 
     var rules = {};
-    grm.forEach(function(instr) {
+    grm.forEach(instr => {
         if (instr.rules) {
             if (!rules[instr.name]) {
                 rules[instr.name] = [];
@@ -21,7 +21,7 @@ function railroad(grm) {
         }
     });
     
-    Object.keys(rules).forEach(function(r) {
+    Object.keys(rules).forEach(r => {
         diagram(r);
     });
 
@@ -49,7 +49,7 @@ function railroad(grm) {
             if (tok.subexpression) {
                 var currentbound = new Point(0, 2*DIMENSIONS.arcrad);
                 var rightPoint = 0;
-                tok.subexpression.forEach(function(e) {
+                tok.subexpression.forEach(e => {
                     
                     ctx.beginPath();
                     ctx.arc(0, DIMENSIONS.arcrad, DIMENSIONS.arcrad, 0, Math.PI*3/2, true);
@@ -175,7 +175,7 @@ function railroad(grm) {
                 return new Point(0,0);
             } else if (tok.tokens) {
                 var currentbound = new Point(0, 0);
-                tok.tokens.forEach(function(t) {
+                tok.tokens.forEach(t => {
                     ctx.save();
                     ctx.translate(currentbound.x, 0);
                     ctx.beginPath();
@@ -223,7 +223,7 @@ function railroad(grm) {
     }
 }
 
-window.addEventListener('load', function() {
+window.addEventListener('load', () => {
     railroad(test2);
 }, false);
 
