@@ -9,7 +9,7 @@
 var NullPP = function(argument) {return null;}
 
 function rule(name, symbols, proc) {
-    return { name: name, symbols: symbols, postprocess: proc };
+    return { name, symbols, postprocess: proc };
 }
 
 function m(s) {
