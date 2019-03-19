@@ -61,7 +61,7 @@ Metalsmith(__dirname)
     engine: 'handlebars',
     default: 'template.html',
   }))
-  .build(function(err) {
+  .build(err => {
     if (err) throw err;
   })
 
