@@ -10,14 +10,14 @@ function read(filename) {
 }
 
 
-describe('Parser: API', function() {
+describe('Parser: API', () => {
 
     let testGrammar = compile(`
     y -> x:+
     x -> [a-z0-9] | "\\n"
     `)
 
-    it('shows line number in errors', function() {
+    it('shows line number in errors', () => {
       expect(() => parse(testGrammar, 'abc\n12!')).toThrow(
         'invalid syntax at line 2 col 3:\n' +
         '\n' +
@@ -26,7 +26,7 @@ describe('Parser: API', function() {
       )
     })
 
-    it('shows token index in errors', function() {
+    it('shows token index in errors', () => {
       expect(() => parse(testGrammar, ['1', '2', '!'])).toThrow(
         'invalid syntax at index 2'
       )
@@ -34,7 +34,7 @@ describe('Parser: API', function() {
 
     var tosh = compile(read("examples/tosh.ne"));
 
-    it('can save state', function() {
+    it('can save state', () => {
         let first = "say 'hello'";
         let second = " for 2 secs";
         let p = new nearley.Parser(tosh, { keepHistory: true });
@@ -46,7 +46,7 @@ describe('Parser: API', function() {
         expect(col.lexerState.col).toBe(first.length)
     });
 
-    it('can rewind', function() {
+    it('can rewind', () => {
         let first = "say 'hello'";
         let second = " for 2 secs";
         let p = new nearley.Parser(tosh, { keepHistory: true });
@@ -64,12 +64,12 @@ describe('Parser: API', function() {
         expect(p.results).toEqual([['say:', 'hello']]);
     });
 
-    it("won't rewind without `keepHistory` option", function() {
+    it("won't rewind without `keepHistory` option", () => {
         let p = new nearley.Parser(tosh, {});
         expect(() => p.rewind()).toThrow()
     })
 
-    it('restores line numbers', function() {
+    it('restores line numbers', () => {
       let p = new nearley.Parser(testGrammar);
       p.feed('abc\n')
       expect(p.save().lexerState.line).toBe(2)
@@ -82,7 +82,7 @@ describe('Parser: API', function() {
       p.feed('z')
     });
 
-    it('restores column number', function() {
+    it('restores column number', () => {
       let p = new nearley.Parser(testGrammar);
       p.feed('foo\nbar')
       var col = p.save();
@@ -104,7 +104,7 @@ describe('Parser: API', function() {
 
 describe('Parser: examples', () => {
 
-    it('nullable whitespace bug', function() {
+    it('nullable whitespace bug', () => {
         var wsb = compile(read("test/grammars/whitespace.ne"));
         expect(parse(wsb, "(x)")).toEqual(
             [ [ [ [ '(', null, [ [ [ [ 'x' ] ] ] ], null, ')' ] ] ] ]);
@@ -131,7 +131,7 @@ describe('Parser: examples', () => {
         ];
 
         for (let i in failCases) {
-            expect(function() { parse(parentheses, failCases[i]); }).toThrow()
+            expect(() => { parse(parentheses, failCases[i]); }).toThrow()
         }
 
         // These are invalid inputs but the parser will not complain
@@ -139,7 +139,7 @@ describe('Parser: examples', () => {
         expect(parse(parentheses, '((((())))(())()')).toEqual([]);
     });
 
-    it('tokens', function() {
+    it('tokens', () => {
         var tokc = compile(read("examples/token.ne"));
         expect(parse(tokc, [123, 456, " ", 789])).toEqual([ [123, [ [ 456, " ", 789 ] ]] ]);
     });
