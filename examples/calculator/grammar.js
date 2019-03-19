@@ -7,7 +7,7 @@ var grammar = {
     {"name": "main", "symbols": ["_", "AS", "_"], "postprocess": function(d) {return d[1]; }},
     {"name": "P", "symbols": [{"literal":"("}, "_", "AS", "_", {"literal":")"}], "postprocess": function(d) {return d[2]; }},
     {"name": "P", "symbols": ["N"], "postprocess": id},
-    {"name": "E", "symbols": ["P", "_", {"literal":"^"}, "_", "E"], "postprocess": function(d) {return Math.pow(d[0], d[4]); }},
+    {"name": "E", "symbols": ["P", "_", {"literal":"^"}, "_", "E"], "postprocess": function(d) {return d[0] ** d[4]; }},
     {"name": "E", "symbols": ["P"], "postprocess": id},
     {"name": "MD", "symbols": ["MD", "_", {"literal":"*"}, "_", "E"], "postprocess": function(d) {return d[0]*d[4]; }},
     {"name": "MD", "symbols": ["MD", "_", {"literal":"/"}, "_", "E"], "postprocess": function(d) {return d[0]/d[4]; }},
