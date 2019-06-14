@@ -111,3 +111,11 @@ compile grammars with a gulpfile.
 
 **Node** users can quickly create the framework for a large nearley-based
 project using [nearley-template](https://github.com/appology/nearley-template).
+
+**Parcel** users can use
+[parcel-plugin-nearley](https://github.com/adam1658/parcel-plugin-nearley) by
+Adam Rich to load grammars directly.
+
+**Jest** users can use
+[jest-transform-nearley](https://github.com/adam1658/jest-transform-nearley) by
+Adam Rich to load grammars directly.
