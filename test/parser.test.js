@@ -19,16 +19,13 @@ describe('Parser: API', function() {
 
     it('shows line number in errors', function() {
       expect(() => parse(testGrammar, 'abc\n12!')).toThrow(
-        'invalid syntax at line 2 col 3:\n' +
-        '\n' +
-        '  12!\n' +
-        '    ^'
+        /line 2 col 3/
       )
     })
 
     it('shows token index in errors', function() {
       expect(() => parse(testGrammar, ['1', '2', '!'])).toThrow(
-        'invalid syntax at index 2'
+        /at index 2/
       )
     })
 
