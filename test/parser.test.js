@@ -29,6 +29,26 @@ describe('Parser: API', function() {
       )
     })
 
+    it('shows user friend error with state stack info', function() {
+        const expectedError = [
+            "Syntax error at line 2 col 3:",
+            "",
+            "  12!",
+            "    ^",
+            "Unexpected \"!\". Instead, I was expecting to see one of the following:",
+            "",
+            "A character matching /[a-z0-9]/based on:",
+            "    x →  ● /[a-z0-9]/",
+            "    y$ebnf$1 → y$ebnf$1 ● x",
+            "    y →  ● y$ebnf$1",
+            "A \"\\n\"based on:\n    x →  ● \"\\n\"",
+            "    y$ebnf$1 → y$ebnf$1 ● x",
+            "    y →  ● y$ebnf$1",
+            ""
+        ].join("\n");
+        expect(() => parse(testGrammar, 'abc\n12!')).toThrow(expectedError);
+    });
+
     var tosh = compile(read("examples/tosh.ne"));
 
     it('can save state', function() {
