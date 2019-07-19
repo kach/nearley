@@ -37,11 +37,11 @@ describe('Parser: API', function() {
             "    ^",
             "Unexpected \"!\". Instead, I was expecting to see one of the following:",
             "",
-            "A character matching /[a-z0-9]/based on:",
+            "A character matching /[a-z0-9]/ based on:",
             "    x →  ● /[a-z0-9]/",
             "    y$ebnf$1 → y$ebnf$1 ● x",
             "    y →  ● y$ebnf$1",
-            "A \"\\n\"based on:\n    x →  ● \"\\n\"",
+            "A \"\\n\" based on:\n    x →  ● \"\\n\"",
             "    y$ebnf$1 → y$ebnf$1 ● x",
             "    y →  ● y$ebnf$1",
             ""
