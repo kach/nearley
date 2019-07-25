@@ -16,6 +16,16 @@ describe('Parser: API', function() {
     y -> x:+
     x -> [a-z0-9] | "\\n"
     `)
+    let testGrammar2 = compile(`
+    input -> ws a ws
+    a -> "a"
+    ws -> null
+    ws -> wsc ws
+    wsc -> " "`)
+    let testGrammar3 = compile(`
+    input -> ws a ws
+    a -> "a"
+    ws -> [ ]:*`)
 
     it('shows line number in errors', function() {
       expect(() => parse(testGrammar, 'abc\n12!')).toThrow(
@@ -47,6 +57,18 @@ describe('Parser: API', function() {
             ""
         ].join("\n");
         expect(() => parse(testGrammar, 'abc\n12!')).toThrow(expectedError);
+    });
+
+    it('collapes identical consecutive lines', function() {
+        expect(() => parse(testGrammar2, `    b`))
+            .toThrow(/ws → wsc ● ws\n\s+⬆ ︎3 more lines identical to this/)
+    });
+
+    it('does not infinitely recurse on self-referential states', function() {
+        // Would throw maximum call stack size exceeded
+        // if infinite recursion
+        expect(() => parse(testGrammar3, `    b`))
+            .toThrow(/Unexpected \"b\"/);
     });
 
     var tosh = compile(read("examples/tosh.ne"));
