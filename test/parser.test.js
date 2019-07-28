@@ -16,21 +16,60 @@ describe('Parser: API', function() {
     y -> x:+
     x -> [a-z0-9] | "\\n"
     `)
+    let testGrammar2 = compile(`
+    input -> ws a ws
+    a -> "a"
+    ws -> null
+    ws -> wsc ws
+    wsc -> " "`)
+    let testGrammar3 = compile(`
+    input -> ws a ws
+    a -> "a"
+    ws -> [ ]:*`)
 
     it('shows line number in errors', function() {
       expect(() => parse(testGrammar, 'abc\n12!')).toThrow(
-        'invalid syntax at line 2 col 3:\n' +
-        '\n' +
-        '  12!\n' +
-        '    ^'
+        /line 2 col 3/
       )
     })
 
     it('shows token index in errors', function() {
       expect(() => parse(testGrammar, ['1', '2', '!'])).toThrow(
-        'invalid syntax at index 2'
+        /at index 2/
       )
     })
+
+    it('shows user friend error with state stack info', function() {
+        const expectedError = [
+            "Syntax error at line 2 col 3:",
+            "",
+            "  12!",
+            "    ^",
+            "Unexpected \"!\". Instead, I was expecting to see one of the following:",
+            "",
+            "A character matching /[a-z0-9]/ based on:",
+            "    x →  ● /[a-z0-9]/",
+            "    y$ebnf$1 → y$ebnf$1 ● x",
+            "    y →  ● y$ebnf$1",
+            "A \"\\n\" based on:\n    x →  ● \"\\n\"",
+            "    y$ebnf$1 → y$ebnf$1 ● x",
+            "    y →  ● y$ebnf$1",
+            ""
+        ].join("\n");
+        expect(() => parse(testGrammar, 'abc\n12!')).toThrow(expectedError);
+    });
+
+    it('collapes identical consecutive lines', function() {
+        expect(() => parse(testGrammar2, `    b`))
+            .toThrow(/ws → wsc ● ws\n\s+⬆ ︎3 more lines identical to this/)
+    });
+
+    it('does not infinitely recurse on self-referential states', function() {
+        // Would throw maximum call stack size exceeded
+        // if infinite recursion
+        expect(() => parse(testGrammar3, `    b`))
+            .toThrow(/Unexpected \"b\"/);
+    });
 
     var tosh = compile(read("examples/tosh.ne"));
 
