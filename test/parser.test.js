@@ -4,6 +4,8 @@ const expect = require('expect');
 
 const nearley = require('../lib/nearley');
 const {compile, parse} = require('./_shared');
+const colors = require("colors/safe");
+colors.enabled = false;
 
 function read(filename) {
     return fs.readFileSync(filename, 'utf-8');
@@ -69,6 +71,36 @@ describe('Parser: API', function() {
         // if infinite recursion
         expect(() => parse(testGrammar3, `    b`))
             .toThrow(/Unexpected \"b\"/);
+    });
+
+    describe("colored output", function() {
+        beforeEach(function() {
+            colors.enabled = true;
+        });
+        afterEach(function() {
+            colors.enabled = false;
+        });
+
+        it("generates colored output", function() {
+            var expectedError = [
+                "Syntax error at line 2 col 3:",
+                "",
+                "  12!",
+                "    ^",
+                "Unexpected \"!\". Instead, I was expecting to see one of the following:",
+                "",
+                "A character matching \u001b[46m\u001b[30m/[a-z0-9]/\u001b[39m\u001b[49m based on:",
+                "    \u001b[33mx\u001b[39m →  ● \u001b[37m/[a-z0-9]/\u001b[39m",
+                "    \u001b[33my$ebnf$1\u001b[39m → \u001b[32my$ebnf$1\u001b[39m ● \u001b[33mx\u001b[39m",
+                "    \u001b[33my\u001b[39m →  ● \u001b[33my$ebnf$1\u001b[39m",
+                "A \u001b[46m\u001b[30m\"\\n\"\u001b[39m\u001b[49m based on:",
+                "    \u001b[33mx\u001b[39m →  ● \u001b[37m\"\\n\"\u001b[39m",
+                "    \u001b[33my$ebnf$1\u001b[39m → \u001b[32my$ebnf$1\u001b[39m ● \u001b[33mx\u001b[39m",
+                "    \u001b[33my\u001b[39m →  ● \u001b[33my$ebnf$1\u001b[39m",
+                ""
+            ].join("\n");
+            expect(() => parse(testGrammar, 'abc\n12!')).toThrow(expectedError);
+        });
     });
 
     var tosh = compile(read("examples/tosh.ne"));
