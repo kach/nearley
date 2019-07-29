@@ -4,11 +4,12 @@
   "description": "Simple, fast, powerful parser toolkit for JavaScript.",
   "main": "lib/nearley.js",
   "dependencies": {
+    "colors": "^1.3.3",
     "commander": "^2.19.0",
+    "moo": "^0.4.3",
     "railroad-diagrams": "^1.0.0",
     "randexp": "0.4.6",
-    "semver": "^5.4.1",
-    "moo": "^0.4.3"
+    "semver": "^5.4.1"
   },
   "files": [
     "bin/",
