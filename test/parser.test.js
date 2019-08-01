@@ -26,6 +26,7 @@ describe('Parser: API', function() {
     input -> ws a ws
     a -> "a"
     ws -> [ ]:*`)
+    let jsonGrammar = compile(read("examples/json.ne"))
 
     it('shows line number in errors', function() {
       expect(() => parse(testGrammar, 'abc\n12!')).toThrow(
@@ -43,20 +44,45 @@ describe('Parser: API', function() {
         const expectedError = [
             "Syntax error at line 2 col 3:",
             "",
-            "  12!",
-            "    ^",
+            "1 abc",
+            "2 12!",
+            "    ⬆︎",
+            "",
             "Unexpected \"!\". Instead, I was expecting to see one of the following:",
             "",
             "A character matching /[a-z0-9]/ based on:",
             "    x →  ● /[a-z0-9]/",
             "    y$ebnf$1 → y$ebnf$1 ● x",
             "    y →  ● y$ebnf$1",
-            "A \"\\n\" based on:\n    x →  ● \"\\n\"",
+            "A \"\\n\" based on:",
+            "    x →  ● \"\\n\"",
             "    y$ebnf$1 → y$ebnf$1 ● x",
             "    y →  ● y$ebnf$1",
             ""
         ].join("\n");
         expect(() => parse(testGrammar, 'abc\n12!')).toThrow(expectedError);
+    });
+
+    it('displays user friendly error even on lexer errors', function() {
+        expect(() => parse(jsonGrammar, 'abc'))
+            .toThrow(/\(lexer error\).*I was expecting to see one of the following:/);
+    });
+
+    it('displays current parser state if no more token expected', function() {
+        var grammar = compile(`input -> "abc"`);
+        var expectedError = [
+            "Syntax error at line 1 col 4:",
+            "",
+            "1 abcd",
+            "     ⬆︎",
+            "",
+            "Unexpected \"d\". I did not expect any more input. Here is the state of my parse table:",
+            "",
+            "    input$string$1 → \"a\" \"b\" \"c\" ● ",
+            "    input → input$string$1 ● ",
+            ""
+        ].join("\n");
+        expect(() => parse(grammar, "abcd")).toThrow(expectedError);
     });
 
     it('collapes identical consecutive lines', function() {
