@@ -51,7 +51,12 @@ describe("bin/nearleyc", function() {
     });
 
     it('builds for CoffeeScript', function() {
-        const {outPath, stdout, stderr} = externalNearleyc("grammars/coffeescript-test.ne", ".coffee");
+		this.timeout(0);
+        const {
+			outPath,
+			stdout,
+			stderr
+		} = externalNearleyc("grammars/coffeescript-test.ne", ".coffee");
         expect(stderr).toBe("");
         expect(stdout).toBe("");
         sh(`coffee -c ${outPath}.coffee`);
@@ -60,14 +65,26 @@ describe("bin/nearleyc", function() {
     });
 
     it('builds for TypeScript', function() {
-        this.timeout(10000); // It takes a while to run tsc!
-        const {outPath, stdout, stderr} = externalNearleyc("grammars/typescript-test.ne", ".ts");
+        this.timeout(100000); // It takes a while to run tsc!
+        let {outPath, stdout, stderr} = externalNearleyc("grammars/typescript-test.ne", ".ts");
         expect(stderr).toBe("");
         expect(stdout).toBe("");
-        sh(`tsc ${outPath}.ts`);
+        ({stdout, stderr} = sh(`tsc ${outPath}.ts --noEmitOnError`));
+        expect(stderr).toBe("");
         const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
         expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
     });
+
+	it('handles formatError nicely', function () {
+		this.timeout(0); // take out the timer. This way `tsc` is allowed to take a while!
+		const {outPath, stdout, stderr} = externalNearleyc("grammars/calculator.ne", ".ts");
+		expect(stderr).toBe("");
+		expect(stdout).toBe("");
+		sh(`tsc ${outPath}.ts`);
+		const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
+		const lnx = parse.bind(null, grammar, "ln (x)");
+		expect(lnx).toThrow();
+	})
 
     it('builds modules in folders', function() {
         const {outPath, stdout, stderr} = externalNearleyc("grammars/folder-test.ne", '.js');
