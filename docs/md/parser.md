@@ -149,6 +149,15 @@ file. This can be useful to write your postprocessors in a different language,
 and to get type annotations if you wish to use nearley in a statically typed
 dialect of JavaScript.
 
+#### Typescript Preprocessor Changes
+
+If you have recently upgraded to a newer version of nearly, you might have run
+into an issue with `error TS2345` talking about a variable
+`missing the following properties from type 'CompiledRules': ParserStart, ParserRules`
+This is a result of a change in the output format of the grammar, but is very easily fixed.
+Just change the way you import the grammar from `import * as grammar from "./path/to/grammar"`
+to `import grammar from "./path/to/grammar"` and everything should compile nicely again.
+
 ### What's next?
 
 Now that you know how to use parsers, [learn how to add a tokenizer to speed
