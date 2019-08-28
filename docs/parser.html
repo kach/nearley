@@ -376,6 +376,13 @@ instead choose to compile to CoffeeScript or TypeScript by adding
 file. This can be useful to write your postprocessors in a different language,
 and to get type annotations if you wish to use nearley in a statically typed
 dialect of JavaScript.</p>
+<h4 id="typescript-preprocessor-changes">Typescript Preprocessor Changes</h4>
+<p>If you have recently upgraded to a newer version of nearly, you might have run
+into an issue with <code>error TS2345</code> talking about a variable
+<code>missing the following properties from type &#39;CompiledRules&#39;: ParserStart, ParserRules</code>
+This is a result of a change in the output format of the grammar, but is very easily fixed.
+Just change the way you import the grammar from <code>import * as grammar from &quot;./path/to/grammar&quot;</code>
+to <code>import grammar from &quot;./path/to/grammar&quot;</code> and everything should compile nicely again.</p>
 <h3 id="what-s-next-">What’s next?</h3>
 <p>Now that you know how to use parsers, <a href="tokenizers">learn how to add a tokenizer to speed
 things up!</a></p>
