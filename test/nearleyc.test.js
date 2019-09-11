@@ -65,7 +65,7 @@ describe("bin/nearleyc", () => {
         expect(stderr).toBe("");
         expect(stdout).toBe("");
         sh(`tsc ${outPath}.ts`);
-        const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
+        const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`).default);
         expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
     });
 

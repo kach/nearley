@@ -183,7 +183,8 @@ provides syntactic grep for JavaScript,
 descriptions of electronic components like resistors and capacitors,
 [cicero](https://github.com/accordproject) helps create smart legal contracts,
 [Eventbot](https://geteventbot.com) is a calendar plugin for Slack used by
-thousands of teams.
+thousands of teams, [Obyte](https://github.com/byteball/ocore) is a
+cryptocurrency platform.
 
 **Parsing libraries**: [nearley](http://nearley.js.org) is a parser toolkit for
 JavaScript. It has a nearley-based DSL to specify parsers.

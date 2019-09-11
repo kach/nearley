@@ -6,7 +6,7 @@ function getValue(d) {
 
 function literals(list) {
     var rules = {}
-    for (let lit of list) {
+    for (var lit of list) {
         rules[lit] = {match: lit, next: 'main'}
     }
     return rules
