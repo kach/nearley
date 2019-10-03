@@ -393,12 +393,10 @@ necessary. You can usually use a tokenizer instead.</p>
 </blockquote>
 </li>
 </ul>
-<p>nearley provides two built-in postprocessors for the most common scenarios:</p>
+<p>nearley provides one built-in postprocessor:</p>
 <ul>
 <li><code>id</code> returns the first element of the <code>data</code> array. This is useful to
 extract the content of a single-element array: <code>foo -&gt; bar {% id %}</code></li>
-<li><code>nuller</code> returns the JavaScript <code>null</code> value. This is useful for whitespace
-rules: <code>space -&gt; &quot; &quot; {% nuller %}</code></li>
 </ul>
 <h3 id="more-syntax-tips-and-tricks">More syntax: tips and tricks</h3>
 <h4 id="comments">Comments</h4>
