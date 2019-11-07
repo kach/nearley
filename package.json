@@ -4,16 +4,19 @@
   "description": "Simple, fast, powerful parser toolkit for JavaScript.",
   "main": "lib/nearley.js",
   "dependencies": {
+    "babel-plugin-macros": "^2.4.5",
+    "babel-plugin-tester": "^5.5.2",
     "commander": "^2.19.0",
+    "moo": "^0.4.3",
     "railroad-diagrams": "^1.0.0",
     "randexp": "0.4.6",
-    "semver": "^5.4.1",
-    "moo": "^0.4.3"
+    "semver": "^5.4.1"
   },
   "files": [
     "bin/",
     "lib/",
-    "builtin/"
+    "builtin/",
+    "macro.js"
   ],
   "bin": {
     "nearleyc": "bin/nearleyc.js",
