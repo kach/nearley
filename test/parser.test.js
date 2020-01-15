@@ -198,5 +198,15 @@ describe('Parser: examples', () => {
             .toEqual([["setVar:to:","foo",["*",["*",2,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]],["-",1,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]]]]]);
     })
 
-})
+    it('fun-lang memory test (shouldn\'t use excessive memory for error reporting)', () => {
+        var fun = compile(read("examples/fun-lang.ne"));
+        expect(() =>
+            parse(fun, [
+                "fun count_smileys(faces) [",
+                "return count(filter(fun (face) [",
+                "   has_eyes = face[0] == \":\" #",
+                "], faces))"
+            ].join("\n"))).toThrow(/Unexpected comment token/)
+    })
 
+})
