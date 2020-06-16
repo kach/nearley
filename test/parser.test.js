@@ -183,6 +183,11 @@ describe('Parser: examples', () => {
         expect(parse(tokc, [123, 456, " ", 789])).toEqual([ [123, [ [ 456, " ", 789 ] ]] ]);
     });
 
+    it('tokens 2', () => {
+        var tokc = compile(read("examples/token-2.ne"));
+        expect(() => parse(tokc, ["print", "blah", 12, ";", ";"])).toThrow(/A token matching x \=\> Number\.isInteger\(x\)/);
+    })
+
     const json = compile(read("examples/json.ne"));
     it('json', () => {
         const test1 = '{ "a" : true, "b" : "䕧⡱a\\\\\\"b\\u4567\\u2871䕧⡱\\t\\r\\f\\b\\n", "c" : null, "d" : [null, true, false, null] }\n'
