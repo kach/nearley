@@ -63,3 +63,18 @@ JavaScript parser with nearley and contributed ideas for EBNF support. Joshua
 T. Corbin refactored the compiler to be much, much prettier. Bojidar Marinov
 implemented postprocessors-in-other-languages. Shachar Itzhaky fixed a subtle
 bug with nullables.
+
+## Citing nearley
+
+If you are citing nearley in academic work, please use the following BibTeX
+entry.
+
+```bibtex
+@misc{nearley,
+    author = "Kartik Chandra and Tim Radvan",
+    title  = "{nearley}: a parsing toolkit for {JavaScript}",
+    year   = {2014},
+    doi    = {10.5281/zenodo.3897993},
+    url    = {https://github.com/kach/nearley}
+}
+```
