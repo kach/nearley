@@ -47,7 +47,9 @@ is inspired by Roly Fentanes' [randexp](https://fent.github.io/randexp.js/),
 which does the same thing with regular expressions.
 
 Chase Meadors wrote a standalone nearley-unparse module,
-[nearley-generator](https://github.com/cemulate/nearley-generator).
+[nearley-generator](https://github.com/cemulate/nearley-generator), which
+powers [mLab](https://cemulate.github.io/the-mlab/), and you can play with it
+in the browser [here](http://bnfplayground.pauliankline.com).
 
 ### nearley-railroad: Automagical Railroad Diagrams
 
