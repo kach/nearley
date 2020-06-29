@@ -82,6 +82,11 @@ describe('Parser: API', function() {
             "    input → input$string$1 ● ",
             ""
         ].join("\n");
+        try {
+            parse(grammar, "abcd")
+        } catch (e) {
+            console.log(e.message);
+        }
         expect(() => parse(grammar, "abcd")).toThrow(expectedError);
     });
 
@@ -209,6 +214,11 @@ describe('Parser: examples', () => {
         expect(parse(tokc, [123, 456, " ", 789])).toEqual([ [123, [ [ 456, " ", 789 ] ]] ]);
     });
 
+    it('tokens 2', () => {
+        var tokc = compile(read("examples/token-2.ne"));
+        expect(() => parse(tokc, ["print", "blah", 12, ";", ";"])).toThrow(/A token matching x \=\> Number\.isInteger\(x\)/);
+    })
+
     const json = compile(read("examples/json.ne"));
     it('json', () => {
         const test1 = '{ "a" : true, "b" : "䕧⡱a\\\\\\"b\\u4567\\u2871䕧⡱\\t\\r\\f\\b\\n", "c" : null, "d" : [null, true, false, null] }\n'
@@ -224,5 +234,15 @@ describe('Parser: examples', () => {
             .toEqual([["setVar:to:","foo",["*",["*",2,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]],["-",1,["computeFunction:of:","e ^",["+",["*",["readVariable","foo"],-0.05],0.5]]]]]]);
     })
 
-})
+    it('fun-lang memory test (shouldn\'t use excessive memory for error reporting)', () => {
+        var fun = compile(read("examples/fun-lang.ne"));
+        expect(() =>
+            parse(fun, [
+                "fun count_smileys(faces) [",
+                "return count(filter(fun (face) [",
+                "   has_eyes = face[0] == \":\" #",
+                "], faces))"
+            ].join("\n"))).toThrow(/Unexpected comment token/)
+    })
 
+})

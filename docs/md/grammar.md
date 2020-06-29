@@ -138,13 +138,10 @@ reject)`. Here,
   > slower to parse. So, we encourage you not to use `reject` unless absolutely
   > necessary. You can usually use a tokenizer instead.
 
-nearley provides two built-in postprocessors for the most common scenarios:
+nearley provides one built-in postprocessor:
 
 - `id` returns the first element of the `data` array. This is useful to
   extract the content of a single-element array: `foo -> bar {% id %}`
-- `nuller` returns the JavaScript `null` value. This is useful for whitespace
-  rules: `space -> " " {% nuller %}`
-
 
 ### More syntax: tips and tricks
 

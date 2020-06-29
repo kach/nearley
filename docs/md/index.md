@@ -184,7 +184,8 @@ descriptions of electronic components like resistors and capacitors,
 [cicero](https://github.com/accordproject) helps create smart legal contracts,
 [Eventbot](https://geteventbot.com) is a calendar plugin for Slack used by
 thousands of teams, [Obyte](https://github.com/byteball/ocore) is a
-cryptocurrency platform.
+cryptocurrency platform, [OptiCSS](https://github.com/linkedin/opticss) is a
+CSS optimizer built by LinkedIn.
 
 **Parsing libraries**: [nearley](http://nearley.js.org) is a parser toolkit for
 JavaScript. It has a nearley-based DSL to specify parsers.
