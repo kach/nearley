@@ -82,11 +82,6 @@ describe('Parser: API', function() {
             "    input → input$string$1 ● ",
             ""
         ].join("\n");
-        try {
-            parse(grammar, "abcd")
-        } catch (e) {
-            console.log(e.message);
-        }
         expect(() => parse(grammar, "abcd")).toThrow(expectedError);
     });
 
