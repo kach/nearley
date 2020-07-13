@@ -87,7 +87,7 @@ describe('Parser: API', function() {
 
     it('collapes identical consecutive lines', function() {
         expect(() => parse(testGrammar2, `    b`))
-            .toThrow(/ws → wsc ● ws\n\s+⬆ ︎3 more lines identical to this/)
+            .toThrow(/ws → wsc ● ws\n\s+\^ 3 more lines identical to this/)
     });
 
     it('does not infinitely recurse on self-referential states', function() {
