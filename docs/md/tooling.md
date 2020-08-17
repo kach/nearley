@@ -64,6 +64,10 @@ $ nearley-railroad regex.ne -o grammar.html
 
 See a bigger example [here](/www/railroad-demo).
 
+You can also find a more in-depth version of nearley-railroad [here](https://github.com/Floffah/better-nearley-railroad) which should be used for generating docs for nearley grammars that span **multiple files** or if you just want the luxury if templates
+
+This version has multiple examples [here](https://floffah.github.io/better-nearley-railroad/)
+
 (This feature is powered by
 [`railroad-diagrams`](https://github.com/tabatkins/railroad-diagrams) by
 tabatkins.)
