@@ -1,14 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [nearley ↗️](#nearley-)
-  - [Documentation](#documentation)
-  - [Contributing](#contributing)
-  - [Citing nearley](#citing-nearley)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # [nearley](http://nearley.js.org) ↗️
 [![JS.ORG](https://img.shields.io/badge/js.org-nearley-ffb400.svg?style=flat-square)](http://js.org)
 [![npm version](https://badge.fury.io/js/nearley.svg)](https://badge.fury.io/js/nearley)
