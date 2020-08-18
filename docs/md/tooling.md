@@ -64,9 +64,13 @@ $ nearley-railroad regex.ne -o grammar.html
 
 See a bigger example [here](/www/railroad-demo).
 
-(This feature is powered by
+This feature is powered by
 [`railroad-diagrams`](https://github.com/tabatkins/railroad-diagrams) by
-tabatkins.)
+tabatkins.
+
+See also:
+[better-nearley-railroad](https://github.com/Floffah/better-nearley-railroad)
+(a third-party alternative)
 
 ### Other Tools
 
