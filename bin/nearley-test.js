@@ -20,6 +20,9 @@ opts.version(version, '-v, --version')
 
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
+if (!opts.args[0]) {
+    throw new Error('Please supply a grammer.js file path as a command-line argument');
+}
 var filename = require('path').resolve(opts.args[0]);
 var grammar = nearley.Grammar.fromCompiled(require(filename));
 if (opts.start) grammar.start = opts.start
