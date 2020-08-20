@@ -95,7 +95,10 @@ However, you can use any lexer that conforms to the following interface:
 
 > Note: if you are searching for a lexer that allows indentation-aware
 > grammars (like in Python), you can still use moo. See [this
-> example](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa)
+> example](https://gist.github.com/nathan/d8d1adea38a1ef3a6d6a06552da641aa) or
+> the
+> [moo-indentation-lexer](https://www.npmjs.com/package/moo-indentation-lexer">moo-indentation-lexer)
+> module.
 
 
 ### Custom token matchers
