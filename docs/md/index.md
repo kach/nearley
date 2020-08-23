@@ -187,6 +187,10 @@ thousands of teams, [Obyte](https://github.com/byteball/ocore) is a
 cryptocurrency platform, [OptiCSS](https://github.com/linkedin/opticss) is a
 CSS optimizer built by LinkedIn.
 
+**Other**:
+[ProceduralPsychEpisode](https://github.com/PatrickMurphy/ProceduralPsychEpisode)
+generates "random episodes of the hilarious but formulaic show"
+
 **Parsing libraries**: [nearley](http://nearley.js.org) is a parser toolkit for
 JavaScript. It has a nearley-based DSL to specify parsers.
 
