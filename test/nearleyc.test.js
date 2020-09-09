@@ -19,10 +19,10 @@ function prettyPrint(grammar) {
 }
 
 
-describe("bin/nearleyc", function() {
+describe("bin/nearleyc", () => {
     after(cleanup)
 
-    it('builds for ES5', function() {
+    it('builds for ES5', () => {
         const {outPath, stdout, stderr} = externalNearleyc("grammars/parens.ne", '.js');
         expect(stderr).toBe("");
         expect(stdout).toBe("");
@@ -50,7 +50,7 @@ describe("bin/nearleyc", function() {
         }
     });
 
-    it('builds for CoffeeScript', function() {
+    it('builds for CoffeeScript', () => {
         const {outPath, stdout, stderr} = externalNearleyc("grammars/coffeescript-test.ne", ".coffee");
         expect(stderr).toBe("");
         expect(stdout).toBe("");
@@ -69,33 +69,33 @@ describe("bin/nearleyc", function() {
         expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
     });
 
-    it('builds modules in folders', function() {
+    it('builds modules in folders', () => {
         const {outPath, stdout, stderr} = externalNearleyc("grammars/folder-test.ne", '.js');
         expect(stderr).toBe("");
         expect(stdout).toBe("");
         const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
     });
 
-    it('builds modules with multiple includes of the same file', function() {
+    it('builds modules with multiple includes of the same file', () => {
         const {outPath, stdout, stderr} = externalNearleyc("grammars/multi-include-test.ne", '.js');
         expect(stderr).toBe("");
         expect(stdout).toBe("");
         const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
     });
 
-    it("warns about undefined symbol", function () {
+    it("warns about undefined symbol", () => {
         const {stdout, stderr} = externalNearleyc("grammars/warning-undefined-test.ne", '.js');
         expect(stderr).toNotBe("");
         expect(stdout).toBe("");
     });
 
-    it("doesn't warn when used with the --quiet option", function () {
+    it("doesn't warn when used with the --quiet option", () => {
         const {stdout, stderr} = externalNearleyc("grammars/warning-undefined-test.ne", '.js', ['--quiet']);
         expect(stderr).toBe("");
         expect(stdout).toBe("");
     });
 
-    it("allows trailing comments without newline terminators", function () {
+    it("allows trailing comments without newline terminators", () => {
         const {stdout, stderr} = externalNearleyc("grammars/trailing-comment.ne", '.js');
         expect(stderr).toBe("");
     });
@@ -103,31 +103,31 @@ describe("bin/nearleyc", function() {
 
 })
 
-describe('nearleyc: example grammars', function() {
+describe('nearleyc: example grammars', () => {
 
-    it('calculator example', function() {
+    it('calculator example', () => {
         const arith = compile(read("examples/calculator/arithmetic.ne"));
         expect(parse(arith, "ln (3 + 2*(8/e - sin(pi/5)))")).toEqual([ Math.log(3 + 2*(8/Math.exp(1) - Math.sin(Math.PI/5))) ]);
     });
 
-    it('csscolor example', function() {
+    it('csscolor example', () => {
         const cssc = compile(read("examples/csscolor.ne"));
         expect(parse(cssc, "#FF00FF")).toEqual([{r: 0xff, g: 0x00, b: 0xff}]);
         expect(parse(cssc, "#8A7")).toEqual([{r: 0x88, g: 0xaa, b: 0x77}]);
         expect(parse(cssc, "rgb(99,66,33)")).toEqual([{r: 99, g: 66, b: 33}]);
         expect(parse(cssc, "hsl(99,66,33)")).toEqual([{h: 99, s: 66, l: 33}]);
-        expect(function() { parse(cssc, "#badcolor"); }).toThrow()
+        expect(() => { parse(cssc, "#badcolor"); }).toThrow()
     });
 
-    it('exponential whitespace bug', function() {
+    it('exponential whitespace bug', () => {
         compile(read('test/grammars/indentation.ne'));
     });
 
-    it('percent bug', function() {
+    it('percent bug', () => {
         compile(read('test/grammars/percent.ne'));
     });
 
-    it('json', function() {
+    it('json', () => {
         const grammar = compile(read("examples/json.ne"));
         expect(prettyPrint(grammar)).toEqual([
             'json$subexpression$1 → object',
@@ -159,7 +159,7 @@ describe('nearleyc: example grammars', function() {
         ])
     });
 
-    it('classic crontab', function() {
+    it('classic crontab', () => {
         // Try compiling the grammar
         const classicCrontab = compile(read("examples/classic_crontab.ne"));
         // Try parsing crontab file using the newly generated parser
@@ -168,7 +168,7 @@ describe('nearleyc: example grammars', function() {
         expect(parse(classicCrontab, crontabTest)).toEqual([JSON.parse(crontabResults)]);
     });
 
-    it('case-insensitive strings', function() {
+    it('case-insensitive strings', () => {
         const caseinsensitive = compile(read("test/grammars/caseinsensitive.ne"));
         const passCases = [
             "Les rêves des amoureux sont comme le bon vin!",
@@ -176,14 +176,14 @@ describe('nearleyc: example grammars', function() {
             "leS RêVeS DeS AmOuReUx sOnT CoMmE Le bOn vIn!",
             "LEs rÊvEs dEs aMoUrEuX SoNt cOmMe lE BoN ViN!"
         ];
-        passCases.forEach(function(c) {
+        passCases.forEach(c => {
             const p = parse(caseinsensitive, c);
             expect(p.length).toBe(1)
             expect(p[0].toUpperCase()).toBe(passCases[1]);
         });
     });
 
-    it('scannerless nearley grammar', function() {
+    it('scannerless nearley grammar', () => {
         compile(read("test/grammars/scannerless-nearley.ne"));
     })
 
@@ -239,7 +239,7 @@ describe('nearleyc: macros', () => {
         `)).toThrow();
     });
 
-    it('compiles a simple macro from external file', function() {
+    it('compiles a simple macro from external file', () => {
         const grammar = compile(read("test/grammars/macro-test.ne"));
         const passCases = [
             "a",
@@ -247,7 +247,7 @@ describe('nearleyc: macros', () => {
             "a/b",
             "b/a",
         ];
-        passCases.forEach(function(c) {
+        passCases.forEach(c => {
             const p = parse(grammar, c);
             expect(p.length).toBe(1);
             expect(p[0]).toBe("a/b");

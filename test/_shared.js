@@ -53,9 +53,9 @@ function evalGrammar(compiledGrammar) {
 }
 
 module.exports = {
-    compile: compile,
-    nearleyc: nearleyc,
-    evalGrammar: evalGrammar,
-    parse: parse,
+    compile,
+    nearleyc,
+    evalGrammar,
+    parse,
 };
 

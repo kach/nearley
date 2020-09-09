@@ -6,10 +6,10 @@
 //
 //      --h
 
-var NullPP = function(argument) {return null;}
+var NullPP = argument => null
 
 function rule(name, symbols, proc) {
-    return { name: name, symbols: symbols, postprocess: proc };
+    return { name, symbols, postprocess: proc };
 }
 
 function m(s) {
@@ -37,99 +37,53 @@ module.exports = {
         rule("commentchars", [], NullPP),
         rule("commentchars", ["commentchars", /[^\n]/], NullPP),
 
-        rule("js", [m("{"), m("%"), "jscode", m("%"), m("}")], function(d) {
-            return d[2];
-        }),
-        rule("jscode", [], function() {return "";}),
-        rule("jscode", ["jscode", /[^%]/], function(d) {return d[0] + d[1];}),
+        rule("js", [m("{"), m("%"), "jscode", m("%"), m("}")], d => d[2]),
+        rule("jscode", [], () => ""),
+        rule("jscode", ["jscode", /[^%]/], d => d[0] + d[1]),
 
-        rule("string", [m("\""), "charset", m("\"")], function(d) {
-            return { literal: d[1].join("") };
-        }),
+        rule("string", [m("\""), "charset", m("\"")], d => ({ literal: d[1].join("") })),
         rule("charset", []),
-        rule("charset", ["charset", "char"], function(d) {
-            return d[0].concat([d[1]]);
-        }),
-        rule("char", [ new RegExp("[^ \\\\ \"]")], function(d) {
-            return d[0];
-        }),
-        rule("char", [ m("\\"), new RegExp(".") ], function(d) {
-            return JSON.parse("\""+"\\"+d[1]+"\"");
-        }),
+        rule("charset", ["charset", "char"], d => d[0].concat([d[1]])),
+        rule("char", [ new RegExp("[^ \\\\ \"]")], d => d[0]),
+        rule("char", [ m("\\"), new RegExp(".") ], d => JSON.parse("\""+"\\"+d[1]+"\"")),
 
-        rule("charclass", [m(".")], function(d) {
-            return new RegExp(d[0]);
-        }),
+        rule("charclass", [m(".")], d => new RegExp(d[0])),
 
-        rule("charclass", [m("["), "charclassmembers", m("]")], function(d) {
-            return new RegExp("[" + d[1].join('') + "]");
-        }),
+        rule("charclass", [m("["), "charclassmembers", m("]")], d => new RegExp("[" + d[1].join('') + "]")),
 
         rule("charclassmembers", []),
-        rule("charclassmembers", ["charclassmembers", "charclassmember"], function(d) {
-            return d[0].concat([d[1]]);
-        }),
+        rule("charclassmembers", ["charclassmembers", "charclassmember"], d => d[0].concat([d[1]])),
 
-        rule("charclassmember", [ /[^\\\]]/ ], function(d) {
-            return d[0];
-        }),
-        rule("charclassmember", [m("\\"), /./], function(d) {
-            return d[0] + d[1];
-        }),
+        rule("charclassmember", [ /[^\\\]]/ ], d => d[0]),
+        rule("charclassmember", [m("\\"), /./], d => d[0] + d[1]),
 
-        rule("word", [/[\w\?\+]/], function(d){
-            return d[0];
-        }),
-        rule("word", ["word", /[\w\?\+]/], function(d){
-            return d[0]+d[1];
-        }),
+        rule("word", [/[\w\?\+]/], d => d[0]),
+        rule("word", ["word", /[\w\?\+]/], d => d[0]+d[1]),
 
         rule("expr", ["word"]),
         rule("expr", ["string"]),
-        rule("expr", ["expr", "whit", "word"], function(d){
-            return d[0].concat([d[2]]);
-        }),
-        rule("expr", ["expr", "whit", "string"], function(d){
-            return d[0].concat([d[2]]);
-        }),
+        rule("expr", ["expr", "whit", "word"], d => d[0].concat([d[2]])),
+        rule("expr", ["expr", "whit", "string"], d => d[0].concat([d[2]])),
 
         rule("expr", ["charclass"]),
-        rule("expr", ["expr", "whit", "charclass"], function(d) {
-            return d[0].concat([d[2]]);
-        }),
+        rule("expr", ["expr", "whit", "charclass"], d => d[0].concat([d[2]])),
 
-        rule("completeexpression", ["expr"], function(d) {
-            return {tokens: d[0]};
-        }),
+        rule("completeexpression", ["expr"], d => ({tokens: d[0]})),
 
-        rule("completeexpression", ["expr", "whit?", "js"], function(d) {
-            return {tokens: d[0], postprocess: d[2]};
-        }),
+        rule("completeexpression", ["expr", "whit?", "js"], d => ({tokens: d[0], postprocess: d[2]})),
 
         rule("expression+", ["completeexpression"]),
-        rule("expression+", ["expression+", "whit?", m("|"), "whit?", "completeexpression"], function(d) {
-            return d[0].concat([d[4]]);
-        }),
+        rule("expression+", ["expression+", "whit?", m("|"), "whit?", "completeexpression"], d => d[0].concat([d[4]])),
 
-        rule("prod", ["word", "whit?", m("-"), m(">"), "whit?", "expression+"], function(d) {
-            return {name: d[0], rules: d[5]};
-        }),
+        rule("prod", ["word", "whit?", m("-"), m(">"), "whit?", "expression+"], d => ({name: d[0], rules: d[5]})),
 
-        rule("prod", [m("@"), "whit?", "js"], function(d) {
-            return {body: d[2]};
-        }),
+        rule("prod", [m("@"), "whit?", "js"], d => ({body: d[2]})),
 
-        rule("prog", ["prod"], function(d) {
-            return [d[0]];
-        }),
+        rule("prog", ["prod"], d => [d[0]]),
 
-        rule("prog", ["prod", "whit", "prog"], function(d) {
-            return [d[0]].concat(d[2]);
-        }),
+        rule("prog", ["prod", "whit", "prog"], d => [d[0]].concat(d[2])),
 
-        rule("final", ["whit?", "prog", "whit?"], function(d) {
-            return d[1];
-        })
+        rule("final", ["whit?", "prog", "whit?"], d => d[1])
     ],
     start: "final"
 }

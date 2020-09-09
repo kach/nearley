@@ -1,7 +1,7 @@
-window.addEventListener("load", function() {
+window.addEventListener("load", () => {
     var grammarInput = document.getElementById("grammar-input");
     var compileInput = document.getElementById("compile-grammar");
-    compileInput.addEventListener("click", function() {
+    compileInput.addEventListener("click", () => {
         var grm = grammarInput.value;
         var parser = new nearley.Parser(grammar.ParserRules, grammar.ParserStart);
         parser.feed(grammarInput.value);

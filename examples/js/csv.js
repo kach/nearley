@@ -1,26 +1,26 @@
 // Generated automatically by nearley
 // http://github.com/Hardmath123/nearley
-(function () {
+(() => {
 function id(x) {return x[0]; }
 
-var appendItem = function (a, b) { return function (d) { return d[a].concat([d[b]]); } };
-var appendItemChar = function (a, b) { return function (d) { return d[a].concat(d[b]); } };
-var empty = function (d) { return []; };
-var emptyStr = function (d) { return ""; };
+var appendItem = (a, b) => d => d[a].concat([d[b]]);
+var appendItemChar = (a, b) => d => d[a].concat(d[b]);
+var empty = d => [];
+var emptyStr = d => "";
 var grammar = {
     ParserRules: [
-    {"name": "file", "symbols": ["header", "newline", "rows"], "postprocess":  function (d) { return { header: d[0], rows: d[2] }; } },
+    {"name": "file", "symbols": ["header", "newline", "rows"], "postprocess":  d => ({ header: d[0], rows: d[2] }) },
     {"name": "header", "symbols": ["row"], "postprocess":  id },
     {"name": "rows", "symbols": ["row"]},
     {"name": "rows", "symbols": ["rows", "newline", "row"], "postprocess":  appendItem(0,2) },
     {"name": "row", "symbols": ["field"]},
     {"name": "row", "symbols": ["row", {"literal":","}, "field"], "postprocess":  appendItem(0,2) },
     {"name": "field", "symbols": ["unquoted_field"], "postprocess":  id },
-    {"name": "field", "symbols": [{"literal":"\""}, "quoted_field", {"literal":"\""}], "postprocess":  function (d) { return d[1]; } },
+    {"name": "field", "symbols": [{"literal":"\""}, "quoted_field", {"literal":"\""}], "postprocess":  d => d[1] },
     {"name": "quoted_field", "symbols": [], "postprocess":  emptyStr },
     {"name": "quoted_field", "symbols": ["quoted_field", "quoted_field_char"], "postprocess":  appendItemChar(0,1) },
     {"name": "quoted_field_char", "symbols": [/[^"]/], "postprocess":  id },
-    {"name": "quoted_field_char", "symbols": [{"literal":"\""}, {"literal":"\""}], "postprocess":  function (d) { return "\""; } },
+    {"name": "quoted_field_char", "symbols": [{"literal":"\""}, {"literal":"\""}], "postprocess":  d => "\"" },
     {"name": "unquoted_field", "symbols": [], "postprocess":  emptyStr },
     {"name": "unquoted_field", "symbols": ["unquoted_field", "char"], "postprocess":  appendItemChar(0,1) },
     {"name": "char", "symbols": [/[^\n\r",]/], "postprocess":  empty },

@@ -1,6 +1,6 @@
 // Generated automatically by nearley
 // http://github.com/Hardmath123/nearley
-(function () {
+(() => {
 function id(x) {return x[0]; }
 
 
@@ -11,15 +11,11 @@ var nameMap = {
     hundred:100,thousand:1000,million:1000000,billion:1000000000
 };
 
-var nameToVal = function(d) {
-    return nameMap[d];
-};
+var nameToVal = d => nameMap[d];
 
-var nothing = function (d) {
-    return null;
-};
+var nothing = d => null;
 
-var sumParts = function(d) {
+var sumParts = d => {
     var retVal = 0;
     for(var i=0;i<d.length;i++) {
         var curVal = d[i];
@@ -30,7 +26,7 @@ var sumParts = function(d) {
     return retVal;
 };
 
-var multParts = function(d) {
+var multParts = d => {
     var retVal = 1;
     for(var i=0;i<d.length;i++) {
         var curVal = d[i];
@@ -41,7 +37,7 @@ var multParts = function(d) {
     return retVal;
 };
 
-var findFirstNestedValueFromArray = function(d) {
+var findFirstNestedValueFromArray = d => {
     if(d instanceof Array) return findFirstNestedValueFromArray(d[0]);
     return d;
 };

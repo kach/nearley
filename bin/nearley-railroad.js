@@ -23,7 +23,7 @@ var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
 function railroad(grm) {
     var rules = {};
-    grm.forEach(function(instr) {
+    grm.forEach(instr => {
         if (instr.rules) {
             if (!rules[instr.name]) {
                 rules[instr.name] = [];
@@ -39,14 +39,12 @@ function railroad(grm) {
         )
     );
 
-    var diagrams = Object.keys(rules).map(function(r) {
-        return [
-          '<h1><code>' + r + '</code></h1>',
-          '<div>',
-            diagram(r).toString(),
-          '</div>'
-        ].join('\n');
-    });
+    var diagrams = Object.keys(rules).map(r => [
+        '<h1><code>' + r + '</code></h1>',
+        '<div>',
+          diagram(r).toString(),
+        '</div>'
+    ].join('\n'));
 
     function diagram(name) {
         var selectedrules = rules[name];
@@ -112,7 +110,7 @@ var parserGrammar = nearley.Grammar.fromCompiled(require('../lib/nearley-languag
 var parser = new nearley.Parser(parserGrammar);
 input
     .pipe(new StreamWrapper(parser))
-    .on('finish', function() {
+    .on('finish', () => {
         if (parser.results[0]) {
             output.write(railroad(parser.results[0]));
         } else {

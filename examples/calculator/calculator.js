@@ -36,10 +36,10 @@ var readline = require('readline'),
 rl.setPrompt(PROMPT);
 rl.prompt();
 
-rl.on('line', function(line) {
+rl.on('line', line => {
     console.log(runmath(line));
     rl.prompt();
-}).on('close', function() {
+}).on('close', () => {
     console.log('\nBye.');
     process.exit(0);
 });
