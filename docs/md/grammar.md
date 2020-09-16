@@ -110,7 +110,7 @@ reject)`. Here,
 - `location: number` is the index (zero-based) at which the rule match starts.
   You might use this to show the location of an expression in an error message.
 
-  > Note: Many [tokenizers](tokenizers) provide line, column, and offset
+  > Note: Many [tokenizers](tokenizers.md) provide line, column, and offset
   > information in the Token object. If you are using a tokenizer, then it is
   > better to use that information than the nearley-provided variable, which
   > would only tell you that it saw the nth _token_ rather than the nth
