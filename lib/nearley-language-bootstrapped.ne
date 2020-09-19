@@ -76,7 +76,7 @@ prog -> prod  {% function(d) { return [d[0]]; } %}
       | prod ws prog  {% function(d) { return [d[0]].concat(d[2]); } %}
 
 prod -> word _ %arrow _ expression+  {% function(d) { return {name: d[0], rules: d[4]}; } %}
-      | word "[" wordlist "]" _ %arrow _ expression+ {% function(d) {return {macro: d[0], args: d[2], exprs: d[7]}} %}
+      | word "[" _ wordlist _ "]" _ %arrow _ expression+ {% function(d) {return {macro: d[0], args: d[3], exprs: d[9]}} %}
       | "@" _ js  {% function(d) { return {body: d[2]}; } %}
       | "@" word ws word  {% function(d) { return {config: d[1], value: d[3]}; } %}
       | "@include"  _ string {% function(d) {return {include: d[2].literal, builtin: false}} %}
@@ -97,7 +97,7 @@ completeexpression -> expr  {% function(d) { return {tokens: d[0]}; } %}
 expr_member ->
       word {% id %}
     | "$" word {% function(d) {return {mixin: d[1]}} %}
-    | word "[" expressionlist "]" {% function(d) {return {macrocall: d[0], args: d[2]}} %} 
+    | word "[" _ expressionlist _ "]" {% function(d) {return {macrocall: d[0], args: d[3]}} %}
     | string "i":? {% function(d) { if (d[1]) {return insensitive(d[0]); } else {return d[0]; } } %}
     | "%" word {% function(d) {return {token: d[1]}} %}
     | charclass {% id %}
