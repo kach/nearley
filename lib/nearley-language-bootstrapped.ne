@@ -20,6 +20,7 @@ var rules = Object.assign({
     js: {
         match: /\{\%(?:[^%]|\%[^}])*\%\}/,
         value: x => x.slice(2, -2),
+        lineBreaks: true,
     },
     word: {match: /[\w\?\+]+/, next: 'afterWord'},
     string: {
@@ -31,6 +32,7 @@ var rules = Object.assign({
         match: /`[^`]*`/,
         value: x => x.slice(1, -1),
         next: 'main',
+        lineBreaks: true,
     },
 }, literals([
     ",", "|", "$", "%", "(", ")",
