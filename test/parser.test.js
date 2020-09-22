@@ -240,4 +240,27 @@ describe('Parser: examples', () => {
             ].join("\n"))).toThrow(/Unexpected comment token/)
     })
 
+    it('should give accurate line and col counts in error reporting', () => {
+        var nearley = compile(read("lib/nearley-language-bootstrapped.ne"));
+        expect(() =>
+            parse(nearley, [
+                "",
+                "",
+                "@{%",
+                "",
+                "%}",
+                "",
+                "rule1 -> `",
+                "",
+                "",
+                "`",
+                "rule2 -> abc",
+                "  {%",
+                "  ([first]) =>",
+                "    first",
+                "  %}    ]",
+                ""
+            ].join("\n"))).toThrow(/line 15 col 9/)
+    })
+
 })
