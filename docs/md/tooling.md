@@ -125,3 +125,6 @@ Adam Rich to load grammars directly.
 **Jest** users can use
 [jest-transform-nearley](https://github.com/adam1658/jest-transform-nearley) by
 Adam Rich to load grammars directly.
+
+**Nearley for Deno** use your compiled parser in deno with
+[this nearley deno port](https://deno.land/x/nearley) by Olivier Guimbal

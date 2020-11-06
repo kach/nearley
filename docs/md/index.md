@@ -119,7 +119,7 @@ parses and tokenizes CSS3 selectors,
 validates and expands CSS shorthands,
 [node-scad-parser](https://github.com/hhornbacher/node-scad-parser) parses
 OpenSCAD 3D models, [js-sql-parse](https://github.com/justinkenel/js-sql-parse)
-parses SQL statements,[resp-parser](https://github.com/appology/resp-parser) is
+parses SQL statements, [pg-mem](https://github.com/oguimbal/pg-mem) is an in-memory Postgres database emulator, [resp-parser](https://github.com/appology/resp-parser) is
 a parser for the RESP protocol, [celio](https://github.com/AntonShan/Celio)
 parses Celestia star catalogs.
 
