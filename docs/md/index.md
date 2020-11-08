@@ -185,7 +185,9 @@ descriptions of electronic components like resistors and capacitors,
 [Eventbot](https://geteventbot.com) is a calendar plugin for Slack used by
 thousands of teams, [Obyte](https://github.com/byteball/ocore) is a
 cryptocurrency platform, [OptiCSS](https://github.com/linkedin/opticss) is a
-CSS optimizer built by LinkedIn.
+CSS optimizer built by LinkedIn,
+[NESTUP](https://github.com/cutelabnyc/nested-tuplets) is a language for
+specifying nested rhythmic tuplets.
 
 **Other**:
 [ProceduralPsychEpisode](https://github.com/PatrickMurphy/ProceduralPsychEpisode)
