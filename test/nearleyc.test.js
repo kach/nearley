@@ -18,6 +18,14 @@ function prettyPrint(grammar) {
   return grammar.rules.map(g => g.toString())
 }
 
+function typeScriptTest(path) {
+    const {outPath, stdout, stderr} = externalNearleyc(path, ".ts");
+    expect(stderr).toBe("");
+    expect(stdout).toBe("");
+    sh(`tsc ${outPath}.ts`);
+    const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`).default);
+    expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
+}
 
 describe("bin/nearleyc", function() {
     after(cleanup)
@@ -61,12 +69,12 @@ describe("bin/nearleyc", function() {
 
     it('builds for TypeScript', function() {
         this.timeout(10000); // It takes a while to run tsc!
-        const {outPath, stdout, stderr} = externalNearleyc("grammars/typescript-test.ne", ".ts");
-        expect(stderr).toBe("");
-        expect(stdout).toBe("");
-        sh(`tsc ${outPath}.ts`);
-        const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`).default);
-        expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
+        typeScriptTest("grammars/typescript-test.ne");
+    });
+
+    it('TypeScript lexer type replacement', function() {
+        this.timeout(10000);
+        typeScriptTest("grammars/ts-type-directives-test.ne");
     });
 
     it('builds modules in folders', function() {
