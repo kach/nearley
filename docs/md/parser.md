@@ -149,6 +149,29 @@ file. This can be useful to write your postprocessors in a different language,
 and to get type annotations if you wish to use nearley in a statically typed
 dialect of JavaScript.
 
+For TypeScript only, you can specify the type of the lexer with the following
+syntax:
+
+```ne
+@preprocessor typescript lexer "Lexer"
+
+@{%
+import { compile } from 'moo'
+import type { Lexer } from 'moo'
+
+const lexer = compile({
+    // lexer rules ...
+});
+%}
+
+@lexer lexer
+```
+
+It is possible to specify the token type in the same way (e.g. `@preprocessor
+typescript token "Token"`). This is particularly useful when using moo with
+TypeScript, as it allows you to generate TypeScript code that uses moo's
+built-in types.
+
 #### Typescript Preprocessor Changes
 
 If you have recently upgraded to a newer version of nearly, you might have run
