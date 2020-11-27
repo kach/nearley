@@ -27,7 +27,8 @@ prog -> prod  {% function(d) { return [d[0]]; } %}
 prod -> word whit? ("-"|"="):+ ">" whit? expression+  {% function(d) { return {name: d[0], rules: d[5]}; } %}
       | word "[" wordlist "]" whit? ("-"|"="):+ ">" whit? expression+ {% function(d) {return {macro: d[0], args: d[2], exprs: d[8]}} %}
       | "@" whit? js  {% function(d) { return {body: d[2]}; } %}
-      | "@" word whit word  {% function(d) { return {config: d[1], value: d[3]}; } %}
+      #| "@" word whit word  {% function(d) { return {config: d[1], value: d[3]}; } %}
+      | "@" word whit word (whit word):*  {% function(d) { return {config: d[1], value: [d[3], ...(d[4].map(e => e[1]))]}; } %}
       | "@include"  whit? string {% function(d) {return {include: d[2].literal, builtin: false}} %}
       | "@builtin"  whit? string {% function(d) {return {include: d[2].literal, builtin: true }} %}
 

@@ -80,7 +80,8 @@ prog -> prod  {% function(d) { return [d[0]]; } %}
 prod -> word _ %arrow _ expression+  {% function(d) { return {name: d[0], rules: d[4]}; } %}
       | word "[" _ wordlist _ "]" _ %arrow _ expression+ {% function(d) {return {macro: d[0], args: d[3], exprs: d[9]}} %}
       | "@" _ js  {% function(d) { return {body: d[2]}; } %}
-      | "@" word ws word  {% function(d) { return {config: d[1], value: d[3]}; } %}
+      #| "@" word ws word  {% function(d) { return {config: d[1], value: d[3]}; } %}
+      | "@" word ws word (ws word):*  {% function(d) { return {config: d[1], value: [d[3], ...(d[4].map(e => e[1]))]}; } %}
       | "@include"  _ string {% function(d) {return {include: d[2].literal, builtin: false}} %}
       | "@builtin"  _ string {% function(d) {return {include: d[2].literal, builtin: true }} %}
 
