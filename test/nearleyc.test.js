@@ -18,6 +18,16 @@ function prettyPrint(grammar) {
   return grammar.rules.map(g => g.toString())
 }
 
+function typeScriptCheck(isStrict) {
+    const {outPath, stdout, stderr} = externalNearleyc("grammars/typescript-test.ne", ".ts");
+    expect(stderr).toBe("");
+    expect(stdout).toBe("");
+    const spawnSync = sh(`tsc ${isStrict ? "--strict" : ""} ${outPath}.ts`);
+    expect(spawnSync.stdout).toBe(""); // type errors get logged to stdout, not stderr
+    const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`).default);
+    expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
+}
+
 
 describe("bin/nearleyc", function() {
     after(cleanup)
@@ -61,12 +71,12 @@ describe("bin/nearleyc", function() {
 
     it('builds for TypeScript', function() {
         this.timeout(10000); // It takes a while to run tsc!
-        const {outPath, stdout, stderr} = externalNearleyc("grammars/typescript-test.ne", ".ts");
-        expect(stderr).toBe("");
-        expect(stdout).toBe("");
-        sh(`tsc ${outPath}.ts`);
-        const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`).default);
-        expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
+        typeScriptCheck(false);
+    });
+
+    it('builds for TypeScript with `--strict` with no type errors', function() {
+        this.timeout(10000);
+        typeScriptCheck(true);
     });
 
     it('builds modules in folders', function() {
