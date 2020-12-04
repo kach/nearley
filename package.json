@@ -56,5 +56,9 @@
     "microtime": "^2.1.2",
     "mocha": "^8.2.1",
     "typescript": "^2.6.1"
+  },
+  "funding": {
+    "type" : "individual",
+    "url" : "https://nearley.js.org/#give-to-nearley"
   }
 }
