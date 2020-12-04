@@ -263,7 +263,7 @@ nav ul a {
                 <li class="page-heading"><a href="#catching-errors">Catching errors</a>
                 <li class="page-heading"><a href="#accessing-the-parse-table">Accessing the parse table</a>
                 <li class="page-heading"><a href="#using-preprocessors">Using preprocessors</a>
-                <li class="page-heading"><a href="#what-s-next-">What’s next?</a>
+                <li class="page-heading"><a href="#whats-next">What’s next?</a>
             </ul>
         </li>
         <li class="page"><a href="/docs/tokenizers">Tokenizers</a>
@@ -281,36 +281,31 @@ nav ul a {
 <p>Once you have compiled a <code>grammar.ne</code> file to a <code>grammar.js</code> module, you can
 then use nearley to instantiate a <code>Parser</code> object.</p>
 <p>First, import nearley and your grammar.</p>
-<pre><code class="lang-js">const nearley = require(&quot;nearley&quot;);
-const grammar = require(&quot;./grammar.js&quot;);
-</code></pre>
+<pre><code class="language-js">const nearley = require(&quot;nearley&quot;);
+const grammar = require(&quot;./grammar.js&quot;);</code></pre>
 <p>Note that if you are parsing in the browser, you can simply include
 <code>nearley.js</code> and <code>grammar.js</code> in <code>&lt;script&gt;</code> tags.</p>
 <p>Next, use the grammar to create a new <code>nearley.Parser</code> object.</p>
-<pre><code class="lang-js">// Create a Parser object from our grammar.
-const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
-</code></pre>
+<pre><code class="language-js">// Create a Parser object from our grammar.
+const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));</code></pre>
 <p>Once you have a <code>Parser</code>, you can <code>.feed</code> it a string to parse. Since nearley
 is a <em>streaming</em> parser, you can feed strings more than once. For example, a
 REPL might feed the parser lines of code as the user enters them:</p>
-<pre><code class="lang-js">// Parse something!
+<pre><code class="language-js">// Parse something!
 parser.feed(&quot;if (true) {&quot;);
 parser.feed(&quot;x = 1&quot;);
 parser.feed(&quot;}&quot;);
-// or, parser.feed(&quot;if (true) {x=1}&quot;);
-</code></pre>
+// or, parser.feed(&quot;if (true) {x=1}&quot;);</code></pre>
 <p>Finally, you can query the <code>.results</code> property of the parser.</p>
-<pre><code class="lang-js">// parser.results is an array of possible parsings.
+<pre><code class="language-js">// parser.results is an array of possible parsings.
 console.log(parser.results);
-// [{&#39;type&#39;: &#39;if&#39;, &#39;condition&#39;: ..., &#39;body&#39;: ...}]
-</code></pre>
+// [{&#39;type&#39;: &#39;if&#39;, &#39;condition&#39;: ..., &#39;body&#39;: ...}]</code></pre>
 <h3 id="a-note-on-ambiguity">A note on ambiguity</h3>
 <p>Why is <code>parser.results</code> an array? Sometimes, a grammar can parse a particular
 string in multiple different ways. For example, the following grammar parses
 the string <code>&quot;xyz&quot;</code> in two different ways.</p>
-<pre><code class="lang-ne">x -&gt; &quot;xy&quot; &quot;z&quot;
-   | &quot;x&quot; &quot;yz&quot;
-</code></pre>
+<pre><code class="language-ne">x -&gt; &quot;xy&quot; &quot;z&quot;
+   | &quot;x&quot; &quot;yz&quot;</code></pre>
 <p>Such grammars are <em>ambiguous</em>. nearley provides you with <em>all</em> the parsings. In
 most cases, however, your grammars should not be ambiguous (parsing ambiguous
 grammars is inefficient!). Thus, the most common usage is to simply query
@@ -321,33 +316,29 @@ there is more than one result, then your grammar is ambiguous!</p>
 <p>nearley is a <em>streaming</em> parser: you can call <code>feed()</code> as many times as you
 like. This means there are two ways parsing can go wrong.</p>
 <p>Consider the simple parser below for the examples to follow.</p>
-<pre><code class="lang-js">main -&gt; &quot;Cow goes moo.&quot; {% function(d) {return &quot;yay!&quot;; } %}
-</code></pre>
+<pre><code class="language-js">main -&gt; &quot;Cow goes moo.&quot; {% function(d) {return &quot;yay!&quot;; } %}</code></pre>
 <p>If nearley gets <strong>partway through the chunk</strong> you fed, and parsing cannot
 continue, then nearley will throw an error whose <code>offset</code> property is the index
 of the offending token. There is no way to recover from this by feeding more
 data.</p>
-<pre><code class="lang-js">try {
+<pre><code class="language-js">try {
     parser.feed(&quot;Cow goes% moo.&quot;);
 } catch (err) {
     console.log(&quot;Error at character &quot; + parseError.offset); // &quot;Error at character 9&quot;
-}
-</code></pre>
+}</code></pre>
 <p>Errors are nicely formatted for you:</p>
 <pre><code>Error: invalid syntax at line 1 col 9:
 
   Cow goes% moo
           ^
-Unexpected &quot;%&quot;
-</code></pre><p><strong>After <code>feed()</code> finishes</strong>, the <code>results</code> array will contain all possible
+Unexpected &quot;%&quot;</code></pre><p><strong>After <code>feed()</code> finishes</strong>, the <code>results</code> array will contain all possible
 parsings.</p>
 <p>If there are no possible parsings given the current input, but in the <em>future</em>
 there <em>might</em> be results if you feed it more strings, then nearley will
 temporarily set the <code>results</code> array to the empty array, <code>[]</code>.</p>
-<pre><code class="lang-js">parser.feed(&quot;Cow &quot;);  // parser.results is []
+<pre><code class="language-js">parser.feed(&quot;Cow &quot;);  // parser.results is []
 parser.feed(&quot;goes &quot;); // parser.results is []
-parser.feed(&quot;moo.&quot;);  // parser.results is [&quot;yay!&quot;]
-</code></pre>
+parser.feed(&quot;moo.&quot;);  // parser.results is [&quot;yay!&quot;]</code></pre>
 <p>If you’re done calling <code>feed()</code>, but the array is still empty, this indicates
 “unexpected end of input”. Make sure to check there’s at least one result.</p>
 <p>If there’s more than one result, that indicates ambiguity–read on.</p>
@@ -357,7 +348,7 @@ internal parse table using <code>Parser.table</code> (this, for example, is how
 <code>nearley-test</code> works). One caveat, however: you must pass the <code>keepHistory</code>
 option to nearley to prevent it from garbage-collecting inaccessible columns of
 the table.</p>
-<pre><code class="lang-js">const nearley = require(&quot;nearley&quot;);
+<pre><code class="language-js">const nearley = require(&quot;nearley&quot;);
 const grammar = require(&quot;./grammar&quot;);
 
 const parser = new nearley.Parser(
@@ -367,8 +358,7 @@ const parser = new nearley.Parser(
 
 
 parser.feed(...);
-console.log(parser.table);
-</code></pre>
+console.log(parser.table);</code></pre>
 <h3 id="using-preprocessors">Using preprocessors</h3>
 <p>By default, <code>nearleyc</code> compiles your grammar to JavaScript. However, you can
 instead choose to compile to CoffeeScript or TypeScript by adding
@@ -383,7 +373,7 @@ into an issue with <code>error TS2345</code> talking about a variable
 This is a result of a change in the output format of the grammar, but is very easily fixed.
 Just change the way you import the grammar from <code>import * as grammar from &quot;./path/to/grammar&quot;</code>
 to <code>import grammar from &quot;./path/to/grammar&quot;</code> and everything should compile nicely again.</p>
-<h3 id="what-s-next-">What’s next?</h3>
+<h3 id="whats-next">What’s next?</h3>
 <p>Now that you know how to use parsers, <a href="tokenizers">learn how to add a tokenizer to speed
 things up!</a></p>
 

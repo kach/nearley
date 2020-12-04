@@ -284,7 +284,7 @@ Pick</a>.</p>
 <ol>
 <li>Install: <code>$ npm install -g nearley</code> (or try nearley live in your browser
 <a href="https://omrelli.ug/nearley-playground/">here</a>!)</li>
-<li>Write your grammar:<pre><code class="lang-ne"># Match a CSS color
+<li>Write your grammar:<pre><code class="language-ne"># Match a CSS color
 # http://www.w3.org/TR/css3-color/#colorunits
 @builtin &quot;whitespace.ne&quot; # `_` means arbitrary amount of whitespace
 @builtin &quot;number.ne&quot;     # `int`, `decimal`, and `percentage` number primitives
@@ -295,27 +295,21 @@ csscolor -&gt; &quot;#&quot; hexdigit hexdigit hexdigit hexdigit hexdigit hexdig
           | &quot;rgba&quot; _ &quot;(&quot; _ colnum _ &quot;,&quot; _ colnum _ &quot;,&quot; _ colnum _ &quot;,&quot; _ decimal _ &quot;)&quot;
           | &quot;hsla&quot; _ &quot;(&quot; _ colnum _ &quot;,&quot; _ colnum _ &quot;,&quot; _ colnum _ &quot;,&quot; _ decimal _ &quot;)&quot;
 hexdigit -&gt; [a-fA-F0-9]
-colnum   -&gt; int | percentage
-</code></pre>
+colnum   -&gt; int | percentage</code></pre>
 </li>
-<li>Compile your grammar:<pre><code class="lang-bash">$ nearleyc csscolor.ne -o csscolor.js
-</code></pre>
+<li>Compile your grammar:<pre><code class="language-bash">$ nearleyc csscolor.ne -o csscolor.js</code></pre>
 </li>
-<li>Test your grammar:<pre><code class="lang-bash">$ nearley-test -i &quot;#00ff00&quot; csscolor.js
+<li>Test your grammar:<pre><code class="language-bash">$ nearley-test -i &quot;#00ff00&quot; csscolor.js
 Parse results:
-[ [ &#39;#&#39;, [ &#39;0&#39; ], [ &#39;0&#39; ], [ &#39;f&#39; ], [ &#39;f&#39; ], [ &#39;0&#39; ], [ &#39;0&#39; ] ] ]
-</code></pre>
+[ [ &#39;#&#39;, [ &#39;0&#39; ], [ &#39;0&#39; ], [ &#39;f&#39; ], [ &#39;f&#39; ], [ &#39;0&#39; ], [ &#39;0&#39; ] ] ]</code></pre>
 </li>
-<li>Turn your grammar into a generator:<pre><code class="lang-bash">$ nearley-unparse -n 3 csscolor.js
-</code></pre>
+<li>Turn your grammar into a generator:<pre><code class="language-bash">$ nearley-unparse -n 3 csscolor.js</code></pre>
 <pre><code>#Ab21F2
 rgb  ( -29.889%,7,8172)
-#a40
-</code></pre></li>
-<li>You try it! Type a CSS color here:
-<input type="text" id="parse-input" placeholder="rgba(0, 255, 0, 0.5)" /><pre><code id="parse-output">…and the parsed output will appear here!</code></pre></li>
-<li>Create beautiful railroad diagrams to document your grammar formally.<pre><code class="lang-bash">$ nearley-railroad csscolor.ne -o csscolor.html
-</code></pre>
+#a40</code></pre></li>
+<li>You try it! Type a CSS color here:<input type="text" id="parse-input" placeholder="rgba(0, 255, 0, 0.5)" />
+<pre><code id="parse-output">…and the parsed output will appear here!</code></pre></li>
+<li>Create beautiful railroad diagrams to document your grammar formally.<pre><code class="language-bash">$ nearley-railroad csscolor.ne -o csscolor.html</code></pre>
 See a demo <a href="/www/railroad-demo">here</a>.</li>
 </ol>
 <h3 id="features">Features</h3>
@@ -454,6 +448,7 @@ JavaScript. It has a nearley-based DSL to specify parsers.</p>
 visit us on [npm](http://npmjs.org/package/nearley), explore nearley in your
 browser on the [playground](https://omrelli.ug/nearley-playground/), or try out
 the [calculator demo](examples/calculator/) for more action.-->
+
 <h3 id="give-to-nearley">Give to nearley</h3>
 <p>nearley has been maintained by volunteers since 2014. If you want to help
 support us, contact <strong>@kach</strong> or <strong>@tjvr</strong> on GitHub. We’ll send over our

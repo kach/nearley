@@ -280,7 +280,7 @@ implement a nearley IDE) then you can use a tool like
 <a href="https://webpack.js.org/">Webpack</a> or <a href="https://rollupjs.org/">Rollup</a> to
 include the <code>nearley</code> NPM package in your browser code. Then, you can utilize
 the <code>nearleyc</code> internals to compile grammars dynamically.</p>
-<pre><code class="lang-js">const nearley = require(&quot;nearley&quot;);
+<pre><code class="language-js">const nearley = require(&quot;nearley&quot;);
 const compile = require(&quot;nearley/lib/compile&quot;);
 const generate = require(&quot;nearley/lib/generate&quot;);
 const nearleyGrammar = require(&quot;nearley/lib/nearley-language-bootstrapped&quot;);
@@ -305,8 +305,7 @@ function compileGrammar(sourceCode) {
 
 const grammar = compileGrammar(&quot;main -&gt; foo | bar&quot;);
 
-const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
-</code></pre>
+const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));</code></pre>
 
 
     <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a

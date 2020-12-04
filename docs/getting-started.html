@@ -259,7 +259,7 @@ nav ul a {
             <ul>
                 <li class="page-heading"><a href="#installation">Installation</a>
                 <li class="page-heading"><a href="#nearley-in-3-steps">nearley in 3 steps</a>
-                <li class="page-heading"><a href="#what-s-next-">What’s next?</a>
+                <li class="page-heading"><a href="#whats-next">What’s next?</a>
                 <li class="page-heading"><a href="#further-reading">Further reading</a>
             </ul>
         </li>
@@ -278,7 +278,7 @@ nav ul a {
 <h2>Getting started</h2>
 <p>nearley consists of two components: a <em>compiler</em> and a <em>parser</em>.</p>
 <p>The nearley <em>compiler</em> converts grammar definitions from a simple
-<a href="https://en.wikipedia.org/wiki/Backus–Naur_form">BNF</a>-based syntax to a small
+<a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">BNF</a>-based syntax to a small
 JS module. You can then use that module to construct a nearley <em>parser</em>, which
 parses input strings.</p>
 <h3 id="installation">Installation</h3>
@@ -286,12 +286,10 @@ parses input strings.</p>
 <a href="https://docs.npmjs.com/getting-started/what-is-npm">NPM</a> package compatible
 with <a href="https://nodejs.org/en/">Node.js</a> and most browsers.</p>
 <p>To use the nearley <em>parser</em>, you need to install nearley <strong>locally</strong>.</p>
-<pre><code class="lang-bash">$ npm install --save nearley
-</code></pre>
+<pre><code class="language-bash">$ npm install --save nearley</code></pre>
 <p>To use the nearley <em>compiler</em>, you need to <em>additionally</em> install nearley
 <strong>globally</strong>.</p>
-<pre><code class="lang-bash">$ npm install -g nearley
-</code></pre>
+<pre><code class="language-bash">$ npm install -g nearley</code></pre>
 <p>This actually adds several new commands to your <code>$PATH</code>:</p>
 <ul>
 <li><code>nearleyc</code> compiles grammar files to JavaScript.</li>
@@ -315,16 +313,14 @@ exploring nearley grammars interactively.</p>
 simple as:</p>
 <p><strong>Step 1: Describe your grammar</strong> using the <a href="grammar">nearley syntax</a>. In
 a file called <code>grammar.ne</code>, write:</p>
-<pre><code class="lang-ne">main -&gt; (statement &quot;\n&quot;):+
-statement -&gt; &quot;foo&quot; | &quot;bar&quot;
-</code></pre>
+<pre><code class="language-ne">main -&gt; (statement &quot;\n&quot;):+
+statement -&gt; &quot;foo&quot; | &quot;bar&quot;</code></pre>
 <p><strong>Step 2: Compile</strong> the grammar to a JavaScript module. On the command line,
 run:</p>
-<pre><code class="lang-bash">$ nearleyc grammar.ne -o grammar.js
-</code></pre>
+<pre><code class="language-bash">$ nearleyc grammar.ne -o grammar.js</code></pre>
 <p><strong>Step 3: Parse</strong> some data! In a new JavaScript file, instantiate a <a href="parser">Parser
 object</a> and feed it a string:</p>
-<pre><code class="lang-js">const nearley = require(&quot;nearley&quot;);
+<pre><code class="language-js">const nearley = require(&quot;nearley&quot;);
 const grammar = require(&quot;./grammar.js&quot;);
 
 // Create a Parser object from our grammar.
@@ -334,9 +330,8 @@ const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 parser.feed(&quot;foo\n&quot;);
 
 // parser.results is an array of possible parsings.
-console.log(parser.results); // [[[[ &quot;foo&quot; ],&quot;\n&quot; ]]]
-</code></pre>
-<h3 id="what-s-next-">What’s next?</h3>
+console.log(parser.results); // [[[[ &quot;foo&quot; ],&quot;\n&quot; ]]]</code></pre>
+<h3 id="whats-next">What’s next?</h3>
 <p>Now that you have nearley installed, you can <a href="grammar">learn how to write a
 grammar</a>!</p>
 <h3 id="further-reading">Further reading</h3>

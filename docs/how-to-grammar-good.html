@@ -264,16 +264,16 @@ nav ul a {
             <ul>
                 <li class="page-heading"><a href="#structure">Structure</a>
                 <li class="page-heading"><a href="#nonterminal-names">Nonterminal names</a>
-                <li class="page-heading"><a href="#don-t-roll-your-own-unroller">Don’t roll your own unroller</a>
+                <li class="page-heading"><a href="#dont-roll-your-own-unroller">Don’t roll your own unroller</a>
                 <li class="page-heading"><a href="#postprocess-or-dispose">Postprocess or dispose</a>
-                <li class="page-heading"><a href="#remember-charclasses-aren-t-regexes">Remember, charclasses aren’t regexes</a>
+                <li class="page-heading"><a href="#remember-charclasses-arent-regexes">Remember, charclasses aren’t regexes</a>
                 <li class="page-heading"><a href="#debug-with-nearley-test">Debug with nearley-test</a>
-                <li class="page-heading"><a href="#don-t-shy-away-from-left-recursion">Don’t shy away from left recursion</a>
+                <li class="page-heading"><a href="#dont-shy-away-from-left-recursion">Don’t shy away from left recursion</a>
                 <li class="page-heading"><a href="#do-shy-away-from-left-recursion">Do shy away from left recursion</a>
                 <li class="page-heading"><a href="#operator-precedence-is-not-black-magic">Operator precedence is not black magic</a>
                 <li class="page-heading"><a href="#comment-your-grammars">Comment your grammars</a>
                 <li class="page-heading"><a href="#use-whitespace-prettily">Use whitespace prettily</a>
-                <li class="page-heading"><a href="#parsing-an-established-language-cheat-">Parsing an established language? Cheat!</a>
+                <li class="page-heading"><a href="#parsing-an-established-language-cheat">Parsing an established language? Cheat!</a>
             </ul>
         </li>
         <li class="page"><a href="/docs/using-in-frontend">Compiling in browsers</a>
@@ -299,35 +299,31 @@ algorithm and some basic concepts. From here on out, I’m assuming you know wha
 <em>regular expression</em>, <em>Backus Naur Form</em>, <em>context free grammar</em>, <em>terminal</em>,
 <em>nonterminal</em>, and <em>ambiguous grammar</em> mean. You should know nearley syntax
 well enough to understand what something like</p>
-<pre><code class="lang-ne">int -&gt; [0-9]        {% id %}
-    | int [0-9]     {% function(d) {return d[0] + d[1]} %}
-</code></pre>
+<pre><code class="language-ne">int -&gt; [0-9]        {% id %}
+    | int [0-9]     {% function(d) {return d[0] + d[1]} %}</code></pre>
 <p>means (though I like to pride myself on the readability of nearley grammar…).</p>
 <h3 id="structure">Structure</h3>
 <p>Your grammar should be structured from the top down. The first few rules in a
 file should describe a general outline, and tiny details (terminals for
 whitespace, literals etc.) should be at the bottom. For example, if you’re
 writing a parser for Scheme, you would start with</p>
-<pre><code>Sourcefile -&gt; (S-expression | Comment):*
-</code></pre><p>and then fill out what <code>s-expression</code> and <code>comment</code> mean. Most of the time,
+<pre><code>Sourcefile -&gt; (S-expression | Comment):*</code></pre><p>and then fill out what <code>s-expression</code> and <code>comment</code> mean. Most of the time,
 rules defined higher in the file reference rules defined lower down, and rules
 defined near the bottom rarely ever reference rules near the top.</p>
 <h3 id="nonterminal-names">Nonterminal names</h3>
 <p>Give your nonterminals useful names–mostly nouns that describe the string it
 will match. By convention, we use <code>_</code> for optional whitespace and <code>__</code> for
 mandatory whitespace: it makes it easy to write rules like</p>
-<pre><code>&quot;(&quot; _ expression _ &quot;)&quot;
-</code></pre><p>You can explicitly mark a nonterminal as optional or repetitive by postfixing
+<pre><code>&quot;(&quot; _ expression _ &quot;)&quot;</code></pre><p>You can explicitly mark a nonterminal as optional or repetitive by postfixing
 its name with <code>?</code> and <code>+</code> (respectively)–as in <code>statementlist+</code> or <code>comment?</code>.
 Note that this has no semantic value: use nearley’s EBNF modifiers (<code>:*</code>, <code>:+</code>,
 <code>:?</code>) for that.</p>
-<h3 id="don-t-roll-your-own-unroller">Don’t roll your own unroller</h3>
+<h3 id="dont-roll-your-own-unroller">Don’t roll your own unroller</h3>
 <p>If you want to match one or more of a nonterminal, use an EBNF modifier. It’s
 semantically legible, contextually appropriate and (most importantly) easy.
 It’s very easy to mess up and create an exponentially ambiguous monstrosity
 such as</p>
-<pre><code>lotsofletters -&gt; &quot;a&quot; | lotsofletters lotsofletters
-</code></pre><h3 id="postprocess-or-dispose">Postprocess or dispose</h3>
+<pre><code>lotsofletters -&gt; &quot;a&quot; | lotsofletters lotsofletters</code></pre><h3 id="postprocess-or-dispose">Postprocess or dispose</h3>
 <p>nearley saves a nested array structure by default, but most of the time that’s
 not what you want. For things like whitespace, you want to throw away all that
 useless information for memory efficiency, so use a postprocessor that just
@@ -335,7 +331,7 @@ returns <code>null</code>. For syntactic sugar and stuff, construct object liter
 that the code that processes your AST is relatively independent of your
 grammar. Constructing object literals also lets you discard junk (parens,
 etc.).</p>
-<h3 id="remember-charclasses-aren-t-regexes">Remember, charclasses aren’t regexes</h3>
+<h3 id="remember-charclasses-arent-regexes">Remember, charclasses aren’t regexes</h3>
 <p>The <code>[a-z]</code> syntax only allows you to use regex-style character classes, not
 actual regular expressions. Nearley fundamentally does not support regexes as
 terminals. Use EBNF modifiers instead–they do what you want.</p>
@@ -344,11 +340,10 @@ terminals. Use EBNF modifiers instead–they do what you want.</p>
 grammars. It lets you inspect the parse tables, and see all the parsings, or
 the point of failure. This is invaluable when you have a subtle ambiguity
 issue.</p>
-<h3 id="don-t-shy-away-from-left-recursion">Don’t shy away from left recursion</h3>
+<h3 id="dont-shy-away-from-left-recursion">Don’t shy away from left recursion</h3>
 <p>You were a good little student and you paid attention to your professors when
 they told you never to write grammars like:</p>
-<pre><code>a -&gt; a &quot;something&quot;
-</code></pre><p>because a naïve recursive-descent parser would bork in an infinite loop.
+<pre><code>a -&gt; a &quot;something&quot;</code></pre><p>because a naïve recursive-descent parser would bork in an infinite loop.
 Nearley, of course, is much better, so you don’t have to worry about that. If
 you’re paranoid about efficiency, you should actually prefer left recursion
 over right recursion (<code>a -&gt; &quot;something&quot; a</code>) because it’s very slightly faster.
@@ -363,8 +358,7 @@ nonterminal:</p>
 <pre><code>math -&gt; sum
 sum -&gt; sum (&quot;+&quot;|&quot;-&quot;) product | product
 product -&gt; product (&quot;*&quot;|&quot;/&quot;) exp | exp
-exp -&gt; number &quot;^&quot; exp | number # this is right associative!
-</code></pre><p>It should be pretty clear how this works, and how to extend it to different
+exp -&gt; number &quot;^&quot; exp | number # this is right associative!</code></pre><p>It should be pretty clear how this works, and how to extend it to different
 types of operators. The main thing is to be careful with your associativity
 direction. Be careful not to write <code>op -&gt; op &quot;$&quot; op</code>, because that’s ambiguous.</p>
 <p>Introducing non-conflicting unary negation (<code>&quot;5 * -5&quot;</code>) is left as a trivial
@@ -376,7 +370,7 @@ matches, since a clear description will help you debug things in the future.</p>
 <h3 id="use-whitespace-prettily">Use whitespace prettily</h3>
 <p>Align your <code>-&gt;</code>s and your <code>|</code>s and your <code>{% ... %}</code>s. Future retinas will thank
 you.</p>
-<h3 id="parsing-an-established-language-cheat-">Parsing an established language? Cheat!</h3>
+<h3 id="parsing-an-established-language-cheat">Parsing an established language? Cheat!</h3>
 <p>Almost all standards publish syntax guides with an accompanying diagram in
 (E)BNF. It’s worth it to Google around for this. With just a bit of common
 sense, you should be able to transliterate it to a <code>.ne</code> file.</p>

@@ -264,7 +264,7 @@ nav ul a {
                 <li class="page-heading"><a href="#macros">Macros</a>
                 <li class="page-heading"><a href="#additional-js">Additional JS</a>
                 <li class="page-heading"><a href="#importing-other-grammars">Importing other grammars</a>
-                <li class="page-heading"><a href="#what-s-next-">What’s next?</a>
+                <li class="page-heading"><a href="#whats-next">What’s next?</a>
             </ul>
         </li>
         <li class="page"><a href="/docs/parser">Using a parser</a>
@@ -293,37 +293,32 @@ keyword <code>&quot;if&quot;</code> is a terminal.</li>
 <li>A <em>nonterminal</em> describes a set of possible strings. For example, all “if”
 statements can be described by a single nonterminal whose value depends on
 the condition and body of the if statement.</li>
-<li>A <em>rule</em> (or production rule) is a definition of a nonterminal. For example,<pre><code class="lang-ne">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;endif&quot;
-</code></pre>
+<li>A <em>rule</em> (or production rule) is a definition of a nonterminal. For example,<pre><code class="language-ne">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;endif&quot;</code></pre>
 is the rule according to which the if statement nonterminal, <code>ifStatement</code>,
 is parsed. It depends on the nonterminals <code>condition</code> and <code>statement</code>. A
 nonterminal can be described by multiple rules. For example, we can add a
-second rule<pre><code class="lang-ne">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;else&quot; statement &quot;endif&quot;
-</code></pre>
+second rule<pre><code class="language-ne">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; statement &quot;else&quot; statement &quot;endif&quot;</code></pre>
 to support “else” clauses.</li>
 </ul>
 <p>By default, nearley attempts to parse the first nonterminal defined in the
 grammar. In the following grammar, nearley will try to parse input text as an
 <code>expression</code>.</p>
-<pre><code class="lang-ne">expression -&gt; number &quot;+&quot; number
+<pre><code class="language-ne">expression -&gt; number &quot;+&quot; number
 expression -&gt; number &quot;-&quot; number
 expression -&gt; number &quot;*&quot; number
 expression -&gt; number &quot;/&quot; number
-number -&gt; [0-9]:+
-</code></pre>
+number -&gt; [0-9]:+</code></pre>
 <p>You can use the pipe character <code>|</code> to separate alternative rules for a
 nonterminal. In the example below, <code>expression</code> has four different rules.</p>
-<pre><code class="lang-ne">expression -&gt;
+<pre><code class="language-ne">expression -&gt;
     number &quot;+&quot; number
   | number &quot;-&quot; number
   | number &quot;*&quot; number
-  | number &quot;/&quot; number
-</code></pre>
+  | number &quot;/&quot; number</code></pre>
 <p>The keyword <code>null</code> stands for the <strong>epsilon rule</strong>, which matches nothing. The
 following nonterminal matches zero or more <code>cow</code>s in a row, such as
 <code>cowcowcow</code>:</p>
-<pre><code class="lang-ne">a -&gt; null | a &quot;cow&quot;
-</code></pre>
+<pre><code class="language-ne">a -&gt; null | a &quot;cow&quot;</code></pre>
 <h3 id="postprocessors">Postprocessors</h3>
 <p>By default, nearley wraps everything matched by a rule into an array. For
 example, when <code>rule -&gt; &quot;tick&quot; &quot;tock&quot;</code> matches the string <code>&quot;ticktock&quot;</code>, it
@@ -333,7 +328,7 @@ whitespace, or transform the results into a custom JavaScript object.</p>
 <p>For this purpose, each rule can have a <em>postprocessor</em>: a JavaScript function
 that transforms the array and returns a “processed” version of the result.
 Postprocessors are wrapped in <code>{% %}</code>s:</p>
-<pre><code class="lang-ne">expression -&gt; number &quot;+&quot; number {%
+<pre><code class="language-ne">expression -&gt; number &quot;+&quot; number {%
     function(data) {
         return {
             operator: &quot;sum&quot;,
@@ -341,8 +336,7 @@ Postprocessors are wrapped in <code>{% %}</code>s:</p>
             rightOperand: data[2] // data[1] is &quot;+&quot;
         };
     }
-%}
-</code></pre>
+%}</code></pre>
 <p>The rule above will parse the string <code>5+10</code> into <code>{ operator: &quot;sum&quot;,
 leftOperand: 5, rightOperand: 10 }</code>.</p>
 <p>The postprocessor can be any function with signature <code>function(data, location,
@@ -354,12 +348,11 @@ You can use the built-in <code>{% id %}</code> postprocessor to convert a one-it
 into the item itself.</p>
 <p>For <strong>arrow function</strong> users, a convenient pattern is to decompose the <code>data</code>
 array within the argument of the arrow function:</p>
-<pre><code class="lang-ne">expression -&gt;
+<pre><code class="language-ne">expression -&gt;
     number &quot;+&quot; number {% ([fst, _, snd]) =&gt; fst + snd %}
   | number &quot;-&quot; number {% ([fst, _, snd]) =&gt; fst - snd %}
   | number &quot;*&quot; number {% ([fst, _, snd]) =&gt; fst * snd %}
-  | number &quot;/&quot; number {% ([fst, _, snd]) =&gt; fst / snd %}
-</code></pre>
+  | number &quot;/&quot; number {% ([fst, _, snd]) =&gt; fst / snd %}</code></pre>
 </li>
 <li><p><code>location: number</code> is the index (zero-based) at which the rule match starts.
 You might use this to show the location of an expression in an error message.</p>
@@ -376,7 +369,7 @@ rule doesn’t <em>actually</em> match its input.</p>
 <p>Reject is used in some edge cases. For example, suppose you want sequences of
 letters to match variables, except for the keyword <code>if</code>. In this case, your
 rule may be</p>
-<pre><code class="lang-ne">variable -&gt; [a-z]:+ {%
+<pre><code class="language-ne">variable -&gt; [a-z]:+ {%
     function(d,l, reject) {
         if (d[0] == &#39;if&#39;) {
             return reject;
@@ -384,8 +377,7 @@ rule may be</p>
             return {&#39;name&#39;: d[0]};
         }
     }
-%}
-</code></pre>
+%}</code></pre>
 <blockquote>
 <p>Warning: Grammars using <code>reject</code> are not context-free, and are often much
 slower to parse. So, we encourage you not to use <code>reject</code> unless absolutely
@@ -402,45 +394,38 @@ extract the content of a single-element array: <code>foo -&gt; bar {% id %}</cod
 <h4 id="comments">Comments</h4>
 <p>Comments are marked with ‘#’. Everything from <code>#</code> to the end of a line is
 ignored:</p>
-<pre><code class="lang-ne">expression -&gt; number &quot;+&quot; number # sum of two numbers
-</code></pre>
+<pre><code class="language-ne">expression -&gt; number &quot;+&quot; number # sum of two numbers</code></pre>
 <h4 id="charsets">Charsets</h4>
 <p>You can use valid RegExp charsets in a rule (unless you’re using a
 <a href="tokenizers">tokenizer</a>):</p>
-<pre><code>not_a_letter -&gt; [^a-zA-Z]
-</code></pre><p>The <code>.</code> character can be used to represent any character.</p>
+<pre><code>not_a_letter -&gt; [^a-zA-Z]</code></pre><p>The <code>.</code> character can be used to represent any character.</p>
 <h4 id="case-insensitive-string-literals">Case-insensitive string literals</h4>
 <p>You can create case-insensitive string literals by adding an <code>i</code> after the
 string literal:</p>
-<pre><code>cow -&gt; &quot;cow&quot;i # matches CoW, COW, and so on.
-</code></pre><p>Note that if you are using a lexer, your lexer should use the <code>i</code> flag in its
+<pre><code>cow -&gt; &quot;cow&quot;i # matches CoW, COW, and so on.</code></pre><p>Note that if you are using a lexer, your lexer should use the <code>i</code> flag in its
 regexes instead. That is, if you are using a lexer, you should <em>not</em> use the
 <code>i</code> suffix in nearley.</p>
 <h4 id="ebnf">EBNF</h4>
 <p>nearley supports the <code>*</code>, <code>?</code>, and <code>+</code> operators from
-<a href="https://en.wikipedia.org/wiki/Extended_Backus–Naur_form">EBNF</a> as shown:</p>
-<pre><code class="lang-ne">batman -&gt; &quot;na&quot;:* &quot;batman&quot; # nananana...nanabatman
-</code></pre>
+<a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form">EBNF</a> as shown:</p>
+<pre><code class="language-ne">batman -&gt; &quot;na&quot;:* &quot;batman&quot; # nananana...nanabatman</code></pre>
 <p>You can also use capture groups with parentheses. Its contents can be anything
 that a rule can have:</p>
-<pre><code class="lang-ne">banana -&gt; &quot;ba&quot; (&quot;na&quot; {% id %} | &quot;NA&quot; {% id %}):+
-</code></pre>
+<pre><code class="language-ne">banana -&gt; &quot;ba&quot; (&quot;na&quot; {% id %} | &quot;NA&quot; {% id %}):+</code></pre>
 <h3 id="macros">Macros</h3>
 <p>Macros allow you to create polymorphic rules:</p>
-<pre><code class="lang-ne"># Matches &quot;&#39;Hello?&#39; &#39;Hello?&#39; &#39;Hello?&#39;&quot;
+<pre><code class="language-ne"># Matches &quot;&#39;Hello?&#39; &#39;Hello?&#39; &#39;Hello?&#39;&quot;
 matchThree[X] -&gt; $X &quot; &quot; $X &quot; &quot; $X
 inQuotes[X] -&gt; &quot;&#39;&quot; $X &quot;&#39;&quot;
 
-main -&gt; matchThree[inQuotes[&quot;Hello?&quot;]]
-</code></pre>
+main -&gt; matchThree[inQuotes[&quot;Hello?&quot;]]</code></pre>
 <p>Macros are dynamically scoped, which means they see arguments passed to parent
 macros:</p>
-<pre><code class="lang-ne"># Matches &quot;Cows oink.&quot; and &quot;Cows moo!&quot;
+<pre><code class="language-ne"># Matches &quot;Cows oink.&quot; and &quot;Cows moo!&quot;
 sentence[ANIMAL, PUNCTUATION] -&gt; animalGoes[(&quot;moo&quot; | &quot;oink&quot; | &quot;baa&quot;)] $PUNCTUATION
 animalGoes[SOUND] -&gt; $ANIMAL &quot; &quot; $SOUND # uses $ANIMAL from its caller
 
-main -&gt; sentence[&quot;Cows&quot;, (&quot;.&quot; | &quot;!&quot;)]
-</code></pre>
+main -&gt; sentence[&quot;Cows&quot;, (&quot;.&quot; | &quot;!&quot;)]</code></pre>
 <p>Macros are expanded at compile time and inserted in places they are used. They
 are not “real” rules. Therefore, macros <em>cannot</em> be recursive (<code>nearleyc</code> will
 go into an infinite loop trying to expand the macro-loop). They must also be
@@ -449,25 +434,22 @@ defined <em>before</em> they are used.</p>
 <p>For more intricate postprocessors, or any other functionality you may need, you
 can include chunks of JavaScript code between production rules by surrounding
 it with <code>@{% ... %}</code>:</p>
-<pre><code class="lang-ne">@{%
+<pre><code class="language-ne">@{%
 const cowSays = require(&quot;./cow.js&quot;);
 %}
 
-cow -&gt; &quot;moo&quot; {% ([moo]) =&gt; cowSays(moo) %}
-</code></pre>
+cow -&gt; &quot;moo&quot; {% ([moo]) =&gt; cowSays(moo) %}</code></pre>
 <p>Note that it doesn’t matter where you add these; they all get hoisted to the
 top of the generated code.</p>
 <h3 id="importing-other-grammars">Importing other grammars</h3>
 <p>You can include the content of other grammar files:</p>
-<pre><code class="lang-ne">@include &quot;../misc/primitives.ne&quot; # path relative to file being compiled
-sum -&gt; number &quot;+&quot; number # uses &quot;number&quot; from the included file
-</code></pre>
+<pre><code class="language-ne">@include &quot;../misc/primitives.ne&quot; # path relative to file being compiled
+sum -&gt; number &quot;+&quot; number # uses &quot;number&quot; from the included file</code></pre>
 <p>There are some common nonterminals like “integer” and “double-quoted string”
 that ship with nearley to help you prototype grammars efficiently. You can
 include them using the <code>@builtin</code> directive:</p>
-<pre><code class="lang-ne">@builtin &quot;number.ne&quot;
-main -&gt; int:+
-</code></pre>
+<pre><code class="language-ne">@builtin &quot;number.ne&quot;
+main -&gt; int:+</code></pre>
 <p>(Note that we mean “efficient” in the sense that you can get them set up very
 quickly. The builtins are <em>inefficient</em> in the sense that they make your parser
 slower. For a “real” project, you would want to switch to a lexer and implement
@@ -476,7 +458,7 @@ these primitives yourself!)</p>
 welcome!</p>
 <p>Note that including a file imports <em>all</em> of the nonterminals defined in it, as
 well as any JS, macros, and configuration options defined there.</p>
-<h3 id="what-s-next-">What’s next?</h3>
+<h3 id="whats-next">What’s next?</h3>
 <p>Now that you have a grammar, you’re ready to <a href="parser">learn how to use it to build a
 parser!</a></p>
 

@@ -299,17 +299,15 @@ super-fast lexer. Construct a lexer using <code>moo.compile</code>.</p>
 <p>When using a lexer, there are two ways to match tokens:</p>
 <ul>
 <li><p>Use <code>%token</code> to match a token with <strong>type</strong> <code>token</code>.</p>
-<pre><code class="lang-ne">line -&gt; words %newline
-</code></pre>
+<pre><code class="language-ne">line -&gt; words %newline</code></pre>
 </li>
 <li><p>Use <code>&quot;foo&quot;</code> to match a token with <strong>text</strong> <code>foo</code>.</p>
 <p>This is convenient for matching keywords:</p>
-<pre><code class="lang-ne">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; block
-</code></pre>
+<pre><code class="language-ne">ifStatement -&gt; &quot;if&quot; condition &quot;then&quot; block</code></pre>
 </li>
 </ul>
 <p>Here is an example of a simple grammar:</p>
-<pre><code class="lang-coffeescript">@{%
+<pre><code class="language-coffeescript">@{%
 const moo = require(&quot;moo&quot;);
 
 const lexer = moo.compile({
@@ -327,8 +325,7 @@ const lexer = moo.compile({
 multiplication -&gt; %number %ws %times %ws %number {% ([first, , , , second]) =&gt; first * second %}
 
 # Literal strings now match tokens with that text:
-trig -&gt; &quot;sin&quot; %number
-</code></pre>
+trig -&gt; &quot;sin&quot; %number</code></pre>
 <p>Have a look at <a href="https://github.com/tjvr/moo#usage">the Moo documentation</a> to
 learn more about writing a tokenizer.</p>
 <p>You use the parser as usual: call <code>parser.feed(data)</code>, and nearley will give
@@ -365,15 +362,14 @@ tokens. A literal token matches a JS value exactly (with <code>===</code>), whil
 testable token runs a predicate that tests whether or not the value matches.</p>
 <p>Note that in this case, you would feed a <code>Parser</code> instance an <em>array</em> of
 objects rather than a string! Here is a simple example:</p>
-<pre><code class="lang-ne">@{%
+<pre><code class="language-ne">@{%
 const tokenPrint = { literal: &quot;print&quot; };
 const tokenNumber = { test: x =&gt; Number.isInteger(x) };
 %}
 
 main -&gt; %tokenPrint %tokenNumber &quot;;;&quot;
 
-# parser.feed([&quot;print&quot;, 12, &quot;;;&quot;]);
-</code></pre>
+# parser.feed([&quot;print&quot;, 12, &quot;;;&quot;]);</code></pre>
 
 
     <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a

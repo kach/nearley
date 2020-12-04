@@ -288,9 +288,8 @@ to test a new parser.</p>
 <h3 id="nearley-unparse-the-unparser">nearley-unparse: The Unparser</h3>
 <p>The Unparser takes a (compiled) parser and outputs a random string that would
 be accepted by the parser.</p>
-<pre><code class="lang-bash">$ nearley-unparse -s number &lt;(nearleyc builtin/prims.ne)
--6.22E94
-</code></pre>
+<pre><code class="language-bash">$ nearley-unparse -s number &lt;(nearleyc builtin/prims.ne)
+-6.22E94</code></pre>
 <p>You can use the Unparser to…</p>
 <ul>
 <li>…test your parser specification by generating lots of random expressions
@@ -317,8 +316,7 @@ in the browser <a href="http://bnfplayground.pauliankline.com">here</a>.</p>
 <h3 id="nearley-railroad-automagical-railroad-diagrams">nearley-railroad: Automagical Railroad Diagrams</h3>
 <p>nearley lets you convert your grammars to pretty SVG railroad diagrams that you
 can include in webpages, documentation, and even papers.</p>
-<pre><code class="lang-bash">$ nearley-railroad regex.ne -o grammar.html
-</code></pre>
+<pre><code class="language-bash">$ nearley-railroad regex.ne -o grammar.html</code></pre>
 <p><img src="/www/railroad-demo.png" alt="Railroad demo"></p>
 <p>See a bigger example <a href="/www/railroad-demo">here</a>.</p>
 <p>This feature is powered by
