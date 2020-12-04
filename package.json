@@ -1,6 +1,6 @@
 {
   "name": "nearley",
-  "version": "2.19.9",
+  "version": "2.20.0",
   "description": "Simple, fast, powerful parser toolkit for JavaScript.",
   "main": "lib/nearley.js",
   "dependencies": {
@@ -58,7 +58,7 @@
     "typescript": "^2.6.1"
   },
   "funding": {
-    "type" : "individual",
-    "url" : "https://nearley.js.org/#give-to-nearley"
+    "type": "individual",
+    "url": "https://nearley.js.org/#give-to-nearley"
   }
 }
