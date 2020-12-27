@@ -149,7 +149,9 @@ an implementation of the WHILE language,
 [lo](https://github.com/lo-language/velo) is a language for secure distributed
 systems, [jaco](https://github.com/calculemuscode/jaco) is an implementation of
 CMU's C0 teaching language, [walt](https://github.com/ballercat/walt) is a
-subset of JavaScript that targets WebAssembly.
+subset of JavaScript that targets WebAssembly,
+[N-lang](https://github.com/nbuilding/N-lang) is a general-purpose language
+designed by a group of high school students.
 
 **Mathematics**: [Solvent](https://github.com/andrejewski/solvent) is a
 powerful desktop calculator,
