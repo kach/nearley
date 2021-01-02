@@ -121,7 +121,8 @@ validates and expands CSS shorthands,
 OpenSCAD 3D models, [js-sql-parse](https://github.com/justinkenel/js-sql-parse)
 parses SQL statements, [pg-mem](https://github.com/oguimbal/pg-mem) is an in-memory Postgres database emulator, [resp-parser](https://github.com/appology/resp-parser) is
 a parser for the RESP protocol, [celio](https://github.com/AntonShan/Celio)
-parses Celestia star catalogs.
+parses Celestia star catalogs, [Haraka](http://haraka.github.io/users/) is an
+SMTP server that powers Craigslist (and others).
 
 **Templating and files**: [uPresent](https://github.com/bobbybee/uPresent) is a
 markdown-based presentation authoring system,
