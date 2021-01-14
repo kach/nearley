@@ -110,6 +110,14 @@ describe("bin/nearleyc", function() {
         expect(stderr).toBe("");
     });
 
+    it("allows javascript keywords as literals", function () {
+        const {outPath, stdout, stderr} = externalNearleyc("grammars/js-keywords.ne", '.js');
+        expect(stderr).toBe("");
+        const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
+        expect(parse(grammar, "iffunctionreturn")).toEqual([ [ 'if', 'function', 'return' ] ]);
+
+    });
+
 
 })
 
