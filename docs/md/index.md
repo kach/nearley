@@ -190,7 +190,13 @@ thousands of teams, [Obyte](https://github.com/byteball/ocore) is a
 cryptocurrency platform, [OptiCSS](https://github.com/linkedin/opticss) is a
 CSS optimizer built by LinkedIn,
 [NESTUP](https://github.com/cutelabnyc/nested-tuplets) is a language for
-specifying nested rhythmic tuplets.
+specifying nested rhythmic tuplets,
+[htlengine](https://www.npmjs.com/package/@adobe/htlengine) parses Adobe's HTL
+template language,
+[fhir-works](https://github.com/awslabs/fhir-works-on-aws-search-es#readme)
+is an AWS-provided tool to parse FHIRPath search parameters (FHIR is an
+interface for healthcare data), [Penrose](http://www.penrose.ink) is a language
+for expressing mathematical diagrams.
 
 **Other**:
 [ProceduralPsychEpisode](https://github.com/PatrickMurphy/ProceduralPsychEpisode)
