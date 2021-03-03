@@ -151,7 +151,7 @@ dialect of JavaScript.
 
 #### Typescript Preprocessor Changes
 
-If you have recently upgraded to a newer version of nearly, you might have run
+If you have recently upgraded to a newer version of nearley, you might have run
 into an issue with `error TS2345` talking about a variable
 `missing the following properties from type 'CompiledRules': ParserStart, ParserRules`
 This is a result of a change in the output format of the grammar, but is very easily fixed.
