@@ -189,7 +189,7 @@ descriptions of electronic components like resistors and capacitors,
 thousands of teams, [Obyte](https://github.com/byteball/ocore) is a
 cryptocurrency platform, [OptiCSS](https://github.com/linkedin/opticss) is a
 CSS optimizer built by LinkedIn,
-[NESTUP](https://github.com/cutelabnyc/nested-tuplets) is a language for
+[Nestup](https://github.com/cutelabnyc/nested-tuplets) is a language for
 specifying nested rhythmic tuplets,
 [htlengine](https://www.npmjs.com/package/@adobe/htlengine) parses Adobe's HTL
 template language,
