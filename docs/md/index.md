@@ -200,7 +200,9 @@ for expressing mathematical diagrams.
 
 **Other**:
 [ProceduralPsychEpisode](https://github.com/PatrickMurphy/ProceduralPsychEpisode)
-generates "random episodes of the hilarious but formulaic show"
+generates "random episodes of the hilarious but formulaic show,"
+[parse-vbb-station-name](https://www.npmjs.com/package/parse-vbb-station-name)
+parses names of public transit stops in Berlin.
 
 **Parsing libraries**: [nearley](http://nearley.js.org) is a parser toolkit for
 JavaScript. It has a nearley-based DSL to specify parsers.
