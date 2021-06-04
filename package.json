@@ -5,6 +5,7 @@
   "main": "lib/nearley.js",
   "dependencies": {
     "commander": "^2.19.0",
+    "debug": "4.3",
     "moo": "^0.5.0",
     "railroad-diagrams": "^1.0.0",
     "randexp": "0.4.6"
