@@ -60,10 +60,10 @@ Q ->  LP AS RP  {% ([lp, as, rp]) => as %}
 ##### LEXICAL ANALYSIS #################################################
 
 # I use `float` to basically mean a number with a decimal point in it
-FLOAT -> _ float    {% d => d[1] %} 
+FLOAT -> _ float   {% d => d[1] %} 
 float ->
-      int "." int   {% function(d) {return parseFloat(d[0] + d[1] + d[2])} %}
-	| int           {% function(d) {return parseInt(d[0])} %}
+      int "." int  {% function(d) {return parseFloat(d[0] + d[1] + d[2])} %}
+	| int          {% function(d) {return parseInt(d[0])} %}
 
 int -> [0-9]:+     {% function(d) {return d[0].join(""); } %}
 
@@ -77,15 +77,15 @@ MULT -> _ "*"      {% function(d) {return ((a,b) => a*b); } %}
 DIV -> _ "/"       {% function(d) {return ((a,b) => a/b); } %}
 EXP -> _ "^"       {% function(d) {return ((a,b) => Math.pow(a,b)); } %}
 FACTORIAL -> "!"   {% d => fac %}
-LP -> _ "("         {% Null %}
-RP -> _ ")"         {% Null %}
-SIN -> _ "sin"i      {% d => Math.sin %}
-COS -> _ "cos"i      {% d => Math.cos %}
-TAN -> _ "tan"i      {% d => Math.tan %}
-ASIN -> _ "asin"i    {% d => Math.asin %}
-ACOS -> _ "acos"i    {% d => Math.acos %}
-ATAN -> _ "atan"i    {% d => Math.atan %}
-PI -> _ "pi"i        {% d => Math.PI %}
-EULER -> _ "e"i      {% d => Math.E  %}
-SQRT -> _ "sqrt"i    {% d => Math.sqrt %}
-LN -> _ "ln"i        {% d => Math.log %}
+LP -> _ "("        {% Null %}
+RP -> _ ")"        {% Null %}
+SIN -> _ "sin"i    {% d => Math.sin %}
+COS -> _ "cos"i    {% d => Math.cos %}
+TAN -> _ "tan"i    {% d => Math.tan %}
+ASIN -> _ "asin"i  {% d => Math.asin %}
+ACOS -> _ "acos"i  {% d => Math.acos %}
+ATAN -> _ "atan"i  {% d => Math.atan %}
+PI -> _ "pi"i      {% d => Math.PI %}
+EULER -> _ "e"i    {% d => Math.E  %}
+SQRT -> _ "sqrt"i  {% d => Math.sqrt %}
+LN -> _ "ln"i      {% d => Math.log %}
