@@ -1,7 +1,7 @@
 # [nearley](http://nearley.js.org) ↗️
 [![JS.ORG](https://img.shields.io/badge/js.org-nearley-ffb400.svg?style=flat-square)](http://js.org)
 [![npm version](https://badge.fury.io/js/nearley.svg)](https://badge.fury.io/js/nearley)
-[![Test](https://github.com//crguezl/nearley/actions/workflows/node.yml/badge.svg?branch=main)](https://github.com//crguezl/nearley/actions/workflows/test.yml)
+[![Test](https://github.com//crguezl/nearley/actions/workflows/node.yml/badge.svg?branch=main)](https://github.com/crguezl/nearley/actions/workflows/test.yaml)
 
 nearley is a simple, fast and powerful parsing toolkit. It consists of:
 1. [A powerful, modular DSL for describing
