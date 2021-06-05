@@ -22,7 +22,7 @@ function typeScriptCheck(isStrict) {
     const {outPath, stdout, stderr} = externalNearleyc("grammars/typescript-test.ne", ".ts");
     expect(stderr.replace(/\s+/g,'')).toBe("");
     expect(stdout.replace(/\s+/g,'')).toBe("");
-    const spawnSync = sh(`tsc ${isStrict ? "--strict" : ""} ${outPath}.ts`);
+    const spawnSync = sh(`npx tsc ${isStrict ? "--strict" : ""} ${outPath}.ts`);
     expect(spawnSync.stdout.replace(/\s+/g,'')).toBe(""); // type errors get logged to stdout, not stderr
     const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`).default);
     expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
