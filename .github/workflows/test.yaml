@@ -16,5 +16,5 @@ jobs:
           check-latest: true
       - run: npm i
         env: 
-          NODE_AUTH_TOKEN: ${{secrets.READ_PACKAGE_TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # no used
       - run: npm run test-no-tsdoc
