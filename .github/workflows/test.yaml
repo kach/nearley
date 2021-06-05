@@ -17,4 +17,4 @@ jobs:
       - run: npm i
         env: 
           NODE_AUTH_TOKEN: ${{secrets.READ_PACKAGE_TOKEN}}
-      - run: npm test
+      - run: npm run test-no-tsdoc

@@ -35,6 +35,7 @@
     "bootstrap": "mocha test/bootstrap.test.js && bin/nearleyc.js lib/nearley-language-bootstrapped.ne > tmp && mv tmp lib/nearley-language-bootstrapped.js && echo bootstrapped ok",
     "benchmark": "benchr test/benchmark.js",
     "test": "mocha test/*.test.js",
+    "test-no-tsdoc": "mocha test/*.test.js --grep 'builds for TypeScript' --invert",
     "doctoc": "doctoc --notitle README.md",
     "profile": "bin/nearleyc.js test/grammars/parens.ne > test/grammars/parens.js && node test/profile.js"
   },
