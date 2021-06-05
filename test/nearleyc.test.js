@@ -35,7 +35,7 @@ describe("bin/nearleyc", function() {
     it('builds for ES5', function() {
         const {outPath, stdout, stderr} = externalNearleyc("grammars/parens.ne", '.js');
         expect(stderr.replace(/\s+/,'')).toBe("");
-        expect(stdout.replace(/\s+/,'').toBe("");
+        expect(stdout.replace(/\s+/,'')).toBe("");
         const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
     });
 
@@ -43,8 +43,8 @@ describe("bin/nearleyc", function() {
         this.timeout(10000); // It takes a while to run babel!
 
         const {outPath, stdout, stderr} = externalNearleyc("grammars/esmodules-test.ne", '.js');
-        expect(stderr.replace(/\s+/,'').toBe("");
-        expect(stdout.replace(/\s+/,'').toBe("");
+        expect(stderr.replace(/\s+/,'')).toBe("");
+        expect(stdout.replace(/\s+/,'')).toBe("");
         write(`test/${outPath}-parse.js`, `import {Grammar, Parser} from '../lib/nearley'
                                            import compiledGrammar from './${outPath}'
 
