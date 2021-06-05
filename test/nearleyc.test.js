@@ -20,10 +20,10 @@ function prettyPrint(grammar) {
 
 function typeScriptCheck(isStrict) {
     const {outPath, stdout, stderr} = externalNearleyc("grammars/typescript-test.ne", ".ts");
-    expect(stderr).toBe("");
-    expect(stdout).toBe("");
+    expect(stderr.replace(/\s+/g,'')).toBe("");
+    expect(stdout.replace(/\s+/g,'')).toBe("");
     const spawnSync = sh(`tsc ${isStrict ? "--strict" : ""} ${outPath}.ts`);
-    expect(spawnSync.stdout).toBe(""); // type errors get logged to stdout, not stderr
+    expect(spawnSync.stdout.replace(/\s+/g,'')).toBe(""); // type errors get logged to stdout, not stderr
     const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`).default);
     expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
 }
