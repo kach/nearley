@@ -18,4 +18,4 @@ jobs:
       - run: npm i
         env: 
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # no used
-      - run: npm run test-no-tsdoc
+      - run: npm test
