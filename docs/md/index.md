@@ -196,7 +196,9 @@ template language,
 [fhir-works](https://github.com/awslabs/fhir-works-on-aws-search-es#readme)
 is an AWS-provided tool to parse FHIRPath search parameters (FHIR is an
 interface for healthcare data), [Penrose](http://www.penrose.ink) is a language
-for expressing mathematical diagrams.
+for expressing mathematical diagrams,
+[sema](https://github.com/mimic-sussex/sema) is a DSL for live-coding music
+performances.
 
 **Other**:
 [ProceduralPsychEpisode](https://github.com/PatrickMurphy/ProceduralPsychEpisode)
