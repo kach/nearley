@@ -1,7 +1,7 @@
 {
   "name": "nearley",
-  "version": "2.19.7",
-  "description": "Simple, fast, powerful parser toolkit for JavaScript.",
+  "version": "2.19.8",
+  "description": "Simple, fast, powerful parser toolkit for JavaScript. Added fix for typescript per https://github.com/kach/nearley/pull/544",
   "main": "lib/nearley.js",
   "dependencies": {
     "commander": "^2.19.0",
@@ -56,5 +56,6 @@
     "microtime": "^2.1.2",
     "mocha": "^2.5.3",
     "typescript": "^2.6.1"
-  }
+  },
+  "types": "types.d.ts"
 }
