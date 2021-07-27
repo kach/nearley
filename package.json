@@ -1,5 +1,5 @@
 {
-  "name": "nearley",
+  "name": "@meditech/nearley",
   "version": "2.19.8",
   "description": "Simple, fast, powerful parser toolkit for JavaScript. Added fix for typescript per https://github.com/kach/nearley/pull/544",
   "main": "lib/nearley.js",
