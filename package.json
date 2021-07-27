@@ -1,6 +1,6 @@
 {
   "name": "@meditech/nearley",
-  "version": "2.19.8",
+  "version": "2.19.9",
   "description": "Simple, fast, powerful parser toolkit for JavaScript. Added fix for typescript per https://github.com/kach/nearley/pull/544",
   "main": "lib/nearley.js",
   "dependencies": {
@@ -13,7 +13,8 @@
   "files": [
     "bin/",
     "lib/",
-    "builtin/"
+    "builtin/",
+    "types.d.ts"
   ],
   "bin": {
     "nearleyc": "bin/nearleyc.js",
