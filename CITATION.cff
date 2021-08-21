@@ -7,4 +7,5 @@ authors:
     given-names: Tim
 title: "nearley: a parsing toolkit for JavaScript"
 doi: 10.5281/zenodo.3897993
-date-released: 2021
+date-released: 2014-02-23
+repository-code: "https://github.com/kach/nearley/"
