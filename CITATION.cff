@@ -1,10 +1,10 @@
 cff-version: 1.2.0
 message: "If you are citing nearley in academic work, please use the following citation."
 authors:
-  - family-names: Kartik
-    given-names: Chandra
-  - family-names: Tim
-    given-names: Radvan
+  - family-names: Chandra
+    given-names: Kartik
+  - family-names: Radvan
+    given-names: Tim
 title: "nearley: a parsing toolkit for JavaScript"
 doi: 10.5281/zenodo.3897993
 date-released: 2021
