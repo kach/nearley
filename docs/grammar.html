@@ -259,6 +259,7 @@ nav ul a {
             <a href="#" class="page-title-active">Writing a parser</a>
             <ul>
                 <li class="page-heading"><a href="#vocabulary">Vocabulary</a>
+                <li class="page-heading"><a href="#matching-rules">Matching Rules</a>
                 <li class="page-heading"><a href="#postprocessors">Postprocessors</a>
                 <li class="page-heading"><a href="#more-syntax-tips-and-tricks">More syntax: tips and tricks</a>
                 <li class="page-heading"><a href="#macros">Macros</a>
@@ -319,21 +320,19 @@ nonterminal. In the example below, <code>expression</code> has four different ru
 following nonterminal matches zero or more <code>cow</code>s in a row, such as
 <code>cowcowcow</code>:</p>
 <pre><code class="language-ne">a -&gt; null | a &quot;cow&quot;</code></pre>
-    
 <h3 id="matching-rules">Matching Rules</h3>
-<p>Syntax for matching input if you're not using a tokenizer.</p>
-<pre><code class="language-ne">
-  * `"if"` - match `if` literally
-  * `"if"i` - match `if` case-insensitive
-  * `.` - match any symbol except newline
-  * `[^]` - match anything including newline
-  * `[a-zA-Z]` - match symbols in range
-  * `[^a-zA-Z]` - match symbols not in range
-  * `:+` - match previous construction one or more time
-  * `:*` - match zero times or more
-  * `:?` - zero time or one time
-</code></pre>
-
+<p>Syntax for matching input if you’re not using a tokenizer.</p>
+<ul>
+<li><code>&quot;if&quot;</code> - match <code>if</code> literally</li>
+<li><code>&quot;if&quot;i</code> - match <code>if</code> case-insensitive</li>
+<li><code>.</code> - match any symbol except newline</li>
+<li><code>[^]</code> - match anything including newline</li>
+<li><code>[a-zA-Z]</code> - match symbols in range</li>
+<li><code>[^a-zA-Z]</code> - match symbols not in range</li>
+<li><code>:+</code> - match previous construction one or more time</li>
+<li><code>:*</code> - match zero times or more</li>
+<li><code>:?</code> - zero time or one time</li>
+</ul>
 <h3 id="postprocessors">Postprocessors</h3>
 <p>By default, nearley wraps everything matched by a rule into an array. For
 example, when <code>rule -&gt; &quot;tick&quot; &quot;tock&quot;</code> matches the string <code>&quot;ticktock&quot;</code>, it
@@ -404,7 +403,7 @@ necessary. You can usually use a tokenizer instead.</p>
 <ul>
 <li><code>id</code> returns the first element of the <code>data</code> array. This is useful to
 extract the content of a single-element array: <code>foo -&gt; bar {% id %}</code></li>
-</ul> 
+</ul>
 <h3 id="more-syntax-tips-and-tricks">More syntax: tips and tricks</h3>
 <h4 id="comments">Comments</h4>
 <p>Comments are marked with ‘#’. Everything from <code>#</code> to the end of a line is

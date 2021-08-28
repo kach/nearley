@@ -62,6 +62,20 @@ following nonterminal matches zero or more `cow`s in a row, such as
 a -> null | a "cow"
 ```
 
+### Matching Rules
+
+Syntax for matching input if you're not using a tokenizer.
+
+  * `"if"` - match `if` literally
+  * `"if"i` - match `if` case-insensitive
+  * `.` - match any symbol except newline
+  * `[^]` - match anything including newline
+  * `[a-zA-Z]` - match symbols in range
+  * `[^a-zA-Z]` - match symbols not in range
+  * `:+` - match previous construction one or more time
+  * `:*` - match zero times or more
+  * `:?` - zero time or one time
+
 ### Postprocessors
 
 By default, nearley wraps everything matched by a rule into an array. For
