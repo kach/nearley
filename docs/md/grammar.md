@@ -67,14 +67,20 @@ a -> null | a "cow"
 Syntax for matching input if you're not using a tokenizer.
 
   * `"if"` - match `if` literally
-  * `"if"i` - match `if` case-insensitive
+  * `"if"i` - match `if` case-insensitive (1)
   * `.` - match any symbol except newline
   * `[^]` - match anything including newline
-  * `[a-zA-Z]` - match symbols in range
+  * `[a-zA-Z]` - match symbols in range (2)
   * `[^a-zA-Z]` - match symbols not in range
   * `:+` - match previous construction one or more time
   * `:*` - match zero times or more
   * `:?` - zero time or one time
+
+(1) `i` suffix will *not* work with a lexer if you're using one. Your lexer
+should use the `i` flag in its regexes instead.
+
+(2) RegExp charsets will not work with [tokenizer](tokenizers).
+
 
 ### Postprocessors
 
@@ -167,26 +173,6 @@ ignored:
 ```ne
 expression -> number "+" number # sum of two numbers
 ```
-
-#### Charsets
-
-You can use valid RegExp charsets in a rule (unless you're using a
-[tokenizer](tokenizers)):
-
-    not_a_letter -> [^a-zA-Z]
-
-The `.` character can be used to represent any character.
-
-#### Case-insensitive string literals
-
-You can create case-insensitive string literals by adding an `i` after the
-string literal:
-
-    cow -> "cow"i # matches CoW, COW, and so on.
-
-Note that if you are using a lexer, your lexer should use the `i` flag in its
-regexes instead. That is, if you are using a lexer, you should *not* use the
-`i` suffix in nearley.
 
 #### EBNF
 

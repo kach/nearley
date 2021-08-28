@@ -324,15 +324,18 @@ following nonterminal matches zero or more <code>cow</code>s in a row, such as
 <p>Syntax for matching input if you’re not using a tokenizer.</p>
 <ul>
 <li><code>&quot;if&quot;</code> - match <code>if</code> literally</li>
-<li><code>&quot;if&quot;i</code> - match <code>if</code> case-insensitive</li>
+<li><code>&quot;if&quot;i</code> - match <code>if</code> case-insensitive (1)</li>
 <li><code>.</code> - match any symbol except newline</li>
 <li><code>[^]</code> - match anything including newline</li>
-<li><code>[a-zA-Z]</code> - match symbols in range</li>
+<li><code>[a-zA-Z]</code> - match symbols in range (2)</li>
 <li><code>[^a-zA-Z]</code> - match symbols not in range</li>
 <li><code>:+</code> - match previous construction one or more time</li>
 <li><code>:*</code> - match zero times or more</li>
 <li><code>:?</code> - zero time or one time</li>
 </ul>
+<p>(1) <code>i</code> suffix will <em>not</em> work with a lexer if you’re using one. Your lexer
+should use the <code>i</code> flag in its regexes instead.</p>
+<p>(2) RegExp charsets will not work with <a href="tokenizers">tokenizer</a>.</p>
 <h3 id="postprocessors">Postprocessors</h3>
 <p>By default, nearley wraps everything matched by a rule into an array. For
 example, when <code>rule -&gt; &quot;tick&quot; &quot;tock&quot;</code> matches the string <code>&quot;ticktock&quot;</code>, it
@@ -409,16 +412,6 @@ extract the content of a single-element array: <code>foo -&gt; bar {% id %}</cod
 <p>Comments are marked with ‘#’. Everything from <code>#</code> to the end of a line is
 ignored:</p>
 <pre><code class="language-ne">expression -&gt; number &quot;+&quot; number # sum of two numbers</code></pre>
-<h4 id="charsets">Charsets</h4>
-<p>You can use valid RegExp charsets in a rule (unless you’re using a
-<a href="tokenizers">tokenizer</a>):</p>
-<pre><code>not_a_letter -&gt; [^a-zA-Z]</code></pre><p>The <code>.</code> character can be used to represent any character.</p>
-<h4 id="case-insensitive-string-literals">Case-insensitive string literals</h4>
-<p>You can create case-insensitive string literals by adding an <code>i</code> after the
-string literal:</p>
-<pre><code>cow -&gt; &quot;cow&quot;i # matches CoW, COW, and so on.</code></pre><p>Note that if you are using a lexer, your lexer should use the <code>i</code> flag in its
-regexes instead. That is, if you are using a lexer, you should <em>not</em> use the
-<code>i</code> suffix in nearley.</p>
 <h4 id="ebnf">EBNF</h4>
 <p>nearley supports the <code>*</code>, <code>?</code>, and <code>+</code> operators from
 <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form">EBNF</a> as shown:</p>
