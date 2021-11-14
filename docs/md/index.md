@@ -198,7 +198,9 @@ is an AWS-provided tool to parse FHIRPath search parameters (FHIR is an
 interface for healthcare data), [Penrose](http://www.penrose.ink) is a language
 for expressing mathematical diagrams,
 [sema](https://github.com/mimic-sussex/sema) is a DSL for live-coding music
-performances.
+performances, [tinsl](https://github.com/bandaloo/tinsl) is a DSL for creating
+multi-pass rendering pipelines for real-time post-processing effects using
+GLSL-like syntax.
 
 **Other**:
 [ProceduralPsychEpisode](https://github.com/PatrickMurphy/ProceduralPsychEpisode)
