@@ -307,25 +307,27 @@ super-fast lexer. Construct a lexer using <code>moo.compile</code>.</p>
 </li>
 </ul>
 <p>Here is an example of a simple grammar:</p>
-<pre><code class="language-coffeescript">@{%
+<pre><code class="language-ne">@{%
 const moo = require(&quot;moo&quot;);
 
 const lexer = moo.compile({
   ws:     /[ \t]+/,
   number: /[0-9]+/,
-  word: /[a-z]+/,
-  times:  /\*|x/
+  word: { match: /[a-z]+/, type: moo.keywords({ times: &quot;x&quot; }) },
+  times:  /\*/
 });
 %}
 
 # Pass your lexer object using the @lexer option:
 @lexer lexer
 
+expr -&gt; multiplication {% id %} | trig {% id %}
+
 # Use %token to match any token of that type instead of &quot;token&quot;:
 multiplication -&gt; %number %ws %times %ws %number {% ([first, , , , second]) =&gt; first * second %}
 
 # Literal strings now match tokens with that text:
-trig -&gt; &quot;sin&quot; %number</code></pre>
+trig -&gt; &quot;sin&quot; %ws %number {% ([, , x]) =&gt; Math.sin(x) %}</code></pre>
 <p>Have a look at <a href="https://github.com/tjvr/moo#usage">the Moo documentation</a> to
 learn more about writing a tokenizer.</p>
 <p>You use the parser as usual: call <code>parser.feed(data)</code>, and nearley will give
@@ -369,7 +371,7 @@ const tokenNumber = { test: x =&gt; Number.isInteger(x) };
 
 main -&gt; %tokenPrint %tokenNumber &quot;;;&quot;
 
-# parser.feed([&quot;print&quot;, 12, &quot;;;&quot;]);</code></pre>
+# parser.feed([&quot;print&quot;, 12, &quot;;&quot;, &quot;;&quot;]);</code></pre>
 
 
     <div id="footer"><p>nearley is MIT-licensed. It's maintained by <a

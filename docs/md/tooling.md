@@ -20,7 +20,7 @@ The Unparser takes a (compiled) parser and outputs a random string that would
 be accepted by the parser.
 
 ```bash
-$ nearley-unparse -s number <(nearleyc builtin/prims.ne)
+$ nearley-unparse -s jsonfloat <(nearleyc builtin/number.ne)
 -6.22E94
 ```
 

@@ -330,7 +330,7 @@ const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 parser.feed(&quot;foo\n&quot;);
 
 // parser.results is an array of possible parsings.
-console.log(parser.results); // [[[[ &quot;foo&quot; ],&quot;\n&quot; ]]]</code></pre>
+console.log(JSON.stringify(parser.results)); // [[[[[&quot;foo&quot;],&quot;\n&quot;]]]]</code></pre>
 <h3 id="whats-next">What’s next?</h3>
 <p>Now that you have nearley installed, you can <a href="grammar">learn how to write a
 grammar</a>!</p>

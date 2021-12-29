@@ -47,26 +47,28 @@ When using a lexer, there are two ways to match tokens:
 
 Here is an example of a simple grammar:
 
-```coffeescript
+```ne
 @{%
 const moo = require("moo");
 
 const lexer = moo.compile({
   ws:     /[ \t]+/,
   number: /[0-9]+/,
-  word: /[a-z]+/,
-  times:  /\*|x/
+  word: { match: /[a-z]+/, type: moo.keywords({ times: "x" }) },
+  times:  /\*/
 });
 %}
 
 # Pass your lexer object using the @lexer option:
 @lexer lexer
 
+expr -> multiplication {% id %} | trig {% id %}
+
 # Use %token to match any token of that type instead of "token":
 multiplication -> %number %ws %times %ws %number {% ([first, , , , second]) => first * second %}
 
 # Literal strings now match tokens with that text:
-trig -> "sin" %number
+trig -> "sin" %ws %number {% ([, , x]) => Math.sin(x) %}
 ```
 
 Have a look at [the Moo documentation](https://github.com/tjvr/moo#usage) to
@@ -121,5 +123,5 @@ const tokenNumber = { test: x => Number.isInteger(x) };
 
 main -> %tokenPrint %tokenNumber ";;"
 
-# parser.feed(["print", 12, ";;"]);
+# parser.feed(["print", 12, ";", ";"]);
 ```

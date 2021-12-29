@@ -80,7 +80,7 @@ const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 parser.feed("foo\n");
 
 // parser.results is an array of possible parsings.
-console.log(parser.results); // [[[[ "foo" ],"\n" ]]]
+console.log(JSON.stringify(parser.results)); // [[[[["foo"],"\n"]]]]
 ```
 
 ### What's next?

@@ -288,7 +288,7 @@ to test a new parser.</p>
 <h3 id="nearley-unparse-the-unparser">nearley-unparse: The Unparser</h3>
 <p>The Unparser takes a (compiled) parser and outputs a random string that would
 be accepted by the parser.</p>
-<pre><code class="language-bash">$ nearley-unparse -s number &lt;(nearleyc builtin/prims.ne)
+<pre><code class="language-bash">$ nearley-unparse -s jsonfloat &lt;(nearleyc builtin/number.ne)
 -6.22E94</code></pre>
 <p>You can use the Unparser to…</p>
 <ul>
