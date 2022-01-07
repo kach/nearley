@@ -141,6 +141,22 @@ parser.feed(...);
 console.log(parser.table);
 ```
 
+### Recovering to a previous parser state
+
+If you plan to recover after an invalid token is fed, it is possible to do so via the `save()`/`restore()` methods.
+
+```js
+let parserState = null;
+try {
+   parserState = parser.save();
+   parser.feed(...);
+} catch (e) {
+   parser.restore(parserState);
+}
+```
+
+`save()` creates an entire snapshot of what has already been parsed before. `restore()` accepts any state saved before as its only argument to rollback to an earlier, valid state. This can be useful if the source string is streamed to your parser (i.e through network) instead of read from a file in its entirety.
+
 ### Using preprocessors
 
 By default, `nearleyc` compiles your grammar to JavaScript. However, you can
