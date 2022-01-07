@@ -323,14 +323,15 @@ of the offending token. There is no way to recover from this by feeding more
 data.</p>
 <pre><code class="language-js">try {
     parser.feed(&quot;Cow goes% moo.&quot;);
-} catch (err) {
+} catch (parseError) {
     console.log(&quot;Error at character &quot; + parseError.offset); // &quot;Error at character 9&quot;
 }</code></pre>
 <p>Errors are nicely formatted for you:</p>
-<pre><code>Error: invalid syntax at line 1 col 9:
+<pre><code>Error: Syntax error at line 1 col 9:
 
-  Cow goes% moo
+1 Cow goes% moo.
           ^
+
 Unexpected &quot;%&quot;</code></pre><p><strong>After <code>feed()</code> finishes</strong>, the <code>results</code> array will contain all possible
 parsings.</p>
 <p>If there are no possible parsings given the current input, but in the <em>future</em>
@@ -341,7 +342,7 @@ parser.feed(&quot;goes &quot;); // parser.results is []
 parser.feed(&quot;moo.&quot;);  // parser.results is [&quot;yay!&quot;]</code></pre>
 <p>If you’re done calling <code>feed()</code>, but the array is still empty, this indicates
 “unexpected end of input”. Make sure to check there’s at least one result.</p>
-<p>If there’s more than one result, that indicates ambiguity–read on.</p>
+<p>If there’s more than one result, that indicates ambiguity–see above.</p>
 <h3 id="accessing-the-parse-table">Accessing the parse table</h3>
 <p>If you are familiar with the Earley parsing algorithm, you can access the
 internal parse table using <code>Parser.table</code> (this, for example, is how

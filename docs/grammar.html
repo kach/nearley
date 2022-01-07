@@ -336,8 +336,9 @@ Postprocessors are wrapped in <code>{% %}</code>s:</p>
             rightOperand: data[2] // data[1] is &quot;+&quot;
         };
     }
-%}</code></pre>
-<p>The rule above will parse the string <code>5+10</code> into <code>{ operator: &quot;sum&quot;,
+%}
+number -&gt; [0-9]:+ {% d =&gt; parseInt(d[0].join(&quot;&quot;)) %}</code></pre>
+<p>The rules above will parse the string <code>5+10</code> into <code>{ operator: &quot;sum&quot;,
 leftOperand: 5, rightOperand: 10 }</code>.</p>
 <p>The postprocessor can be any function with signature <code>function(data, location,
 reject)</code>. Here,</p>
@@ -371,10 +372,11 @@ letters to match variables, except for the keyword <code>if</code>. In this case
 rule may be</p>
 <pre><code class="language-ne">variable -&gt; [a-z]:+ {%
     function(d,l, reject) {
-        if (d[0] == &#39;if&#39;) {
+        const name = d[0].join(&#39;&#39;);
+        if (name === &#39;if&#39;) {
             return reject;
         } else {
-            return {&#39;name&#39;: d[0]};
+            return { name };
         }
     }
 %}</code></pre>
@@ -429,7 +431,7 @@ main -&gt; sentence[&quot;Cows&quot;, (&quot;.&quot; | &quot;!&quot;)]</code></p
 <p>Macros are expanded at compile time and inserted in places they are used. They
 are not “real” rules. Therefore, macros <em>cannot</em> be recursive (<code>nearleyc</code> will
 go into an infinite loop trying to expand the macro-loop). They must also be
-defined <em>before</em> they are used.</p>
+defined <em>before</em> they are used (except by other macros).</p>
 <h3 id="additional-js">Additional JS</h3>
 <p>For more intricate postprocessors, or any other functionality you may need, you
 can include chunks of JavaScript code between production rules by surrounding

@@ -84,7 +84,7 @@ data.
 ```js
 try {
     parser.feed("Cow goes% moo.");
-} catch (err) {
+} catch (parseError) {
     console.log("Error at character " + parseError.offset); // "Error at character 9"
 }
 ```
@@ -92,10 +92,11 @@ try {
 Errors are nicely formatted for you:
 
 ```
-Error: invalid syntax at line 1 col 9:
+Error: Syntax error at line 1 col 9:
 
-  Cow goes% moo
+1 Cow goes% moo.
           ^
+
 Unexpected "%"
 ```
 
@@ -115,7 +116,7 @@ parser.feed("moo.");  // parser.results is ["yay!"]
 If you're done calling `feed()`, but the array is still empty, this indicates
 "unexpected end of input". Make sure to check there's at least one result.
 
-If there's more than one result, that indicates ambiguity--read on.
+If there's more than one result, that indicates ambiguity--see above.
 
 
 ### Accessing the parse table

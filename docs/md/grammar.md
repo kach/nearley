@@ -84,9 +84,10 @@ expression -> number "+" number {%
         };
     }
 %}
+number -> [0-9]:+ {% d => parseInt(d[0].join("")) %}
 ```
 
-The rule above will parse the string `5+10` into `{ operator: "sum",
+The rules above will parse the string `5+10` into `{ operator: "sum",
 leftOperand: 5, rightOperand: 10 }`.
 
 The postprocessor can be any function with signature `function(data, location,
@@ -125,10 +126,11 @@ reject)`. Here,
   ```ne
   variable -> [a-z]:+ {%
       function(d,l, reject) {
-          if (d[0] == 'if') {
+          const name = d[0].join('');
+          if (name === 'if') {
               return reject;
           } else {
-              return {'name': d[0]};
+              return { name };
           }
       }
   %}
@@ -216,7 +218,7 @@ main -> sentence["Cows", ("." | "!")]
 Macros are expanded at compile time and inserted in places they are used. They
 are not "real" rules. Therefore, macros *cannot* be recursive (`nearleyc` will
 go into an infinite loop trying to expand the macro-loop). They must also be
-defined *before* they are used.
+defined *before* they are used (except by other macros).
 
 ### Additional JS
 
