@@ -12,7 +12,8 @@
   "files": [
     "bin/",
     "lib/",
-    "builtin/"
+    "builtin/",
+    "nearley.js.flow"
   ],
   "bin": {
     "nearleyc": "bin/nearleyc.js",
