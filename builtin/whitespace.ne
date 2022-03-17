@@ -2,4 +2,4 @@
 _  -> wschar:* {% function(d) {return null;} %}
 __ -> wschar:+ {% function(d) {return null;} %}
 
-wschar -> [ \t\n\v\f] {% id %}
+wschar -> [ \t\r\n\v\f] {% id %}
