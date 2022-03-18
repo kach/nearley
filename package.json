@@ -31,8 +31,10 @@
   ],
   "scripts": {
     "bootstrap": "mocha test/bootstrap.test.js && bin/nearleyc.js lib/nearley-language-bootstrapped.ne > tmp && mv tmp lib/nearley-language-bootstrapped.js && echo bootstrapped ok",
-    "benchmark": "benchr test/benchmark.js",
-    "test": "mocha test/*.test.js",
+    "benchmark": "node ./node_modules/benchr/bin/benchr test/benchmark.js",
+    "lint": "npx eslint bin/*.js lib/*.js",
+    "lintfix": "npx eslint --fix bin/*.js lib/*.js",
+    "test": "npx mocha test/*.test.js",
     "doctoc": "doctoc --notitle README.md",
     "profile": "bin/nearleyc.js test/grammars/parens.ne > test/grammars/parens.js && node test/profile.js",
     "versions": "npx dependency-version-checker check"
