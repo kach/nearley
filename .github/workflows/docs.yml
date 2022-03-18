@@ -1,5 +1,5 @@
 
-name: Tests
+name: Docs
 
 on: [ push ]
 
@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        node-version: [ 12.x, 14.x, 16.x ]
+        node-version: [ 16.x ]
       fail-fast: false
 
     steps:
@@ -34,5 +34,9 @@ jobs:
         npm install
         cd docs; npm install; cd ..
 
-    - name: Run tests
-      run: npm run test
+    - name: Docs
+      run: |
+        cd docs; npm run make; cd ..
+        git status
+        git diff
+        git diff-index --quiet HEAD -- docs || (echo "$(tput bold)$(tput setaf 4)Did you forget to rebuild the docs?   $ cd docs; npm run make$(tput sgr0)"; exit 1)
