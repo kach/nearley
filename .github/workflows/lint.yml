@@ -1,0 +1,34 @@
+
+name: Lint
+
+on: [ push ]
+
+jobs:
+
+  lint:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 14 ]
+
+    steps:
+    - uses: actions/checkout@v2
+      name: Checkout Module
+      with:
+        fetch-depth: 1
+
+    - uses: actions/setup-node@v2
+      name: Use Node.js ${{ matrix.node-version }}
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: npm install
+      run: npm install
+
+    - name: Lint using eslint
+      run: npm run lint
+
+      env:
+        CI: true

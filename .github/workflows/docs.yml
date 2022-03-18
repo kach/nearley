@@ -1,0 +1,42 @@
+
+name: Docs
+
+on: [ push ]
+
+env:
+  CI: true
+
+jobs:
+
+  ci-test:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        node-version: [ 16.x ]
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v2
+      name: Checkout Module
+      with:
+        fetch-depth: 1
+
+    - uses: actions/setup-node@v2
+      name: Use Node.js ${{ matrix.node-version }}
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: npm install
+      run: |
+        npm install
+        cd docs; npm install; cd ..
+
+    - name: Docs
+      run: |
+        cd docs; npm run make; cd ..
+        git status
+        git diff
+        git diff-index --quiet HEAD -- docs || (echo "$(tput bold)$(tput setaf 4)Did you forget to rebuild the docs?   $ cd docs; npm run make$(tput sgr0)"; exit 1)

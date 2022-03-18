@@ -5,6 +5,7 @@ docs/node_modules/
 test/profile.log
 test/grammars/parens.js
 test/grammars/whitespace.js
+test/parens.js
 *.swp
 *.ps1
 *.cmd
