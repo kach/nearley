@@ -1,0 +1,41 @@
+name: PR Build and Test
+
+on:
+  pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Node.JS ${{ matrix.node-version }}
+    strategy:
+      matrix:
+        node-version: [12, 14, 16]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm install
+      - name: Install docs
+        working-directory: ./docs
+        run: npm install
+      - run: npm test
+      - run: npm run benchmark -- -g don't-actually-run-benchmarks
+  buildDocs:
+    runs-on: ubuntu-latest
+    name: Build Docs
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          cache: 'npm'
+      - run: npm install
+      - working-directory: ./docs
+        run: npm install
+      - working-directory: ./docs
+        run: npm run make
+      - run: git status
+      - run: git diff
+      - run: git diff-index --quiet HEAD -- docs || (echo "$(tput bold)$(tput setaf 4)Did you forget to rebuild the docs?   $ cd docs; npm run make$(tput sgr0)"; exit 1)
