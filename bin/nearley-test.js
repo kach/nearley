@@ -61,4 +61,3 @@ if (typeof(opts.input) === "undefined") {
     if (!opts.quiet) writeTable(output, parser);
     writeResults(output, parser);
 }
-

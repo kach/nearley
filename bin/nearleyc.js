@@ -12,6 +12,7 @@ opts.version(version, '-v, --version')
     .arguments('<file.ne>')
     .option('-o, --out [filename.js]', 'File to output to (defaults to stdout)', false)
     .option('-e, --export [name]', 'Variable to set parser to', 'grammar')
+    .option('--include-paths [includePaths]', 'Paths to lookup include files')
     .option('-q, --quiet', 'Suppress linter')
     .option('--nojs', 'Do not compile postprocessors')
     .parse(process.argv);
