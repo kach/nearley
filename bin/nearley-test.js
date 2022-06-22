@@ -24,7 +24,11 @@ if (!opts.args[0]) {
     throw new Error('Please supply a grammer.js file path as a command-line argument');
 }
 var filename = require('path').resolve(opts.args[0]);
-var grammar = nearley.Grammar.fromCompiled(require(filename));
+
+// fix #620: grammar.default
+var grammar_lib = nearley.Grammar.fromCompiled(require(filename));
+var grammar = grammar_lib.default === undefined? grammar_lib : grammar_lib.default;
+
 if (opts.start) grammar.start = opts.start
 var parser = new nearley.Parser(grammar, {
     keepHistory: true,

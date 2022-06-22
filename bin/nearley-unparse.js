@@ -20,7 +20,10 @@ var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 if (!opts.args[0]) {
     throw new Error('Please supply a grammer.js file path as a command-line argument');
 }
-var grammar = new require(require('path').resolve(opts.args[0]));
+
+// fix #620: grammar.default
+var grammar_lib = new require(require('path').resolve(opts.args[0]));
+var grammar = grammar_lib.default === undefined? grammar_lib : grammar_lib.default;
 
 // the main loop
 for (var i=0; i<parseInt(opts.count); i++) {
