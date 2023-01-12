@@ -119,7 +119,8 @@ parses and tokenizes CSS3 selectors,
 validates and expands CSS shorthands,
 [node-scad-parser](https://github.com/hhornbacher/node-scad-parser) parses
 OpenSCAD 3D models, [js-sql-parse](https://github.com/justinkenel/js-sql-parse)
-parses SQL statements, [pg-mem](https://github.com/oguimbal/pg-mem) is an in-memory Postgres database emulator, [resp-parser](https://github.com/appology/resp-parser) is
+parses SQL statements, [pg-mem](https://github.com/oguimbal/pg-mem) is an in-memory
+Postgres database emulator, [resp-parser](https://github.com/appology/resp-parser) is
 a parser for the RESP protocol, [celio](https://github.com/AntonShan/Celio)
 parses Celestia star catalogs, [Haraka](http://haraka.github.io/users/) is an
 SMTP server that powers Craigslist (and others).
@@ -130,24 +131,15 @@ markdown-based presentation authoring system,
 [Packdown](https://github.com/imsky/packdown) is a tool to generate
 human-readable archives of multiple files.
 
-**Programming languages**: [Carbon](https://github.com/bobbybee/carbon) is a C
-subset that compiles to JavaScript, optimized for game development,
-[ezlang](https://github.com/tleb/ezlang) is a simple language,
-[tlnccuwagnf](https://github.com/liam4/tlnccuwagnf) is a fun general-purpose
-language, [nanalang](https://github.com/nanalan/g) is a silly esoteric
-language, [english](https://github.com/nanalan/english) is a less esoteric
-programming language, [ecmaless](https://github.com/farskipper/ecmaless) is an
+**Programming languages**: [tlnccuwagnf](https://github.com/liam4/tlnccuwagnf) is a fun general-purpose
+language, [ecmaless](https://github.com/farskipper/ecmaless) is an
 easily-extensible language, [hm-parser](https://github.com/xodio/hm-parser)
 parses Haskell-like Hindley-Milner type signatures,
-[kozily](https://github.com/kozily/web) implements the Oz language,
-[abstract-machine](https://stefan1niculae.github.io/abstract-machine/) inspects
-execution models, [fbp-types](https://github.com/Malpaux/fbp-types) provides
+[kozily](https://github.com/kozily/web) implements the Oz language, [fbp-types](https://github.com/Malpaux/fbp-types) provides
 typechecking primitives for flow-based systems,
 [lp5562](https://github.com/sizigi/lp5562) is an assembler for the TI LP5562
 LED driver, [VSL](https://github.com/vsl-lang/VSL) is a Versatile Scripting
-Language, [while-typescript](https://github.com/juanlaube/while-typescript) is
-an implementation of the WHILE language,
-[lo](https://github.com/lo-language/velo) is a language for secure distributed
+Language, [lo](https://github.com/lo-language/velo) is a language for secure distributed
 systems, [jaco](https://github.com/calculemuscode/jaco) is an implementation of
 CMU's C0 teaching language, [walt](https://github.com/ballercat/walt) is a
 subset of JavaScript that targets WebAssembly,
@@ -184,9 +176,8 @@ notation for juggling patterns, [jsgrep](https://github.com/amireh/jsgrep)
 provides syntactic grep for JavaScript,
 [electro-grammar](https://github.com/monostable/electro-grammar) parses
 descriptions of electronic components like resistors and capacitors,
-[cicero](https://github.com/accordproject) helps create smart legal contracts,
-[Eventbot](https://geteventbot.com) is a calendar plugin for Slack used by
-thousands of teams, [Obyte](https://github.com/byteball/ocore) is a
+[cicero](https://github.com/accordproject) helps create smart legal contracts, 
+[Obyte](https://github.com/byteball/ocore) is a
 cryptocurrency platform, [OptiCSS](https://github.com/linkedin/opticss) is a
 CSS optimizer built by LinkedIn,
 [Nestup](https://github.com/cutelabnyc/nested-tuplets) is a language for
@@ -195,12 +186,10 @@ specifying nested rhythmic tuplets,
 template language,
 [fhir-works](https://github.com/awslabs/fhir-works-on-aws-search-es#readme)
 is an AWS-provided tool to parse FHIRPath search parameters (FHIR is an
-interface for healthcare data), [Penrose](http://www.penrose.ink) is a language
-for expressing mathematical diagrams,
-[sema](https://github.com/mimic-sussex/sema) is a DSL for live-coding music
-performances, [tinsl](https://github.com/bandaloo/tinsl) is a DSL for creating
-multi-pass rendering pipelines for real-time post-processing effects using
-GLSL-like syntax.
+interface for healthcare data), [sema](https://github.com/mimic-sussex/sema) is
+a DSL for live-coding music performances, [tinsl](https://github.com/bandaloo/tinsl)
+is a DSL for creating multi-pass rendering pipelines for real-time post-processing effects
+using GLSL-like syntax.
 
 **Other**:
 [ProceduralPsychEpisode](https://github.com/PatrickMurphy/ProceduralPsychEpisode)
