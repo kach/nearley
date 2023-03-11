@@ -65,15 +65,15 @@ describe('bootstrapped lexer', () => {
 
     it('lexes charclasses', () => {
       expect(lex(".")).toEqual([
-        "charclass /./",
+        "charclass /./u",
       ])
       expect(lex("[^a-z\\s]")).toEqual([
-        "charclass /[^a-z\\s]/",
+        "charclass /[^a-z\\s]/u",
       ])
       expect(lex("foo->[^a-z\\s]")).toEqual([
         "word foo",
         "arrow ->",
-        "charclass /[^a-z\\s]/",
+        "charclass /[^a-z\\s]/u",
       ])
     })
 
@@ -94,7 +94,7 @@ describe('bootstrapped lexer', () => {
       expect(lex("foo[[0-9]]")).toEqual([
         "word foo",
         "[ [",
-        "charclass /[0-9]/",
+        "charclass /[0-9]/u",
         "] ]",
       ])
     })
