@@ -45,7 +45,7 @@ var lexer = moo.states({
     main: Object.assign({}, rules, {
         charclass: {
             match: /\.|\[(?:\\.|[^\\\n])+?\]/,
-            value: x => new RegExp(x),
+            value: x => new RegExp(x, 'u'),
         },
     }),
     // Both macro arguments and charclasses are both enclosed in [ ].
@@ -61,7 +61,7 @@ function insensitive(sl) {
     for (var i=0; i<s.length; i++) {
         var c = s.charAt(i);
         if (c.toUpperCase() !== c || c.toLowerCase() !== c) {
-            result.push(new RegExp("[" + c.toLowerCase() + c.toUpperCase() + "]"));
+            result.push(new RegExp("[" + c.toLowerCase() + c.toUpperCase() + "]", 'u'));
             } else {
             result.push({literal: c});
         }

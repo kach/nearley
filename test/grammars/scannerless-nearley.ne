@@ -70,8 +70,8 @@ string -> dqstring {% function(d) {return { literal: d[0] }; } %}
 #char -> [^\\"]  {% function(d) { return d[0]; } %}
 #      | "\\" .  {% function(d) { return JSON.parse("\""+"\\"+d[1]+"\""); } %}
 
-charclass -> "."  {% function(d) { return new RegExp("."); } %}
-           | "[" charclassmembers "]"  {% function(d) { return new RegExp("[" + d[1].join('') + "]"); } %}
+charclass -> "."  {% function(d) { return new RegExp(".", 'u'); } %}
+           | "[" charclassmembers "]"  {% function(d) { return new RegExp("[" + d[1].join('') + "]", 'u'); } %}
 
 charclassmembers -> null
                   | charclassmembers charclassmember  {% function(d) { return d[0].concat([d[1]]); } %}
