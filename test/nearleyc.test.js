@@ -110,6 +110,12 @@ describe("bin/nearleyc", function() {
         expect(stderr).toBe("");
     });
 
+    it('correctly handles long tokens that span multiple chunks', function() {
+        const {outPath, stdout, stderr} = externalNearleyc("grammars/long-tokens-split-over-multiple-chunks.ne", '.js');
+        expect(stderr).toBe("");
+        expect(stdout).toBe("");
+        const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
+    });
 
 })
 
