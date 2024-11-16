@@ -1,6 +1,7 @@
 
 const fs = require('fs');
 const expect = require('expect');
+const path = require('path');
 
 const nearley = require('../lib/nearley');
 const {compile, evalGrammar, parse, nearleyc} = require('./_shared');
@@ -110,7 +111,11 @@ describe("bin/nearleyc", function() {
         expect(stderr).toBe("");
     });
 
-
+    it("accepets --include-paths", function () {
+        const includePath = path.join(__dirname, 'grammars');
+        const {stdout, stderr} = externalNearleyc("grammars/include-paths/include-example.ne", '.js', ['--include-paths', includePath]);
+        expect(stderr).toBe("");
+    });
 })
 
 describe('nearleyc: example grammars', function() {
@@ -219,6 +224,7 @@ describe('nearleyc: builtins', () => {
         const g = evalGrammar(source)
         expect(parse(g, " ")).toEqual([null])
     })
+
 })
 
 describe('nearleyc: macros', () => {
