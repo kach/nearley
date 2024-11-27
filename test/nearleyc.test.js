@@ -1,5 +1,6 @@
 
 const fs = require('fs');
+const path = require('path');
 const expect = require('expect');
 
 const nearley = require('../lib/nearley');
@@ -19,11 +20,11 @@ function prettyPrint(grammar) {
 }
 
 function typeScriptCheck(isStrict) {
-    const {outPath, stdout, stderr} = externalNearleyc("grammars/typescript-test.ne", ".ts");
-    expect(stderr).toBe("");
-    expect(stdout).toBe("");
-    const spawnSync = sh(`tsc ${isStrict ? "--strict" : ""} ${outPath}.ts`);
-    expect(spawnSync.stdout).toBe(""); // type errors get logged to stdout, not stderr
+    const {outPath, stdout, stderr} = externalNearleyc(path.join('grammars', 'typescript-test.ne'), ".ts");
+    expect(stderr.replace(/\s+/g,'')).toBe("");
+    expect(stdout.replace(/\s+/g,'')).toBe("");
+    const spawnSync = sh(`npx tsc ${isStrict ? "--strict" : ""} ${outPath}.ts`);
+    expect(spawnSync.stdout.replace(/\s+/g,'')).toBe(""); // type errors get logged to stdout, not stderr
     const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`).default);
     expect(parse(grammar, "<123>")).toEqual([ [ '<', '123', '>' ] ]);
 }
@@ -33,18 +34,18 @@ describe("bin/nearleyc", function() {
     after(cleanup)
 
     it('builds for ES5', function() {
-        const {outPath, stdout, stderr} = externalNearleyc("grammars/parens.ne", '.js');
-        expect(stderr).toBe("");
-        expect(stdout).toBe("");
+        const {outPath, stdout, stderr} = externalNearleyc(path.join('grammars', 'parens.ne'), '.js');
+        expect(stderr.replace(/\s+/g,'')).toBe("");
+        expect(stdout.replace(/\s+/g,'')).toBe("");
         const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
     });
 
     it('builds for ES6+', function() {
         this.timeout(10000); // It takes a while to run babel!
 
-        const {outPath, stdout, stderr} = externalNearleyc("grammars/esmodules-test.ne", '.js');
-        expect(stderr).toBe("");
-        expect(stdout).toBe("");
+        const {outPath, stdout, stderr} = externalNearleyc(path.join('grammars', 'esmodules-test.ne'), '.js');
+        expect(stderr.replace(/\s+/g,'')).toBe("");
+        expect(stdout.replace(/\s+/g,'')).toBe("");
         write(`test/${outPath}-parse.js`, `import {Grammar, Parser} from '../lib/nearley'
                                            import compiledGrammar from './${outPath}'
 
@@ -61,7 +62,7 @@ describe("bin/nearleyc", function() {
     });
 
     it('builds for CoffeeScript', function() {
-        const {outPath, stdout, stderr} = externalNearleyc("grammars/coffeescript-test.ne", ".coffee");
+        const {outPath, stdout, stderr} = externalNearleyc(path.join('grammars', 'coffeescript-test.ne'), ".coffee");
         expect(stderr).toBe("");
         expect(stdout).toBe("");
         sh(`coffee -c ${outPath}.coffee`);
@@ -80,33 +81,33 @@ describe("bin/nearleyc", function() {
     });
 
     it('builds modules in folders', function() {
-        const {outPath, stdout, stderr} = externalNearleyc("grammars/folder-test.ne", '.js');
+        const {outPath, stdout, stderr} = externalNearleyc(path.join('grammars', 'folder-test.ne'), '.js');
         expect(stderr).toBe("");
         expect(stdout).toBe("");
         const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
     });
 
     it('builds modules with multiple includes of the same file', function() {
-        const {outPath, stdout, stderr} = externalNearleyc("grammars/multi-include-test.ne", '.js');
+        const {outPath, stdout, stderr} = externalNearleyc(path.join('grammars', 'multi-include-test.ne'), '.js');
         expect(stderr).toBe("");
         expect(stdout).toBe("");
         const grammar = nearley.Grammar.fromCompiled(require(`./${outPath}.js`));
     });
 
     it("warns about undefined symbol", function () {
-        const {stdout, stderr} = externalNearleyc("grammars/warning-undefined-test.ne", '.js');
+        const {stdout, stderr} = externalNearleyc(path.join('grammars', 'warning-undefined-test.ne'), '.js');
         expect(stderr).toNotBe("");
         expect(stdout).toBe("");
     });
 
     it("doesn't warn when used with the --quiet option", function () {
-        const {stdout, stderr} = externalNearleyc("grammars/warning-undefined-test.ne", '.js', ['--quiet']);
+        const {stdout, stderr} = externalNearleyc(path.join('grammars', 'warning-undefined-test.ne'), '.js', ['--quiet']);
         expect(stderr).toBe("");
         expect(stdout).toBe("");
     });
 
     it("allows trailing comments without newline terminators", function () {
-        const {stdout, stderr} = externalNearleyc("grammars/trailing-comment.ne", '.js');
+        const {stdout, stderr} = externalNearleyc(path.join('grammars', 'trailing-comment.ne'), '.js');
         expect(stderr).toBe("");
     });
 

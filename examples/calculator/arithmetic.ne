@@ -1,62 +1,91 @@
-# This is a nice little grammar to familiarize yourself
-# with the nearley syntax.
+# How to Implement Lexical Analysis in Tools Whithout a separated Lexer
+# To use it run: 
+# nearleyc arithmetic-parenthesis.ne -o grammar.js && export NODE_PATH=$NODE_PATH:`npm root -g` && node calculator.js
+# This is a nice little grammar to familiarize yourself with the nearley syntax.
 
-# It parses valid calculator input, obeying OOO and stuff.
+# It parses valid calculator input
 #   ln (3 + 2*(8/e - sin(pi/5)))
 # is valid input.
 
-# This is (hopefully) pretty self-evident.
+@{%
+const bin = (([x, op, y]) => op(x,y));
+const Null = (d => null);
+const fac = n => (n===0)?1:n*fac(n-1);
+const unaryPost = (([p, op]) => op(p));
+const funApply = ([fun, arg]) => fun(arg);
+%}
 
-# `main` is the nonterminal that nearley tries to parse, so
-# we define it first.
-# The _'s are defined as whitespace below. This is a mini-
-# -idiom.
-
-main -> _ AS _ {% function(d) {return d[1]; } %}
+main => null {% d => "" %} # Allow for empty lines
+    | AS _ {% function(d) {return d[0]; } %}
 
 # PEMDAS!
 # We define each level of precedence as a nonterminal.
 
-# Parentheses
-P -> "(" _ AS _ ")" {% function(d) {return d[2]; } %}
-    | N             {% id %}
-
-# Exponents
-E -> P _ "^" _ E    {% function(d) {return Math.pow(d[0], d[4]); } %}
-    | P             {% id %}
+# Addition and subtraction
+AS -> AS PLUS MD  {% bin %}  # Prefer this syntax
+    | AS MINUS MD {% bin %}
+    | MD          {% id %}
 
 # Multiplication and division
-MD -> MD _ "*" _ E  {% function(d) {return d[0]*d[4]; } %}
-    | MD _ "/" _ E  {% function(d) {return d[0]/d[4]; } %}
-    | E             {% id %}
+MD -> MD MULT E  {% bin %}
+    | MD DIV E   {% bin %}
+    | E          {% id %}
 
-# Addition and subtraction
-AS -> AS _ "+" _ MD {% function(d) {return d[0]+d[4]; } %}
-    | AS _ "-" _ MD {% function(d) {return d[0]-d[4]; } %}
-    | MD            {% id %}
+# Exponents
+E -> F EXP E    {% bin %}
+    | F         {% id %}
 
-# A number or a function of a number
-N -> float          {% id %}
-    | "sin" _ P     {% function(d) {return Math.sin(d[2]); } %}
-    | "cos" _ P     {% function(d) {return Math.cos(d[2]); } %}
-    | "tan" _ P     {% function(d) {return Math.tan(d[2]); } %}
-    
-    | "asin" _ P    {% function(d) {return Math.asin(d[2]); } %}
-    | "acos" _ P    {% function(d) {return Math.acos(d[2]); } %}
-    | "atan" _ P    {% function(d) {return Math.atan(d[2]); } %}
+# Factorial 
+F ->  P FACTORIAL    {% unaryPost %}
+    | P              {% id %} 
 
-    | "pi"          {% function(d) {return Math.PI; } %}
-    | "e"           {% function(d) {return Math.E; } %}
-    | "sqrt" _ P    {% function(d) {return Math.sqrt(d[2]); } %}
-    | "ln" _ P      {% function(d) {return Math.log(d[2]); }  %}
+# Fixed "bug" sinpi
+
+P -> Q
+    | FLOAT     {% id %}
+    | SIN  Q    {% funApply %}
+    | COS Q     {% funApply %}
+    | TAN Q     {% funApply %}
+    | ASIN Q    {% funApply %}
+    | ACOS Q    {% funApply %}
+    | ATAN Q    {% funApply %}
+    | PI        {% id %}
+    | EULER     {% id %}
+    | SQRT Q    {% funApply %}
+    | LN Q      {% funApply %}
+
+# Parentheses
+Q ->  LP AS RP  {% ([lp, as, rp]) => as %}
+
+##### LEXICAL ANALYSIS #################################################
 
 # I use `float` to basically mean a number with a decimal point in it
+FLOAT -> _ float   {% d => d[1] %} 
 float ->
-      int "." int   {% function(d) {return parseFloat(d[0] + d[1] + d[2])} %}
-	| int           {% function(d) {return parseInt(d[0])} %}
+      int "." int  {% function(d) {return parseFloat(d[0] + d[1] + d[2])} %}
+	| int          {% function(d) {return parseInt(d[0])} %}
 
-int -> [0-9]:+        {% function(d) {return d[0].join(""); } %}
+int -> [0-9]:+     {% function(d) {return d[0].join(""); } %}
 
 # Whitespace. The important thing here is that the postprocessor
 # is a null-returning function. This is a memory efficiency trick.
-_ -> [\s]:*     {% function(d) {return null; } %}
+_ -> [\s]:*        {% function(d) {return null; } %}
+
+PLUS -> _ "+"      {% function(d) {return ((a,b) => a+b); } %}
+MINUS -> _ "-"     {% function(d) {return ((a,b) => a-b); } %}
+MULT -> _ "*"      {% function(d) {return ((a,b) => a*b); } %}
+DIV -> _ "/"       {% function(d) {return ((a,b) => a/b); } %}
+EXP -> _ "^"       {% function(d) {return ((a,b) => Math.pow(a,b)); } %}
+FACTORIAL -> "!"   {% d => fac %}
+LP -> _ "("        {% Null %}
+RP -> _ ")"        {% Null %}
+SIN -> _ "sin"i    {% d => Math.sin %}
+COS -> _ "cos"i    {% d => Math.cos %}
+TAN -> _ "tan"i    {% d => Math.tan %}
+ASIN -> _ "asin"i  {% d => Math.asin %}
+ACOS -> _ "acos"i  {% d => Math.acos %}
+ATAN -> _ "atan"i  {% d => Math.atan %}
+PI -> _ "pi"i      {% d => Math.PI %}
+EULER -> _ "e"i    {% d => Math.E  %}
+SQRT -> _ "sqrt"i  {% d => Math.sqrt %}
+LN -> _ "ln"i      {% d => Math.log %}
