@@ -1,0 +1,38 @@
+
+name: Tests
+
+on: [ push ]
+
+env:
+  CI: true
+
+jobs:
+
+  ci-test:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        node-version: [ 12.x, 14.x, 16.x ]
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v2
+      name: Checkout Module
+      with:
+        fetch-depth: 1
+
+    - uses: actions/setup-node@v2
+      name: Use Node.js ${{ matrix.node-version }}
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: npm install
+      run: |
+        npm install
+        cd docs; npm install; cd ..
+
+    - name: Run tests
+      run: npm run test

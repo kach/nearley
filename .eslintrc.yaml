@@ -1,0 +1,23 @@
+env:
+  es6: true
+  node: true
+  mocha: true
+
+root: true
+
+rules:
+  semi: [ warn, always ]
+  no-unreachable: [ warn ]
+  no-unused-vars: [ warn, { args: none } ]
+  no-useless-escape: [ warn ]
+  no-undef: [ warn ]
+  no-redeclare: [ warn ]
+  no-constant-condition: [ warn ]
+  no-prototype-builtins: [ warn ]
+  no-trailing-spaces: [ warn ]
+
+parserOptions:
+  ecmaVersion: 2020
+
+extends:
+  - eslint:recommended
