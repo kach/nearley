@@ -111,6 +111,23 @@ describe('Parser: API', function() {
         expect(col.lexerState.col).toBe(first.length)
     });
 
+    it('does not retain child states after completing a rule', function() {
+        let p = new nearley.Parser(testGrammar, { keepHistory: true });
+        p.feed('abc');
+
+        let completedStates = [].concat.apply([], p.table.map(function(column) {
+            return column.states.filter(function(state) {
+                return state.isComplete && state.dot > 0;
+            });
+        }));
+
+        expect(completedStates.length).toBeGreaterThan(0);
+        completedStates.forEach(function(state) {
+            expect(state.left).toBe(undefined);
+            expect(state.right).toBe(undefined);
+        });
+    });
+
     it('can rewind', function() {
         let first = "say 'hello'";
         let second = " for 2 secs";
