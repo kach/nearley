@@ -32,7 +32,16 @@ repository](http://github.com/Hardmath123/nearley).
   to support "else" clauses.
 
 By default, nearley attempts to parse the first nonterminal defined in the
-grammar. In the following grammar, nearley will try to parse input text as an
+grammar. To choose another starting rule, pass its name as the second argument
+to `Grammar.fromCompiled`:
+
+```js
+const grammar = nearley.Grammar.fromCompiled(compiledGrammar, "number");
+const parser = new nearley.Parser(grammar);
+```
+
+This selects a start rule for the new grammar without changing the compiled
+module's default. In the following grammar, nearley will try to parse input text as an
 `expression`.
 
 ```ne

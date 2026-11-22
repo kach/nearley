@@ -301,7 +301,12 @@ second rule<pre><code class="language-ne">ifStatement -&gt; &quot;if&quot; condi
 to support “else” clauses.</li>
 </ul>
 <p>By default, nearley attempts to parse the first nonterminal defined in the
-grammar. In the following grammar, nearley will try to parse input text as an
+grammar. To choose another starting rule, pass its name as the second argument
+to <code>Grammar.fromCompiled</code>:</p>
+<pre><code class="language-js">const grammar = nearley.Grammar.fromCompiled(compiledGrammar, &quot;number&quot;);
+const parser = new nearley.Parser(grammar);</code></pre>
+<p>This selects a start rule for the new grammar without changing the compiled
+module’s default. In the following grammar, nearley will try to parse input text as an
 <code>expression</code>.</p>
 <pre><code class="language-ne">expression -&gt; number &quot;+&quot; number
 expression -&gt; number &quot;-&quot; number

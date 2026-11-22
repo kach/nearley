@@ -12,6 +12,22 @@ function read(filename) {
 
 describe('Parser: API', function() {
 
+    it('can override a compiled grammar start rule without changing its default', function() {
+        const compiled = {
+            ParserRules: [
+                {name: 'main', symbols: [{literal: 'a'}]},
+                {name: 'other', symbols: [{literal: 'b'}]},
+            ],
+            ParserStart: 'main',
+        };
+        const alternate = nearley.Grammar.fromCompiled(compiled, 'other');
+        expect(parse(alternate, 'b')).toEqual([['b']]);
+        expect(parse(nearley.Grammar.fromCompiled(compiled), 'a')).toEqual([['a']]);
+        expect(compiled.ParserStart).toBe('main');
+        expect(new nearley.Parser(compiled, 'other').feed('b').results).toEqual([['b']]);
+        expect(parse(nearley.Grammar.fromCompiled(compiled.ParserRules, 'other'), 'b')).toEqual([['b']]);
+    });
+
     let testGrammar = compile(`
     y -> x:+
     x -> [a-z0-9] | "\\n"
