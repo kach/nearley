@@ -16,6 +16,7 @@ opts.version(version, '-v, --version')
     .option('-s, --start [symbol]', 'An optional start symbol (if not provided then use the parser start symbol)', false)
     .option('-o, --out [filename]', 'File to output to (defaults to stdout)', false)
     .option('-q, --quiet', 'Output parse results only (hide Earley table)', false)
+    .option('--strict', 'Exit with status 2 for incomplete input or 3 for ambiguous input', false)
     .parse(process.argv);
 
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
@@ -47,6 +48,9 @@ var writeTable = function (writeStream, parser) {
 var writeResults = function (writeStream, parser) {
     writeStream.write(require('util').inspect(parser.results, {colors: !opts.quiet, depth: null}));
     writeStream.write("\n");
+    if (opts.strict) {
+        process.exitCode = parser.results.length === 0 ? 2 : parser.results.length > 1 ? 3 : 0;
+    }
 }
 
 if (typeof(opts.input) === "undefined") {
