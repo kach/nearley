@@ -43,6 +43,12 @@ expression -> number "/" number
 number -> [0-9]:+
 ```
 
+Here, `[0-9]` matches one digit and `:+` means "one or more" repetitions,
+so `number` matches strings such as `7` and `123`. The colon is part of
+nearley's [EBNF modifier syntax](#ebnf), not a character to match in the input:
+`:+` means one or more, `:*` means zero or more, and `:?` means optional
+(zero or one).
+
 You can use the pipe character `|` to separate alternative rules for a
 nonterminal. In the example below, `expression` has four different rules.
 
