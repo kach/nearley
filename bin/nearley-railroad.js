@@ -21,16 +21,34 @@ opts.version(version, '-v, --version')
 var input = opts.args[0] ? fs.createReadStream(opts.args[0]) : process.stdin;
 var output = opts.out ? fs.createWriteStream(opts.out) : process.stdout;
 
-function railroad(grm) {
+function railroad(grm, filename) {
     var rules = {};
-    grm.forEach(function(instr) {
+    var included = filename ? [path.resolve(filename)] : [];
+    function collect(structure, directory) {
+      structure.forEach(function(instr) {
+        if (instr.include) {
+            var include = path.resolve(
+                instr.builtin ? path.join(__dirname, '../builtin') : directory,
+                instr.include
+            );
+            if (included.indexOf(include) !== -1) return;
+            included.push(include);
+            var includeParser = new nearley.Parser(parserGrammar);
+            includeParser.feed(fs.readFileSync(include, 'utf8'));
+            if (!includeParser.results.length) {
+                throw new Error('SyntaxError: unexpected EOF in ' + include);
+            }
+            collect(includeParser.results[0], path.dirname(include));
+        }
         if (instr.rules) {
             if (!rules[instr.name]) {
                 rules[instr.name] = [];
             }
             rules[instr.name] = rules[instr.name].concat(instr.rules);
         }
-    });
+      });
+    }
+    collect(grm, filename ? path.dirname(path.resolve(filename)) : process.cwd());
 
     var style = fs.readFileSync(
         path.join(
@@ -114,7 +132,7 @@ input
     .pipe(new StreamWrapper(parser))
     .on('finish', function() {
         if (parser.results[0]) {
-            output.write(railroad(parser.results[0]));
+            output.write(railroad(parser.results[0], opts.args[0]));
         } else {
             process.stderr.write('SyntaxError: unexpected EOF\n');
         }
