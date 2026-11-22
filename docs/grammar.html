@@ -308,6 +308,11 @@ expression -&gt; number &quot;-&quot; number
 expression -&gt; number &quot;*&quot; number
 expression -&gt; number &quot;/&quot; number
 number -&gt; [0-9]:+</code></pre>
+<p>Here, <code>[0-9]</code> matches one digit and <code>:+</code> means “one or more” repetitions,
+so <code>number</code> matches strings such as <code>7</code> and <code>123</code>. The colon is part of
+nearley’s <a href="#ebnf">EBNF modifier syntax</a>, not a character to match in the input:
+<code>:+</code> means one or more, <code>:*</code> means zero or more, and <code>:?</code> means optional
+(zero or one).</p>
 <p>You can use the pipe character <code>|</code> to separate alternative rules for a
 nonterminal. In the example below, <code>expression</code> has four different rules.</p>
 <pre><code class="language-ne">expression -&gt;
