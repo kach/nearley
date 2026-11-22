@@ -287,10 +287,11 @@ parses input strings.</p>
 with <a href="https://nodejs.org/en/">Node.js</a> and most browsers.</p>
 <p>To use the nearley <em>parser</em>, you need to install nearley <strong>locally</strong>.</p>
 <pre><code class="language-bash">$ npm install --save nearley</code></pre>
-<p>To use the nearley <em>compiler</em>, you need to <em>additionally</em> install nearley
-<strong>globally</strong>.</p>
-<pre><code class="language-bash">$ npm install -g nearley</code></pre>
-<p>This actually adds several new commands to your <code>$PATH</code>:</p>
+<p>The local installation also includes the nearley <em>compiler</em> and the other
+command-line tools. Run them from your project directory with <code>npx</code>; a
+global installation is not required. For example:</p>
+<pre><code class="language-bash">$ npx nearleyc --help</code></pre>
+<p>The package provides these commands:</p>
 <ul>
 <li><code>nearleyc</code> compiles grammar files to JavaScript.</li>
 <li><code>nearley-test</code> lets you quickly test a grammar against some input and see the
@@ -302,6 +303,16 @@ random strings that match your grammar.</li>
 is mainly helpful for creating documentation, as (for example) on json.org.</li>
 </ul>
 <p>These are documented on the <a href="tooling">tooling page</a>.</p>
+<p>You can also use the commands directly in npm scripts, since npm adds the
+project’s <code>node_modules/.bin</code> directory to their <code>PATH</code>:</p>
+<pre><code class="language-json">{
+  &quot;scripts&quot;: {
+    &quot;compile-grammar&quot;: &quot;nearleyc grammar.ne -o grammar.js&quot;
+  }
+}</code></pre>
+<p>Run this script with <code>npm run compile-grammar</code>. If nearley is only used while
+building your project, you can install it with <code>npm install --save-dev nearley</code>;
+keep it as a regular dependency if your application uses the parser at runtime.</p>
 <blockquote>
 <p>Note: If you’re not ready to install nearley yet, you can follow along in
 your browser using the <a href="https://omrelli.ug/nearley-playground/">nearley
@@ -317,7 +328,7 @@ a file called <code>grammar.ne</code>, write:</p>
 statement -&gt; &quot;foo&quot; | &quot;bar&quot;</code></pre>
 <p><strong>Step 2: Compile</strong> the grammar to a JavaScript module. On the command line,
 run:</p>
-<pre><code class="language-bash">$ nearleyc grammar.ne -o grammar.js</code></pre>
+<pre><code class="language-bash">$ npx nearleyc grammar.ne -o grammar.js</code></pre>
 <p><strong>Step 3: Parse</strong> some data! In a new JavaScript file, instantiate a <a href="parser">Parser
 object</a> and feed it a string:</p>
 <pre><code class="language-js">const nearley = require(&quot;nearley&quot;);

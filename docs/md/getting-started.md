@@ -21,13 +21,14 @@ To use the nearley *parser*, you need to install nearley **locally**.
 $ npm install --save nearley
 ```
 
-To use the nearley *compiler*, you need to *additionally* install nearley
-**globally**.
+The local installation also includes the nearley *compiler* and the other
+command-line tools. Run them from your project directory with `npx`; a
+global installation is not required. For example:
 
 ```bash
-$ npm install -g nearley
+$ npx nearleyc --help
 ```
-This actually adds several new commands to your `$PATH`:
+The package provides these commands:
 
 - `nearleyc` compiles grammar files to JavaScript.
 - `nearley-test` lets you quickly test a grammar against some input and see the
@@ -39,6 +40,21 @@ This actually adds several new commands to your `$PATH`:
   is mainly helpful for creating documentation, as (for example) on json.org.
 
 These are documented on the [tooling page](tooling).
+
+You can also use the commands directly in npm scripts, since npm adds the
+project's `node_modules/.bin` directory to their `PATH`:
+
+```json
+{
+  "scripts": {
+    "compile-grammar": "nearleyc grammar.ne -o grammar.js"
+  }
+}
+```
+
+Run this script with `npm run compile-grammar`. If nearley is only used while
+building your project, you can install it with `npm install --save-dev nearley`;
+keep it as a regular dependency if your application uses the parser at runtime.
 
 > Note: If you're not ready to install nearley yet, you can follow along in
 > your browser using the [nearley
@@ -63,7 +79,7 @@ statement -> "foo" | "bar"
 run:
 
 ```bash
-$ nearleyc grammar.ne -o grammar.js
+$ npx nearleyc grammar.ne -o grammar.js
 ```
 
 **Step 3: Parse** some data! In a new JavaScript file, instantiate a [Parser
