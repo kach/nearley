@@ -163,6 +163,38 @@ describe('Parser: API', function() {
       expect(p.lexerState.col).toBe(6)
     });
 
+    [false, true].forEach(function(keepHistory) {
+        it('saves lexer state for discarded chunks with keepHistory=' + keepHistory, function() {
+            const moo = require('moo');
+            const lexer = moo.compile({
+                space: {match: /\s+/, lineBreaks: true},
+                word: /[a-z]+/,
+            });
+            const next = lexer.next;
+            lexer.next = function() {
+                let token;
+                do {
+                    token = next.call(this);
+                } while (token && token.type === 'space');
+                return token;
+            };
+            const grammar = nearley.Grammar.fromCompiled({
+                Lexer: lexer,
+                ParserRules: [{name: 'main', symbols: [{type: 'word'}, {type: 'word'}]}],
+                ParserStart: 'main',
+            });
+            const parser = new nearley.Parser(grammar, {keepHistory: keepHistory});
+            parser.feed('\n').feed('  ').feed('').feed('first');
+            expect(parser.save().lexerState.line).toBe(2);
+            parser.feed('\n').feed(' ').feed('second');
+            const tokens = parser.results[0];
+            expect(tokens[0].line).toBe(2);
+            expect(tokens[0].col).toBe(3);
+            expect(tokens[1].line).toBe(3);
+            expect(tokens[1].col).toBe(2);
+        });
+    });
+
     // TODO: moo save/restore
 
 });
