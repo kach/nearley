@@ -68,6 +68,31 @@ describe('Parser: API', function() {
             .toThrow(/\(lexer error\).*I was expecting to see one of the following:/);
     });
 
+    it('reports syntax errors for BigInt token values', function() {
+        if (typeof BigInt === 'undefined') this.skip();
+        const moo = require('moo');
+        const lexer = moo.compile({
+            integer: {match: /[0-9]+/, value: text => BigInt(text)},
+        });
+        const grammar = nearley.Grammar.fromCompiled({
+            Lexer: lexer,
+            ParserRules: [{name: 'main', symbols: [{type: 'word'}]}],
+            ParserStart: 'main',
+        });
+        const parser = new nearley.Parser(grammar);
+        let error;
+        try {
+            parser.feed('9007199254740993');
+        } catch (err) {
+            error = err;
+        }
+        expect(error.message).toMatch(/Syntax error at line 1 col 1/);
+        expect(error.message).toMatch(/Unexpected integer token: 9007199254740993n/);
+        expect(error.message).toMatch(/word token/);
+        expect(error.offset).toBe(0);
+        expect(error.token.value).toBe(BigInt('9007199254740993'));
+    });
+
     it('displays current parser state if no more token expected', function() {
         var grammar = compile(`input -> "abc"`);
         var expectedError = [
