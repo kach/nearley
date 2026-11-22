@@ -14,6 +14,20 @@ you can use to inspect what a parser is doing. You input a generated
 pretty-prints the internal parse table used by the algorithm. This is helpful
 to test a new parser.
 
+For scripts that need to distinguish complete, incomplete, and ambiguous
+parses, pass `--strict`:
+
+```bash
+$ nearley-test grammar.js --input "example" --strict
+```
+
+The exit status is `0` for exactly one complete parse, `2` when the input
+ends without a complete parse, and `3` for multiple complete parses.
+Syntax errors or a grammar that cannot be loaded still exit with status `1`.
+These statuses also apply when reading from standard input and when using
+`--quiet` or `--out`. Without `--strict`, incomplete and ambiguous parses
+continue to exit successfully as before.
+
 ### nearley-unparse: The Unparser
 
 The Unparser takes a (compiled) parser and outputs a random string that would
